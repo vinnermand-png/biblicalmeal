@@ -253,12 +253,28 @@ describe('V3C.5 canonical content architecture', () => {
     expect(figs?.briefId).toBeUndefined();
   });
 
-  it('keeps in-progress subjects from appearing research-complete', () => {
+  it('reflects canonical completion without promoting incomplete subjects', () => {
     const barley = FIRST_WAVE_CONTENT_PLANS.find(
       (plan) => plan.canonicalTargetId === 'barley',
     );
-    if (!barley) throw new Error('barley plan must exist');
-    expect(barley.workflowStatus).toBe('research-in-progress');
-    expect(researchStateForContent(barley)?.researchStatus).toBe('in-progress');
+    const honey = FIRST_WAVE_CONTENT_PLANS.find(
+      (plan) => plan.canonicalTargetId === 'honey',
+    );
+    if (!barley || !honey) {
+      throw new Error('barley and honey plans must exist');
+    }
+    expect(barley.workflowStatus).toBe('research-complete');
+    expect(researchStateForContent(barley)?.researchStatus).toBe('complete');
+    expect(honey.workflowStatus).toBe('research-complete');
+    expect(researchStateForContent(honey)?.researchStatus).toBe('complete');
+
+    for (const targetId of ['olives', 'lentils']) {
+      const plan = FIRST_WAVE_CONTENT_PLANS.find(
+        (item) => item.canonicalTargetId === targetId,
+      );
+      if (!plan) throw new Error(`${targetId} plan must exist`);
+      expect(plan.workflowStatus).not.toBe('research-complete');
+      expect(researchStateForContent(plan)?.researchStatus).not.toBe('complete');
+    }
   });
 });
