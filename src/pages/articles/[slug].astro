@@ -11,14 +11,80 @@ import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 import Chip from '../../components/common/Chip.astro';
 import ScriptureBlock from '../../components/common/ScriptureBlock.astro';
 import RelatedSection from '../../components/common/RelatedSection.astro';
-type Entry=CollectionEntry<'articles'>;
-export async function getStaticPaths(){const articles=await getVisibleArticles();return articles.map(entry=>({params:{slug:entry.id},props:{entry}}));}
-interface Props{entry:Entry;}
-const {entry}:Props=Astro.props;const {Content}=await render(entry);const {title,subtitle,excerpt,category,pubDate,scriptureRefs,art}=entry.data;const related=await getRelated({collection:'articles',id:entry.id});const minutes=readingTime(entry.body);const isDevPreview=draftsPreview()&&entry.data.status!=='published';
-const articleSchema=entry.data.status==='published'?{'@context':'https://schema.org','@type':'Article',headline:title,description:excerpt,author:{'@type':'Organization',name:'BiblicalMeal'},publisher:{'@type':'Organization',name:'BiblicalMeal'},mainEntityOfPage:new URL(`/articles/${entry.id}/`,Astro.site).toString()}:undefined;
-const breadcrumbs=[{label:'Journal',href:'/articles/'},{label:title}];
+
+type Entry = CollectionEntry<'articles'>;
+
+export async function getStaticPaths() {
+  const articles = await getVisibleArticles();
+  return articles.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: Entry;
+}
+
+const { entry }: Props = Astro.props;
+const { Content } = await render(entry);
+const { title, subtitle, excerpt, category, pubDate, scriptureRefs, art } = entry.data;
+const related = await getRelated({ collection: 'articles', id: entry.id });
+const minutes = readingTime(entry.body);
+const isDevPreview = draftsPreview() && entry.data.status !== 'published';
+const editorialImageId = entry.id === 'how-we-research'
+  ? 'journal-research-manuscript'
+  : 'journal-ancient-table';
+const articleSchema = entry.data.status === 'published'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description: excerpt,
+      author: { '@type': 'Organization', name: 'BiblicalMeal' },
+      publisher: { '@type': 'Organization', name: 'BiblicalMeal' },
+      mainEntityOfPage: new URL(`/articles/${entry.id}/`, Astro.site).toString(),
+    }
+  : undefined;
+const breadcrumbs = [{ label: 'Journal', href: '/articles/' }, { label: title }];
 ---
-<BaseLayout title={title} description={excerpt} ogType="article" jsonLd={articleSchema?[articleSchema]:[]}><Header/><main id="main">
-<ContentHero variant="article" eyebrow={category} title={title} lead={subtitle??excerpt} art={art??'still-life'}><Breadcrumbs slot="breadcrumbs" items={breadcrumbs}/><div slot="meta" class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2">{isDevPreview&&<Chip variant="dev"/>}<p class="font-sans text-caption font-medium tracking-wide text-ink-muted">{minutes} min read{pubDate&&` · ${formatDate(pubDate)}`}</p></div></ContentHero>
-<article class="container-site section-space"><div class="mx-auto max-w-3xl"><div class="mb-10 border-b border-line pb-6"><p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Editorial reading</p></div><div class="prose-bm text-body-lg text-ink-muted"><Content/></div>{scriptureRefs.length>0&&<div class="mt-16 border-t border-line pt-10"><ScriptureBlock refs={scriptureRefs}/></div>}</div></article>
-<RelatedSection related={related}/></main><SiteFooter/></BaseLayout>
+
+<BaseLayout title={title} description={excerpt} ogType="article" jsonLd={articleSchema ? [articleSchema] : []}>
+  <Header />
+  <main id="main">
+    <ContentHero
+      variant="article"
+      eyebrow={category}
+      title={title}
+      lead={subtitle ?? excerpt}
+      art={art ?? 'still-life'}
+      editorialImageId={editorialImageId}
+    >
+      <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
+      <div slot="meta" class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2">
+        {isDevPreview && <Chip variant="dev" />}
+        <p class="font-sans text-caption font-medium tracking-wide text-ink-muted">
+          {minutes} min read{pubDate && ` · ${formatDate(pubDate)}`}
+        </p>
+      </div>
+    </ContentHero>
+
+    <article class="container-site section-space">
+      <div class="mx-auto max-w-3xl">
+        <div class="mb-10 border-b border-line pb-6">
+          <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
+            Editorial reading
+          </p>
+        </div>
+        <div class="prose-bm text-body-lg text-ink-muted"><Content /></div>
+        {
+          scriptureRefs.length > 0 && (
+            <div class="mt-16 border-t border-line pt-10">
+              <ScriptureBlock refs={scriptureRefs} />
+            </div>
+          )
+        }
+      </div>
+    </article>
+
+    <RelatedSection related={related} />
+  </main>
+  <SiteFooter />
+</BaseLayout>
