@@ -1,5 +1,6 @@
 import type {
   RecipeClassification,
+  RecipeEvidenceLayer,
   RecipeIngredientProvenance,
   RecipePublicationStatus,
 } from '../recipe-research/types';
@@ -17,9 +18,12 @@ export type RecipeContentProductionStatus = 'not-started' | 'draft' | 'produced'
 export type RecipeEditorialReviewStatus = 'not-started' | 'in-review' | 'approved';
 
 export interface RecipeContentIngredient {
-  foodId: string;
+  /** Optional when a modern kitchen necessity is not itself a canonical food concept. */
+  foodId?: string;
+  label: string;
   quantity?: string;
   provenance: RecipeIngredientProvenance;
+  evidenceLayer: RecipeEvidenceLayer;
   disclosure?: string;
 }
 
@@ -34,12 +38,16 @@ export interface RecipeContentRecord {
   id: string;
   recipeResearchId: string;
   title: string;
+  slug: string;
+  metaDescription: string;
   classification: RecipeClassification;
   introduction: string;
   historicalContext?: string;
   uncertaintyDisclosure: string;
   ingredients: RecipeContentIngredient[];
   preparationSteps: RecipePreparationStep[];
+  servings?: string;
+  timingGuidance?: string;
   servingGuidance?: string;
   editorialNotes: string[];
   relatedFoodIds: string[];
