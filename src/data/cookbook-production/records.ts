@@ -1,6 +1,17 @@
 import { RECIPE_CONTENT_RECORDS } from '../recipe-content/records';
 import type { CookbookRecord, CookbookRecipeInclusion, CookbookSection } from './types';
 
+const recipeContentById = new Map(
+  RECIPE_CONTENT_RECORDS.map((record) => [record.id, record]),
+);
+
+const lentilRecipe = recipeContentById.get('recipe-content-lentil-pottage');
+const unleavenedBreadRecipe = recipeContentById.get('recipe-content-unleavened-bread');
+
+if (!lentilRecipe || !unleavenedBreadRecipe) {
+  throw new Error('V3C.30 cookbook seeds require canonical V3C.18 recipe content records.');
+}
+
 /**
  * V3C.30 — Full Cookbook Creation.
  *
@@ -22,10 +33,7 @@ export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
       'cookbook-section-simple-preparations',
       'cookbook-section-breads-and-grains',
     ],
-    recipeContentIds: [
-      'recipe-content-lentil-pottage',
-      'recipe-content-unleavened-bread',
-    ],
+    recipeContentIds: [lentilRecipe.id, unleavenedBreadRecipe.id],
   },
 ];
 
@@ -52,11 +60,11 @@ export const COOKBOOK_RECIPE_INCLUSIONS: readonly CookbookRecipeInclusion[] = [
   {
     cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
     sectionId: 'cookbook-section-simple-preparations',
-    recipeContentId: 'recipe-content-lentil-pottage',
+    recipeContentId: lentilRecipe.id,
     order: 1,
-    productionStatus: 'draft',
-    editorialReviewStatus: 'not-started',
-    publicationStatus: 'draft',
+    productionStatus: lentilRecipe.productionStatus,
+    editorialReviewStatus: lentilRecipe.editorialReviewStatus,
+    publicationStatus: lentilRecipe.publicationStatus,
     productionReady: false,
     notes:
       'Included as an internal production draft only. Modern quantities, timing and vessel choices remain adaptations and the recipe must not be presented as an exact recovered ancient preparation.',
@@ -64,17 +72,15 @@ export const COOKBOOK_RECIPE_INCLUSIONS: readonly CookbookRecipeInclusion[] = [
   {
     cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
     sectionId: 'cookbook-section-breads-and-grains',
-    recipeContentId: 'recipe-content-unleavened-bread',
+    recipeContentId: unleavenedBreadRecipe.id,
     order: 1,
-    productionStatus: 'draft',
-    editorialReviewStatus: 'not-started',
-    publicationStatus: 'draft',
+    productionStatus: unleavenedBreadRecipe.productionStatus,
+    editorialReviewStatus: unleavenedBreadRecipe.editorialReviewStatus,
+    publicationStatus: unleavenedBreadRecipe.publicationStatus,
     productionReady: false,
     notes:
       'Included as an internal production draft only. The selected flour, quantities and skillet method remain modern practical choices rather than a claimed exact biblical formula.',
   },
 ];
 
-export const RECIPE_CONTENT_BY_ID = new Map(
-  RECIPE_CONTENT_RECORDS.map((record) => [record.id, record]),
-);
+export const RECIPE_CONTENT_BY_ID = recipeContentById;
