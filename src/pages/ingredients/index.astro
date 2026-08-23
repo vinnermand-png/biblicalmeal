@@ -5,9 +5,15 @@ import Header from '../../components/common/Header.astro';
 import SiteFooter from '../../components/common/SiteFooter.astro';
 import ContentHero from '../../components/common/ContentHero.astro';
 import IngredientCard from '../../components/common/IngredientCard.astro';
+import EditorialImage from '../../components/common/EditorialImage.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+
 const ingredients = await getVisibleIngredients();
+const featuredIngredient = ingredients.find((entry) => entry.id === 'figs');
+const featuredIndex = featuredIngredient ? ingredients.findIndex((entry) => entry.id === featuredIngredient.id) : -1;
+const leadingIngredients = featuredIndex >= 0 ? ingredients.slice(0, featuredIndex) : ingredients;
+const trailingIngredients = featuredIndex >= 0 ? ingredients.slice(featuredIndex + 1) : [];
 ---
 <BaseLayout title="Ingredients" description="Figs, olives, lentils, honey and more — profiles of the foods of the ancient biblical world, told through scripture, history, and modern cooking.">
   <Header />
@@ -22,16 +28,50 @@ const ingredients = await getVisibleIngredients();
     >
       <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Ingredients' }]} />
     </ContentHero>
+
     {ingredients.length > 0 ? (
       <section class="content-listing container-site section-space" aria-label="Ingredient profiles">
         <div class="content-listing__intro">
           <p class="font-display text-h3 text-ink">A pantry of individual stories.</p>
           <p class="mt-3 text-body text-ink-muted">Every ingredient is treated as a collectible editorial profile, with its own route through scripture, evidence, history, and the modern table.</p>
         </div>
-        <ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {ingredients.map((entry) => <li><IngredientCard entry={entry} /></li>)}
-        </ul>
-        <p class="reveal mt-10 text-center text-caption text-ink-muted/80">Ingredient profiles are in active research — full histories and citations publish as they are verified.</p>
+
+        {leadingIngredients.length > 0 && (
+          <ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {leadingIngredients.map((entry) => <li><IngredientCard entry={entry} /></li>)}
+          </ul>
+        )}
+
+        {featuredIngredient && (
+          <article class="ingredient-feature reveal">
+            <div class="ingredient-feature__copy">
+              <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">From the pantry</p>
+              <p class="mt-4 font-display text-h2 text-ink">Featured ingredient</p>
+              <h2 class="mt-3 font-display text-display text-ink">{featuredIngredient.data.title}</h2>
+              <p class="mt-5 max-w-xl text-body-lg text-ink-muted">{featuredIngredient.data.excerpt}</p>
+              <p class="mt-6 max-w-xl text-body text-ink-muted">A slower editorial pause inside the collection — the ingredient remains part of the same research-led pantry, while its material world is allowed to take up more space.</p>
+              <a href={`/ingredients/${featuredIngredient.id}/`} class="ingredient-feature__link mt-8 inline-flex font-sans text-caption font-semibold tracking-wide text-terracotta-dark">
+                Read the ingredient profile <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div class="ingredient-feature__media media-frame group">
+              <EditorialImage
+                id="ingredients-figs-still-life"
+                fallbackArt={featuredIngredient.data.art ?? 'figs'}
+                ratio="3 / 2"
+                alt="Figs in a restrained editorial still life"
+              />
+            </div>
+          </article>
+        )}
+
+        {trailingIngredients.length > 0 && (
+          <ul class="content-listing__grid content-listing__grid--after-feature grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {trailingIngredients.map((entry) => <li><IngredientCard entry={entry} /></li>)}
+          </ul>
+        )}
+
+        <p class="content-listing__closing-note text-caption text-ink-muted/80">Ingredient profiles are in active research — full histories and citations publish as they are verified.</p>
       </section>
     ) : (
       <div class="container-site section-space"><EmptyState message="Our ingredient profiles are still in research. Each one publishes only after its history and citations have been verified — check back soon for the first completed profiles." /></div>
