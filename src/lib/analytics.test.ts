@@ -105,12 +105,17 @@ describe('V3C.13 analytics readiness', () => {
     const analyticsSource = readRepositoryFile('./analytics.ts');
     const docs = readRepositoryFile('../../docs/analytics-seo-measurement.md');
     const validatorLiteral = '/^G-[A-Z0-9]{6,20}$/';
-    const concreteMeasurementIdPattern = /(?:['"`])G-[A-Z0-9]{6,20}(?:['"`])/;
+    const quotedMeasurementIdPattern = /(['"`])(G-[A-Z0-9]{6,20})\1/g;
+    const hardcodedMeasurementIds = [
+      ...analyticsSource.matchAll(quotedMeasurementIdPattern),
+    ]
+      .map((match) => match[2])
+      .filter((measurementId) => measurementId !== 'G-XXXXXXXXXX');
 
     expect(envExample).toContain('PUBLIC_GA_MEASUREMENT_ID=');
     expect(envExample).not.toMatch(/PUBLIC_GA_MEASUREMENT_ID=G-[A-Z0-9]{6,20}/);
     expect(analyticsSource).toContain(validatorLiteral);
-    expect(analyticsSource).not.toMatch(concreteMeasurementIdPattern);
+    expect(hardcodedMeasurementIds).toEqual([]);
     expect(docs).toContain(
       'does not maintain an internal database of invented metrics',
     );
