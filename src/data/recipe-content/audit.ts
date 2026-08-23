@@ -6,10 +6,12 @@ import type { RecipeContentRecord } from './types';
 export type RecipeContentAuditCode =
   | 'duplicate-id'
   | 'duplicate-title'
+  | 'duplicate-slug'
   | 'invalid-research-reference'
   | 'classification-mismatch'
   | 'invalid-food-reference'
   | 'missing-uncertainty-disclosure'
+  | 'missing-ingredient-disclosure'
   | 'unresolved-evidence-hidden'
   | 'invalid-lifecycle'
   | 'publication-state-mismatch';
@@ -34,6 +36,7 @@ export function auditRecipeContent(
   const foodIds = new Set(FOOD_UNIVERSE.map((food) => food.id));
   const ids = new Set<string>();
   const titles = new Set<string>();
+  const slugs = new Set<string>();
   const issues: RecipeContentAuditIssue[] = [];
 
   for (const record of records) {
@@ -56,6 +59,16 @@ export function auditRecipeContent(
     }
     titles.add(normalizedTitle);
 
+    const normalizedSlug = record.slug.trim().toLowerCase();
+    if (slugs.has(normalizedSlug)) {
+      issues.push({
+        code: 'duplicate-slug',
+        contentId: record.id,
+        message: `Duplicate recipe content slug: ${record.slug}`,
+      });
+    }
+    slugs.add(normalizedSlug);
+
     const research = researchById.get(record.recipeResearchId);
     if (!research) {
       issues.push({
@@ -76,13 +89,26 @@ export function auditRecipeContent(
 
     for (const foodId of [
       ...record.relatedFoodIds,
-      ...record.ingredients.map((ingredient) => ingredient.foodId),
+      ...record.ingredients.flatMap((ingredient) => ingredient.foodId ? [ingredient.foodId] : []),
     ]) {
       if (!foodIds.has(foodId)) {
         issues.push({
           code: 'invalid-food-reference',
           contentId: record.id,
           message: `Unknown Food Universe id: ${foodId}`,
+        });
+      }
+    }
+
+    for (const ingredient of record.ingredients) {
+      if (
+        ingredient.evidenceLayer === 'practical-adaptation' &&
+        !ingredient.disclosure?.trim()
+      ) {
+        issues.push({
+          code: 'missing-ingredient-disclosure',
+          contentId: record.id,
+          message: `Modern or practical ingredient choices require disclosure: ${ingredient.label}.`,
         });
       }
     }
