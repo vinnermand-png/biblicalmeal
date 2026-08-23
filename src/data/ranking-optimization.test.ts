@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { SEO_TARGETS } from './seo-master-map';
 import {
   RANKING_OPTIMIZATION_CANDIDATES,
@@ -76,7 +77,7 @@ describe('V3C.28 ranking optimization foundation', () => {
 
   it('preserves publication gates and rejects invalid records', () => {
     const invalid = makeRecord({
-      requiresExistingPublicationGate: false as true,
+      requiresExistingPublicationGate: false,
       canonicalRoute: '/not-the-canonical-route/',
       status: 'ready-for-existing-publication-gates',
     });
