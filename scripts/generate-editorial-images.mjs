@@ -56,7 +56,9 @@ for (const asset of selected) {
   try {
     await access(outputPath, constants.F_OK);
     exists = true;
-  } catch {}
+  } catch {
+    // A missing output is expected when generating an asset for the first time.
+  }
 
   if (exists && !force) {
     console.log(`Skipping ${asset.id}: ${asset.output} already exists. Use --force to regenerate.`);
