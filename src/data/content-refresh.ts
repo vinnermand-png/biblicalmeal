@@ -77,7 +77,7 @@ export interface ContentRefreshRecord {
 }
 
 export const CONTENT_REFRESH_CANDIDATES: readonly ContentRefreshCandidate[] = SEO_TARGETS
-  .filter((target) => target.status === 'published' || target.status === 'in-development')
+  .filter((target) => target.status !== 'not-pursuing')
   .map((target) => ({
     targetId: target.id,
     canonicalRoute: target.targetRoute,
