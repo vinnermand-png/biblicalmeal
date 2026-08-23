@@ -6,6 +6,7 @@ import '@fontsource-variable/fraunces/wght-italic.css';
 import '../styles/global.css';
 import { SITE } from '../config';
 import { resolveSocialMetadata } from '../lib/social-metadata';
+import { SEARCH_ENGINE_VERIFICATION } from '../lib/search-engine-verification';
 
 interface Props {
   title?: string;
@@ -66,6 +67,16 @@ const websiteSchema = {
 
     {!technicalFallback && (
       <>
+        {SEARCH_ENGINE_VERIFICATION.google && (
+          <meta
+            name="google-site-verification"
+            content={SEARCH_ENGINE_VERIFICATION.google}
+          />
+        )}
+        {SEARCH_ENGINE_VERIFICATION.bing && (
+          <meta name="msvalidate.01" content={SEARCH_ENGINE_VERIFICATION.bing} />
+        )}
+
         <meta property="og:type" content={social.type} />
         <meta property="og:site_name" content={SITE.name} />
         <meta property="og:title" content={social.title} />
@@ -115,7 +126,7 @@ const websiteSchema = {
           stitchTiles="stitch"></feTurbulence>
         <feColorMatrix
           type="matrix"
-          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0.7 0"
+          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0 0.10  0 0 0 0.7 0"
         ></feColorMatrix>
       </filter>
     </svg>
