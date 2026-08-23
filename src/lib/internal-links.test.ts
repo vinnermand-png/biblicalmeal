@@ -154,7 +154,7 @@ describe('V3C.22 internal link optimization audit', () => {
         relationship.kind === 'recipe-food',
     );
 
-    expect(articleToFigs?.href).toBe('/ingredients/figs/');
+    expect(articleToFigs?.href).toBe('/foods/figs/');
     expect(recipeToLentils?.href).toBeUndefined();
     expect(CANONICAL_FOOD_UNIVERSE.some((food) => food.id === 'lentils-entity')).toBe(true);
   });
