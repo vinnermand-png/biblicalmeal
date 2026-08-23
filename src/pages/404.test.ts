@@ -16,8 +16,9 @@ describe('V3C.11 custom 404 launch safety', () => {
     expect(page).toContain('noindex={true}');
     expect(page).toContain('technicalFallback={true}');
     expect(layout).toContain('technicalFallback?: boolean');
+    expect(layout).toContain('(noindex || technicalFallback)');
+    expect(layout).toContain('<meta name="robots" content="noindex, follow"');
     expect(layout).toContain('!technicalFallback && <link rel="canonical"');
-    expect(layout).toContain('technicalFallback && <meta name="robots"');
   });
 
   it('keeps technical fallback pages out of social and structured-data output', () => {
