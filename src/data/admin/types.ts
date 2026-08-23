@@ -10,7 +10,7 @@ export type AdminResourceKind =
   | 'ai-website-content'
   | 'ai-editorial-image';
 
-export type AdminAccessMode = 'read-only';
+export type AdminAccessMode = 'read-only' | 'authenticated-provider-required';
 
 export interface AdminSummaryMetric {
   id: string;
