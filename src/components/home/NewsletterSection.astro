@@ -1,0 +1,27 @@
+---
+import NewsletterForm from '../islands/NewsletterForm.tsx';
+---
+
+<section class="border-y border-line bg-surface" id="newsletter">
+  <div class="container-site py-20 md:py-24">
+    <div class="reveal mx-auto max-w-xl space-y-6 text-center">
+      <p
+        class="text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        The BiblicalMeal Letter
+      </p>
+      <h2 class="font-display text-h2 text-ink">
+        Bring the biblical table to your kitchen<span class="text-terracotta"
+          >.</span
+        >
+      </h2>
+      <p class="text-body-lg text-ink-muted">
+        New recipes, ingredient histories, and notes from the test kitchen — a
+        short, considered letter. No noise, unsubscribe anytime.
+      </p>
+      <div class="pt-2 text-left">
+        <NewsletterForm client:visible />
+      </div>
+    </div>
+  </div>
+</section>

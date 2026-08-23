@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<aside
+  class="rounded-xl border border-terracotta/20 bg-terracotta/5 p-6 sm:p-8"
+>
+  <p
+    class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
+  >
+    Research note
+  </p>
+  <h2 class="mt-2 font-display text-h3 text-ink">{title}</h2>
+  <div class="mt-3 max-w-prose text-body text-ink-muted">
+    <slot />
+  </div>
+</aside>

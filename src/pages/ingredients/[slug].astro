@@ -1,0 +1,107 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { draftsPreview } from '../../lib/content';
+import { getRelated, getVisibleIngredients } from '../../lib/queries';
+import { INGREDIENT_ART } from '../../lib/visuals';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import SiteFooter from '../../components/common/SiteFooter.astro';
+import ContentHero from '../../components/common/ContentHero.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import Chip from '../../components/common/Chip.astro';
+import ScriptureBlock from '../../components/common/ScriptureBlock.astro';
+import EmptyState from '../../components/common/EmptyState.astro';
+import RelatedSection from '../../components/common/RelatedSection.astro';
+
+type Entry = CollectionEntry<'ingredients'>;
+
+export async function getStaticPaths() {
+  const ingredients = await getVisibleIngredients();
+  return ingredients.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: Entry;
+}
+
+const { entry }: Props = Astro.props;
+const { name, description, scriptureRefs, scriptureNote, history, modern } =
+  entry.data;
+const related = await getRelated({ collection: 'ingredients', id: entry.id });
+const art = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
+const hasResearch = Boolean(history || modern);
+const isDevPreview = draftsPreview() && entry.data.status !== 'published';
+
+const breadcrumbs = [
+  { label: 'Ingredients', href: '/ingredients/' },
+  { label: name },
+];
+---
+
+<BaseLayout title={name} description={description}>
+  <Header />
+  <main id="main">
+    <ContentHero eyebrow="Ingredient" title={name} lead={description} art={art}>
+      <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
+      <div slot="meta" class="mt-6 flex flex-wrap items-center gap-3">
+        {isDevPreview && <Chip variant="dev" />}
+        <p
+          class="font-sans text-caption font-medium tracking-wide text-ink-muted uppercase"
+        >
+          {entry.data.category}
+        </p>
+      </div>
+    </ContentHero>
+
+    <article class="container-site py-16 sm:py-20">
+      <div class="mx-auto max-w-3xl space-y-14">
+        {
+          scriptureRefs.length > 0 && (
+            <ScriptureBlock refs={scriptureRefs} note={scriptureNote} />
+          )
+        }
+
+        {
+          history && (
+            <section aria-labelledby="ingredient-history">
+              <h2 id="ingredient-history" class="font-display text-h2 text-ink">
+                Historical context
+              </h2>
+              <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
+                {history}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          modern && (
+            <section aria-labelledby="ingredient-modern">
+              <h2 id="ingredient-modern" class="font-display text-h2 text-ink">
+                In the modern kitchen
+              </h2>
+              <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
+                {modern}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          !hasResearch && scriptureRefs.length === 0 && (
+            <EmptyState
+              showDevChip={isDevPreview}
+              message={`The full profile of ${name} — its biblical references, history, and modern use — is being researched now. It will publish here once every claim has been verified against sources.`}
+            />
+          )
+        }
+      </div>
+    </article>
+
+    <RelatedSection related={related} />
+  </main>
+  <SiteFooter />
+</BaseLayout>

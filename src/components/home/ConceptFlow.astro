@@ -1,0 +1,58 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+
+const steps = [
+  {
+    number: '01',
+    title: 'Scripture',
+    description:
+      'We begin with the biblical text itself — read carefully, in context.',
+  },
+  {
+    number: '02',
+    title: 'History',
+    description:
+      'We study the culinary world behind the text: what was grown, traded, and cooked.',
+  },
+  {
+    number: '03',
+    title: 'Ingredient',
+    description:
+      'We trace each food to its roots — olives, barley, honey, figs, lentils.',
+  },
+  {
+    number: '04',
+    title: 'Recipe',
+    description:
+      'We bring it home: dishes inspired by the ancient table, made in your kitchen.',
+  },
+];
+---
+
+<section class="bg-background-alt" id="story">
+  <div class="container-site py-20 md:py-28">
+    <SectionHeader
+      eyebrow="Our Approach"
+      title="From Scripture to Table"
+      description="Every BiblicalMeal story follows the same path — from the ancient text, through history and the ingredient itself, to a recipe you can cook tonight."
+    />
+    <ol
+      class="mt-14 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 lg:divide-x lg:divide-line"
+    >
+      {
+        steps.map((step) => (
+          <li class="reveal space-y-3 lg:px-8 lg:first:pl-0 lg:last:pr-0">
+            <p
+              class="font-display text-h1 font-medium text-terracotta/70"
+              aria-hidden="true"
+            >
+              {step.number}
+            </p>
+            <h3 class="font-display text-h3 text-ink">{step.title}</h3>
+            <p class="text-body text-ink-muted">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+import type { ScriptureRef } from '../../lib/scripture';
+import { formatScriptureRefs } from '../../lib/scripture';
+
+interface Props {
+  refs: readonly ScriptureRef[];
+  note?: string;
+  title?: string;
+}
+
+const { refs, note, title = 'Scripture references' } = Astro.props;
+const formatted = formatScriptureRefs(refs);
+---
+
+{
+  formatted.length > 0 && (
+    <section
+      aria-labelledby="scripture-heading"
+      class="rounded-xl border border-gold/40 bg-gold/10 p-6 sm:p-8"
+    >
+      <h2 id="scripture-heading" class="font-display text-h3 text-ink">
+        {title}
+      </h2>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {formatted.map((ref) => (
+          <li class="rounded-full border border-gold/50 bg-surface px-3 py-1 font-medium text-ink">
+            {ref}
+          </li>
+        ))}
+      </ul>
+      {note && (
+        <p class="text-body-sm mt-4 border-t border-gold/30 pt-4 text-ink-muted">
+          {note}
+        </p>
+      )}
+    </section>
+  )
+}

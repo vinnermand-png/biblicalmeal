@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { RelatedContent } from '../../lib/queries';
+import SectionHeader from './SectionHeader.astro';
+import IngredientCard from './IngredientCard.astro';
+import RecipeCard from './RecipeCard.astro';
+import ArticleCard from './ArticleCard.astro';
+
+interface Props {
+  related: RelatedContent;
+}
+
+const { related } = Astro.props;
+
+const groups = [
+  {
+    id: 'related-recipes',
+    title: 'Recipes to try',
+    entries: related.recipes,
+  },
+  {
+    id: 'related-ingredients',
+    title: 'More from the pantry',
+    entries: related.ingredients,
+  },
+  {
+    id: 'related-articles',
+    title: 'Keep reading',
+    entries: related.articles,
+  },
+].filter((group) => group.entries.length > 0);
+---
+
+{
+  groups.length > 0 && (
+    <section class="container-site py-16 sm:py-20">
+      <div class="space-y-14">
+        {groups.map((group) => (
+          <div class="space-y-6" aria-labelledby={group.id}>
+            <SectionHeader
+              id={group.id}
+              eyebrow="Continue exploring"
+              title={group.title}
+              align="start"
+            />
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {group.entries.map((item) => (
+                <li>
+                  {'recipeType' in item.data ? (
+                    <RecipeCard entry={item as CollectionEntry<'recipes'>} />
+                  ) : 'excerpt' in item.data ? (
+                    <ArticleCard entry={item as CollectionEntry<'articles'>} />
+                  ) : (
+                    <IngredientCard
+                      entry={item as CollectionEntry<'ingredients'>}
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,34 @@
+---
+interface Props {
+  variant?: 'draft' | 'inspired' | 'review' | 'dev';
+  /** Overrides the built-in label (keeps the variant styling). */
+  label?: string;
+  class?: string;
+}
+
+const { variant = 'draft', label, class: className = '' } = Astro.props;
+
+const variants = {
+  draft: 'border-line bg-surface text-ink-muted',
+  inspired: 'border-olive/40 bg-olive/10 text-olive-dark',
+  review: 'border-terracotta/40 bg-terracotta/10 text-terracotta-dark',
+  dev: 'border-terracotta/40 bg-surface text-terracotta-dark',
+} as const;
+
+const labels = {
+  draft: 'In research',
+  inspired: 'Biblical-inspired',
+  review: 'In review',
+  dev: 'Development preview',
+} as const;
+---
+
+<span
+  class:list={[
+    'inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-caption font-medium tracking-wide',
+    variants[variant],
+    className,
+  ]}
+>
+  {label ?? labels[variant]}
+</span>

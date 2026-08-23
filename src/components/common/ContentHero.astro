@@ -1,0 +1,42 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import FoodIllustration from './FoodIllustration.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  art?: ArtKind;
+}
+
+const { eyebrow, title, lead, art } = Astro.props;
+---
+
+<section class="border-b border-line bg-background-alt">
+  <div
+    class="container-site grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-14 lg:py-20"
+  >
+    <div>
+      <slot name="breadcrumbs" />
+      <p
+        class="mt-5 font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase first:mt-0"
+      >
+        {eyebrow}
+      </p>
+      <h1 class="mt-3 font-display text-h1 text-ink">{title}</h1>
+      {
+        lead && (
+          <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{lead}</p>
+        )
+      }
+      <slot name="meta" />
+    </div>
+    {
+      art && (
+        <div class="overflow-hidden rounded-xl border border-line shadow-sm">
+          <FoodIllustration kind={art} ratio="4 / 3" />
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,77 @@
+---
+import Button from '../common/Button.astro';
+---
+
+<section class="scroll-mt-24" id="cookbook">
+  <div class="container-site py-20 md:py-28">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="reveal order-last lg:order-first">
+        <div
+          class="relative mx-auto aspect-[3/4] w-full max-w-sm rounded-lg bg-gradient-to-br from-olive-dark to-ink p-8 shadow-xl sm:p-10"
+        >
+          <div
+            class="absolute inset-y-0 left-3 w-px bg-black/30"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="flex h-full flex-col justify-between text-center">
+            <p
+              class="text-eyebrow font-semibold tracking-eyebrow text-gold/80 uppercase"
+            >
+              A BiblicalMeal Cookbook
+            </p>
+            <div class="space-y-4">
+              <h3 class="font-display text-h1 text-cream">Biblical Meals</h3>
+              <div class="mx-auto h-px w-16 bg-gold/60" aria-hidden="true">
+              </div>
+              <p class="font-display text-h3 text-cream-muted italic">
+                Recipes Inspired by the Foods of the Bible
+              </p>
+            </div>
+            <p class="text-caption tracking-wide text-cream-muted/80">
+              Digital cookbook · In development
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal space-y-6" style="--reveal-delay: 120ms">
+        <p
+          class="text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+        >
+          The Cookbook
+        </p>
+        <h2 class="font-display text-h2 text-ink">
+          Biblical Meals<span class="text-terracotta">.</span>
+        </h2>
+        <span
+          class="inline-flex w-fit items-center rounded-full border border-terracotta/40 bg-terracotta/10 px-2.5 py-1 text-caption font-medium tracking-wide text-terracotta-dark"
+        >
+          In development
+        </span>
+        <p class="text-body-lg text-ink-muted">
+          We are gathering our recipes inspired by the foods of the Bible into a
+          single digital cookbook — ingredient stories, kitchen-tested dishes,
+          and menus for the table.
+        </p>
+        <ul class="space-y-2.5 text-body text-ink-muted">
+          <li class="flex gap-3">
+            <span aria-hidden="true" class="text-terracotta">·</span> Recipes inspired
+            by biblical ingredients
+          </li>
+          <li class="flex gap-3">
+            <span aria-hidden="true" class="text-terracotta">·</span> Short histories
+            behind every dish
+          </li>
+          <li class="flex gap-3">
+            <span aria-hidden="true" class="text-terracotta">·</span> Menus for gathering
+            and celebration
+          </li>
+        </ul>
+        <Button href="/#newsletter" variant="secondary"
+          >Notify me at launch</Button
+        >
+      </div>
+    </div>
+  </div>
+</section>

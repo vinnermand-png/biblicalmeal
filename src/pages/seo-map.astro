@@ -1,0 +1,552 @@
+---
+/**
+ * /seo-map/ - INTERNAL strategy dashboard (V3B).
+ * Never indexed: emits noindex,follow via BaseLayout; excluded from the
+ * production sitemap in astro.config.mjs. In production builds it renders
+ * an empty shell so strategy data ships nowhere public.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  DATA_LIMITS_DISCLAIMER,
+  LINKING_PATHS,
+  PILLAR_TARGET_IDS,
+  RESEARCH_LOG,
+  ROADMAP_PHASES,
+  SEO_CLUSTERS,
+  SEO_TARGETS,
+} from '../data/seo-master-map';
+import { CONTENT_BRIEFS } from '../data/content-briefs';
+import { KEYWORD_FAMILIES } from '../data/keyword-families';
+import {
+  DELIBERATE_AVOIDANCES,
+  TARGET_PRIORITY_SCORES,
+  TIER_LABELS,
+  type OpportunityTier,
+} from '../data/page1-framework';
+import { FOOD_UNIVERSE } from '../data/food-universe';
+import { TRUST_PAGE_PLANS } from '../data/editorial-trust';
+import {
+  V3B_COMPLETION_MATRIX,
+  type MatrixClassification,
+} from '../data/v3b-completion-matrix';
+import { buildProductionQueue, summarizeQueue } from '../data/production-queue';
+import { RESEARCH_DOSSIERS } from '../data/research/dossiers';
+import { RESEARCH_CLAIMS } from '../data/research/claims';
+import { SOURCE_REGISTRY } from '../data/research/sources';
+import { UNRESOLVED_QUESTIONS } from '../data/research/questions';
+import { SCRIPTURE_VERIFICATION_RECORDS } from '../data/research/verification';
+import { FIRST_WAVE_COMPLETENESS_AUDIT } from '../data/research/audit';
+import {
+  PRIMARY_TRANSLATION,
+  countUnresolvedTranslationAmbiguities,
+} from '../data/scripture-policy';
+
+const isDev = import.meta.env.DEV;
+
+const statusOrder = [
+  'published',
+  'in-development',
+  'brief-ready',
+  'planned',
+  'research-first',
+  'not-pursuing',
+] as const;
+
+const byStatus = statusOrder.map((status) => ({
+  status,
+  targets: SEO_TARGETS.filter((t) => t.status === status),
+}));
+
+const pillarNames = PILLAR_TARGET_IDS.map(
+  (id) => SEO_TARGETS.find((t) => t.id === id)?.topic ?? id,
+);
+
+const briefCount = CONTENT_BRIEFS.length;
+const targetCount = SEO_TARGETS.length;
+
+const tierCounts = (
+  [
+    'cornerstone',
+    'strong-supporting',
+    'long-tail-value',
+    'research-heavy',
+  ] as OpportunityTier[]
+).map((tier) => ({
+  tier,
+  label: TIER_LABELS[tier],
+  ids: Object.entries(TARGET_PRIORITY_SCORES)
+    .filter(([, s]) => s.tier === tier)
+    .map(([id]) => id),
+}));
+
+const classificationCounts = FOOD_UNIVERSE.reduce<Record<string, number>>(
+  (acc, f) => {
+    acc[f.classification] = (acc[f.classification] ?? 0) + 1;
+    return acc;
+  },
+  {},
+);
+
+const matrixByClassification = (
+  [
+    'verified',
+    'resolved-with-caveat',
+    'explicitly-deferred',
+    'not-blocking',
+  ] as MatrixClassification[]
+).map((cls) => ({
+  cls,
+  items: V3B_COMPLETION_MATRIX.filter((m) => m.classification === cls),
+}));
+const blockingCount = V3B_COMPLETION_MATRIX.filter((m) => m.blocking).length;
+
+const productionQueue = buildProductionQueue();
+const queueSummary = summarizeQueue(productionQueue);
+const firstWave = productionQueue.filter((q) => q.firstWave);
+
+const verifiedClaims = RESEARCH_CLAIMS.filter(
+  (c) => c.verification === 'verified',
+).length;
+const unverifiedClaims = RESEARCH_CLAIMS.length - verifiedClaims;
+const blockingQuestions = UNRESOLVED_QUESTIONS.filter(
+  (q) => q.resolution === 'blocker',
+).length;
+const warningQuestions = UNRESOLVED_QUESTIONS.filter(
+  (q) => q.resolution === 'warning',
+).length;
+const taskQuestions =
+  UNRESOLVED_QUESTIONS.length - blockingQuestions - warningQuestions;
+
+const scriptureClaimsVerified = RESEARCH_CLAIMS.filter(
+  (c) => c.verification === 'verified' && c.category === 'scripture',
+).length;
+const scriptureClaimsPending = RESEARCH_CLAIMS.filter(
+  (c) => c.verification !== 'verified' && c.category === 'scripture',
+).length;
+const translationBlockers = UNRESOLVED_QUESTIONS.filter(
+  (q) => q.kind === 'translation-ambiguity' && q.resolution === 'blocker',
+).length;
+
+const pilotDossiers = RESEARCH_DOSSIERS.filter(
+  (d) => d.researchStatus === 'in-progress',
+);
+const verificationRecords = SCRIPTURE_VERIFICATION_RECORDS.length;
+const reviewedExternalSources = new Set(
+  FIRST_WAVE_COMPLETENESS_AUDIT.flatMap((entry) => entry.reviewedSourceIds),
+).size;
+const researchCompleteEligible = FIRST_WAVE_COMPLETENESS_AUDIT.filter(
+  (entry) => entry.researchCompleteEligible,
+).length;
+const verificationReconciles =
+  scriptureClaimsVerified ===
+  SCRIPTURE_VERIFICATION_RECORDS.filter((record) =>
+    RESEARCH_CLAIMS.some(
+      (claim) =>
+        claim.id === record.claimId &&
+        claim.category === 'scripture' &&
+        claim.verification === 'verified',
+    ),
+  ).length;
+---
+
+<BaseLayout
+  title="SEO Master Map (internal)"
+  description="Internal search-strategy dashboard. Not for publication."
+  noindex={true}
+>
+  <main id="main" class="mx-auto w-full max-w-5xl px-6 py-16">
+    {
+      isDev ? (
+        <>
+          <header class="mb-12">
+            <p class="mb-2 inline-block rounded border border-amber-400 bg-amber-50 px-3 py-1 text-sm font-medium text-amber-800">
+              INTERNAL - noindex - excluded from sitemap
+            </p>
+            <h1 class="font-serif text-4xl font-bold">SEO Master Map</h1>
+            <p class="mt-2 max-w-2xl text-lg opacity-80">
+              {targetCount} targets · {KEYWORD_FAMILIES.length} keyword families
+              · {FOOD_UNIVERSE.length} food entities · {briefCount}
+              briefs · {RESEARCH_LOG.length} logged SERP observations
+            </p>
+            <p class="mt-4 max-w-3xl rounded-lg bg-black/5 p-4 text-sm leading-relaxed">
+              {DATA_LIMITS_DISCLAIMER}
+            </p>
+          </header>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">Pillars</h2>
+            <ul class="list-inside list-disc text-base opacity-90">
+              {pillarNames.map((name) => (
+                <li>{name}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">Clusters</h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {SEO_CLUSTERS.map((c) => (
+                <div class="rounded-lg border border-black/10 p-4">
+                  <h3 class="font-semibold">{c.name}</h3>
+                  {c.description && (
+                    <p class="mt-1 text-sm opacity-75">{c.description}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Targets by status
+            </h2>
+            <div class="space-y-8">
+              {byStatus.map(({ status, targets }) => (
+                <div>
+                  <h3 class="mb-2 text-sm font-bold tracking-wide uppercase opacity-70">
+                    {status} ({targets.length})
+                  </h3>
+                  <ul class="divide-y divide-black/10 rounded-lg border border-black/10">
+                    {targets.map((t) => (
+                      <li class="px-4 py-3">
+                        <p class="font-medium">
+                          {t.topic}
+                          <span class="ml-2 rounded bg-black/10 px-1.5 py-0.5 text-xs">
+                            {t.cluster}
+                          </span>
+                          <span
+                            class={`ml-1 rounded px-1.5 py-0.5 text-xs ${t.evidenceLevel === 'serp-observed' ? 'bg-emerald-200 text-emerald-900' : 'bg-stone-200'}`}
+                          >
+                            {t.evidenceLevel === 'serp-observed'
+                              ? 'verified observation'
+                              : 'hypothesis'}
+                          </span>
+                        </p>
+                        <p class="text-sm opacity-75">
+                          “{t.primaryKeyword}”
+                          {t.targetRoute ? ` → ${t.targetRoute}` : ''}
+                          {t.parentTopic ? ` · child of ${t.parentTopic}` : ''}
+                        </p>
+                        {t.notes && (
+                          <p class="mt-1 text-sm opacity-60">{t.notes}</p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Keyword families &amp; canonical ownership
+            </h2>
+            <ul class="divide-y divide-black/10 rounded-lg border border-black/10">
+              {KEYWORD_FAMILIES.map((fam) => (
+                <li class="px-4 py-3">
+                  <p class="font-medium">
+                    {fam.label}
+                    {fam.policy === 'do-not-build' && (
+                      <span class="ml-2 rounded bg-red-200 px-1.5 py-0.5 text-xs text-red-900">
+                        do-not-build
+                      </span>
+                    )}
+                  </p>
+                  <p class="text-sm opacity-75">
+                    Canonical owner:{' '}
+                    <span class="font-mono">{fam.canonicalOwner}</span>
+                    {fam.memberTargets?.length
+                      ? ` · members: ${fam.memberTargets.join(', ')}`
+                      : ''}
+                    {fam.supportingTargets?.length
+                      ? ` · supporting: ${fam.supportingTargets.join(', ')}`
+                      : ''}
+                  </p>
+                  <p class="mt-0.5 text-xs opacity-60">
+                    {fam.phrases.length} mapped phrases
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Page-1 prioritization framework (effort, not prediction)
+            </h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {tierCounts.map(({ label, ids }) => (
+                <div class="rounded-lg border border-black/10 p-4">
+                  <h3 class="font-semibold">
+                    {label} ({ids.length})
+                  </h3>
+                  <p class="mt-1 text-xs opacity-60">
+                    {ids.join(' · ') || '—'}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div class="mt-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+              <span class="font-semibold">Deliberately avoided:</span>
+              {DELIBERATE_AVOIDANCES.map((a) => a.targetId).join(' · ')}
+            </div>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Biblical food universe inventory ({FOOD_UNIVERSE.length} entities)
+            </h2>
+            <ul class="flex flex-wrap gap-2">
+              {Object.entries(classificationCounts).map(([cls, count]) => (
+                <li class="rounded-full bg-black/5 px-3 py-1 text-sm">
+                  {cls}: {count}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Trust architecture plan
+            </h2>
+            <ul class="space-y-2">
+              {TRUST_PAGE_PLANS.map((p) => (
+                <li class="rounded-lg border border-black/10 p-4 text-sm">
+                  <span class="font-mono">{p.route}</span>
+                  {p.launchCritical && (
+                    <span class="ml-2 rounded bg-emerald-200 px-1.5 py-0.5 text-xs text-emerald-900">
+                      launch-critical
+                    </span>
+                  )}
+                  — {p.seoTrustRole}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              V3B completion matrix ({V3B_COMPLETION_MATRIX.length} items)
+            </h2>
+            <p
+              class={`mb-3 inline-block rounded px-3 py-1 text-sm font-medium ${blockingCount === 0 ? 'bg-emerald-100 text-emerald-900' : 'bg-red-100 text-red-900'}`}
+            >
+              {blockingCount === 0
+                ? 'No blocking items - phase gate open'
+                : `${blockingCount} blocking item(s) - phase gate CLOSED`}
+            </p>
+            <div class="space-y-4">
+              {matrixByClassification.map(({ cls, items }) => (
+                <div>
+                  <h3 class="mb-1 text-sm font-bold tracking-wide uppercase opacity-70">
+                    {cls} ({items.length})
+                  </h3>
+                  <ul class="divide-y divide-black/10 rounded-lg border border-black/10">
+                    {items.map((m) => (
+                      <li class="px-4 py-2 text-sm">
+                        <span class="font-medium">{m.title}</span>
+                        {m.requiredAction && (
+                          <span class="block text-xs opacity-60">
+                            Next: {m.requiredAction}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              V3C production queue ({productionQueue.length} targets)
+            </h2>
+            <p class="mb-3 flex flex-wrap gap-2 text-xs">
+              {Object.entries(queueSummary).map(([stage, count]) => (
+                <span class="rounded bg-black/5 px-2 py-1 font-mono">
+                  {stage}: {count}
+                </span>
+              ))}
+            </p>
+            <h3 class="mb-2 text-sm font-bold tracking-wide uppercase opacity-70">
+              First wave ({firstWave.length})
+            </h3>
+            <ul class="divide-y divide-black/10 rounded-lg border border-black/10">
+              {firstWave.map((q) => (
+                <li class="px-4 py-2 text-sm">
+                  <span class="font-medium">{q.topic}</span>{' '}
+                  <span class="font-mono text-xs opacity-60">
+                    {q.canonicalRoute}
+                  </span>
+                  <span class="ml-2 rounded bg-blue-100 px-1.5 py-0.5 text-xs text-blue-900">
+                    {q.workflowStatus}
+                  </span>
+                  {q.blockers.length > 0 && (
+                    <span class="block text-xs opacity-70">
+                      Blocked: {q.blockers.map((b) => b.code).join(', ')}
+                    </span>
+                  )}
+                  <span class="block text-xs opacity-60">{q.nextAction}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              V3C research infrastructure
+            </h2>
+            <p class="mb-3 inline-block rounded bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-900">
+              Scripture policy: primary translation{' '}
+              {PRIMARY_TRANSLATION.abbreviation} · ready · claims verified{' '}
+              {scriptureClaimsVerified} / pending {scriptureClaimsPending} ·
+              translation blockers {translationBlockers} · ambiguity disclosures{' '}
+              {countUnresolvedTranslationAmbiguities()}
+            </p>
+            <p class="mb-3 inline-block rounded bg-emerald-100 px-3 py-1 text-sm text-emerald-900">
+              V3C.4 Phase 1B + 1C: first-wave research in progress (
+              {pilotDossiers
+                .map((d) => d.id.replace('dossier-', ''))
+                .join(', ')}
+              ) · KJV wording checks recorded: {verificationRecords} · scripture
+              reconciliation: {verificationReconciles ? 'yes' : 'no'}
+            </p>
+            <p class="mb-3 flex flex-wrap gap-2 text-xs">
+              <span class="rounded bg-black/5 px-2 py-1 font-mono">
+                dossiers: {RESEARCH_DOSSIERS.length}
+              </span>
+              <span class="rounded bg-emerald-100 px-2 py-1 font-mono text-emerald-900">
+                claims verified: {verifiedClaims}
+              </span>
+              <span class="rounded bg-amber-100 px-2 py-1 font-mono text-amber-900">
+                claims unverified: {unverifiedClaims}
+              </span>
+              <span class="rounded bg-red-100 px-2 py-1 font-mono text-red-900">
+                blocking questions: {blockingQuestions}
+              </span>
+              <span class="rounded bg-black/5 px-2 py-1 font-mono">
+                disclosures: {warningQuestions} · tasks: {taskQuestions} ·
+                sources: {SOURCE_REGISTRY.length} · reviewed external sources:{' '}
+                {reviewedExternalSources} · eligible dossiers:{' '}
+                {researchCompleteEligible}
+              </span>
+            </p>
+            <ul class="divide-y divide-black/10 rounded-lg border border-black/10">
+              {RESEARCH_DOSSIERS.map((d) => (
+                <li class="px-4 py-2 text-sm">
+                  <span class="font-mono">{d.id}</span>
+                  <span class="ml-2 rounded bg-black/5 px-1.5 py-0.5 text-xs">
+                    {d.researchStatus}
+                  </span>
+                  <span class="ml-2 text-xs opacity-60">
+                    claims: {d.claimIds.length} · questions:{' '}
+                    {d.questionIds.length}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-3 text-xs opacity-60">
+              Completeness audit: {FIRST_WAVE_COMPLETENESS_AUDIT.length}{' '}
+              dossiers dynamically assessed; research status is not promoted by
+              source presence alone.
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">Roadmap</h2>
+            <ol class="space-y-4">
+              {ROADMAP_PHASES.map((phase) => (
+                <li class="rounded-lg border border-black/10 p-4">
+                  <h3 class="font-semibold">{phase.name}</h3>
+                  <p class="mt-1 text-sm opacity-80">{phase.goal}</p>
+                  <p class="mt-1 text-sm opacity-60">
+                    Exit: {phase.exitCriteria}
+                  </p>
+                  <p class="mt-1 text-xs opacity-50">
+                    {phase.targetIds.join(' · ')}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Linking paths
+            </h2>
+            <ul class="space-y-3">
+              {LINKING_PATHS.map((p) => (
+                <li class="rounded-lg border border-black/10 p-4">
+                  <h3 class="font-semibold">{p.name}</h3>
+                  <p class="mt-1 font-mono text-sm opacity-80">
+                    {p.steps.join(' → ')}
+                  </p>
+                  <p class="mt-1 text-sm opacity-60">{p.description}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="mb-3 font-serif text-2xl font-semibold">
+              Content briefs ({briefCount})
+            </h2>
+            <ul class="space-y-3">
+              {CONTENT_BRIEFS.map((b) => (
+                <li class="rounded-lg border border-black/10 p-4">
+                  <p class="font-semibold">
+                    {b.workingTitle}
+                    <span
+                      class="ml-2 rounded px-1.5 py-0.5 text-xs"
+                      class:list={[
+                        b.status === 'approved'
+                          ? 'bg-emerald-200 text-emerald-900'
+                          : 'bg-stone-200',
+                      ]}
+                    >
+                      {b.status}
+                    </span>
+                  </p>
+                  <p class="text-sm opacity-70">{b.angle}</p>
+                  <p class="mt-1 text-xs opacity-60">
+                    Unverified scripture anchors:{' '}
+                    {b.scriptureAnchors
+                      .filter((a) => !a.verified)
+                      .map((a) => a.reference)
+                      .join(', ') || 'none'}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section>
+            <h2 class="mb-3 font-serif text-2xl font-semibold">Research log</h2>
+            <ul class="space-y-3">
+              {RESEARCH_LOG.map((e) => (
+                <li class="rounded-lg border border-black/10 p-4 text-sm">
+                  <p class="font-semibold">
+                    {e.query}{' '}
+                    <span class="ml-1 font-normal opacity-50">{e.date}</span>
+                  </p>
+                  <ul class="mt-1 list-inside list-disc opacity-75">
+                    {e.observations.map((o) => (
+                      <li>{o}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      ) : (
+        <>
+          <h1>Not available</h1>
+          <p>This internal page has no published content.</p>
+        </>
+      )
+    }
+  </main>
+</BaseLayout>

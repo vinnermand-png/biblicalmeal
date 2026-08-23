@@ -1,26 +1,133 @@
 ---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/fraunces/wght-italic.css';
+
 import '../styles/global.css';
 import { SITE } from '../config';
 
 interface Props {
   title?: string;
   description?: string;
+  ogType?: 'website' | 'article';
+  /** Additional schema.org objects (Recipe, Article, BreadcrumbList…). */
+  jsonLd?: Record<string, unknown>[];
+  /** Emits "noindex, follow" for internal/strategy routes only. */
+  noindex?: boolean;
 }
 
-const { title = SITE.title, description = SITE.description } = Astro.props;
+const {
+  title,
+  description = SITE.description,
+  ogType = 'website',
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// TODO(seo): add og:image once a branded 1200x630 social image exists.
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  inLanguage: 'en',
+};
 ---
 
 <!doctype html>
 <html lang={SITE.locale}>
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      document.documentElement.dataset.js = '';
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f7f2e9" />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(websiteSchema)}
+    />
+    {
+      jsonLd.map((schema) => (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(schema)}
+        />
+      ))
+    }
   </head>
   <body>
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      class="pointer-events-none fixed h-0 w-0 overflow-hidden"
+    >
+      <filter id="bm-grain">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.8"
+          numOctaves="2"
+          stitchTiles="stitch"></feTurbulence>
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0.10  0 0 0 0.7 0"
+        ></feColorMatrix>
+      </filter>
+    </svg>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-caption focus:text-cream"
+    >
+      Skip to content
+    </a>
     <slot />
+    <script>
+      const revealEls = Array.from(document.querySelectorAll('.reveal'));
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        for (const el of revealEls) el.classList.add('revealed');
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px' },
+        );
+        for (const el of revealEls) observer.observe(el);
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { ArtKind } from '../../lib/visuals';
+import { INGREDIENT_ART } from '../../lib/visuals';
+import { statusChip } from '../../lib/content';
+import Chip from './Chip.astro';
+import FoodIllustration from './FoodIllustration.astro';
+
+type IngredientEntry = CollectionEntry<'ingredients'>;
+
+interface Props {
+  entry: IngredientEntry;
+  /** Base path prefix, e.g. "/ingredients" — links to `${href}/${id}/`. */
+  baseHref?: string;
+}
+
+const { entry, baseHref = '/ingredients' } = Astro.props;
+const publicFoodPath = ['figs', 'dates'].includes(entry.id)
+  ? `/foods/${entry.id}/`
+  : `${baseHref}/${entry.id}/`;
+const href = publicFoodPath;
+const art: ArtKind = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
+const chip = statusChip(entry.data.status);
+---
+
+<a
+  href={href}
+  class="group relative block overflow-hidden rounded-xl border border-line bg-surface shadow-xs transition-shadow duration-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+>
+  <FoodIllustration kind={art} ratio="4 / 3" />
+  {
+    chip && (
+      <Chip
+        variant={chip}
+        class="absolute top-3 left-3 z-10 bg-surface/90 backdrop-blur-sm"
+      />
+    )
+  }
+  <div class="space-y-2 p-5">
+    <h3 class="font-display text-h3 text-ink">{entry.data.name}</h3>
+    <p class="line-clamp-3 text-body text-ink-muted">
+      {entry.data.description}
+    </p>
+    <span
+      aria-hidden="true"
+      class="inline-flex items-center gap-1 pt-1 font-sans text-caption font-semibold tracking-wide text-terracotta uppercase transition-transform duration-300 group-hover:translate-x-1"
+    >
+      Explore <span>→</span>
+    </span>
+  </div>
+</a>

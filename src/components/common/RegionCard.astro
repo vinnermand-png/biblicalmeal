@@ -1,0 +1,25 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import FoodIllustration from './FoodIllustration.astro';
+
+interface Props {
+  name: string;
+  description: string;
+  art: ArtKind;
+}
+
+const { name, description, art } = Astro.props;
+---
+
+<article
+  class="reveal group relative overflow-hidden rounded-xl border border-line bg-surface shadow-xs transition-shadow duration-300 hover:shadow-md"
+>
+  <FoodIllustration kind={art} ratio="16 / 9" />
+  <div class="space-y-1.5 p-5">
+    <h3 class="font-display text-h3 text-ink">{name}</h3>
+    <p class="text-body text-ink-muted">{description}</p>
+    <p class="pt-1 text-caption text-ink-muted/80">
+      Regional guide in development
+    </p>
+  </div>
+</article>

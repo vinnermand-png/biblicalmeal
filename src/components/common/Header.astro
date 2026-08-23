@@ -1,0 +1,39 @@
+---
+import MobileMenu from '../islands/MobileMenu.tsx';
+import { NAV_LINKS, SITE } from '../../config';
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-line bg-background/90 backdrop-blur-sm"
+>
+  <div class="container-site flex h-16 items-center justify-between md:h-20">
+    <a
+      href="/"
+      class="font-display text-xl font-semibold tracking-tight md:text-2xl"
+      aria-label={`${SITE.name} — home`}
+    >
+      BiblicalMeal<span class="text-terracotta">.</span>
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={link.href}
+            class="relative text-[0.9375rem] font-medium text-ink-muted transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-terracotta after:transition-transform after:duration-200 hover:text-ink hover:after:scale-x-100"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/#newsletter"
+        class="rounded-full bg-terracotta px-4 py-2 text-sm font-medium text-cream shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-terracotta-dark"
+      >
+        Newsletter
+      </a>
+    </nav>
+
+    <MobileMenu client:load links={NAV_LINKS} />
+  </div>
+</header>

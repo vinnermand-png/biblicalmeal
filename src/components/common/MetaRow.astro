@@ -1,0 +1,28 @@
+---
+export interface MetaItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  items: MetaItem[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <dl class:list={['flex flex-wrap gap-x-8 gap-y-3', className]}>
+      {items.map((item) => (
+        <div>
+          <dt class="font-sans text-caption font-semibold tracking-eyebrow text-ink-muted uppercase">
+            {item.label}
+          </dt>
+          <dd class="mt-0.5 font-medium text-ink">{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}

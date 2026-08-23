@@ -1,0 +1,105 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { draftsPreview, formatDate, readingTime } from '../../lib/content';
+import { getRelated, getVisibleArticles } from '../../lib/queries';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import SiteFooter from '../../components/common/SiteFooter.astro';
+import ContentHero from '../../components/common/ContentHero.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import Chip from '../../components/common/Chip.astro';
+import ScriptureBlock from '../../components/common/ScriptureBlock.astro';
+import RelatedSection from '../../components/common/RelatedSection.astro';
+
+type Entry = CollectionEntry<'articles'>;
+
+export async function getStaticPaths() {
+  const articles = await getVisibleArticles();
+  return articles.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: Entry;
+}
+
+const { entry }: Props = Astro.props;
+const { Content } = await render(entry);
+const { title, subtitle, excerpt, category, pubDate, scriptureRefs, art } =
+  entry.data;
+const related = await getRelated({ collection: 'articles', id: entry.id });
+const minutes = readingTime(entry.body);
+const isDevPreview = draftsPreview() && entry.data.status !== 'published';
+
+// Structured data only for published articles — never for dev previews.
+const articleSchema =
+  entry.data.status === 'published'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: excerpt,
+        author: { '@type': 'Organization', name: 'BiblicalMeal' },
+        publisher: { '@type': 'Organization', name: 'BiblicalMeal' },
+        mainEntityOfPage: new URL(
+          `/articles/${entry.id}/`,
+          Astro.site,
+        ).toString(),
+      }
+    : undefined;
+
+const breadcrumbs = [
+  { label: 'Journal', href: '/articles/' },
+  { label: title },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={excerpt}
+  ogType="article"
+  jsonLd={articleSchema ? [articleSchema] : []}
+>
+  <Header />
+  <main id="main">
+    <ContentHero
+      eyebrow={category}
+      title={title}
+      lead={subtitle ?? excerpt}
+      art={art ?? 'still-life'}
+    >
+      <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
+      <div slot="meta" class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+        {isDevPreview && <Chip variant="dev" />}
+        <p
+          class="font-sans text-caption font-medium tracking-wide text-ink-muted"
+        >
+          {minutes} min read
+          {pubDate && ` · ${formatDate(pubDate)}`}
+        </p>
+      </div>
+    </ContentHero>
+
+    <article class="container-site py-16 sm:py-20">
+      <div class="mx-auto max-w-3xl">
+        <div class="prose-bm text-body-lg text-ink-muted">
+          <Content />
+        </div>
+
+        {
+          scriptureRefs.length > 0 && (
+            <div class="mt-14">
+              <ScriptureBlock refs={scriptureRefs} />
+            </div>
+          )
+        }
+      </div>
+    </article>
+
+    <RelatedSection related={related} />
+  </main>
+  <SiteFooter />
+</BaseLayout>
