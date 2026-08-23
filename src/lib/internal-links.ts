@@ -15,6 +15,8 @@ function isPubliclyLinkable(content: ContentPlan): boolean {
     (item) => item.contentItemId === content.id,
   );
 
+  if (!draft) return false;
+
   return (
     content.publicationStatus === 'published' &&
     content.workflowStatus === 'approved' &&
