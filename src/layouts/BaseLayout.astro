@@ -15,6 +15,8 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   /** Emits "noindex, follow" for internal/strategy routes only. */
   noindex?: boolean;
+  /** Keeps technical fallback pages out of canonical, social, and schema output. */
+  technicalFallback?: boolean;
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   ogType = 'website',
   jsonLd = [],
   noindex = false,
+  technicalFallback = false,
 } = Astro.props;
 
 const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
@@ -56,39 +59,46 @@ const websiteSchema = {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f7f2e9" />
-    <link rel="canonical" href={canonicalURL} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {!technicalFallback && <link rel="canonical" href={canonicalURL} />}
+    {(noindex || technicalFallback) && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <meta property="og:type" content={social.type} />
-    <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:title" content={social.title} />
-    <meta property="og:description" content={social.description} />
-    <meta property="og:url" content={social.canonicalURL} />
-    <meta property="og:image" content={social.imageURL} />
-    <meta property="og:image:alt" content={social.imageAlt} />
-    <meta property="og:locale" content="en_US" />
+    {!technicalFallback && (
+      <>
+        <meta property="og:type" content={social.type} />
+        <meta property="og:site_name" content={SITE.name} />
+        <meta property="og:title" content={social.title} />
+        <meta property="og:description" content={social.description} />
+        <meta property="og:url" content={social.canonicalURL} />
+        <meta property="og:image" content={social.imageURL} />
+        <meta property="og:image:alt" content={social.imageAlt} />
+        <meta property="og:locale" content="en_US" />
 
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={social.title} />
-    <meta name="twitter:description" content={social.description} />
-    <meta name="twitter:image" content={social.imageURL} />
-    <meta name="twitter:image:alt" content={social.imageAlt} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={social.title} />
+        <meta name="twitter:description" content={social.description} />
+        <meta name="twitter:image" content={social.imageURL} />
+        <meta name="twitter:image:alt" content={social.imageAlt} />
+      </>
+    )}
 
-    <script
-      is:inline
-      type="application/ld+json"
-      set:html={JSON.stringify(websiteSchema)}
-    />
+    {!technicalFallback && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(websiteSchema)}
+      />
+    )}
     {
-      jsonLd.map((schema) => (
-        <script
-          is:inline
-          type="application/ld+json"
-          set:html={JSON.stringify(schema)}
-        />
-      ))
+      !technicalFallback &&
+        jsonLd.map((schema) => (
+          <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify(schema)}
+          />
+        ))
     }
   </head>
   <body>
@@ -105,7 +115,7 @@ const websiteSchema = {
           stitchTiles="stitch"></feTurbulence>
         <feColorMatrix
           type="matrix"
-          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0.10  0 0 0 0.7 0"
+          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0.7 0"
         ></feColorMatrix>
       </filter>
     </svg>
