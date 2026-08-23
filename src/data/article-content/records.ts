@@ -39,7 +39,7 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     ],
     productionStatus: 'draft',
     editorialReviewStatus: 'not-started',
-    publicationStatus: 'draft',
+    publicationStatus: 'not-eligible',
     publicationEligible: false,
   },
   {
@@ -70,7 +70,7 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     ],
     productionStatus: 'draft',
     editorialReviewStatus: 'not-started',
-    publicationStatus: 'draft',
+    publicationStatus: 'not-eligible',
     publicationEligible: false,
   },
   {
@@ -97,7 +97,7 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     ],
     productionStatus: 'draft',
     editorialReviewStatus: 'not-started',
-    publicationStatus: 'draft',
+    publicationStatus: 'not-eligible',
     publicationEligible: false,
   },
 ];

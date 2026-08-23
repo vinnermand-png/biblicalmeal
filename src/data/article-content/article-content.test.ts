@@ -10,7 +10,8 @@ describe('V3C.19 article and question content', () => {
     expect(
       ARTICLE_CONTENT_RECORDS.every(
         (record) =>
-          record.publicationStatus === 'draft' && !record.publicationEligible,
+          record.publicationStatus === 'not-eligible' &&
+          !record.publicationEligible,
       ),
     ).toBe(true);
   });
@@ -82,8 +83,8 @@ describe('V3C.19 article and question content', () => {
       id: 'question-invalid',
       answerContent: '',
     };
-    expect(auditArticleContent([invalid]).issues.map((issue) => issue.code)).toContain(
-      'invalid-question',
-    );
+    expect(
+      auditArticleContent([invalid]).issues.map((issue) => issue.code),
+    ).toContain('invalid-question');
   });
 });
