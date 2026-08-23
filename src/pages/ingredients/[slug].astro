@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { draftsPreview } from '../../lib/content';
 import { getRelated, getVisibleIngredients } from '../../lib/queries';
+import { getEditorialImage } from '../../lib/editorial-images';
 import { INGREDIENT_ART } from '../../lib/visuals';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/common/Header.astro';
@@ -32,6 +33,11 @@ const { name, description, scriptureRefs, scriptureNote, history, modern } =
   entry.data;
 const related = await getRelated({ collection: 'ingredients', id: entry.id });
 const art = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
+const editorialImageId = `ingredients-${entry.id}-still-life`;
+const editorialImage = getEditorialImage(editorialImageId);
+const heroEditorialImageId = editorialImage?.pageUsage.includes('/ingredients/')
+  ? editorialImageId
+  : undefined;
 const hasResearch = Boolean(history || modern);
 const isDevPreview = draftsPreview() && entry.data.status !== 'published';
 
@@ -44,7 +50,13 @@ const breadcrumbs = [
 <BaseLayout title={name} description={description}>
   <Header />
   <main id="main">
-    <ContentHero eyebrow="Ingredient" title={name} lead={description} art={art}>
+    <ContentHero
+      eyebrow="Ingredient"
+      title={name}
+      lead={description}
+      art={art}
+      editorialImageId={heroEditorialImageId}
+    >
       <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
       <div slot="meta" class="mt-6 flex flex-wrap items-center gap-3">
         {isDevPreview && <Chip variant="dev" />}
