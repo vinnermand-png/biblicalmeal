@@ -417,7 +417,13 @@ describe('policy readiness vs research completion', () => {
     'dossier-what-did-jesus-eat',
     'dossier-food-in-biblical-times',
   ]);
-  const COMPLETED_DOSSIERS = new Set(['dossier-figs', 'dossier-dates']);
+
+  const COMPLETED_DOSSIERS = new Set([
+    'dossier-figs',
+    'dossier-dates',
+    'dossier-barley',
+    'dossier-honey',
+  ]);
 
   it('shows non-pilot dossiers policy-ready yet honestly not-started', () => {
     for (const dossier of RESEARCH_DOSSIERS.filter(
