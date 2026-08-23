@@ -46,6 +46,7 @@ export function buildAdminOverview(): AdminOverview {
 
 export const ADMIN_OVERVIEW = buildAdminOverview();
 
-export function evaluateAdminMutation(_attempt: AdminMutationAttempt): AdminMutationDecision {
+export function evaluateAdminMutation(attempt: AdminMutationAttempt): AdminMutationDecision {
+  void attempt;
   return { allowed: false, reason: 'The admin foundation exposes canonical status and readiness only. It has no mutation or publication authority and cannot bypass canonical gates.' };
 }
