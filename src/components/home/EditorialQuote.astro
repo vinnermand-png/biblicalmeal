@@ -1,59 +1,33 @@
 ---
 import SectionHeader from '../common/SectionHeader.astro';
 
-// VERSE WORDING PENDING SOURCE VERIFICATION:
-// Quoted from memory as KJV (public domain); confirm exact punctuation/wording
-// against a published KJV source during the research pass before launch.
-const quote =
-  'A land of wheat, and barley, and vines, and fig trees, and pomegranates; a land of oil olive, and honey;';
+// Verse wording is intentionally left subject to the existing scripture verification policy.
+const quote = 'A land of wheat, and barley, and vines, and fig trees, and pomegranates; a land of oil olive, and honey;';
 ---
 
-<section class="relative overflow-hidden bg-olive-dark" id="scripture">
-  <svg
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 48"
-    fill="none"
-    stroke="#c9a24b"
-    stroke-width="1.2"
-    stroke-linecap="round"
-    class="pointer-events-none absolute -right-10 -bottom-16 h-[30rem] w-[15rem] opacity-[0.07]"
-  >
-    <path d="M12 46V16"></path>
-    <path d="M12 16C9.5 14.5 9 11 12 7c3 4 2.5 7.5 0 9Z"></path>
-    <path d="M12 22c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path>
-    <path d="M12 22c3-1 5-3.5 5-7-3 .5-5 3-5 7Z"></path>
-    <path d="M12 29c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path>
-    <path d="M12 29c3-1 5-3.5 5-7-3 .5-5 3-5 7Z"></path>
-    <path d="M12 36c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path>
-    <path d="M12 36c3-1 5-3.5 5-7-3 .5-5 3-5 7Z"></path>
+<section class="scripture-pause relative isolate overflow-hidden bg-olive-dark" id="scripture">
+  <div class="scripture-pause__sun" aria-hidden="true"></div>
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" class="scripture-pause__botanical">
+    <path d="M12 46V16"></path><path d="M12 16C9.5 14.5 9 11 12 7c3 4 2.5 7.5 0 9Z"></path><path d="M12 22c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path><path d="M12 22c3-1 5-3.5 5-7-3 .5-5 3-5 7Z"></path><path d="M12 29c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path><path d="M12 29c3-1 5-3.5 5-7 3 .5 5 7Z"></path><path d="M12 36c-3-1-5-3.5-5-7 3 .5 5 3 5 7Z"></path><path d="M12 36c3-1 5-3.5 5-7-3 .5-5 3-5 7Z"></path>
   </svg>
-  <div class="relative container-site py-20 text-center md:py-28">
-    <div class="reveal mx-auto max-w-3xl space-y-10">
-      <SectionHeader
-        eyebrow="Food in Scripture"
-        title="Where Meals Meet Meaning"
-        tone="dark"
-      />
-      <blockquote class="relative">
-        <p
-          class="font-display text-h2 leading-snug text-cream before:absolute before:-top-8 before:left-1/2 before:-translate-x-1/2 before:font-display before:text-display before:text-gold/40 before:content-['\201C']"
-        >
-          {quote}
-        </p>
-        <footer class="mt-8">
-          <cite
-            class="text-caption font-medium tracking-eyebrow text-gold uppercase not-italic"
-          >
-            Deuteronomy 8:8 · KJV (public domain)
-          </cite>
-        </footer>
+  <div class="scripture-pause__line" aria-hidden="true"></div>
+  <div class="relative container-site section-space text-center">
+    <div class="reveal mx-auto max-w-4xl space-y-10">
+      <SectionHeader eyebrow="Food in Scripture" title="Where Meals Meet Meaning" tone="dark" />
+      <blockquote class="relative mx-auto max-w-4xl py-4">
+        <span class="scripture-pause__mark" aria-hidden="true">“</span>
+        <p class="relative font-display text-h2 leading-snug text-cream">{quote}</p>
+        <footer class="mt-9"><cite class="text-caption font-medium tracking-eyebrow text-gold uppercase not-italic">Deuteronomy 8:8 · KJV (public domain)</cite></footer>
       </blockquote>
-      <p class="mx-auto max-w-xl text-body-lg text-cream-muted">
-        In Scripture, meals are rarely just meals — they are covenant,
-        celebration, memory, and welcome. We read these passages slowly, in
-        their context, and share what we learn at the table.
-      </p>
+      <p class="mx-auto max-w-xl text-body-lg text-cream-muted">In Scripture, meals are rarely just meals — they are covenant, celebration, memory, and welcome. We read these passages slowly, in their context, and share what we learn at the table.</p>
     </div>
   </div>
 </section>
+
+<style>
+  .scripture-pause { background:linear-gradient(135deg, var(--color-olive-dark), #344023 60%, #27331d); }
+  .scripture-pause__sun { position:absolute; left:50%; top:-20rem; width:44rem; height:44rem; transform:translateX(-50%); border-radius:50%; background:radial-gradient(circle, rgb(201 162 75 / .11), transparent 66%); }
+  .scripture-pause__botanical { position:absolute; right:-2rem; bottom:-8rem; width:16rem; height:32rem; color:var(--color-gold); opacity:.08; }
+  .scripture-pause__line { position:absolute; top:0; left:12%; right:12%; height:1px; background:linear-gradient(90deg, transparent, rgb(201 162 75 / .35), transparent); }
+  .scripture-pause__mark { position:absolute; left:50%; top:-2.7rem; transform:translateX(-50%); font-family:var(--font-display); font-size:7rem; line-height:1; color:rgb(201 162 75 / .28); }
+</style>

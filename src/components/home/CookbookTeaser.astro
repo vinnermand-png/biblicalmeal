@@ -2,76 +2,47 @@
 import Button from '../common/Button.astro';
 ---
 
-<section class="scroll-mt-24" id="cookbook">
-  <div class="container-site py-20 md:py-28">
-    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-      <div class="reveal order-last lg:order-first">
-        <div
-          class="relative mx-auto aspect-[3/4] w-full max-w-sm rounded-lg bg-gradient-to-br from-olive-dark to-ink p-8 shadow-xl sm:p-10"
-        >
-          <div
-            class="absolute inset-y-0 left-3 w-px bg-black/30"
-            aria-hidden="true"
-          >
-          </div>
-          <div class="flex h-full flex-col justify-between text-center">
-            <p
-              class="text-eyebrow font-semibold tracking-eyebrow text-gold/80 uppercase"
-            >
-              A BiblicalMeal Cookbook
-            </p>
-            <div class="space-y-4">
-              <h3 class="font-display text-h1 text-cream">Biblical Meals</h3>
-              <div class="mx-auto h-px w-16 bg-gold/60" aria-hidden="true">
-              </div>
-              <p class="font-display text-h3 text-cream-muted italic">
-                Recipes Inspired by the Foods of the Bible
-              </p>
+<section class="cookbook-feature relative overflow-hidden scroll-mt-24" id="cookbook">
+  <div class="cookbook-feature__wash" aria-hidden="true"></div>
+  <div class="relative container-site section-space">
+    <div class="grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
+      <div class="reveal order-last lg:order-first lg:col-span-6">
+        <div class="cookbook-object mx-auto max-w-sm">
+          <div class="cookbook-object__shadow" aria-hidden="true"></div>
+          <div class="cookbook-object__cover relative aspect-[3/4] overflow-hidden rounded-sm p-8 sm:p-10">
+            <div class="cookbook-object__spine" aria-hidden="true"></div>
+            <div class="cookbook-object__paper" aria-hidden="true"></div>
+            <div class="relative flex h-full flex-col justify-between text-center">
+              <p class="text-eyebrow font-semibold tracking-eyebrow text-gold/90 uppercase">A BiblicalMeal Cookbook</p>
+              <div class="space-y-5"><h3 class="font-display text-h1 text-cream">Biblical Meals</h3><div class="mx-auto h-px w-16 bg-gold/70"></div><p class="font-display text-h3 text-cream-muted italic">Recipes Inspired by the Foods of the Bible</p></div>
+              <p class="text-caption tracking-wide text-cream-muted/80">Digital cookbook · In development</p>
             </div>
-            <p class="text-caption tracking-wide text-cream-muted/80">
-              Digital cookbook · In development
-            </p>
           </div>
         </div>
       </div>
-
-      <div class="reveal space-y-6" style="--reveal-delay: 120ms">
-        <p
-          class="text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
-        >
-          The Cookbook
-        </p>
-        <h2 class="font-display text-h2 text-ink">
-          Biblical Meals<span class="text-terracotta">.</span>
-        </h2>
-        <span
-          class="inline-flex w-fit items-center rounded-full border border-terracotta/40 bg-terracotta/10 px-2.5 py-1 text-caption font-medium tracking-wide text-terracotta-dark"
-        >
-          In development
-        </span>
-        <p class="text-body-lg text-ink-muted">
-          We are gathering our recipes inspired by the foods of the Bible into a
-          single digital cookbook — ingredient stories, kitchen-tested dishes,
-          and menus for the table.
-        </p>
-        <ul class="space-y-2.5 text-body text-ink-muted">
-          <li class="flex gap-3">
-            <span aria-hidden="true" class="text-terracotta">·</span> Recipes inspired
-            by biblical ingredients
-          </li>
-          <li class="flex gap-3">
-            <span aria-hidden="true" class="text-terracotta">·</span> Short histories
-            behind every dish
-          </li>
-          <li class="flex gap-3">
-            <span aria-hidden="true" class="text-terracotta">·</span> Menus for gathering
-            and celebration
-          </li>
+      <div class="reveal space-y-7 lg:col-span-6" style="--reveal-delay:120ms">
+        <p class="flex items-center gap-3 text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"><span class="h-px w-9 bg-terracotta"></span>The Cookbook</p>
+        <div class="space-y-5"><h2 class="font-display text-h2 text-ink">Biblical Meals<span class="text-terracotta">.</span></h2><span class="inline-flex w-fit items-center rounded-full border border-terracotta/35 bg-terracotta/8 px-3 py-1 text-caption font-medium tracking-wide text-terracotta-dark">In development</span></div>
+        <p class="max-w-xl text-body-lg text-ink-muted">We are gathering our recipes inspired by the foods of the Bible into a single digital cookbook — ingredient stories, kitchen-tested dishes, and menus for the table.</p>
+        <ul class="grid gap-4 border-y border-line py-6 text-body text-ink-muted sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+          <li class="space-y-1"><span class="font-display text-h3 text-terracotta">01</span><p>Recipes inspired by biblical ingredients</p></li>
+          <li class="space-y-1"><span class="font-display text-h3 text-terracotta">02</span><p>Short histories behind every dish</p></li>
+          <li class="space-y-1"><span class="font-display text-h3 text-terracotta">03</span><p>Menus for gathering and celebration</p></li>
         </ul>
-        <Button href="/#newsletter" variant="secondary"
-          >Notify me at launch</Button
-        >
+        <Button href="/#newsletter" variant="secondary">Notify me at launch</Button>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .cookbook-feature { background:linear-gradient(180deg, var(--color-background-alt), var(--color-background)); }
+  .cookbook-feature__wash { position:absolute; right:-12rem; top:20%; width:32rem; height:32rem; border-radius:50%; background:radial-gradient(circle, rgb(92 107 60 / .09), transparent 70%); }
+  .cookbook-object { position:relative; padding:.5rem 1.25rem 1.25rem .5rem; transform:rotate(-2.5deg); }
+  .cookbook-object__shadow { position:absolute; inset:2rem 1rem .5rem 2rem; transform:rotate(4deg); border-radius:.5rem; background:rgb(41 32 24 / .18); filter:blur(16px); }
+  .cookbook-object__cover { border:1px solid rgb(255 252 245 / .13); background:linear-gradient(145deg, #4c5a31, var(--color-olive-dark) 52%, #29331d); box-shadow:inset 0 0 0 1px rgb(255 252 245 / .04), 18px 22px 45px rgb(41 32 24 / .2); }
+  .cookbook-object__cover::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at 75% 18%, rgb(201 162 75 / .12), transparent 28%), repeating-linear-gradient(125deg, transparent 0 7px, rgb(255 252 245 / .025) 7px 8px); pointer-events:none; }
+  .cookbook-object__spine { position:absolute; inset:0 auto 0 0; width:1.15rem; background:linear-gradient(90deg, rgb(0 0 0 / .3), rgb(255 252 245 / .08), transparent); }
+  .cookbook-object__paper { position:absolute; inset:.75rem; border:1px solid rgb(201 162 75 / .28); pointer-events:none; }
+  @media (max-width:640px) { .cookbook-object { transform:rotate(-1.5deg); } }
+</style>
