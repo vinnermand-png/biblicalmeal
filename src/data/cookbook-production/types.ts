@@ -5,6 +5,7 @@ import type { RecipePublicationStatus } from '../recipe-research/types';
  * Cookbook records organize existing recipe content; they never own or upgrade recipes.
  */
 export type CookbookProductionStatus = 'not-started' | 'in-production' | 'editorial-review' | 'approved' | 'published';
+export type CookbookPublicationStatus = 'draft' | 'published';
 
 export interface CookbookSection {
   id: string;
@@ -19,6 +20,7 @@ export interface CookbookRecipeInclusion {
   sectionId: string;
   recipeContentId: string;
   order: number;
+  /** Mirrors the canonical V3C.18 recipe content lifecycle. */
   productionStatus: RecipeContentProductionStatus;
   editorialReviewStatus: RecipeEditorialReviewStatus;
   publicationStatus: RecipePublicationStatus;
@@ -32,7 +34,8 @@ export interface CookbookRecord {
   slug: string;
   description: string;
   productionStatus: CookbookProductionStatus;
-  publicationStatus: RecipePublicationStatus;
+  /** Cookbook packaging state; recipe publication remains owned by canonical recipe content. */
+  publicationStatus: CookbookPublicationStatus;
   publicationEligible: boolean;
   sectionIds: readonly string[];
   recipeContentIds: readonly string[];
