@@ -53,8 +53,8 @@ export function auditCookbookProduction(
     )) {
       errors.push(`Inclusion lifecycle diverges from canonical recipe: ${inclusion.recipeContentId}`);
     }
-    if (inclusion.publicationStatus === 'published' && !inclusion.productionReady) errors.push(`Published inclusion bypasses production gate: ${inclusion.recipeContentId}`);
-    if (inclusion.productionReady && (inclusion.productionStatus !== 'produced' || inclusion.editorialReviewStatus !== 'approved' || inclusion.publicationStatus !== 'published')) errors.push(`Production-ready inclusion lacks canonical gates: ${inclusion.recipeContentId}`);
+    if (inclusion.publicationStatus === 'public' && !inclusion.productionReady) errors.push(`Public inclusion bypasses production gate: ${inclusion.recipeContentId}`);
+    if (inclusion.productionReady && (inclusion.productionStatus !== 'produced' || inclusion.editorialReviewStatus !== 'approved' || inclusion.publicationStatus !== 'public')) errors.push(`Production-ready inclusion lacks canonical gates: ${inclusion.recipeContentId}`);
     if (inclusion.productionReady && recipe && !recipe.publicationEligible) errors.push(`Production-ready inclusion bypasses recipe publication eligibility: ${inclusion.recipeContentId}`);
   }
   return { valid: errors.length === 0, errors };
