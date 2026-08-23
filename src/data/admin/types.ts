@@ -5,7 +5,8 @@ export type AdminResourceKind =
   | 'recipe-research'
   | 'recipe-content'
   | 'cookbook'
-  | 'seo-target';
+  | 'seo-target'
+  | 'instagram-content';
 
 export type AdminAccessMode = 'read-only';
 
