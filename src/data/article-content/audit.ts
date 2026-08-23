@@ -16,6 +16,8 @@ export type ArticleContentAuditCode =
   | 'invalid-research-reference'
   | 'invalid-food-reference'
   | 'invalid-seo-reference'
+  | 'invalid-related-content-reference'
+  | 'self-related-content-reference'
   | 'invalid-scripture-context'
   | 'missing-uncertainty-disclosure'
   | 'hidden-unresolved-evidence'
@@ -76,6 +78,7 @@ export function auditArticleContent(
   const dossierIds = new Set(RESEARCH_DOSSIERS.map((dossier) => dossier.id));
   const foodIds = new Set(FOOD_UNIVERSE.map((food) => food.id));
   const seoTargetIds = new Set(SEO_TARGETS.map((target) => target.id));
+  const recordIds = new Set(records.map((record) => record.id));
   const ids = new Set<string>();
   const titles = new Set<string>();
   const questions = new Set<string>();
@@ -111,6 +114,14 @@ export function auditArticleContent(
 
     if (record.seoTargetId && !seoTargetIds.has(record.seoTargetId)) {
       issues.push({ code: 'invalid-seo-reference', contentId: record.id, message: `Unknown SEO target id: ${record.seoTargetId}` });
+    }
+
+    for (const relatedContentId of record.relatedContentIds) {
+      if (relatedContentId === record.id) {
+        issues.push({ code: 'self-related-content-reference', contentId: record.id, message: 'Article content cannot relate to itself.' });
+      } else if (!recordIds.has(relatedContentId)) {
+        issues.push({ code: 'invalid-related-content-reference', contentId: record.id, message: `Unknown related article content id: ${relatedContentId}` });
+      }
     }
 
     for (const context of record.scriptureContext) {

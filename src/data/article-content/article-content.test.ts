@@ -4,9 +4,9 @@ import { ARTICLE_CONTENT_RECORDS } from './records';
 import type { ArticleContentRecord } from './types';
 
 describe('V3C.19 article and question content', () => {
-  it('keeps the canonical seed set internally valid and non-public', () => {
+  it('keeps the scoped expansion internally valid and non-public', () => {
     expect(ARTICLE_CONTENT_AUDIT.issues).toEqual([]);
-    expect(ARTICLE_CONTENT_RECORDS.length).toBeGreaterThanOrEqual(3);
+    expect(ARTICLE_CONTENT_RECORDS.length).toBeGreaterThanOrEqual(8);
     expect(
       ARTICLE_CONTENT_RECORDS.every(
         (record) =>
@@ -16,18 +16,40 @@ describe('V3C.19 article and question content', () => {
     ).toBe(true);
   });
 
-  it('preserves canonical research, Food Universe and SEO relationships', () => {
-    const figs = ARTICLE_CONTENT_RECORDS.find(
-      (record) => record.id === 'article-figs-research-context',
+  it('expands only from canonical completed research where the new drafts make factual claims', () => {
+    for (const id of [
+      'article-figs-research-context',
+      'article-barley-biblical-evidence',
+      'article-dates-palm-evidence-boundaries',
+      'article-honey-evidence-boundaries',
+    ]) {
+      const record = ARTICLE_CONTENT_RECORDS.find((candidate) => candidate.id === id);
+      expect(record?.evidenceState).toBe('supported');
+      expect(record?.claimStrength).toBe('supported');
+      expect(record?.researchDossierIds.length).toBeGreaterThan(0);
+      expect(record?.foodIds.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('preserves explicit evidence boundaries in supported question answers', () => {
+    const barley = ARTICLE_CONTENT_RECORDS.find(
+      (record) => record.id === 'question-what-does-barley-evidence-support',
     );
-    expect(figs?.researchDossierIds).toContain('dossier-figs');
-    expect(figs?.foodIds).toContain('figs-entity');
-    expect(figs?.seoTargetId).toBe('figs');
+    const dates = ARTICLE_CONTENT_RECORDS.find(
+      (record) => record.id === 'question-do-palm-references-always-mean-edible-dates',
+    );
+    const honey = ARTICLE_CONTENT_RECORDS.find(
+      (record) => record.id === 'question-does-biblical-honey-always-mean-bee-honey',
+    );
+
+    expect(barley?.answerContent).toContain('do not by themselves establish');
+    expect(dates?.answerContent).toContain('not automatically edible-date references');
+    expect(honey?.answerContent).toContain('does not resolve bee honey versus syrup');
   });
 
   it('keeps unresolved question answers explicitly limited', () => {
     const question = ARTICLE_CONTENT_RECORDS.find(
-      (record) => record.contentType === 'question',
+      (record) => record.id === 'question-seven-foods-promised-land',
     );
     expect(question?.questionText).toBeTruthy();
     expect(question?.answerContent).toContain('No authoritative answer');
@@ -36,12 +58,29 @@ describe('V3C.19 article and question content', () => {
     expect(question?.uncertaintyDisclosure).toBeTruthy();
   });
 
+  it('creates data-level internal relationships without inventing a parallel link system', () => {
+    const recordsById = new Set(ARTICLE_CONTENT_RECORDS.map((record) => record.id));
+    expect(
+      ARTICLE_CONTENT_RECORDS
+        .filter((record) => record.id !== 'article-biblical-food-evidence-labels')
+        .some((record) => record.relatedContentIds.length > 0),
+    ).toBe(true);
+
+    for (const record of ARTICLE_CONTENT_RECORDS) {
+      for (const relatedId of record.relatedContentIds) {
+        expect(relatedId).not.toBe(record.id);
+        expect(recordsById.has(relatedId)).toBe(true);
+      }
+    }
+  });
+
   it('detects duplicate identity, invalid references and stronger claims than evidence allows', () => {
     const base = ARTICLE_CONTENT_RECORDS[0] as ArticleContentRecord;
     const invalid: ArticleContentRecord = {
       ...base,
       researchDossierIds: ['dossier-missing'],
       foodIds: ['food-missing'],
+      relatedContentIds: ['content-missing'],
       seoTargetId: 'seo-missing',
       evidenceState: 'unresolved',
       claimStrength: 'supported',
@@ -53,24 +92,29 @@ describe('V3C.19 article and question content', () => {
         'duplicate-title',
         'invalid-research-reference',
         'invalid-food-reference',
+        'invalid-related-content-reference',
         'invalid-seo-reference',
         'evidence-strength-violation',
       ]),
     );
   });
 
-  it('rejects impossible lifecycle and publication states', () => {
+  it('rejects self-linking, impossible lifecycle and publication states', () => {
     const base = ARTICLE_CONTENT_RECORDS[0] as ArticleContentRecord;
     const invalid: ArticleContentRecord = {
       ...base,
       id: 'article-invalid-lifecycle',
+      relatedContentIds: ['article-invalid-lifecycle'],
       editorialReviewStatus: 'approved',
       publicationStatus: 'public',
       publicationEligible: true,
     };
-    const audit = auditArticleContent([invalid]);
-    expect(audit.issues.map((issue) => issue.code)).toEqual(
-      expect.arrayContaining(['invalid-lifecycle', 'publication-state-mismatch']),
+    expect(auditArticleContent([invalid]).issues.map((issue) => issue.code)).toEqual(
+      expect.arrayContaining([
+        'self-related-content-reference',
+        'invalid-lifecycle',
+        'publication-state-mismatch',
+      ]),
     );
   });
 

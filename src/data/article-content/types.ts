@@ -37,6 +37,7 @@ export interface ArticleContentRecord {
   seoTargetId?: string;
   researchDossierIds: string[];
   foodIds: string[];
+  relatedContentIds: string[];
   scriptureContext: string[];
   summary: string;
   uncertaintyDisclosure: string;
