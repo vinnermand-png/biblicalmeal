@@ -31,10 +31,9 @@ describe('V3C.14 first indexing and crawl readiness', () => {
     expect(astroConfig).toMatch(
       /filter:\s*\(page\)\s*=>\s*!page\.includes\('\/seo-map\/'\)/,
     );
-    expect(PUBLIC_FOOD_CONTENT.map((page) => page.canonicalTargetId).sort()).toEqual([
-      'dates',
-      'figs',
-    ]);
+    expect(
+      PUBLIC_FOOD_CONTENT.map((page) => page.canonicalTargetId).sort(),
+    ).toEqual(['dates', 'figs']);
     expect(PUBLIC_FOOD_CONTENT.every((page) => page.seo.indexable)).toBe(true);
   });
 
@@ -47,7 +46,9 @@ describe('V3C.14 first indexing and crawl readiness', () => {
       canonicalURL(page.canonicalPath),
     );
     expect(new Set(canonicalURLs).size).toBe(canonicalURLs.length);
-    expect(canonicalURLs.every((url) => url.startsWith(canonicalOrigin))).toBe(true);
+    expect(canonicalURLs.every((url) => url.startsWith(canonicalOrigin))).toBe(
+      true,
+    );
   });
 
   it('keeps normal public pages canonical and indexable while technical fallback pages stay protected', () => {
@@ -66,7 +67,9 @@ describe('V3C.14 first indexing and crawl readiness', () => {
       const links = internalLinksFor(page, PUBLIC_FOOD_CONTENT);
       expect(links.length).toBeGreaterThan(0);
       expect(links.every((link) => link.href.startsWith('/'))).toBe(true);
-      expect(links.some((link) => link.href === page.canonicalPath)).toBe(false);
+      expect(links.some((link) => link.href === page.canonicalPath)).toBe(
+        false,
+      );
       expect(new Set(links.map((link) => link.href)).size).toBe(links.length);
     }
   });
