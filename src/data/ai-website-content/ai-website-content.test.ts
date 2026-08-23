@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { auditAiWebsiteContentEngine } from './audit';
+import { generateWebsiteContentDraft } from './engine';
 import { AI_WEBSITE_CONTENT_RECORDS } from './records';
 
 describe('V3C.32 AI Website Content Engine', () => {
@@ -33,6 +34,24 @@ describe('V3C.32 AI Website Content Engine', () => {
       expect(record.imageBrief.editorialOnly).toBe(true);
       expect(record.imageBrief.generatedImageRequired).toBe(false);
     }
+  });
+
+  it('keeps raw external AI output unapproved until QA runs again', async () => {
+    const result = await generateWebsiteContentDraft(
+      'article-figs-research-context',
+      {
+        kind: 'external-ai',
+        configured: true,
+        generate: async () => 'Unreviewed provider output',
+      },
+    );
+
+    expect(result?.provider).toBe('external-ai');
+    expect(result?.pipelineStatus).toBe('draft-generated');
+    expect(result?.qa.noUnsupportedClaims).toBe(false);
+    expect(result?.qa.citationsTraceable).toBe(false);
+    expect(result?.qa.uncertaintyPreserved).toBe(false);
+    expect(result?.publicationEligible).toBe(false);
   });
 
   it('rejects duplicate source ownership and publication-gate bypasses', () => {
