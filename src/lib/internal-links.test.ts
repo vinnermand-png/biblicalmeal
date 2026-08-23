@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { PUBLIC_FOOD_CONTENT } from '../data/content/public';
-import { internalLinksFor } from './internal-links';
+import { auditInternalLinks, internalLinksFor } from './internal-links';
 
 describe('V3C.9 canonical internal links', () => {
   const figs = PUBLIC_FOOD_CONTENT.find(
@@ -48,6 +48,87 @@ describe('V3C.9 canonical internal links', () => {
     ).toEqual(['dates', 'figs']);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.schemaEligible)).toBe(
       true,
+    );
+  });
+});
+
+describe('V3C.22 internal link optimization audit', () => {
+  const figs = PUBLIC_FOOD_CONTENT.find(
+    (item) => item.canonicalTargetId === 'figs',
+  )!;
+  const dates = PUBLIC_FOOD_CONTENT.find(
+    (item) => item.canonicalTargetId === 'dates',
+  )!;
+
+  it('accepts the existing public relationship set without optimization issues', () => {
+    expect(auditInternalLinks(figs, PUBLIC_FOOD_CONTENT)).toEqual([]);
+  });
+
+  it('keeps unresolved non-public relationships visible without generating a URL', () => {
+    const draftOnly = {
+      ...dates,
+      id: 'content-olives-test',
+      canonicalTargetId: 'olives',
+      canonicalPath: '/ingredients/olives/',
+      publicationStatus: 'draft' as const,
+      workflowStatus: 'research-in-progress' as const,
+      seo: { ...dates.seo, indexable: false },
+    };
+
+    const issues = auditInternalLinks(figs, [figs, draftOnly]);
+    expect(issues).toContainEqual(
+      expect.objectContaining({
+        code: 'non-public-destination',
+        targetId: draftOnly.id,
+      }),
+    );
+    expect(issues).toContainEqual(
+      expect.objectContaining({
+        code: 'unresolved-public-destination',
+        targetId: draftOnly.id,
+      }),
+    );
+    expect(internalLinksFor(figs, [figs, draftOnly])).toEqual([]);
+  });
+
+  it('detects invalid SEO targets and canonical route mismatches', () => {
+    const invalid = {
+      ...dates,
+      canonicalTargetId: 'missing-target',
+      canonicalPath: '/fabricated/',
+    };
+
+    expect(auditInternalLinks(invalid, [invalid])).toContainEqual(
+      expect.objectContaining({ code: 'invalid-source-target' }),
+    );
+  });
+
+  it('detects duplicate destinations and self-link relationships', () => {
+    const duplicate = {
+      ...dates,
+      id: 'content-dates-duplicate',
+      canonicalPath: figs.canonicalPath,
+    };
+
+    const issues = auditInternalLinks(figs, [figs, dates, duplicate]);
+    expect(issues).toContainEqual(
+      expect.objectContaining({
+        code: 'self-link',
+        targetId: duplicate.id,
+      }),
+    );
+
+    const sameDestination = {
+      ...dates,
+      id: 'content-dates-same-destination',
+    };
+    expect(
+      auditInternalLinks(figs, [figs, dates, sameDestination]),
+    ).toContainEqual(
+      expect.objectContaining({
+        code: 'duplicate-destination',
+        targetId: sameDestination.id,
+      }),
     );
   });
 });
