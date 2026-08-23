@@ -5,6 +5,7 @@ import {
   generateAiEditorialImage,
   validateAiEditorialImageAsset,
 } from './engine';
+import type { AiEditorialImageAssetRecord } from './types';
 
 describe('V3C.33 AI Editorial Image & Asset Engine', () => {
   it('keeps prototype assets outside the editorial manifest until validation and review', () => {
@@ -28,20 +29,20 @@ describe('V3C.33 AI Editorial Image & Asset Engine', () => {
     expect(canProposeEditorialManifestAssignment(generated)).toBe(true);
   });
 
-  it('rejects documentary claims, invalid dimensions and missing canonical source relationships', () => {
+  it('rejects unsupported disclosure, invalid dimensions and missing canonical source relationships', () => {
     const [record] = AI_EDITORIAL_IMAGE_ASSET_RECORDS;
-    const invalid = {
+    const invalid: AiEditorialImageAssetRecord = {
       ...record,
       sourceWebsiteContentId: 'missing-source',
-      brief: { ...record.brief, documentaryEvidence: true as const, altText: '' },
+      brief: { ...record.brief, disclosure: 'Image generated for display.', altText: '' },
       generation: {
-        provider: 'deterministic-canonical-prototype' as const,
+        provider: 'deterministic-canonical-prototype',
         requestId: 'bad',
         publicPath: '/assets/editorial/prototypes/bad.webp',
         output: 'public/assets/editorial/prototypes/bad.webp',
         width: 1,
         height: 1,
-        format: 'webp' as const,
+        format: 'webp',
       },
     };
     const validation = validateAiEditorialImageAsset(invalid);
