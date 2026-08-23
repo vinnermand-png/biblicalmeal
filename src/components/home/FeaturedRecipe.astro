@@ -9,7 +9,7 @@ const { recipe } = Astro.props;
 const { title, description, inspiredNote, servings, cookMinutes, difficulty } = recipe.data;
 ---
 
-<section class="featured-recipe relative overflow-hidden" id="recipe">
+<section class="featured-recipe relative isolate overflow-hidden" id="recipe">
   <div class="featured-recipe__wash" aria-hidden="true"></div>
   <div class="relative container-site section-space">
     <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
@@ -38,8 +38,8 @@ const { title, description, inspiredNote, servings, cookMinutes, difficulty } = 
 </section>
 
 <style>
-  .featured-recipe { background:linear-gradient(180deg, var(--color-background) 0%, color-mix(in srgb, var(--color-background) 72%, var(--color-background-alt)) 100%); }
-  .featured-recipe__wash { position:absolute; top:18%; left:-15%; width:28rem; height:28rem; border-radius:50%; background:radial-gradient(circle, rgb(201 162 75 / .09), transparent 68%); }
+  .featured-recipe { background:linear-gradient(180deg, var(--color-background) 0%, color-mix(in srgb, var(--color-background) 72%, var(--color-background-alt)) 100%); contain:paint; }
+  .featured-recipe__wash { position:absolute; top:18%; left:-15%; width:28rem; height:28rem; border-radius:50%; background:radial-gradient(circle, rgb(201 162 75 / .09), transparent 68%); pointer-events:none; }
   .featured-recipe__art-frame { padding:1rem 1rem 1.7rem; border:1px solid var(--color-line); border-radius:1rem; background:var(--color-surface); box-shadow:0 18px 45px rgb(41 32 24 / .08); }
   .featured-recipe__image { overflow:hidden; border-radius:.65rem; border:1px solid color-mix(in srgb, var(--color-line) 80%, white); }
   .featured-recipe__art-note { position:absolute; z-index:2; right:1.5rem; top:1.5rem; display:flex; flex-direction:column; align-items:flex-end; padding:.65rem .8rem; border-radius:.45rem; background:rgb(255 252 245 / .92); color:var(--color-ink-muted); font-size:.67rem; letter-spacing:.1em; text-transform:uppercase; box-shadow:0 5px 20px rgb(41 32 24 / .07); }
