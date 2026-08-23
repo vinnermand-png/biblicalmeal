@@ -277,7 +277,12 @@ describe('research dossiers', () => {
       'dossier-what-did-jesus-eat',
       'dossier-food-in-biblical-times',
     ]);
-    const completedIds = new Set(['dossier-figs', 'dossier-dates']);
+    const completedIds = new Set([
+      'dossier-figs',
+      'dossier-barley',
+      'dossier-dates',
+      'dossier-honey',
+    ]);
     for (const dossier of RESEARCH_DOSSIERS) {
       expect(dossierSubjectExists(dossier)).toBe(true);
       if (researchedIds.has(dossier.id)) {

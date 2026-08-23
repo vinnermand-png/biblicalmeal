@@ -109,19 +109,32 @@ describe('V3C.4 Phase 4 completeness audit', () => {
 
   it('derives readiness without promoting dossier status', () => {
     const figs = completenessForDossier('dossier-figs');
+    const barley = completenessForDossier('dossier-barley');
     const dates = completenessForDossier('dossier-dates');
+    const honey = completenessForDossier('dossier-honey');
     const olives = completenessForDossier('dossier-olives');
     expect(figs?.researchCompleteEligible).toBe(true);
+    expect(barley?.readinessReasons).toEqual([]);
+    expect(barley?.researchCompleteEligible).toBe(true);
     expect(dates?.readinessReasons).toEqual([]);
     expect(dates?.unresolvedWarnings).toBe(1);
     expect(dates?.researchCompleteEligible).toBe(true);
+    expect(honey?.readinessReasons).toEqual([]);
+    expect(honey?.unresolvedWarnings).toBeGreaterThan(0);
+    expect(honey?.researchCompleteEligible).toBe(true);
     expect(olives?.researchCompleteEligible).toBe(false);
     expect(figs?.researchStatus).toBe('complete');
+    expect(barley?.researchStatus).toBe('complete');
     expect(dates?.researchStatus).toBe('complete');
+    expect(honey?.researchStatus).toBe('complete');
     expect(figs?.readinessClassification).toBe('complete');
+    expect(barley?.readinessClassification).toBe('complete');
     expect(dates?.readinessClassification).toBe('complete');
+    expect(honey?.readinessClassification).toBe('complete');
     expect(figs?.completionRecordStatus).toBe('present');
+    expect(barley?.completionRecordStatus).toBe('present');
     expect(dates?.completionRecordStatus).toBe('present');
+    expect(honey?.completionRecordStatus).toBe('present');
   });
 
   it('rejects a manually completed dossier without satisfied criteria', () => {
@@ -138,7 +151,7 @@ describe('V3C.4 Phase 4 completeness audit', () => {
   });
 
   it('requires completion records to preserve scope, criteria, warnings, and reason', () => {
-    expect(DOSSIER_COMPLETION_RECORDS).toHaveLength(2);
+    expect(DOSSIER_COMPLETION_RECORDS).toHaveLength(4);
     for (const record of DOSSIER_COMPLETION_RECORDS) {
       expect(record.scope.length).toBeGreaterThan(20);
       expect(record.criteriaSatisfied.length).toBeGreaterThan(0);
@@ -147,7 +160,12 @@ describe('V3C.4 Phase 4 completeness audit', () => {
     const dates = DOSSIER_COMPLETION_RECORDS.find(
       (record) => record.dossierId === 'dossier-dates',
     );
+    const honey = DOSSIER_COMPLETION_RECORDS.find(
+      (record) => record.dossierId === 'dossier-honey',
+    );
     expect(dates?.remainingWarnings.length).toBeGreaterThan(0);
     expect(dates?.unresolvedUncertainty.length).toBeGreaterThan(0);
+    expect(honey?.remainingWarnings.length).toBeGreaterThan(0);
+    expect(honey?.unresolvedUncertainty.length).toBeGreaterThan(0);
   });
 });
