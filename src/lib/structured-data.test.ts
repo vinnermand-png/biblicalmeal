@@ -58,7 +58,11 @@ describe('V3C.8 structured data', () => {
   it('preserves the public uncertainty content that schema describes', () => {
     const figs = PUBLIC_FOOD_CONTENT.find((item) => item.canonicalTargetId === 'figs');
     const dates = PUBLIC_FOOD_CONTENT.find((item) => item.canonicalTargetId === 'dates');
-    expect(figs?.sections.find((section) => section.kind === 'uncertainty')?.content).toContain('sycomore');
-    expect(dates?.sections.find((section) => section.kind === 'uncertainty')?.content).toContain('Palm reference does not equal edible-date reference');
+    const figsUncertainty = figs?.sections.find((section) => section.kind === 'uncertainty')?.content;
+    const datesUncertainty = dates?.sections.find((section) => section.kind === 'uncertainty')?.content;
+
+    expect(figsUncertainty).toContain('sycomore');
+    expect(datesUncertainty).toMatch(/palm-versus-edible-date distinction remains unresolved/i);
+    expect(datesUncertainty).toMatch(/individual KJV palm references/i);
   });
 });
