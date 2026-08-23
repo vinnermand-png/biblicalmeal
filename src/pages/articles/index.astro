@@ -20,6 +20,27 @@ const featureArt = currentFeature?.data.art ?? 'still-life';
 const featureImageId = currentFeature?.data.art === 'mediterranean'
   ? 'journal-mediterranean-landscape'
   : 'journal-ancient-table';
+
+const editorialContexts = [
+  {
+    id: 'journal-research-manuscript',
+    eyebrow: 'Research',
+    title: 'The work behind the page',
+    fallbackArt: 'still-life' as const,
+  },
+  {
+    id: 'journal-meal-preparation',
+    eyebrow: 'Kitchen',
+    title: 'Ingredients before the recipe',
+    fallbackArt: 'stew' as const,
+  },
+  {
+    id: 'journal-mediterranean-landscape',
+    eyebrow: 'Place',
+    title: 'The landscape around the table',
+    fallbackArt: 'mediterranean' as const,
+  },
+];
 ---
 <BaseLayout title="Journal" description="Stories and method notes from BiblicalMeal — how we research the foods of the ancient world, and how they meet the modern table.">
   <Header />
@@ -71,6 +92,30 @@ const featureImageId = currentFeature?.data.art === 'mediterranean'
             </a>
           </div>
         </article>
+
+        <section class="journal-context" aria-labelledby="journal-context-title">
+          <div class="journal-context__heading">
+            <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Around the table</p>
+            <h2 id="journal-context-title" class="mt-3 font-display text-h2 text-ink">The material world of the journal</h2>
+            <p class="mt-4 max-w-2xl text-body text-ink-muted">The Journal follows more than finished dishes: sources, preparation, and place all shape how BiblicalMeal approaches the ancient table.</p>
+          </div>
+          <div class="journal-context__grid">
+            {editorialContexts.map((context) => (
+              <article class="journal-context__item">
+                <div class="journal-context__media media-frame group">
+                  <EditorialImage
+                    id={context.id}
+                    fallbackArt={context.fallbackArt}
+                    ratio="3 / 2"
+                    alt=""
+                  />
+                </div>
+                <p class="mt-5 font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">{context.eyebrow}</p>
+                <h3 class="mt-2 font-display text-h3 text-ink">{context.title}</h3>
+              </article>
+            ))}
+          </div>
+        </section>
 
         {archiveArticles.length > 0 && (
           <div class="journal-archive">
