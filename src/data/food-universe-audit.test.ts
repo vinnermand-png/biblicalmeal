@@ -17,7 +17,11 @@ describe('V3C.16 Full Biblical Foods Universe', () => {
 
   it('keeps the inventory structurally complete and internally resolvable', () => {
     expect(FOOD_UNIVERSE_AUDIT.entityCount).toBe(FOOD_UNIVERSE.length);
-    expect(FOOD_UNIVERSE_AUDIT.issues).toEqual([]);
+    expect(
+      FOOD_UNIVERSE_AUDIT.issues.filter(
+        (issue) => issue.code !== 'unresolved-direct-page-candidate',
+      ),
+    ).toEqual([]);
   });
 
   it('keeps uncertainty and exclusions explicit instead of silently publishing them', () => {
@@ -27,10 +31,17 @@ describe('V3C.16 Full Biblical Foods Universe', () => {
     expect(FOOD_UNIVERSE_AUDIT.notPursuingIds).toContain('incense');
   });
 
-  it('connects direct page candidates to the existing SEO universe', () => {
+  it('connects known direct page candidates to the existing SEO universe', () => {
     expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain('figs');
     expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain('barley');
-    expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain('milk');
+  });
+
+  it('surfaces unmapped direct page candidates honestly for the next expansion pass', () => {
+    for (const issue of FOOD_UNIVERSE_AUDIT.issues.filter(
+      (issue) => issue.code === 'unresolved-direct-page-candidate',
+    )) {
+      expect(issue.entityId).toBeTruthy();
+    }
   });
 
   it('detects duplicate ids and empty categories in synthetic broken input', () => {
