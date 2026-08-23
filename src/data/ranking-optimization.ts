@@ -72,7 +72,8 @@ export interface RankingOptimizationRecord {
   requiresResearchGate: boolean;
   requiresAuthorityAndCitationReview: boolean;
   requiresEditorialReview: boolean;
-  requiresExistingPublicationGate: true;
+  /** Invalid bypass attempts remain representable so the canonical audit can reject them. */
+  requiresExistingPublicationGate: boolean;
 }
 
 export const RANKING_OPTIMIZATION_CANDIDATES: readonly RankingOptimizationCandidate[] = SEO_TARGETS
