@@ -51,10 +51,26 @@
   --tracking-eyebrow: 0.14em;
 }
 
+:root {
+  /* V3D.1 semantic visual-direction roles. Existing component tokens remain canonical. */
+  --bm-page-max: 80rem;
+  --bm-content-max: 68ch;
+  --bm-section-space: clamp(5rem, 8vw, 7rem);
+  --bm-section-space-compact: clamp(3.5rem, 6vw, 5rem);
+  --bm-card-radius: 0.75rem;
+  --bm-panel-radius: 1rem;
+  --bm-media-radius: 0.75rem;
+  --bm-card-shadow: 0 1px 2px rgb(41 32 24 / 0.05);
+  --bm-card-shadow-hover: 0 10px 30px rgb(41 32 24 / 0.08);
+  --bm-motion-fast: 160ms;
+  --bm-motion-standard: 220ms;
+  --bm-motion-editorial: 550ms;
+}
+
 @utility container-site {
   margin-inline: auto;
   width: 100%;
-  max-width: 80rem;
+  max-width: var(--bm-page-max);
   padding-inline: 1.25rem;
 
   @media (min-width: 640px) {
@@ -64,6 +80,44 @@
   @media (min-width: 1024px) {
     padding-inline: 2.5rem;
   }
+}
+
+/* Canonical V3D.1 layout and surface primitives. */
+@utility content-measure {
+  max-width: var(--bm-content-max);
+}
+
+@utility section-space {
+  padding-block: var(--bm-section-space);
+}
+
+@utility section-space-compact {
+  padding-block: var(--bm-section-space-compact);
+}
+
+@utility surface-card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--bm-card-radius);
+  background: var(--color-surface);
+  box-shadow: var(--bm-card-shadow);
+}
+
+@utility surface-panel {
+  border: 1px solid var(--color-line);
+  border-radius: var(--bm-panel-radius);
+  background: var(--color-background-alt);
+}
+
+@utility media-frame {
+  overflow: hidden;
+  border-radius: var(--bm-media-radius);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+@utility section-dark {
+  background: var(--color-olive-dark);
+  color: var(--color-cream);
 }
 
 /* Slightly larger body text on small screens for comfortable reading. */
@@ -105,8 +159,8 @@ body {
     opacity: 0;
     transform: translateY(16px);
     transition:
-      opacity 0.55s ease-out,
-      transform 0.55s ease-out;
+      opacity var(--bm-motion-editorial) ease-out,
+      transform var(--bm-motion-editorial) ease-out;
     transition-delay: var(--reveal-delay, 0ms);
   }
 
@@ -118,7 +172,7 @@ body {
 
 /* Editorial long-form typography for rendered article bodies (MDX). */
 .prose-bm {
-  max-width: 68ch;
+  max-width: var(--bm-content-max);
 }
 
 .prose-bm > * + * {
