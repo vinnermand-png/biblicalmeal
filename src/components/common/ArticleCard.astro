@@ -3,20 +3,23 @@ import type { CollectionEntry } from 'astro:content';
 import type { ArtKind } from '../../lib/visuals';
 import { formatDate, readingTime, statusChip } from '../../lib/content';
 import Chip from './Chip.astro';
-import FoodIllustration from './FoodIllustration.astro';
+import EditorialImage from './EditorialImage.astro';
 
 type ArticleEntry = CollectionEntry<'articles'>;
-interface Props { entry: ArticleEntry; }
-const { entry } = Astro.props;
+interface Props { entry: ArticleEntry; featured?: boolean; }
+const { entry, featured = false } = Astro.props;
 const href = `/articles/${entry.id}/`;
 const art: ArtKind = entry.data.art ?? 'still-life';
 const chip = statusChip(entry.data.status);
 const minutes = readingTime(entry.body);
+const editorialImageId = entry.data.art === 'mediterranean'
+  ? 'journal-mediterranean-landscape'
+  : 'journal-ancient-table';
 ---
 
-<a href={href} class="editorial-card group relative flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta">
+<a href={href} class:list={['editorial-card group relative flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta', { 'editorial-card--feature': featured }] }>
   <div class="relative overflow-hidden border-b border-line bg-background-alt">
-    <FoodIllustration kind={art} ratio="16 / 9" />
+    <EditorialImage id={editorialImageId} fallbackArt={art} ratio="16 / 9" />
     {chip && <Chip variant={chip} class="absolute top-3 left-3 z-10 bg-surface/95 shadow-xs" />}
   </div>
   <div class="flex grow flex-col gap-3 p-6">

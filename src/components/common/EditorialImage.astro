@@ -1,0 +1,45 @@
+---
+import { getEditorialImage } from '../../lib/editorial-images';
+import type { ArtKind } from '../../lib/visuals';
+import FoodIllustration from './FoodIllustration.astro';
+
+interface Props {
+  id?: string;
+  fallbackArt: ArtKind;
+  alt?: string;
+  ratio?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  id,
+  fallbackArt,
+  alt,
+  ratio,
+  class: className = '',
+  loading = 'lazy',
+} = Astro.props;
+const asset = getEditorialImage(id);
+const useGenerated = asset?.status === 'generated';
+const label = alt ?? asset?.title;
+---
+
+<div
+  class:list={['relative overflow-hidden', className]}
+  style={ratio ? `aspect-ratio:${ratio}` : undefined}
+>
+  {
+    useGenerated && asset ? (
+      <img
+        src={asset.publicPath}
+        alt={label ?? ''}
+        loading={loading}
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+      />
+    ) : (
+      <FoodIllustration kind={fallbackArt} label={label} ratio={ratio} />
+    )
+  }
+</div>
