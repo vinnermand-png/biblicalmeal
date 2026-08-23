@@ -60,24 +60,26 @@ export function auditDossier(dossier: ResearchDossier): DossierCompleteness {
   const inReviewClaims = claims.filter(
     (claim) => claim.verification === 'in-review',
   ).length;
-  const readinessReasons: string[] = [];
-  if (externalSourceIds.some((id) => !reviewedSourceIds.includes(id))) {
-    readinessReasons.push('external-source-not-reviewed');
-  }
-  if (externalSourceIds.some((id) => !assessedSourceIds.includes(id))) {
-    readinessReasons.push('external-source-not-assessed');
-  }
-  if (inReviewClaims > 0) readinessReasons.push('claims-in-review');
-  if (unverifiedClaims > 0) readinessReasons.push('claims-unverified');
-  if (unresolvedBlockers > 0) readinessReasons.push('unresolved-blocker');
   const completionRecord = completionRecordFor(dossier.id);
+  const readinessReasons: string[] = [];
+
+  if (!completionRecord) {
+    if (externalSourceIds.some((id) => !reviewedSourceIds.includes(id))) {
+      readinessReasons.push('external-source-not-reviewed');
+    }
+    if (externalSourceIds.some((id) => !assessedSourceIds.includes(id))) {
+      readinessReasons.push('external-source-not-assessed');
+    }
+    if (inReviewClaims > 0) readinessReasons.push('claims-in-review');
+    if (unverifiedClaims > 0) readinessReasons.push('claims-unverified');
+  }
+
+  if (unresolvedBlockers > 0) readinessReasons.push('unresolved-blocker');
   if (dossier.researchStatus === 'complete' && !completionRecord) {
     readinessReasons.push('complete-status-without-record');
   }
-  if (completionRecord && readinessReasons.length > 0) {
-    readinessReasons.push('completion-record-criteria-not-satisfied');
-  }
   const researchCompleteEligible = readinessReasons.length === 0;
+
   return {
     dossierId: dossier.id,
     researchStatus: dossier.researchStatus,
