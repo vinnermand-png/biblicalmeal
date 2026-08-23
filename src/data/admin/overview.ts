@@ -10,6 +10,7 @@ import { SEO_TARGETS } from '../seo-master-map';
 import { SERP_SNAPSHOTS } from '../serp-monitoring';
 import { INSTAGRAM_CONTENT_RECORDS } from '../instagram-content/records';
 import { AI_WEBSITE_CONTENT_RECORDS } from '../ai-website-content/records';
+import { AI_EDITORIAL_IMAGE_ASSET_RECORDS } from '../ai-editorial-image/records';
 import type { AdminMutationAttempt, AdminMutationDecision, AdminOverview, AdminWorkflowItem } from './types';
 
 const workflowItems: AdminWorkflowItem[] = [
@@ -19,6 +20,7 @@ const workflowItems: AdminWorkflowItem[] = [
   ...COOKBOOK_RECORDS.map((record) => ({ kind: 'cookbook' as const, id: record.id, label: record.title, stage: record.productionStatus, publicationState: record.publicationStatus, publicationEligible: record.publicationEligible, relationships: record.recipeContentIds, blockers: record.publicationEligible ? [] : ['Cookbook production does not promote draft recipes or bypass recipe publication gates.'] })),
   ...INSTAGRAM_CONTENT_RECORDS.map((record) => ({ kind: 'instagram-content' as const, id: record.id, label: record.title, stage: `${record.status} / ${record.mode}`, publicationState: record.externalProductionApproved ? 'approved-for-external-production' : 'not-approved-for-external-production', publicationEligible: record.publicationEligible, relationships: record.canonicalSources.map((source) => source.id), blockers: ['Social drafts remain subject to canonical evidence boundaries and editorial approval.', 'No AI provider or Instagram publishing integration is configured.'] })),
   ...AI_WEBSITE_CONTENT_RECORDS.map((record) => ({ kind: 'ai-website-content' as const, id: record.id, label: record.title, route: record.canonicalRoute, stage: record.pipelineStatus, publicationState: 'not-eligible', publicationEligible: record.publicationEligible, relationships: record.sourceRefs.map((source) => source.id), blockers: ['Prototype output remains a non-public draft.', 'Admin review and existing research, authority, citation, editorial and publication gates remain authoritative.', 'No external AI provider is configured in this repository.'] })),
+  ...AI_EDITORIAL_IMAGE_ASSET_RECORDS.map((record) => ({ kind: 'ai-editorial-image' as const, id: record.id, label: record.brief.purpose, route: record.canonicalRoute, stage: record.pipelineStatus, publicationState: record.manifestAssignmentStatus, publicationEligible: record.publicationEligible, relationships: [record.sourceWebsiteContentId], blockers: ['Generated assets remain editorial/illustrative and are not documentary evidence.', 'Validation, admin review and existing publication gates remain authoritative.', 'No generated asset is added to the canonical editorial manifest automatically.'] })),
 ];
 
 export function buildAdminOverview(): AdminOverview {
@@ -33,6 +35,7 @@ export function buildAdminOverview(): AdminOverview {
       { id: 'cookbooks', label: 'Cookbook records', value: COOKBOOK_RECORDS.length, note: 'Cookbook inclusion does not publish recipes.' },
       { id: 'instagram', label: 'Instagram content records', value: INSTAGRAM_CONTENT_RECORDS.length, note: 'Social drafts remain separate from verified research and external publishing.' },
       { id: 'ai-website', label: 'AI website prototype drafts', value: AI_WEBSITE_CONTENT_RECORDS.length, note: 'Website prototypes are evidence-bound drafts with no publication authority.' },
+      { id: 'ai-editorial-images', label: 'AI editorial image prototypes', value: AI_EDITORIAL_IMAGE_ASSET_RECORDS.length, note: 'Image candidates remain outside the canonical manifest until validation and review.' },
       { id: 'authority', label: 'Authority records', value: AUTHORITY_RECORDS.length, note: `${CITATION_RECORDS.length} citation records are visible through canonical traceability.` },
       { id: 'seo', label: 'SEO targets', value: SEO_TARGETS.length, note: `${SERP_SNAPSHOTS.length} imported SERP snapshots; missing data is not fabricated.` },
       { id: 'refresh', label: 'Refresh records', value: CONTENT_REFRESH_RECORDS.length, note: 'No refresh is created automatically from missing data.' },
@@ -40,7 +43,7 @@ export function buildAdminOverview(): AdminOverview {
     workflowItems,
     warnings: [
       'The administration foundation is read-only because the current static repository has no authenticated persistence layer.',
-      'Social and website AI pipelines expose status without granting authority to generate, approve or publish content automatically.',
+      'Social, website and image AI pipelines expose status without granting authority to generate, approve or publish content automatically.',
       'Status visibility does not grant authority to rewrite, approve or publish canonical records.',
       'Future mutations must resolve to the existing canonical owners and pass their existing research, authority, citation, editorial and publication gates.',
     ],
