@@ -1,5 +1,7 @@
 import { ARTICLE_CONTENT_RECORDS } from '../article-content/records';
 import { FOOD_UNIVERSE } from '../food-universe';
+import { RECIPE_CONTENT_RECORDS } from '../recipe-content/records';
+import { RECIPE_RESEARCH_RECORDS } from '../recipe-research/records';
 import { RESEARCH_CLAIMS } from '../research/claims';
 import { RESEARCH_DOSSIERS } from '../research/dossiers';
 import { SOURCE_REGISTRY } from '../research/sources';
@@ -7,7 +9,7 @@ import { SEO_TARGETS } from '../seo-master-map';
 import { AUTHORITY_RECORDS, CITATION_RECORDS } from './records';
 import type { AuthorityRecord, CitationRecord } from './types';
 
-export type AuthorityAuditCode = 'duplicate-authority-id' | 'duplicate-citation-id' | 'invalid-authority-classification' | 'invalid-source-reference' | 'invalid-authority-reference' | 'invalid-target-reference' | 'claim-strength-violation' | 'direct-support-mismatch' | 'impossible-verification-state' | 'missing-uncertainty-disclosure';
+export type AuthorityAuditCode = 'duplicate-authority-id' | 'duplicate-citation-id' | 'invalid-authority-classification' | 'invalid-source-reference' | 'invalid-authority-reference' | 'invalid-target-reference' | 'claim-strength-violation' | 'direct-support-mismatch' | 'impossible-verification-state' | 'missing-uncertainty-disclosure' | 'citation-traceability-gap';
 export interface AuthorityAuditIssue { code: AuthorityAuditCode; recordId: string; message: string; }
 export interface AuthorityAudit { authorityCount: number; citationCount: number; issues: AuthorityAuditIssue[]; }
 
@@ -22,11 +24,19 @@ function validTarget(kind: CitationRecord['targetKind'], id: string): boolean {
   switch (kind) {
     case 'research-dossier': return RESEARCH_DOSSIERS.some((x) => x.id === id);
     case 'research-claim': return RESEARCH_CLAIMS.some((x) => x.id === id);
+    case 'recipe-research': return RECIPE_RESEARCH_RECORDS.some((x) => x.id === id);
+    case 'recipe-content': return RECIPE_CONTENT_RECORDS.some((x) => x.id === id);
     case 'article-content': return ARTICLE_CONTENT_RECORDS.some((x) => x.id === id);
     case 'food-entity': return FOOD_UNIVERSE.some((x) => x.id === id);
     case 'seo-target': return SEO_TARGETS.some((x) => x.id === id);
     default: return false;
   }
+}
+
+export function getCitationTrace(citation: CitationRecord, authorities: readonly AuthorityRecord[] = AUTHORITY_RECORDS) {
+  const authority = authorities.find((record) => record.id === citation.authorityId);
+  const source = authority ? SOURCE_REGISTRY.find((record) => record.id === authority.sourceId) : undefined;
+  return { citation, authority, source, resolved: Boolean(authority && source) };
 }
 
 export function auditAuthority(authorities: readonly AuthorityRecord[] = AUTHORITY_RECORDS, citations: readonly CitationRecord[] = CITATION_RECORDS): AuthorityAudit {
@@ -50,6 +60,8 @@ export function auditAuthority(authorities: readonly AuthorityRecord[] = AUTHORI
     if (citation.relationship === 'directly-supports' && (citation.evidenceState !== 'direct' || citation.claimStrength !== 'direct')) issues.push({ code: 'direct-support-mismatch', recordId: citation.id, message: 'Direct support requires direct evidence and direct claim strength.' });
     if (citation.relationship === 'unresolved' && citation.verificationState === 'verified') issues.push({ code: 'impossible-verification-state', recordId: citation.id, message: 'Unresolved citation cannot be verified.' });
     if ((citation.evidenceState === 'unresolved' || citation.verificationState === 'unresolved') && !citation.uncertaintyDisclosure?.trim()) issues.push({ code: 'missing-uncertainty-disclosure', recordId: citation.id, message: 'Unresolved evidence requires visible uncertainty.' });
+    const trace = getCitationTrace(citation, authorities);
+    if (!trace.resolved) issues.push({ code: 'citation-traceability-gap', recordId: citation.id, message: 'Citation must resolve through an authority record to a canonical source.' });
   }
   return { authorityCount: authorities.length, citationCount: citations.length, issues };
 }
