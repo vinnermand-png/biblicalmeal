@@ -104,15 +104,15 @@ describe('V3C.13 analytics readiness', () => {
     const envExample = readRepositoryFile('../../.env.example');
     const analyticsSource = readRepositoryFile('./analytics.ts');
     const docs = readRepositoryFile('../../docs/analytics-seo-measurement.md');
-    const validationPattern = '/^G-[A-Z0-9]{6,20}$/';
+    const validationPattern = /^G-[A-Z0-9]{6,20}$/;
     const sourceWithoutValidationPattern = analyticsSource.replace(
-      validationPattern,
+      validationPattern.toString(),
       '',
     );
 
     expect(envExample).toContain('PUBLIC_GA_MEASUREMENT_ID=');
     expect(envExample).not.toMatch(/PUBLIC_GA_MEASUREMENT_ID=G-[A-Z0-9]{6,20}/);
-    expect(analyticsSource).toContain(validationPattern);
+    expect(analyticsSource).toContain(validationPattern.toString());
     expect(sourceWithoutValidationPattern).not.toMatch(/G-[A-Z0-9]{6,20}/);
     expect(docs).toContain(
       'does not maintain an internal database of invented metrics',
