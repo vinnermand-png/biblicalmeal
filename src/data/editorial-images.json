@@ -11,9 +11,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/figs-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/figs-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "Fresh and naturally imperfect figs, some whole and some gently split open, arranged with restraint on pale aged limestone. Add a folded undyed linen cloth and one small handmade earthenware vessel. Keep the fruit as the clear subject with refined negative space.",
-    "fallbackArt": "figs"
+    "fallbackArt": "figs",
+    "generatedAt": "2026-08-23T20:11:01.607Z"
   },
   {
     "id": "ingredients-olives-still-life",
@@ -27,9 +28,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/olives-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/olives-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A restrained still life of green and dark olives with a few natural olive leaves on weathered pale stone. Include olive wood and one subtle handmade clay vessel. Emphasize texture, imperfect surfaces and quiet Mediterranean daylight.",
-    "fallbackArt": "olives"
+    "fallbackArt": "olives",
+    "generatedAt": "2026-08-23T20:27:07.408Z"
   },
   {
     "id": "ingredients-lentils-still-life",
@@ -43,9 +45,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/lentils-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/lentils-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A small mound of brown and green lentils spilling naturally from a handmade earthenware bowl onto undyed linen over warm limestone. Documentary still life, tactile and imperfect, with calm side light.",
-    "fallbackArt": "lentils"
+    "fallbackArt": "lentils",
+    "generatedAt": "2026-08-23T20:28:48.487Z"
   },
   {
     "id": "ingredients-dates-still-life",
@@ -59,9 +62,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/dates-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/dates-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "Naturally wrinkled dark dates arranged sparingly on warm weathered stone with a small piece of woven natural fiber and soft linen. Quiet morning light, strong material detail and generous negative space.",
-    "fallbackArt": "dates"
+    "fallbackArt": "dates",
+    "generatedAt": "2026-08-23T20:40:09.124Z"
   },
   {
     "id": "ingredients-honey-still-life",
@@ -75,9 +79,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/honey-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/honey-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "Amber honey resting in a small handmade clay vessel on aged limestone, with a restrained natural honey dipper and one soft drip. Avoid commercial food styling. Let the ceramic, honey and warm daylight carry the composition.",
-    "fallbackArt": "honey"
+    "fallbackArt": "honey",
+    "generatedAt": "2026-08-23T20:41:54.874Z"
   },
   {
     "id": "ingredients-barley-still-life",
@@ -91,9 +96,10 @@
     "quality": "high",
     "output": "public/assets/editorial/ingredients/barley-still-life.webp",
     "publicPath": "/assets/editorial/ingredients/barley-still-life.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A few dry barley heads and loose grains resting on undyed linen over pale weathered stone. Mediterranean agricultural still life with natural imperfections, soft shadow and editorial negative space.",
-    "fallbackArt": "barley"
+    "fallbackArt": "barley",
+    "generatedAt": "2026-08-23T20:43:31.736Z"
   },
   {
     "id": "journal-ancient-table",
@@ -107,9 +113,10 @@
     "quality": "high",
     "output": "public/assets/editorial/articles/ancient-table.webp",
     "publicPath": "/assets/editorial/articles/ancient-table.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A quiet editorial table composition inspired by the ancient Mediterranean world: rustic flatbread, figs, olives, a handmade clay jug and undyed linen on aged limestone. No people. Calm morning daylight, natural shadows, refined negative space and documentary realism.",
-    "fallbackArt": "still-life"
+    "fallbackArt": "still-life",
+    "generatedAt": "2026-08-23T20:12:46.069Z"
   },
   {
     "id": "journal-research-manuscript",
@@ -123,9 +130,10 @@
     "quality": "high",
     "output": "public/assets/editorial/articles/research-manuscript.webp",
     "publicPath": "/assets/editorial/articles/research-manuscript.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A research atmosphere with aged blank paper and indistinct handwritten-looking marks that are not readable text, alongside a few grains, a fig and a small handmade ceramic object on warm stone. Documentary, restrained, no logos, no legible writing, no fantasy styling.",
-    "fallbackArt": "still-life"
+    "fallbackArt": "still-life",
+    "generatedAt": "2026-08-23T20:45:20.937Z"
   },
   {
     "id": "journal-meal-preparation",
@@ -139,9 +147,10 @@
     "quality": "high",
     "output": "public/assets/editorial/articles/meal-preparation.webp",
     "publicPath": "/assets/editorial/articles/meal-preparation.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A preparation still life without visible people: simple ingredients, a rough wooden board, handmade clay vessels, lentils, herbs and linen in a calm Levantine material environment. Natural daylight, tactile realism and editorial restraint.",
-    "fallbackArt": "stew"
+    "fallbackArt": "stew",
+    "generatedAt": "2026-08-23T20:47:08.366Z"
   },
   {
     "id": "journal-mediterranean-landscape",
@@ -155,8 +164,9 @@
     "quality": "high",
     "output": "public/assets/editorial/articles/mediterranean-landscape.webp",
     "publicPath": "/assets/editorial/articles/mediterranean-landscape.webp",
-    "status": "planned",
+    "status": "generated",
     "promptSubject": "A calm Mediterranean and Levantine agricultural landscape with terraced hills, scattered olive trees, dry grasses and warm limestone. Natural midday or early-morning light, documentary realism, no people, no fantasy architecture, no cinematic spectacle.",
-    "fallbackArt": "mediterranean"
+    "fallbackArt": "mediterranean",
+    "generatedAt": "2026-08-23T20:49:02.968Z"
   }
 ]
