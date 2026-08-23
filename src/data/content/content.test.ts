@@ -33,15 +33,31 @@ describe('V3C.5 canonical content architecture', () => {
     }
   });
 
-  it('allows internal drafts for completed Figs and Dates without publication approval', () => {
+  it('creates evidence-bound editorial drafts for research-complete Figs and Dates', () => {
     for (const targetId of ['figs', 'dates']) {
       const plan = FIRST_WAVE_CONTENT_PLANS.find(
         (item) => item.canonicalTargetId === targetId,
       );
-      if (!plan) throw new Error(`missing ${targetId} plan`);
+      const draft = PILOT_CONTENT_DRAFTS.find(
+        (item) => item.id === `draft-${targetId}`,
+      );
+      if (!plan || !draft) throw new Error(`missing ${targetId} draft`);
       expect(canCreateContentDraft(plan)).toBe(true);
+      expect(draft.sections.length).toBe(plan.sections.length);
+      expect(draft.sections.every((section) => section.content?.trim())).toBe(
+        true,
+      );
+      expect(draft.claimIds.length).toBeGreaterThan(0);
+      expect(draft.claimIds.every(canIncludeClaim)).toBe(true);
+      expect(draft.claimIds.every((claimId) =>
+        RESEARCH_CLAIMS.find((claim) => claim.id === claimId)?.verification ===
+          'verified',
+      )).toBe(true);
     }
     expect(PILOT_CONTENT_ITEMS).toHaveLength(2);
+  });
+
+  it('keeps V3C.6 editorial drafts internal and unpublished', () => {
     expect(
       PILOT_CONTENT_DRAFTS.every((draft) => draft.status === 'draft'),
     ).toBe(true);
@@ -50,6 +66,35 @@ describe('V3C.5 canonical content architecture', () => {
         (draft) => draft.publicationState === 'unpublished',
       ),
     ).toBe(true);
+    expect(
+      PILOT_CONTENT_DRAFTS.every((draft) => draft.reviewState === 'not-started'),
+    ).toBe(true);
+    expect(PILOT_CONTENT_ITEMS.every((item) => item.seo.indexable)).toBe(false);
+    expect(
+      PILOT_CONTENT_ITEMS.every((item) => item.seo.schemaEligible === false),
+    ).toBe(true);
+  });
+
+  it('preserves the Figs sycomore boundary in editorial draft copy', () => {
+    const figs = PILOT_CONTENT_DRAFTS.find(
+      (item) => item.contentItemId === 'content-figs',
+    );
+    const uncertainty = figs?.sections.find(
+      (section) => section.kind === 'uncertainty',
+    );
+    expect(uncertainty?.content).toContain('sycomore');
+    expect(uncertainty?.content).toContain('separate research question');
+  });
+
+  it('preserves the Dates palm-versus-edible-date disclosure in editorial draft copy', () => {
+    const dates = PILOT_CONTENT_DRAFTS.find(
+      (item) => item.contentItemId === 'content-dates',
+    );
+    const copy = dates?.sections.map((section) => section.content ?? '').join(' ');
+    expect(copy).toContain('Palm reference does not equal edible-date reference');
+    expect(dates?.disclosureQuestionIds).toContain(
+      'question-dates-palm-fruit-identification',
+    );
   });
 
   it('defines the two approved public content objects on canonical routes', () => {
