@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { PUBLIC_FOOD_CONTENT } from '../data/content/public';
-import { auditInternalLinks, internalLinksFor } from './internal-links';
+import { CANONICAL_FOOD_UNIVERSE } from '../data/food-universe-registry';
+import {
+  auditInternalLinks,
+  canonicalContentRelationships,
+  canonicalRelationshipAudit,
+  canonicalRelationshipsFor,
+  internalLinksFor,
+} from './internal-links';
 
 describe('V3C.9 canonical internal links', () => {
   const figs = PUBLIC_FOOD_CONTENT.find(
@@ -130,5 +137,50 @@ describe('V3C.22 internal link optimization audit', () => {
         targetId: sameDestination.id,
       }),
     );
+  });
+
+  it('connects article and recipe records to canonical Food Universe IDs without minting draft URLs', () => {
+    const relationships = canonicalContentRelationships();
+    const articleToFigs = relationships.find(
+      (relationship) =>
+        relationship.fromId === 'article-figs-research-context' &&
+        relationship.toId === 'figs-entity' &&
+        relationship.kind === 'article-food',
+    );
+    const recipeToLentils = relationships.find(
+      (relationship) =>
+        relationship.fromId === 'recipe-content-lentil-pottage' &&
+        relationship.toId === 'lentils-entity' &&
+        relationship.kind === 'recipe-food',
+    );
+
+    expect(articleToFigs?.href).toBe('/ingredients/figs/');
+    expect(recipeToLentils?.href).toBeUndefined();
+    expect(CANONICAL_FOOD_UNIVERSE.some((food) => food.id === 'lentils-entity')).toBe(true);
+  });
+
+  it('infers article backlinks so relationship coverage does not require duplicate declarations', () => {
+    const relationships = canonicalRelationshipsFor('article-barley-biblical-evidence');
+
+    expect(relationships).toContainEqual(
+      expect.objectContaining({
+        fromId: 'article-barley-biblical-evidence',
+        toId: 'question-what-does-barley-evidence-support',
+        kind: 'article-related',
+        direction: 'explicit',
+      }),
+    );
+    expect(relationships).toContainEqual(
+      expect.objectContaining({
+        fromId: 'question-what-does-barley-evidence-support',
+        toId: 'article-barley-biblical-evidence',
+        kind: 'article-related',
+        direction: 'inferred-backlink',
+      }),
+    );
+  });
+
+  it('keeps the canonical relationship graph integrity clean', () => {
+    expect(canonicalRelationshipAudit()).toEqual([]);
   });
 });
