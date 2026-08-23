@@ -5,6 +5,7 @@ import '@fontsource-variable/fraunces/wght-italic.css';
 
 import '../styles/global.css';
 import { SITE } from '../config';
+import { resolveSocialMetadata } from '../lib/social-metadata';
 
 interface Props {
   title?: string;
@@ -26,8 +27,13 @@ const {
 
 const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const social = resolveSocialMetadata({
+  title,
+  description,
+  pathname: Astro.url.pathname,
+  type: ogType,
+});
 
-// TODO(seo): add og:image once a branded 1200x630 social image exists.
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -55,16 +61,20 @@ const websiteSchema = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <meta property="og:type" content={ogType} />
+    <meta property="og:type" content={social.type} />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={social.title} />
+    <meta property="og:description" content={social.description} />
+    <meta property="og:url" content={social.canonicalURL} />
+    <meta property="og:image" content={social.imageURL} />
+    <meta property="og:image:alt" content={social.imageAlt} />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={social.title} />
+    <meta name="twitter:description" content={social.description} />
+    <meta name="twitter:image" content={social.imageURL} />
+    <meta name="twitter:image:alt" content={social.imageAlt} />
 
     <script
       is:inline
