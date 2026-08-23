@@ -49,8 +49,8 @@ const trailingIngredients = collectionIngredients.slice(3);
             <div class="ingredient-feature__copy">
               <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">From the pantry</p>
               <p class="mt-4 font-display text-h2 text-ink">Featured ingredient</p>
-              <h2 class="mt-3 font-display text-display text-ink">{featuredIngredient.data.title}</h2>
-              <p class="mt-5 max-w-xl text-body-lg text-ink-muted">{featuredIngredient.data.excerpt}</p>
+              <h2 class="mt-3 font-display text-display text-ink">{featuredIngredient.data.name}</h2>
+              <p class="mt-5 max-w-xl text-body-lg text-ink-muted">{featuredIngredient.data.description}</p>
               <p class="mt-6 max-w-xl text-body text-ink-muted">A slower editorial pause inside the collection — the ingredient remains part of the same research-led pantry, while its material world is allowed to take up more space.</p>
               <a href={`/ingredients/${featuredIngredient.id}/`} class="ingredient-feature__link mt-8 inline-flex font-sans text-caption font-semibold tracking-wide text-terracotta-dark">
                 Read the ingredient profile <span aria-hidden="true">→</span>
