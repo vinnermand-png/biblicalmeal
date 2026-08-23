@@ -12,6 +12,7 @@ import { INSTAGRAM_CONTENT_RECORDS } from '../instagram-content/records';
 import { AI_WEBSITE_CONTENT_RECORDS } from '../ai-website-content/records';
 import { AI_EDITORIAL_IMAGE_ASSET_RECORDS } from '../ai-editorial-image/records';
 import { ANALYTICS_MEASUREMENTS, ANALYTICS_PROVIDER } from '../analytics-measurement';
+import { ADMIN_AUTH_PROVIDER, ADMIN_PERSISTENCE_PROVIDER } from '../admin-backend';
 import type { AdminMutationAttempt, AdminMutationDecision, AdminOverview, AdminWorkflowItem } from './types';
 
 const workflowItems: AdminWorkflowItem[] = [
@@ -25,7 +26,8 @@ const workflowItems: AdminWorkflowItem[] = [
 ];
 
 export function buildAdminOverview(): AdminOverview {
-  return { accessMode: 'read-only', metrics: [
+  const backendReady = ADMIN_AUTH_PROVIDER.status === 'configured' && ADMIN_PERSISTENCE_PROVIDER.status === 'configured';
+  return { accessMode: backendReady ? 'read-only' : 'authenticated-provider-required', metrics: [
     { id: 'foods', label: 'Canonical foods', value: CANONICAL_FOOD_UNIVERSE.length, note: 'Food Universe remains canonical ownership.' },
     { id: 'research', label: 'Research dossiers', value: RESEARCH_DOSSIERS.length, note: 'Research completion remains independent of publication.' },
     { id: 'articles', label: 'Article and question records', value: ARTICLE_CONTENT_RECORDS.length, note: 'Content records remain evidence-bound.' },
@@ -40,7 +42,7 @@ export function buildAdminOverview(): AdminOverview {
     { id: 'analytics', label: 'Analytics measurements', value: ANALYTICS_MEASUREMENTS.length, note: `${ANALYTICS_PROVIDER.status} provider boundary; missing traffic data is not fabricated.` },
     { id: 'refresh', label: 'Refresh records', value: CONTENT_REFRESH_RECORDS.length, note: 'No refresh is created automatically from missing data.' },
   ], workflowItems, warnings: [
-    'The administration foundation is read-only because the current static repository has no authenticated persistence layer.',
+    backendReady ? 'Authenticated persistence providers are configured, but canonical publication gates remain authoritative.' : 'Authentication and persistent storage require real server-side providers before admin mutations can be enabled.',
     'Analytics and Search Console visibility expose only verified imported measurements; missing provider data is never converted into zero performance.',
     'Social, website and image AI pipelines expose status without granting authority to generate, approve or publish content automatically.',
     'Status visibility does not grant authority to rewrite, approve or publish canonical records.',
@@ -48,4 +50,4 @@ export function buildAdminOverview(): AdminOverview {
   ] };
 }
 export const ADMIN_OVERVIEW = buildAdminOverview();
-export function evaluateAdminMutation(attempt: AdminMutationAttempt): AdminMutationDecision { void attempt; return { allowed: false, reason: 'The admin foundation exposes canonical status and readiness only. It has no mutation or publication authority and cannot bypass canonical gates.' }; }
+export function evaluateAdminMutation(attempt: AdminMutationAttempt): AdminMutationDecision { void attempt; return { allowed: false, reason: 'The legacy static admin mutation entry point remains closed. Authenticated draft persistence must use the V3C.37 backend service and cannot bypass canonical gates.' }; }
