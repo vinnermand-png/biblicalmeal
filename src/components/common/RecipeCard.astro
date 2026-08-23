@@ -6,52 +6,27 @@ import Chip from './Chip.astro';
 import FoodIllustration from './FoodIllustration.astro';
 
 type RecipeEntry = CollectionEntry<'recipes'>;
-
-const TYPE_CHIPS = {
-  inspired: { variant: 'inspired', label: 'Biblical-inspired' },
-  researched: { variant: 'inspired', label: 'Historically researched' },
-  reconstructed: { variant: 'review', label: 'Reconstruction' },
-} as const;
-
-interface Props {
-  entry: RecipeEntry;
-}
-
-const { entry } = Astro.props;
-const href = `/recipes/${entry.id}/`;
-const art: ArtKind = entry.data.art ?? 'stew';
-const chip = statusChip(entry.data.status);
-const meta = [
-  entry.data.prepMinutes != null && `Prep ${entry.data.prepMinutes} min`,
-  entry.data.cookMinutes != null && `Cook ${entry.data.cookMinutes} min`,
-  entry.data.servings != null && `Serves ${entry.data.servings}`,
-].filter(Boolean) as string[];
+const TYPE_CHIPS={inspired:{variant:'inspired',label:'Biblical-inspired'},researched:{variant:'inspired',label:'Historically researched'},reconstructed:{variant:'review',label:'Reconstruction'}} as const;
+interface Props{entry:RecipeEntry;}
+const {entry}=Astro.props;
+const href=`/recipes/${entry.id}/`;
+const art:ArtKind=entry.data.art??'stew';
+const chip=statusChip(entry.data.status);
+const meta=[entry.data.prepMinutes!=null&&`Prep ${entry.data.prepMinutes} min`,entry.data.cookMinutes!=null&&`Cook ${entry.data.cookMinutes} min`,entry.data.servings!=null&&`Serves ${entry.data.servings}`].filter(Boolean) as string[];
 ---
 
-<a
-  href={href}
-  class="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs transition-shadow duration-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
->
-  <FoodIllustration kind={art} ratio="4 / 3" />
-  <div class="absolute top-3 left-3 z-10 flex flex-wrap gap-2">
-    {chip && <Chip variant={chip} class="bg-surface/90 backdrop-blur-sm" />}
-    <Chip
-      variant={TYPE_CHIPS[entry.data.recipeType].variant}
-      label={TYPE_CHIPS[entry.data.recipeType].label}
-      class="bg-surface/90 backdrop-blur-sm"
-    />
+<a href={href} class="editorial-card group relative flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta">
+  <div class="relative overflow-hidden border-b border-line bg-background-alt">
+    <FoodIllustration kind={art} ratio="4 / 3" />
+    <div class="absolute top-3 left-3 z-10 flex flex-wrap gap-2">
+      {chip && <Chip variant={chip} class="bg-surface/95 shadow-xs" />}
+      <Chip variant={TYPE_CHIPS[entry.data.recipeType].variant} label={TYPE_CHIPS[entry.data.recipeType].label} class="bg-surface/95 shadow-xs" />
+    </div>
   </div>
-  <div class="flex grow flex-col gap-2 p-5">
-    <h3 class="font-display text-h3 text-ink">{entry.data.title}</h3>
-    <p class="line-clamp-2 text-body text-ink-muted">
-      {entry.data.description}
-    </p>
-    {
-      meta.length > 0 && (
-        <p class="mt-auto pt-2 font-sans text-caption font-medium tracking-wide text-olive-dark">
-          {meta.join(' · ')}
-        </p>
-      )
-    }
+  <div class="flex grow flex-col gap-3 p-6">
+    <p class="font-sans text-caption font-semibold tracking-eyebrow text-olive-dark uppercase">From the kitchen</p>
+    <h3 class="font-display text-h3 text-ink transition-colors duration-200 group-hover:text-terracotta-dark">{entry.data.title}</h3>
+    <p class="line-clamp-2 text-body text-ink-muted">{entry.data.description}</p>
+    {meta.length>0&&<p class="mt-auto border-t border-line pt-4 font-sans text-caption font-medium tracking-wide text-olive-dark">{meta.join(' · ')}</p>}
   </div>
 </a>

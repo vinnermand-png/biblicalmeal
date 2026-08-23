@@ -7,41 +7,10 @@ import ContentHero from '../../components/common/ContentHero.astro';
 import ArticleCard from '../../components/common/ArticleCard.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
-
-const articles = await getVisibleArticles();
+const articles=await getVisibleArticles();
 ---
-
-<BaseLayout
-  title="Journal"
-  description="Stories and method notes from BiblicalMeal — how we research the foods of the ancient world, and how they meet the modern table."
->
-  <Header />
-  <main id="main">
-    <ContentHero
-      eyebrow="The Journal"
-      title="Stories & Method"
-      lead="Long-form reading on the foods of scripture — our research process, what the sources can and cannot tell us, and life around the ancient table."
-    >
-      <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Journal' }]} />
-    </ContentHero>
-
-    {
-      articles.length > 0 ? (
-        <section class="container-site py-16 sm:py-20" aria-label="Articles">
-          <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {articles.map((entry) => (
-              <li>
-                <ArticleCard entry={entry} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : (
-        <div class="container-site py-16 sm:py-20">
-          <EmptyState message="The journal opens soon. Our first stories are in editorial review — written to the same standard as every profile on this site." />
-        </div>
-      )
-    }
-  </main>
-  <SiteFooter />
-</BaseLayout>
+<BaseLayout title="Journal" description="Stories and method notes from BiblicalMeal — how we research the foods of the ancient world, and how they meet the modern table.">
+<Header/><main id="main">
+<ContentHero variant="listing" eyebrow="The Journal" title="Stories & Method" lead="Long-form reading on the foods of scripture — our research process, what the sources can and cannot tell us, and life around the ancient table."><Breadcrumbs slot="breadcrumbs" items={[{label:'Journal'}]}/></ContentHero>
+{articles.length>0?<section class="content-listing container-site section-space" aria-label="Articles"><div class="content-listing__intro"><p class="font-display text-h3 text-ink">A quieter place for the questions behind the table.</p><p class="mt-3 text-body text-ink-muted">Research-aware essays, context, and careful interpretation — presented as an editorial collection rather than an endless feed.</p></div><ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">{articles.map(entry=><li><ArticleCard entry={entry}/></li>)}</ul></section>:<div class="container-site section-space"><EmptyState message="The journal opens soon. Our first stories are in editorial review — written to the same standard as every profile on this site."/></div>}
+</main><SiteFooter/></BaseLayout>

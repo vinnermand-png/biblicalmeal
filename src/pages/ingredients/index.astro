@@ -7,48 +7,10 @@ import ContentHero from '../../components/common/ContentHero.astro';
 import IngredientCard from '../../components/common/IngredientCard.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
-
-const ingredients = await getVisibleIngredients();
+const ingredients=await getVisibleIngredients();
 ---
-
-<BaseLayout
-  title="Ingredients"
-  description="Figs, olives, lentils, honey and more — profiles of the foods of the ancient biblical world, told through scripture, history, and modern cooking."
->
-  <Header />
-  <main id="main">
-    <ContentHero
-      eyebrow="The Pantry"
-      title="Ingredients of the Ancient Table"
-      lead="The staples of the biblical world, profiled one by one — what scripture says, what history knows, and how they are cooked with today."
-    >
-      <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Ingredients' }]} />
-    </ContentHero>
-
-    {
-      ingredients.length > 0 ? (
-        <section
-          class="container-site py-16 sm:py-20"
-          aria-label="Ingredient profiles"
-        >
-          <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {ingredients.map((entry) => (
-              <li>
-                <IngredientCard entry={entry} />
-              </li>
-            ))}
-          </ul>
-          <p class="reveal mt-10 text-center text-caption text-ink-muted/80">
-            Ingredient profiles are in active research — full histories and
-            citations publish as they are verified.
-          </p>
-        </section>
-      ) : (
-        <div class="container-site py-16 sm:py-20">
-          <EmptyState message="Our ingredient profiles are still in research. Each one publishes only after its history and citations have been verified — check back soon for the first completed profiles." />
-        </div>
-      )
-    }
-  </main>
-  <SiteFooter />
-</BaseLayout>
+<BaseLayout title="Ingredients" description="Figs, olives, lentils, honey and more — profiles of the foods of the ancient biblical world, told through scripture, history, and modern cooking.">
+<Header/><main id="main">
+<ContentHero variant="listing" eyebrow="The Pantry" title="Ingredients of the Ancient Table" lead="The staples of the biblical world, profiled one by one — what scripture says, what history knows, and how they are cooked with today."><Breadcrumbs slot="breadcrumbs" items={[{label:'Ingredients'}]}/></ContentHero>
+{ingredients.length>0?<section class="content-listing container-site section-space" aria-label="Ingredient profiles"><div class="content-listing__intro"><p class="font-display text-h3 text-ink">A pantry of individual stories.</p><p class="mt-3 text-body text-ink-muted">Every ingredient is treated as a collectible editorial profile, with its own route through scripture, evidence, history, and the modern table.</p></div><ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">{ingredients.map(entry=><li><IngredientCard entry={entry}/></li>)}</ul><p class="reveal mt-10 text-center text-caption text-ink-muted/80">Ingredient profiles are in active research — full histories and citations publish as they are verified.</p></section>:<div class="container-site section-space"><EmptyState message="Our ingredient profiles are still in research. Each one publishes only after its history and citations have been verified — check back soon for the first completed profiles."/></div>}
+</main><SiteFooter/></BaseLayout>

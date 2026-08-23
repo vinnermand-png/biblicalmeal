@@ -6,11 +6,7 @@ import Chip from './Chip.astro';
 import FoodIllustration from './FoodIllustration.astro';
 
 type ArticleEntry = CollectionEntry<'articles'>;
-
-interface Props {
-  entry: ArticleEntry;
-}
-
+interface Props { entry: ArticleEntry; }
 const { entry } = Astro.props;
 const href = `/articles/${entry.id}/`;
 const art: ArtKind = entry.data.art ?? 'still-life';
@@ -18,32 +14,17 @@ const chip = statusChip(entry.data.status);
 const minutes = readingTime(entry.body);
 ---
 
-<a
-  href={href}
-  class="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs transition-shadow duration-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
->
-  <FoodIllustration kind={art} ratio="16 / 9" />
-  {
-    chip && (
-      <Chip
-        variant={chip}
-        class="absolute top-3 left-3 z-10 bg-surface/90 backdrop-blur-sm"
-      />
-    )
-  }
-  <div class="flex grow flex-col gap-2 p-5">
-    <p
-      class="font-sans text-caption font-semibold tracking-eyebrow text-olive-dark uppercase"
-    >
-      {entry.data.category}
-    </p>
-    <h3 class="font-display text-h3 text-ink">{entry.data.title}</h3>
+<a href={href} class="editorial-card group relative flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta">
+  <div class="relative overflow-hidden border-b border-line bg-background-alt">
+    <FoodIllustration kind={art} ratio="16 / 9" />
+    {chip && <Chip variant={chip} class="absolute top-3 left-3 z-10 bg-surface/95 shadow-xs" />}
+  </div>
+  <div class="flex grow flex-col gap-3 p-6">
+    <p class="font-sans text-caption font-semibold tracking-eyebrow text-olive-dark uppercase">{entry.data.category}</p>
+    <h3 class="font-display text-h3 text-ink transition-colors duration-200 group-hover:text-terracotta-dark">{entry.data.title}</h3>
     <p class="line-clamp-3 text-body text-ink-muted">{entry.data.excerpt}</p>
-    <p
-      class="mt-auto pt-2 font-sans text-caption font-medium tracking-wide text-ink-muted"
-    >
-      {minutes} min read
-      {entry.data.pubDate && `· ${formatDate(entry.data.pubDate)}`}
+    <p class="mt-auto border-t border-line pt-4 font-sans text-caption font-medium tracking-wide text-ink-muted">
+      {minutes} min read{entry.data.pubDate && ` · ${formatDate(entry.data.pubDate)}`}
     </p>
   </div>
 </a>

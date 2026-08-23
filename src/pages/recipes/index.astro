@@ -7,44 +7,10 @@ import ContentHero from '../../components/common/ContentHero.astro';
 import RecipeCard from '../../components/common/RecipeCard.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
-
-const recipes = await getVisibleRecipes();
+const recipes=await getVisibleRecipes();
 ---
-
-<BaseLayout
-  title="Recipes"
-  description="Modern kitchen recipes inspired by the ingredients of the ancient biblical world — clearly labelled as inspired creations or historically researched reconstructions."
->
-  <Header />
-  <main id="main">
-    <ContentHero
-      eyebrow="From Our Kitchen"
-      title="Recipes"
-      lead="Every BiblicalMeal recipe states exactly what it is: a modern creation inspired by biblical-world ingredients, a researched reconstruction, or work built from cited historical sources."
-    >
-      <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Recipes' }]} />
-    </ContentHero>
-
-    {
-      recipes.length > 0 ? (
-        <section
-          class="container-site py-16 sm:py-20"
-          aria-label="Recipe collection"
-        >
-          <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {recipes.map((entry) => (
-              <li>
-                <RecipeCard entry={entry} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : (
-        <div class="container-site py-16 sm:py-20">
-          <EmptyState message="Our first tested recipes are finishing development. Each recipe publishes only once it has been cooked, measured, and honestly labelled." />
-        </div>
-      )
-    }
-  </main>
-  <SiteFooter />
-</BaseLayout>
+<BaseLayout title="Recipes" description="Modern kitchen recipes inspired by the ingredients of the ancient biblical world — clearly labelled as inspired creations or historically researched reconstructions.">
+<Header/><main id="main">
+<ContentHero variant="listing" eyebrow="From Our Kitchen" title="Recipes" lead="Every BiblicalMeal recipe states exactly what it is: a modern creation inspired by biblical-world ingredients, a researched reconstruction, or work built from cited historical sources."><Breadcrumbs slot="breadcrumbs" items={[{label:'Recipes'}]}/></ContentHero>
+{recipes.length>0?<section class="content-listing container-site section-space" aria-label="Recipe collection"><div class="content-listing__intro"><p class="font-display text-h3 text-ink">A modern kitchen in conversation with an ancient food world.</p><p class="mt-3 text-body text-ink-muted">Each recipe keeps its historical relationship visible, so reconstruction and inspiration are never visually presented as the same thing.</p></div><ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">{recipes.map(entry=><li><RecipeCard entry={entry}/></li>)}</ul></section>:<div class="container-site section-space"><EmptyState message="Our first tested recipes are finishing development. Each recipe publishes only once it has been cooked, measured, and honestly labelled."/></div>}
+</main><SiteFooter/></BaseLayout>
