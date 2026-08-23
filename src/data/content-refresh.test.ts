@@ -13,9 +13,7 @@ import {
 describe('V3C.27 content refresh foundation', () => {
   it('derives refresh candidates from canonical existing SEO targets', () => {
     expect(CONTENT_REFRESH_CANDIDATES.map((candidate) => candidate.targetId)).toEqual(
-      SEO_TARGETS.filter(
-        (target) => target.status === 'published' || target.status === 'in-development',
-      ).map((target) => target.id),
+      SEO_TARGETS.filter((target) => target.status !== 'not-pursuing').map((target) => target.id),
     );
     expect(auditContentRefreshSystem()).toEqual([]);
   });
