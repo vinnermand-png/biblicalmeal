@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "typecheck": "astro check",
     "test": "vitest run",
-    "images:generate": "node scripts/generate-editorial-images.mjs",
+    "images:generate": "node --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/generate-editorial-images.mjs",
     "prepare": "husky"
   },
   "lint-staged": {

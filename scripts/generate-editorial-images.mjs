@@ -1,26 +1,22 @@
 #!/usr/bin/env node
-import { mkdir, readFile, writeFile, access } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = path.join(ROOT, 'src/data/editorial-images.json');
+const DEFAULT_MODEL = 'gpt-image-2';
 const MASTER_STYLE = `BiblicalMeal canonical editorial image direction: premium editorial food photography for a modern historical publication exploring food, scripture and the ancient Mediterranean table. Realistic photography, warm natural daylight, soft honest shadows, aged limestone, handmade clay, natural linen, olive wood, subtle earthenware, tactile imperfections, restrained composition and refined negative space. Timeless Mediterranean and Levantine material atmosphere. The image must sit naturally beside warm parchment, deep olive, terracotta and restrained gold, and support elegant Fraunces editorial typography without competing with it. Avoid visible modern objects, plastic, stainless steel, modern kitchens, modern packaging, neon, logos, watermarks, readable text, fantasy biblical scenes, halos, religious kitsch, artificial-looking people, exaggerated smoke, oversaturation, hyper-polished advertising symmetry and generic stock photography.`;
 
 const args = process.argv.slice(2);
 const has = (flag) => args.includes(flag);
-const valueAfter = (flag) => {
-  const index = args.indexOf(flag);
-  return index === -1 ? undefined : args[index + 1];
-};
-
 const selectedIds = args
   .filter((arg, index) => args[index - 1] === '--id')
   .filter(Boolean);
 
 if (has('--help')) {
-  console.log(`Usage:\n  npm run images:generate -- --pilot\n  npm run images:generate -- --id journal-ancient-table\n  npm run images:generate -- --all\n  npm run images:generate -- --all --force\n\nThe command only runs when explicitly selected and never executes during the public site runtime.`);
+  console.log(`Usage:\n  npm run images:generate -- --pilot\n  npm run images:generate -- --id journal-ancient-table\n  npm run images:generate -- --all\n  npm run images:generate -- --all --force\n\nThe command is manual, development-time only, and never runs during the public site runtime.`);
   process.exit(0);
 }
 
@@ -46,16 +42,17 @@ if (selected.length === 0) {
 
 const apiKey = process.env.OPENAI_API_KEY;
 if (!apiKey) {
-  console.error('OPENAI_API_KEY is required locally. The key is never read by the public website.');
+  console.error('OPENAI_API_KEY is required locally. The public website never reads this value.');
   process.exit(1);
 }
 
-const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2';
+const model = process.env.OPENAI_IMAGE_MODEL || DEFAULT_MODEL;
 const force = has('--force');
 
 for (const asset of selected) {
   const outputPath = path.join(ROOT, asset.output);
   let exists = false;
+
   try {
     await access(outputPath, constants.F_OK);
     exists = true;
@@ -97,6 +94,7 @@ for (const asset of selected) {
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, Buffer.from(imageBase64, 'base64'));
+
   asset.status = 'generated';
   asset.generatedAt = new Date().toISOString();
   console.log(`Saved ${asset.output}`);
