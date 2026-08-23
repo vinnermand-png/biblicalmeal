@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import SiteFooter from '../components/common/SiteFooter.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you were looking for could not be found."
+  noindex={true}
+  technicalFallback={true}
+>
+  <Header />
+  <main id="main" class="min-h-[70vh] bg-background-alt">
+    <section class="container-site py-20 md:py-28">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-caption font-semibold uppercase tracking-[0.18em] text-terracotta">
+          404 · Page not found
+        </p>
+        <h1 class="mt-5 font-display text-display text-ink">
+          This page is not on the table.
+        </h1>
+        <p class="mx-auto mt-6 max-w-xl text-body text-ink-muted">
+          The address may be outdated, misspelled, or no longer available. You can return home or continue with one of the food profiles currently published on BiblicalMeal.
+        </p>
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+          <a
+            href="/"
+            class="rounded-full bg-ink px-6 py-3 text-caption font-semibold text-cream transition-opacity hover:opacity-90"
+          >
+            Return to the homepage
+          </a>
+          <a
+            href="/foods/figs/"
+            class="rounded-full border border-line bg-surface px-6 py-3 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
+          >
+            Explore Figs
+          </a>
+          <a
+            href="/foods/dates/"
+            class="rounded-full border border-line bg-surface px-6 py-3 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
+          >
+            Explore Dates
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
