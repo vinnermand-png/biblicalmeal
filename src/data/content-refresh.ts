@@ -69,7 +69,11 @@ export interface ContentRefreshRecord {
   requiresResearchGate: boolean;
   requiresAuthorityAndCitationReview: boolean;
   requiresEditorialReview: boolean;
-  requiresExistingPublicationGate: true;
+  /**
+   * The record may represent an invalid bypass attempt so the audit can reject
+   * it. A valid hand-off still requires this to be true.
+   */
+  requiresExistingPublicationGate: boolean;
 }
 
 export const CONTENT_REFRESH_CANDIDATES: readonly ContentRefreshCandidate[] = SEO_TARGETS
