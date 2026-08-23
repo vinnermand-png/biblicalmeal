@@ -35,7 +35,8 @@ export function auditCookbookProduction(
     if (!cookbookIds.has(inclusion.cookbookId)) errors.push(`Inclusion references unknown cookbook: ${inclusion.recipeContentId}`);
     const section = sections.find((item) => item.id === inclusion.sectionId);
     if (!section || section.cookbookId !== inclusion.cookbookId) errors.push(`Inclusion section relationship invalid: ${inclusion.recipeContentId}`);
-    if (!RECIPE_CONTENT_BY_ID.has(inclusion.recipeContentId)) errors.push(`Unknown canonical recipe content: ${inclusion.recipeContentId}`);
+    const recipe = RECIPE_CONTENT_BY_ID.get(inclusion.recipeContentId);
+    if (!recipe) errors.push(`Unknown canonical recipe content: ${inclusion.recipeContentId}`);
     const ownershipKey = `${inclusion.cookbookId}:${inclusion.recipeContentId}`;
     if (recipeOwnership.has(ownershipKey)) errors.push(`Duplicate recipe ownership: ${ownershipKey}`);
     recipeOwnership.add(ownershipKey);
@@ -44,8 +45,17 @@ export function auditCookbookProduction(
     const orders = inclusionOrders.get(orderKey) ?? new Set<number>();
     if (orders.has(inclusion.order)) errors.push(`Duplicate recipe order in section: ${orderKey}`);
     orders.add(inclusion.order); inclusionOrders.set(orderKey, orders);
+
+    if (recipe && (
+      inclusion.productionStatus !== recipe.productionStatus ||
+      inclusion.editorialReviewStatus !== recipe.editorialReviewStatus ||
+      inclusion.publicationStatus !== recipe.publicationStatus
+    )) {
+      errors.push(`Inclusion lifecycle diverges from canonical recipe: ${inclusion.recipeContentId}`);
+    }
     if (inclusion.publicationStatus === 'published' && !inclusion.productionReady) errors.push(`Published inclusion bypasses production gate: ${inclusion.recipeContentId}`);
     if (inclusion.productionReady && (inclusion.productionStatus !== 'produced' || inclusion.editorialReviewStatus !== 'approved' || inclusion.publicationStatus !== 'published')) errors.push(`Production-ready inclusion lacks canonical gates: ${inclusion.recipeContentId}`);
+    if (inclusion.productionReady && recipe && !recipe.publicationEligible) errors.push(`Production-ready inclusion bypasses recipe publication eligibility: ${inclusion.recipeContentId}`);
   }
   return { valid: errors.length === 0, errors };
 }
