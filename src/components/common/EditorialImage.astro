@@ -1,6 +1,7 @@
 ---
 import {
   getEditorialImage,
+  getEditorialImageAlt,
   getEditorialImageDimensions,
 } from '../../lib/editorial-images';
 import type { ArtKind } from '../../lib/visuals';
@@ -10,6 +11,7 @@ interface Props {
   id?: string;
   fallbackArt: ArtKind;
   alt?: string;
+  decorative?: boolean;
   ratio?: string;
   class?: string;
   loading?: 'eager' | 'lazy';
@@ -19,6 +21,7 @@ const {
   id,
   fallbackArt,
   alt,
+  decorative = false,
   ratio,
   class: className = '',
   loading = 'lazy',
@@ -26,7 +29,7 @@ const {
 const asset = getEditorialImage(id);
 const dimensions = getEditorialImageDimensions(asset);
 const useGenerated = asset?.status === 'generated';
-const label = alt ?? asset?.title;
+const imageAlt = decorative ? '' : getEditorialImageAlt(asset, alt);
 const fetchPriority = loading === 'eager' ? 'high' : 'auto';
 ---
 
@@ -38,7 +41,7 @@ const fetchPriority = loading === 'eager' ? 'high' : 'auto';
     useGenerated && asset ? (
       <img
         src={asset.publicPath}
-        alt={label ?? ''}
+        alt={imageAlt}
         width={dimensions?.width}
         height={dimensions?.height}
         loading={loading}
@@ -46,8 +49,16 @@ const fetchPriority = loading === 'eager' ? 'high' : 'auto';
         fetchpriority={fetchPriority}
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
       />
+    ) : decorative ? (
+      <div aria-hidden="true" class="absolute inset-0">
+        <FoodIllustration kind={fallbackArt} ratio={ratio} />
+      </div>
     ) : (
-      <FoodIllustration kind={fallbackArt} label={label} ratio={ratio} />
+      <FoodIllustration
+        kind={fallbackArt}
+        label={imageAlt || undefined}
+        ratio={ratio}
+      />
     )
   }
 </div>
