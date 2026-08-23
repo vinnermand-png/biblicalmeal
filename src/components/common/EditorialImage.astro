@@ -1,5 +1,8 @@
 ---
-import { getEditorialImage } from '../../lib/editorial-images';
+import {
+  getEditorialImage,
+  getEditorialImageDimensions,
+} from '../../lib/editorial-images';
 import type { ArtKind } from '../../lib/visuals';
 import FoodIllustration from './FoodIllustration.astro';
 
@@ -21,8 +24,10 @@ const {
   loading = 'lazy',
 } = Astro.props;
 const asset = getEditorialImage(id);
+const dimensions = getEditorialImageDimensions(asset);
 const useGenerated = asset?.status === 'generated';
 const label = alt ?? asset?.title;
+const fetchPriority = loading === 'eager' ? 'high' : 'auto';
 ---
 
 <div
@@ -34,8 +39,11 @@ const label = alt ?? asset?.title;
       <img
         src={asset.publicPath}
         alt={label ?? ''}
+        width={dimensions?.width}
+        height={dimensions?.height}
         loading={loading}
         decoding="async"
+        fetchpriority={fetchPriority}
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
       />
     ) : (
