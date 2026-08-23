@@ -29,7 +29,8 @@ function relationshipFor(
   source: ContentPlan,
   candidate: ContentPlan,
 ): InternalLink['relationship'] | undefined {
-  if (source.relatedContentIds.includes(candidate.id)) return 'explicit-related';
+  if (source.relatedContentIds.includes(candidate.id))
+    return 'explicit-related';
 
   const sourceTarget = SEO_TARGETS.find(
     (target) => target.id === source.canonicalTargetId,

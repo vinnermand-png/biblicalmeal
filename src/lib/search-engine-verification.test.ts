@@ -53,10 +53,12 @@ describe('V3C.12 search-engine readiness', () => {
     };
 
     expect(resolveSearchEngineVerification(configured)).toEqual(configured);
-    expect(resolveSearchEngineVerification({ google: ' real-value ' })).toEqual({
-      google: 'real-value',
-      bing: undefined,
-    });
+    expect(resolveSearchEngineVerification({ google: ' real-value ' })).toEqual(
+      {
+        google: 'real-value',
+        bing: undefined,
+      },
+    );
   });
 
   it('keeps verification metadata centralized and protected on technical fallbacks', () => {
@@ -78,7 +80,9 @@ describe('V3C.12 search-engine readiness', () => {
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
     expect(
       PUBLIC_FOOD_CONTENT.some((item) =>
-        ['olives', 'lentils', 'barley', 'honey'].includes(item.canonicalTargetId),
+        ['olives', 'lentils', 'barley', 'honey'].includes(
+          item.canonicalTargetId,
+        ),
       ),
     ).toBe(false);
   });

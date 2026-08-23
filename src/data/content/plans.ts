@@ -275,7 +275,8 @@ function eligibleClaimIds(item: ContentPlan): string[] {
 }
 
 function buildEditorialDraft(item: ContentPlan): ContentDraft {
-  const contentBySection = EDITORIAL_DRAFT_CONTENT[item.canonicalTargetId] ?? {};
+  const contentBySection =
+    EDITORIAL_DRAFT_CONTENT[item.canonicalTargetId] ?? {};
   const sections = item.sections.map((section) => ({
     ...section,
     content: contentBySection[section.kind] ?? section.content,
@@ -301,6 +302,5 @@ function buildEditorialDraft(item: ContentPlan): ContentDraft {
   };
 }
 
-export const PILOT_CONTENT_DRAFTS: ContentDraft[] = PILOT_CONTENT_ITEMS.map(
-  buildEditorialDraft,
-);
+export const PILOT_CONTENT_DRAFTS: ContentDraft[] =
+  PILOT_CONTENT_ITEMS.map(buildEditorialDraft);

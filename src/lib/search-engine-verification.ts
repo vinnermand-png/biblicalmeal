@@ -3,7 +3,9 @@ export interface SearchEngineVerificationConfig {
   bing?: string;
 }
 
-function configuredVerificationValue(value: string | undefined): string | undefined {
+function configuredVerificationValue(
+  value: string | undefined,
+): string | undefined {
   const normalized = value?.trim();
   return normalized ? normalized : undefined;
 }

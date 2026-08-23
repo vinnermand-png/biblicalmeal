@@ -64,14 +64,20 @@ describe('V3C.7 first public content release', () => {
     const dates = PUBLIC_FOOD_CONTENT.find(
       (item) => item.canonicalTargetId === 'dates',
     );
-    const figCopy = figs?.sections.map((section) => section.content ?? '').join(' ');
-    const dateCopy = dates?.sections.map((section) => section.content ?? '').join(' ');
+    const figCopy = figs?.sections
+      .map((section) => section.content ?? '')
+      .join(' ');
+    const dateCopy = dates?.sections
+      .map((section) => section.content ?? '')
+      .join(' ');
     expect(figCopy).toContain('sycomore');
     expect(figCopy).toContain('separate research question');
-    expect(dateCopy).toContain('Palm reference does not equal edible-date reference');
-    expect(new Set(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalPath)).size).toBe(
-      PUBLIC_FOOD_CONTENT.length,
+    expect(dateCopy).toContain(
+      'Palm reference does not equal edible-date reference',
     );
+    expect(
+      new Set(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalPath)).size,
+    ).toBe(PUBLIC_FOOD_CONTENT.length);
   });
 
   it('does not release future first-wave drafts automatically', () => {

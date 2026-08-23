@@ -23,9 +23,13 @@ describe('V3C.10 social metadata', () => {
   });
 
   it('resolves absolute social image URLs through the canonical site URL', () => {
-    expect(resolveSocialImage()).toBe('https://biblicalmeal.com/og-default.svg');
+    expect(resolveSocialImage()).toBe(
+      'https://biblicalmeal.com/og-default.svg',
+    );
     expect(new URL(resolveSocialImage()).protocol).toBe('https:');
-    expect(absoluteSiteURL(DEFAULT_SOCIAL_IMAGE_PATH)).toBe(resolveSocialImage());
+    expect(absoluteSiteURL(DEFAULT_SOCIAL_IMAGE_PATH)).toBe(
+      resolveSocialImage(),
+    );
   });
 
   it('uses a site-level fallback for pages without content-specific social images', () => {
@@ -38,7 +42,9 @@ describe('V3C.10 social metadata', () => {
     for (const content of PUBLIC_FOOD_CONTENT) {
       const metadata = resolveSocialMetadata({
         title: content.title,
-        description: content.sections.find((section) => section.kind === 'introduction')?.content,
+        description: content.sections.find(
+          (section) => section.kind === 'introduction',
+        )?.content,
         pathname: `/foods/${content.canonicalTargetId}/`,
         type: 'article',
       });

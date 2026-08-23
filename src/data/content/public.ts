@@ -4,10 +4,7 @@
  * drafts themselves remain draft-only and are never exposed directly to routes.
  */
 import type { ContentDraft, ContentPlan, ContentSection } from './model';
-import {
-  FIRST_WAVE_CONTENT_PLANS,
-  PILOT_CONTENT_DRAFTS,
-} from './plans';
+import { FIRST_WAVE_CONTENT_PLANS, PILOT_CONTENT_DRAFTS } from './plans';
 import { isContentPublicationEligible } from './validation';
 
 const PUBLIC_RELEASE_TARGET_IDS = ['figs', 'dates'] as const;
@@ -28,7 +25,10 @@ function draftForTarget(targetId: string): ContentDraft {
   return draft;
 }
 
-function publicationCandidate(plan: ContentPlan, draft: ContentDraft): ContentDraft {
+function publicationCandidate(
+  plan: ContentPlan,
+  draft: ContentDraft,
+): ContentDraft {
   return {
     ...draft,
     id: `published-${plan.canonicalTargetId}`,
@@ -47,13 +47,18 @@ function publicationCandidate(plan: ContentPlan, draft: ContentDraft): ContentDr
   };
 }
 
-function publish(plan: ContentPlan, sourceDraft: ContentDraft): {
+function publish(
+  plan: ContentPlan,
+  sourceDraft: ContentDraft,
+): {
   content: ContentPlan;
   draft: ContentDraft;
 } {
   const draft = publicationCandidate(plan, sourceDraft);
   if (!isContentPublicationEligible(plan, draft)) {
-    throw new Error(`Public release failed publication eligibility: ${plan.id}`);
+    throw new Error(
+      `Public release failed publication eligibility: ${plan.id}`,
+    );
   }
 
   const sections: ContentSection[] = draft.sections.map((section) => ({

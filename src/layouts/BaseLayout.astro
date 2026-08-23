@@ -64,62 +64,75 @@ const analyticsEnabled = ANALYTICS.enabled && !noindex && !technicalFallback;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f7f2e9" />
     {!technicalFallback && <link rel="canonical" href={canonicalURL} />}
-    {(noindex || technicalFallback) && <meta name="robots" content="noindex, follow" />}
+    {
+      (noindex || technicalFallback) && (
+        <meta name="robots" content="noindex, follow" />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    {analyticsEnabled && ANALYTICS.measurementId && (
-      <>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
-        ></script>
-        <script
-          is:inline
-          set:html={`window.dataLayer = window.dataLayer || [];
+    {
+      analyticsEnabled && ANALYTICS.measurementId && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
+          />
+          <script
+            is:inline
+            set:html={`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});`}
-        />
-      </>
-    )}
-
-    {!technicalFallback && (
-      <>
-        {SEARCH_ENGINE_VERIFICATION.google && (
-          <meta
-            name="google-site-verification"
-            content={SEARCH_ENGINE_VERIFICATION.google}
           />
-        )}
-        {SEARCH_ENGINE_VERIFICATION.bing && (
-          <meta name="msvalidate.01" content={SEARCH_ENGINE_VERIFICATION.bing} />
-        )}
+        </>
+      )
+    }
 
-        <meta property="og:type" content={social.type} />
-        <meta property="og:site_name" content={SITE.name} />
-        <meta property="og:title" content={social.title} />
-        <meta property="og:description" content={social.description} />
-        <meta property="og:url" content={social.canonicalURL} />
-        <meta property="og:image" content={social.imageURL} />
-        <meta property="og:image:alt" content={social.imageAlt} />
-        <meta property="og:locale" content="en_US" />
+    {
+      !technicalFallback && (
+        <>
+          {SEARCH_ENGINE_VERIFICATION.google && (
+            <meta
+              name="google-site-verification"
+              content={SEARCH_ENGINE_VERIFICATION.google}
+            />
+          )}
+          {SEARCH_ENGINE_VERIFICATION.bing && (
+            <meta
+              name="msvalidate.01"
+              content={SEARCH_ENGINE_VERIFICATION.bing}
+            />
+          )}
 
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={social.title} />
-        <meta name="twitter:description" content={social.description} />
-        <meta name="twitter:image" content={social.imageURL} />
-        <meta name="twitter:image:alt" content={social.imageAlt} />
-      </>
-    )}
+          <meta property="og:type" content={social.type} />
+          <meta property="og:site_name" content={SITE.name} />
+          <meta property="og:title" content={social.title} />
+          <meta property="og:description" content={social.description} />
+          <meta property="og:url" content={social.canonicalURL} />
+          <meta property="og:image" content={social.imageURL} />
+          <meta property="og:image:alt" content={social.imageAlt} />
+          <meta property="og:locale" content="en_US" />
 
-    {!technicalFallback && (
-      <script
-        is:inline
-        type="application/ld+json"
-        set:html={JSON.stringify(websiteSchema)}
-      />
-    )}
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content={social.title} />
+          <meta name="twitter:description" content={social.description} />
+          <meta name="twitter:image" content={social.imageURL} />
+          <meta name="twitter:image:alt" content={social.imageAlt} />
+        </>
+      )
+    }
+
+    {
+      !technicalFallback && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(websiteSchema)}
+        />
+      )
+    }
     {
       !technicalFallback &&
         jsonLd.map((schema) => (

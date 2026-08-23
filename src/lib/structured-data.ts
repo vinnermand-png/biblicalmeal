@@ -11,9 +11,7 @@ function canonicalUrl(path: string): string {
 }
 
 function publishedDraftFor(content: ContentPlan) {
-  return PUBLIC_FOOD_DRAFTS.find(
-    (draft) => draft.contentItemId === content.id,
-  );
+  return PUBLIC_FOOD_DRAFTS.find((draft) => draft.contentItemId === content.id);
 }
 
 function assertPublicSchemaEligible(content: ContentPlan): void {
@@ -26,11 +24,16 @@ function assertPublicSchemaEligible(content: ContentPlan): void {
     !content.seo.schemaEligible ||
     !isContentPublicationEligible(content, draft)
   ) {
-    throw new Error(`Content is not eligible for public structured data: ${content.id}`);
+    throw new Error(
+      `Content is not eligible for public structured data: ${content.id}`,
+    );
   }
 }
 
-export function foodStructuredData(content: ContentPlan, description: string): JsonLd[] {
+export function foodStructuredData(
+  content: ContentPlan,
+  description: string,
+): JsonLd[] {
   assertPublicSchemaEligible(content);
   const url = canonicalUrl(content.canonicalPath);
 

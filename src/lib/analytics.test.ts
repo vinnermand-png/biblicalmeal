@@ -56,7 +56,9 @@ describe('V3C.13 analytics readiness', () => {
     expect(layout).toContain('www.googletagmanager.com/gtag/js?id=');
 
     for (const pageFile of pageFiles) {
-      expect(readFileSync(pageFile, 'utf8')).not.toContain('googletagmanager.com/gtag');
+      expect(readFileSync(pageFile, 'utf8')).not.toContain(
+        'googletagmanager.com/gtag',
+      );
     }
   });
 
@@ -64,7 +66,9 @@ describe('V3C.13 analytics readiness', () => {
     const layout = readRepositoryFile('../layouts/BaseLayout.astro');
 
     expect(layout).toContain('analyticsEnabled && ANALYTICS.measurementId');
-    expect(layout).toContain('ANALYTICS.enabled && !noindex && !technicalFallback');
+    expect(layout).toContain(
+      'ANALYTICS.enabled && !noindex && !technicalFallback',
+    );
   });
 
   it('keeps normal public pages independent of analytics configuration', () => {
@@ -80,7 +84,9 @@ describe('V3C.13 analytics readiness', () => {
 
     expect(layout).toContain('(noindex || technicalFallback)');
     expect(layout).toContain('!technicalFallback && <link rel="canonical"');
-    expect(layout).toContain('ANALYTICS.enabled && !noindex && !technicalFallback');
+    expect(layout).toContain(
+      'ANALYTICS.enabled && !noindex && !technicalFallback',
+    );
   });
 
   it('preserves V3C.12 search-engine verification architecture', () => {
@@ -102,6 +108,8 @@ describe('V3C.13 analytics readiness', () => {
     expect(envExample).toContain('PUBLIC_GA_MEASUREMENT_ID=');
     expect(envExample).not.toMatch(/PUBLIC_GA_MEASUREMENT_ID=G-[A-Z0-9]{6,20}/);
     expect(analyticsSource).not.toMatch(/G-[A-Z0-9]{6,20}/);
-    expect(docs).toContain('does not maintain an internal database of invented metrics');
+    expect(docs).toContain(
+      'does not maintain an internal database of invented metrics',
+    );
   });
 });

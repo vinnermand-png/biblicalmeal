@@ -49,10 +49,13 @@ describe('V3C.5 canonical content architecture', () => {
       );
       expect(draft.claimIds.length).toBeGreaterThan(0);
       expect(draft.claimIds.every(canIncludeClaim)).toBe(true);
-      expect(draft.claimIds.every((claimId) =>
-        RESEARCH_CLAIMS.find((claim) => claim.id === claimId)?.verification ===
-          'verified',
-      )).toBe(true);
+      expect(
+        draft.claimIds.every(
+          (claimId) =>
+            RESEARCH_CLAIMS.find((claim) => claim.id === claimId)
+              ?.verification === 'verified',
+        ),
+      ).toBe(true);
     }
     expect(PILOT_CONTENT_ITEMS).toHaveLength(2);
   });
@@ -67,7 +70,9 @@ describe('V3C.5 canonical content architecture', () => {
       ),
     ).toBe(true);
     expect(
-      PILOT_CONTENT_DRAFTS.every((draft) => draft.reviewState === 'not-started'),
+      PILOT_CONTENT_DRAFTS.every(
+        (draft) => draft.reviewState === 'not-started',
+      ),
     ).toBe(true);
     expect(PILOT_CONTENT_ITEMS.every((item) => item.seo.indexable)).toBe(false);
     expect(
@@ -90,8 +95,12 @@ describe('V3C.5 canonical content architecture', () => {
     const dates = PILOT_CONTENT_DRAFTS.find(
       (item) => item.contentItemId === 'content-dates',
     );
-    const copy = dates?.sections.map((section) => section.content ?? '').join(' ');
-    expect(copy).toContain('Palm reference does not equal edible-date reference');
+    const copy = dates?.sections
+      .map((section) => section.content ?? '')
+      .join(' ');
+    expect(copy).toContain(
+      'Palm reference does not equal edible-date reference',
+    );
     expect(dates?.disclosureQuestionIds).toContain(
       'question-dates-palm-fruit-identification',
     );

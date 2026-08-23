@@ -19,7 +19,8 @@ export interface SocialMetadata {
 }
 
 export const DEFAULT_SOCIAL_IMAGE_PATH = '/og-default.svg';
-export const DEFAULT_SOCIAL_IMAGE_ALT = 'BiblicalMeal — Foods & Culinary Traditions of the Biblical World';
+export const DEFAULT_SOCIAL_IMAGE_ALT =
+  'BiblicalMeal — Foods & Culinary Traditions of the Biblical World';
 
 export function absoluteSiteURL(pathname = '/'): string {
   return new URL(pathname, SITE.url).toString();

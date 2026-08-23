@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const readSource = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
+const readSource = (path: string) =>
+  readFileSync(new URL(path, import.meta.url), 'utf8');
 
 describe('V3C.11 custom 404 launch safety', () => {
   const page = readSource('../pages/404.astro');
@@ -23,7 +24,7 @@ describe('V3C.11 custom 404 launch safety', () => {
 
   it('keeps technical fallback pages out of social and structured-data output', () => {
     expect(layout).toContain('!technicalFallback && (');
-    expect(layout).toContain("type=\"application/ld+json\"");
+    expect(layout).toContain('type="application/ld+json"');
   });
 
   it('provides recovery only to known public routes', () => {
@@ -36,8 +37,12 @@ describe('V3C.11 custom 404 launch safety', () => {
   });
 
   it('does not change normal-page canonical or social metadata paths', () => {
-    expect(layout).toContain('const canonicalURL = new URL(Astro.url.pathname, Astro.site);');
+    expect(layout).toContain(
+      'const canonicalURL = new URL(Astro.url.pathname, Astro.site);',
+    );
     expect(layout).toContain('const social = resolveSocialMetadata({');
-    expect(layout).toContain('<meta property="og:url" content={social.canonicalURL} />');
+    expect(layout).toContain(
+      '<meta property="og:url" content={social.canonicalURL} />',
+    );
   });
 });

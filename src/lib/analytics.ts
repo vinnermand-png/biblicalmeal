@@ -36,9 +36,7 @@ export function resolveAnalytics(
 ): ResolvedAnalyticsConfig {
   const measurementId = normalizeMeasurementId(config.measurementId);
 
-  return measurementId
-    ? { enabled: true, measurementId }
-    : { enabled: false };
+  return measurementId ? { enabled: true, measurementId } : { enabled: false };
 }
 
 export const ANALYTICS = resolveAnalytics({
