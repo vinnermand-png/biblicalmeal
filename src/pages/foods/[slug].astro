@@ -6,10 +6,12 @@ import ContentHero from '../../components/common/ContentHero.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 import ScriptureBlock from '../../components/common/ScriptureBlock.astro';
 import ResearchNote from '../../components/common/ResearchNote.astro';
+import InternalLinks from '../../components/common/InternalLinks.astro';
 import { getSource } from '../../data/research/sources';
 import { RESEARCH_CLAIMS } from '../../data/research/claims';
 import { validatePublication } from '../../lib/publication-gate';
 import { foodStructuredData } from '../../lib/structured-data';
+import { internalLinksFor } from '../../lib/internal-links';
 import {
   isContentPublicationEligible,
   validateContentPlan,
@@ -106,8 +108,7 @@ const breadcrumbs = [
 ];
 const section = (kind: ContentSection['kind']) =>
   page.sections.find((item) => item.kind === kind);
-const relatedSlug = page.canonicalTargetId === 'figs' ? 'dates' : 'figs';
-const relatedName = page.canonicalTargetId === 'figs' ? 'Dates' : 'Figs';
+const internalLinks = internalLinksFor(page, PUBLIC_FOOD_CONTENT);
 const jsonLd = foodStructuredData(page, seoDescription);
 ---
 
@@ -149,7 +150,7 @@ const jsonLd = foodStructuredData(page, seoDescription);
             {section('uncertainty')?.content && <ResearchNote title={page.canonicalTargetId === 'figs' ? 'Common fig and sycomore are not the same claim' : 'A palm reference is not automatically a date reference'}>{section('uncertainty')?.content}</ResearchNote>}
             {section('related-foods')?.content && <section aria-labelledby="related-foods"><h2 id="related-foods" class="font-display text-h2 text-ink">Related biblical foods</h2><p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('related-foods')?.content}</p></section>}
           </div>
-          <aside class="space-y-8 lg:pt-2"><div class="border-t border-line pt-5"><p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Continue exploring</p><a href={`/foods/${relatedSlug}/`} class="group mt-3 block rounded-lg bg-background-alt p-5 transition-colors hover:bg-gold/20"><span class="font-display text-h3 text-ink">{relatedName}</span><span class="mt-2 block text-caption text-ink-muted">Read the next profile <span class="text-terracotta transition-transform group-hover:translate-x-1">→</span></span></a></div>{sources.length > 0 && <div class="border-t border-line pt-5"><p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Sources</p><ul class="mt-3 space-y-4 text-caption text-ink-muted">{sources.map((source) => <li>{source.identifier ? <a class="text-terracotta-dark underline decoration-terracotta/30 underline-offset-2 hover:text-terracotta" href={source.identifier}>{source.title}</a> : <span class="text-ink">{source.title}</span>}{source.author && <span class="mt-1 block">{source.author}</span>}</li>)}</ul></div>}</aside>
+          <aside class="space-y-8 lg:pt-2"><InternalLinks links={internalLinks} />{sources.length > 0 && <div class="border-t border-line pt-5"><p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Sources</p><ul class="mt-3 space-y-4 text-caption text-ink-muted">{sources.map((source) => <li>{source.identifier ? <a class="text-terracotta-dark underline decoration-terracotta/30 underline-offset-2 hover:text-terracotta" href={source.identifier}>{source.title}</a> : <span class="text-ink">{source.title}</span>}{source.author && <span class="mt-1 block">{source.author}</span>}</li>)}</ul></div>}</aside>
         </div>
       </div>
     </article>
