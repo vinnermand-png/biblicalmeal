@@ -14,5 +14,16 @@ export default defineConfig(
   astro.configs.recommended,
   jsxA11y.flatConfigs.recommended,
   reactHooks.configs.flat.recommended,
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        Buffer: 'readonly',
+        console: 'readonly',
+        fetch: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
   prettier,
 );
