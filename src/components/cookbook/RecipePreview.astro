@@ -1,0 +1,65 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import type { RecipeClassification } from '../../data/recipe-research/types';
+import FoodIllustration from '../common/FoodIllustration.astro';
+import Chip from '../common/Chip.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  classification: RecipeClassification;
+  chapter: string;
+  art: ArtKind;
+  href: string;
+}
+
+const { title, description, classification, chapter, art, href } = Astro.props;
+
+const CLASSIFICATION_LABELS: Record<RecipeClassification, string> = {
+  'historically-attested-preparation': 'Historically attested',
+  'historically-informed-reconstruction': 'Reconstruction',
+  'scripture-inspired-preparation': 'Scripture-inspired',
+  'modern-adaptation': 'Modern adaptation',
+};
+
+const CLASSIFICATION_VARIANTS: Record<
+  RecipeClassification,
+  'inspired' | 'review'
+> = {
+  'historically-attested-preparation': 'inspired',
+  'historically-informed-reconstruction': 'review',
+  'scripture-inspired-preparation': 'inspired',
+  'modern-adaptation': 'inspired',
+};
+---
+
+<a
+  href={href}
+  class="editorial-card group relative flex h-full flex-col overflow-hidden"
+>
+  <div class="relative overflow-hidden border-b border-line bg-background-alt">
+    <FoodIllustration kind={art} ratio="4 / 3" />
+    <div class="absolute top-3 left-3 z-10">
+      <Chip
+        variant={CLASSIFICATION_VARIANTS[classification]}
+        label={CLASSIFICATION_LABELS[classification]}
+        class="bg-surface/95 shadow-xs"
+      />
+    </div>
+  </div>
+  <div class="flex grow flex-col gap-2 p-5 sm:p-6">
+    <p
+      class="font-sans text-caption font-semibold tracking-eyebrow text-olive-dark uppercase"
+    >
+      {chapter}
+    </p>
+    <h3
+      class="font-display text-h3 text-ink transition-colors duration-200 group-hover:text-terracotta-dark"
+    >
+      {title}
+    </h3>
+    <p class="line-clamp-2 text-body text-ink-muted">
+      {description}
+    </p>
+  </div>
+</a>

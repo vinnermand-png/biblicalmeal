@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../common/Header.astro';
+import SiteFooter from '../common/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  class?: string;
+}
+
+const {
+  title,
+  description = 'Recipes inspired by the foods of the Bible — evidence-aware, historically grounded, and genuinely cookable.',
+  class: className = '',
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main id="main" class={className}>
+    <slot />
+  </main>
+  <SiteFooter />
+</BaseLayout>

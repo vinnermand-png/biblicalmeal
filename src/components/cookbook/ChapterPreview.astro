@@ -1,0 +1,45 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import FoodIllustration from '../common/FoodIllustration.astro';
+
+interface Props {
+  order: number;
+  title: string;
+  description: string;
+  recipeCount: number;
+  art: ArtKind;
+  href: string;
+}
+
+const { order, title, description, recipeCount, art, href } = Astro.props;
+
+const paddedOrder = String(order).padStart(2, '0');
+---
+
+<a
+  href={href}
+  class="editorial-card group relative flex h-full flex-col overflow-hidden"
+>
+  <div class="relative overflow-hidden border-b border-line bg-background-alt">
+    <FoodIllustration kind={art} ratio="16 / 10" />
+  </div>
+  <div class="flex grow flex-col gap-2 p-5 sm:p-6">
+    <span class="cookbook-chapter-number text-4xl sm:text-5xl"
+      >{paddedOrder}</span
+    >
+    <h3
+      class="font-display text-h3 text-ink transition-colors duration-200 group-hover:text-terracotta-dark"
+    >
+      {title}
+    </h3>
+    <p class="line-clamp-2 text-body text-ink-muted">
+      {description}
+    </p>
+    <p
+      class="mt-auto border-t border-line pt-3 font-sans text-caption font-medium text-olive-dark"
+    >
+      {recipeCount}
+      {recipeCount === 1 ? 'recipe' : 'recipes'}
+    </p>
+  </div>
+</a>

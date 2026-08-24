@@ -1,0 +1,46 @@
+---
+interface Props {
+  currentChapter?: string;
+  currentRecipe?: string;
+}
+
+const { currentChapter, currentRecipe } = Astro.props;
+---
+
+<nav
+  class="border-b border-line bg-background-alt"
+  aria-label="Cookbook navigation"
+>
+  <div
+    class="cookbook-wide flex items-center justify-between px-5 py-3 sm:px-8"
+  >
+    <a
+      href="/cookbook/"
+      class="font-display text-lg font-semibold tracking-tight text-ink transition-colors hover:text-terracotta-dark"
+    >
+      The Cookbook
+    </a>
+    <div class="flex items-center gap-6">
+      <a
+        href="/cookbook/toc/"
+        class="text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+      >
+        Contents
+      </a>
+      {
+        currentChapter && (
+          <span class="hidden text-sm text-olive-dark sm:inline">
+            {currentChapter}
+          </span>
+        )
+      }
+      {
+        currentRecipe && (
+          <span class="hidden text-sm text-ink-muted lg:inline">
+            {currentRecipe}
+          </span>
+        )
+      }
+    </div>
+  </div>
+</nav>

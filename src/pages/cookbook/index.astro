@@ -1,0 +1,221 @@
+---
+import CookbookShell from '../../components/cookbook/CookbookShell.astro';
+import CookbookHeader from '../../components/cookbook/CookbookHeader.astro';
+import CookbookHero from '../../components/cookbook/CookbookHero.astro';
+import ChapterPreview from '../../components/cookbook/ChapterPreview.astro';
+import RecipePreview from '../../components/cookbook/RecipePreview.astro';
+import { COOKBOOK_CHAPTERS } from '../../data/cookbook/structure';
+import { COOKBOOK_RECIPE_INCLUSIONS } from '../../data/cookbook-production/records';
+import { RECIPE_CONTENT_RECORDS } from '../../data/recipe-content/records';
+
+const recipeContentById = new Map(RECIPE_CONTENT_RECORDS.map((r) => [r.id, r]));
+
+const recipeCountByChapter = new Map<string, number>();
+for (const inclusion of COOKBOOK_RECIPE_INCLUSIONS) {
+  const current = recipeCountByChapter.get(inclusion.sectionId) ?? 0;
+  recipeCountByChapter.set(inclusion.sectionId, current + 1);
+}
+
+const SECTION_TO_CHAPTER: Record<string, string> = {
+  'cookbook-section-simple-preparations': 'legumes-one-pot-meals',
+  'cookbook-section-breads-and-grains': 'grains-breads',
+  'cookbook-section-seafood-preparations': 'fish-seafood',
+  'cookbook-section-fruits-and-preserves': 'fruits-preserves',
+  'cookbook-section-herbs-oils-seasonings': 'herbs-oils-seasonings',
+  'cookbook-section-feasts-and-gatherings': 'feasts-gatherings',
+};
+
+const CHAPTER_ART: Record<string, string> = {
+  'grains-breads': 'barley',
+  'legumes-one-pot-meals': 'lentils',
+  'fruits-preserves': 'honey',
+  'fish-seafood': 'galilee',
+  'herbs-oils-seasonings': 'olives',
+  'feasts-gatherings': 'still-life',
+};
+
+const chapterRecipeCounts = new Map<string, number>();
+for (const inclusion of COOKBOOK_RECIPE_INCLUSIONS) {
+  const chapterId = SECTION_TO_CHAPTER[inclusion.sectionId];
+  if (chapterId) {
+    chapterRecipeCounts.set(
+      chapterId,
+      (chapterRecipeCounts.get(chapterId) ?? 0) + 1,
+    );
+  }
+}
+
+const featuredRecipeIds = [
+  'recipe-content-unleavened-bread',
+  'recipe-content-grilled-fish',
+  'recipe-content-lentil-pottage',
+];
+
+const featuredRecipes = featuredRecipeIds
+  .map((id) => {
+    const record = recipeContentById.get(id);
+    if (!record) return null;
+    const inclusion = COOKBOOK_RECIPE_INCLUSIONS.find(
+      (i) => i.recipeContentId === id,
+    );
+    const sectionId = inclusion?.sectionId ?? '';
+    const chapterId = SECTION_TO_CHAPTER[sectionId] ?? '';
+    const chapter = COOKBOOK_CHAPTERS.find((c) => c.id === chapterId);
+    return {
+      ...record,
+      chapterTitle: chapter?.title ?? '',
+      art: (record.classification === 'historically-informed-reconstruction'
+        ? 'stew'
+        : record.classification === 'scripture-inspired-preparation'
+          ? 'barley'
+          : 'still-life') as 'stew' | 'barley' | 'still-life',
+    };
+  })
+  .filter(Boolean);
+
+const CHAPTER_HREFS: Record<string, string> = {
+  'grains-breads': '#',
+  'legumes-one-pot-meals': '#',
+  'fruits-preserves': '#',
+  'fish-seafood': '#',
+  'herbs-oils-seasonings': '#',
+  'feasts-gatherings': '#',
+};
+---
+
+<CookbookShell
+  title="The Cookbook"
+  description="Nine evidence-aware recipes rooted in Scripture, history, and the culinary traditions of the ancient world."
+>
+  <CookbookHeader />
+
+  <CookbookHero />
+
+  <section class="cookbook-section bg-background">
+    <div class="cookbook-wide px-5 sm:px-8">
+      <div class="cookbook-section__header">
+        <p
+          class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+        >
+          Six Chapters
+        </p>
+        <h2 class="mt-3 font-display text-h2 text-ink">Explore the Cookbook</h2>
+        <p class="mt-3 max-w-2xl text-body-lg text-ink-muted">
+          Each chapter groups recipes by their biblical food category — from
+          grains and breads to feasts and gatherings.
+        </p>
+      </div>
+
+      <div class="cookbook-chapter-grid">
+        {
+          COOKBOOK_CHAPTERS.map((chapter) => (
+            <ChapterPreview
+              order={chapter.order}
+              title={chapter.title}
+              description={chapter.description}
+              recipeCount={chapterRecipeCounts.get(chapter.id) ?? 0}
+              art={
+                (CHAPTER_ART[chapter.id] ?? 'still-life') as
+                  | 'barley'
+                  | 'lentils'
+                  | 'honey'
+                  | 'galilee'
+                  | 'olives'
+                  | 'still-life'
+              }
+              href={CHAPTER_HREFS[chapter.id] ?? '#'}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cookbook-section bg-background-alt">
+    <div class="cookbook-wide px-5 sm:px-8">
+      <div class="cookbook-section__header">
+        <p
+          class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+        >
+          Featured Recipes
+        </p>
+        <h2 class="mt-3 font-display text-h2 text-ink">From the Kitchen</h2>
+        <p class="mt-3 max-w-2xl text-body-lg text-ink-muted">
+          A selection of recipes from across the cookbook — each one
+          evidence-aware, historically grounded, and genuinely cookable.
+        </p>
+      </div>
+
+      <div class="cookbook-recipe-grid">
+        {
+          featuredRecipes.map((recipe) =>
+            recipe ? (
+              <RecipePreview
+                title={recipe.title}
+                description={recipe.introduction.slice(0, 150) + '...'}
+                classification={recipe.classification}
+                chapter={recipe.chapterTitle}
+                art={recipe.art}
+                href="#"
+              />
+            ) : null,
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cookbook-section bg-background">
+    <div class="cookbook-content px-5 sm:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <p
+          class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+        >
+          Evidence-Aware Cooking
+        </p>
+        <h2 class="mt-3 font-display text-h2 text-ink">
+          Every Recipe Is Honestly Classified
+        </h2>
+        <p class="mt-4 text-body-lg text-ink-muted">
+          BiblicalMeal recipes are never presented as exact ancient discoveries.
+          Each recipe is classified by its evidence basis — from directly
+          attested foods to modern adaptations — so you always know what is
+          historically grounded and what is a practical kitchen choice.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <span
+            class="rounded-full border border-olive/40 bg-olive/10 px-4 py-2 text-sm font-medium text-olive-dark"
+          >
+            Scripture-inspired
+          </span>
+          <span
+            class="rounded-full border border-terracotta/30 bg-terracotta/10 px-4 py-2 text-sm font-medium text-terracotta-dark"
+          >
+            Historically informed
+          </span>
+          <span
+            class="rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-medium text-ink"
+          >
+            Evidence-transparent
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cookbook-section bg-olive-dark text-cream">
+    <div class="cookbook-content px-5 text-center sm:px-8">
+      <h2 class="font-display text-h2 text-cream">Ready to Cook?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-body-lg text-cream-muted">
+        Browse the full table of contents to explore all nine recipes across six
+        chapters.
+      </p>
+      <a
+        href="/cookbook/toc/"
+        class="mt-8 inline-flex items-center rounded-full bg-gold px-6 py-3 text-sm font-medium text-ink shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-gold/90"
+      >
+        View Table of Contents
+      </a>
+    </div>
+  </section>
+</CookbookShell>

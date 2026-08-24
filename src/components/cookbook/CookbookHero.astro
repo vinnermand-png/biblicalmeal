@@ -1,0 +1,42 @@
+---
+import FoodIllustration from '../common/FoodIllustration.astro';
+---
+
+<section class="cookbook-hero">
+  <div class="cookbook-hero__wash" aria-hidden="true"></div>
+  <div class="cookbook-hero__grid container-site">
+    <div class="max-w-2xl">
+      <p
+        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        The BiblicalMeal Cookbook
+      </p>
+      <h1 class="mt-4 font-display text-display text-ink">Biblical Meals</h1>
+      <p class="mt-2 font-display text-h2 text-ink-muted">
+        Recipes Inspired by the Foods of the Bible
+      </p>
+      <p class="mt-6 max-w-xl text-body-lg text-ink-muted">
+        Nine evidence-aware recipes rooted in Scripture, history, and the
+        culinary traditions of the ancient world. Every recipe is honestly
+        classified, carefully sourced, and genuinely cookable.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href="/cookbook/toc/"
+          class="inline-flex items-center rounded-full bg-terracotta px-6 py-3 text-sm font-medium text-cream shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-terracotta-dark"
+        >
+          View Table of Contents
+        </a>
+        <a
+          href="/cookbook/introduction/"
+          class="inline-flex items-center rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-ink transition-all duration-200 hover:border-olive/40 hover:text-olive-dark"
+        >
+          Read the Introduction
+        </a>
+      </div>
+    </div>
+    <div class="media-frame overflow-hidden">
+      <FoodIllustration kind="still-life" ratio="4 / 5" />
+    </div>
+  </div>
+</section>
