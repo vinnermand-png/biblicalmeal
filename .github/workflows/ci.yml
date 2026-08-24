@@ -22,17 +22,39 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: V3C.40 Release Readiness Check
+        id: readiness
+        run: npm run release-readiness
+        continue-on-error: true
 
-      - name: Format check
-        run: npm run format:check
+      - name: Generate Job Summary
+        if: always()
+        run: |
+          if [ "${{ steps.readiness.outcome }}" = "success" ]; then
+            echo "## V3C.40 Release Readiness: ✅ PASS" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All repository validation gates passed." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Validation Gates" >> $GITHUB_STEP_SUMMARY
+            echo "| Gate | Status |" >> $GITHUB_STEP_SUMMARY
+            echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Lint | ✅ PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "| Format | ✅ PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "| Typecheck | ✅ PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "| Tests | ✅ PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "| Build | ✅ PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## V3C.40 Release Readiness: ❌ FAIL" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "One or more validation gates failed." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          fi
 
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
-
-      - name: Build
-        run: npm run build
+      - name: Check Release Readiness
+        if: steps.readiness.outcome == 'failure'
+        run: |
+          echo "Release readiness check failed."
+          exit 1

@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "typecheck": "astro check",
     "test": "vitest run",
+    "release-readiness": "node scripts/release-readiness.mjs",
     "images:generate": "node --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/generate-editorial-images.mjs",
     "prepare": "husky"
   },
