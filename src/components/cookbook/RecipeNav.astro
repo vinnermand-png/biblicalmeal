@@ -1,0 +1,57 @@
+---
+interface Props {
+  previousRecipe: { slug: string; title: string } | null;
+  nextRecipe: { slug: string; title: string } | null;
+  chapterOrder: number;
+  chapterTitle: string;
+}
+
+const { previousRecipe, nextRecipe, chapterOrder, chapterTitle } = Astro.props;
+---
+
+<nav class="border-t border-line pt-8" aria-label="Recipe navigation">
+  <div
+    class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"
+  >
+    {
+      previousRecipe ? (
+        <a
+          href={`/cookbook/recipes/${previousRecipe.slug}/`}
+          class="group flex flex-col gap-1 transition-colors hover:text-terracotta-dark"
+        >
+          <span class="font-sans text-caption font-medium text-olive-dark">
+            ← Previous Recipe
+          </span>
+          <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+            {previousRecipe.title}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )
+    }
+    <a
+      href={`/cookbook/chapters/${chapterOrder}/`}
+      class="font-sans text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+    >
+      Back to {chapterTitle}
+    </a>
+    {
+      nextRecipe ? (
+        <a
+          href={`/cookbook/recipes/${nextRecipe.slug}/`}
+          class="group flex flex-col gap-1 text-right transition-colors hover:text-terracotta-dark"
+        >
+          <span class="font-sans text-caption font-medium text-olive-dark">
+            Next Recipe →
+          </span>
+          <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+            {nextRecipe.title}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )
+    }
+  </div>
+</nav>

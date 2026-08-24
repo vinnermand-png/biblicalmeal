@@ -1,0 +1,85 @@
+---
+import type { RecipeContentRecord } from '../../data/recipe-content/types';
+import FoodIllustration from '../common/FoodIllustration.astro';
+import Chip from '../common/Chip.astro';
+import {
+  CLASSIFICATION_LABELS,
+  CLASSIFICATION_VARIANTS,
+  getRecipeArt,
+} from '../../lib/cookbook';
+
+interface Props {
+  recipes: RecipeContentRecord[];
+}
+
+const { recipes } = Astro.props;
+---
+
+<div class="space-y-0 divide-y divide-line">
+  {
+    recipes.map((recipe, index) => {
+      const art = getRecipeArt(recipe.classification);
+      const label =
+        CLASSIFICATION_LABELS[recipe.classification] ?? recipe.classification;
+      const variant =
+        CLASSIFICATION_VARIANTS[recipe.classification] ?? 'inspired';
+      return (
+        <article class="grid gap-6 py-8 first:pt-0 last:pb-0 sm:grid-cols-12 sm:gap-8 md:gap-10">
+          <div class="sm:col-span-4 md:col-span-3">
+            <a
+              href={`/cookbook/recipes/${recipe.slug}/`}
+              class="block overflow-hidden rounded-lg border border-line bg-background-alt transition-shadow hover:shadow-md"
+            >
+              <FoodIllustration kind={art} ratio="4 / 3" />
+            </a>
+          </div>
+          <div class="flex flex-col justify-center sm:col-span-8 md:col-span-9">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-sans text-caption font-semibold text-olive-dark">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <Chip variant={variant} label={label} />
+            </div>
+            <h2 class="mt-2 font-display text-h3 text-ink">
+              <a
+                href={`/cookbook/recipes/${recipe.slug}/`}
+                class="transition-colors hover:text-terracotta-dark"
+              >
+                {recipe.title}
+              </a>
+            </h2>
+            {recipe.introduction && (
+              <p class="mt-2 line-clamp-2 max-w-2xl text-body text-ink-muted">
+                {recipe.introduction.slice(0, 180)}
+                {recipe.introduction.length > 180 ? '...' : ''}
+              </p>
+            )}
+            <div class="mt-3 flex flex-wrap gap-4 font-sans text-caption text-ink-muted">
+              {recipe.servings && <span>Serves {recipe.servings}</span>}
+              {recipe.timingGuidance && <span>{recipe.timingGuidance}</span>}
+            </div>
+            <a
+              href={`/cookbook/recipes/${recipe.slug}/`}
+              class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-terracotta-dark transition-colors hover:text-terracotta"
+            >
+              Read Recipe
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+          </div>
+        </article>
+      );
+    })
+  }
+</div>

@@ -1,0 +1,35 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import FoodIllustration from '../common/FoodIllustration.astro';
+
+interface Props {
+  order: number;
+  title: string;
+  description: string;
+  recipeCount: number;
+  art: ArtKind;
+}
+
+const { order, title, description, recipeCount, art } = Astro.props;
+const paddedOrder = String(order).padStart(2, '0');
+---
+
+<section class="cookbook-hero">
+  <div class="cookbook-hero__wash" aria-hidden="true"></div>
+  <div class="cookbook-hero__grid container-site">
+    <div class="max-w-2xl">
+      <span class="cookbook-chapter-number">{paddedOrder}</span>
+      <h1 class="mt-2 font-display text-h1 text-ink">{title}</h1>
+      <p class="mt-4 max-w-xl text-body-lg text-ink-muted">
+        {description}
+      </p>
+      <p class="mt-4 font-sans text-caption font-medium text-olive-dark">
+        {recipeCount}
+        {recipeCount === 1 ? 'recipe' : 'recipes'} in this chapter
+      </p>
+    </div>
+    <div class="media-frame overflow-hidden">
+      <FoodIllustration kind={art} ratio="4 / 5" />
+    </div>
+  </div>
+</section>

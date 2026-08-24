@@ -1,0 +1,218 @@
+---
+import CookbookShell from '../../../components/cookbook/CookbookShell.astro';
+import CookbookHeader from '../../../components/cookbook/CookbookHeader.astro';
+import RecipeHero from '../../../components/cookbook/RecipeHero.astro';
+import EvidenceSummary from '../../../components/cookbook/EvidenceSummary.astro';
+import UncertaintyNote from '../../../components/cookbook/UncertaintyNote.astro';
+import RecipeSourceNote from '../../../components/cookbook/RecipeSourceNote.astro';
+import RecipeNav from '../../../components/cookbook/RecipeNav.astro';
+import { RECIPE_CONTENT_RECORDS } from '../../../data/recipe-content/records';
+import {
+  CLASSIFICATION_LABELS,
+  getChapterForRecipe,
+  getPreviousRecipe,
+  getNextRecipe,
+  getChapterByOrder,
+} from '../../../lib/cookbook';
+
+export async function getStaticPaths() {
+  return RECIPE_CONTENT_RECORDS.map(
+    (recipe: (typeof RECIPE_CONTENT_RECORDS)[number]) => ({
+      params: { slug: recipe.slug },
+      props: { recipe },
+    }),
+  );
+}
+
+interface Props {
+  recipe: (typeof RECIPE_CONTENT_RECORDS)[number];
+}
+
+const { recipe } = Astro.props;
+
+const chapterId = getChapterForRecipe(recipe.id);
+const chapter = chapterId
+  ? getChapterByOrder(
+      COOKBOOK_CHAPTERS.find((c) => c.id === chapterId)?.order ?? 1,
+    )
+  : null;
+
+const previousRecipe = getPreviousRecipe(recipe.id);
+const nextRecipe = getNextRecipe(recipe.id);
+
+const classificationLabel =
+  CLASSIFICATION_LABELS[recipe.classification] ?? recipe.classification;
+
+import { COOKBOOK_CHAPTERS } from '../../../data/cookbook/structure';
+---
+
+<CookbookShell
+  title={`${recipe.title} — The Cookbook`}
+  description={recipe.metaDescription}
+>
+  <CookbookHeader
+    currentChapter={chapter?.title}
+    currentRecipe={recipe.title}
+  />
+
+  <RecipeHero
+    chapterTitle={chapter?.title ?? ''}
+    chapterOrder={chapter?.order ?? 1}
+    title={recipe.title}
+    introduction={recipe.introduction}
+    classification={recipe.classification}
+    servings={recipe.servings}
+    timingGuidance={recipe.timingGuidance}
+  />
+
+  <article class="bg-background section-space">
+    <div class="cookbook-content px-5 sm:px-8">
+      {/* Historical Context */}
+      {
+        recipe.historicalContext && (
+          <section aria-labelledby="historical-context" class="mb-12">
+            <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
+              Historical Context
+            </p>
+            <h2 id="historical-context" class="sr-only">
+              Historical Context
+            </h2>
+            <div class="mt-3 max-w-2xl text-body-lg leading-relaxed text-ink-muted">
+              <p>{recipe.historicalContext}</p>
+            </div>
+          </section>
+        )
+      }
+
+      {/* Ingredients + Method Grid */}
+      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        {/* Ingredients Sidebar */}
+        <aside class="lg:col-span-5 lg:col-start-1">
+          <section
+            class="surface-panel p-6 sm:p-8"
+            aria-labelledby="recipe-ingredients"
+          >
+            <p
+              class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+            >
+              The Pantry
+            </p>
+            <h2
+              id="recipe-ingredients"
+              class="mt-2 font-display text-h2 text-ink"
+            >
+              Ingredients
+            </h2>
+            <ul class="mt-6 divide-y divide-line border-y border-line">
+              {
+                recipe.ingredients.map(
+                  (ing: (typeof recipe.ingredients)[number]) => (
+                    <li class="flex items-baseline justify-between gap-4 py-3">
+                      <span class="text-body text-ink">{ing.label}</span>
+                      {ing.quantity && (
+                        <span class="shrink-0 font-medium text-olive-dark">
+                          {ing.quantity}
+                        </span>
+                      )}
+                    </li>
+                  ),
+                )
+              }
+            </ul>
+          </section>
+        </aside>
+
+        {/* Method */}
+        <div class="lg:col-span-7">
+          <section aria-labelledby="recipe-method">
+            <p
+              class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+            >
+              Preparation
+            </p>
+            <h2 id="recipe-method" class="mt-2 font-display text-h2 text-ink">
+              Method
+            </h2>
+            <ol class="mt-8 space-y-7">
+              {
+                recipe.preparationSteps.map(
+                  (step: (typeof recipe.preparationSteps)[number]) => (
+                    <li class="flex gap-5">
+                      <span
+                        aria-hidden="true"
+                        class="flex size-9 shrink-0 items-center justify-center rounded-full border border-line bg-background-alt font-display text-body font-semibold text-terracotta-dark"
+                      >
+                        {step.order}
+                      </span>
+                      <div class="max-w-prose pt-1">
+                        <p class="text-body-lg text-ink-muted">
+                          {step.instruction}
+                        </p>
+                        {step.disclosure && (
+                          <p class="mt-2 text-caption text-ink-muted italic">
+                            {step.disclosure}
+                          </p>
+                        )}
+                      </div>
+                    </li>
+                  ),
+                )
+              }
+            </ol>
+          </section>
+        </div>
+      </div>
+
+      {/* Serving Guidance */}
+      {
+        recipe.servingGuidance && (
+          <section
+            aria-labelledby="serving-guidance"
+            class="mt-12 border-t border-line pt-10"
+          >
+            <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
+              Serving Notes
+            </p>
+            <h2 id="serving-guidance" class="sr-only">
+              Serving Notes
+            </h2>
+            <p class="mt-3 max-w-2xl text-body-lg text-ink-muted">
+              {recipe.servingGuidance}
+            </p>
+          </section>
+        )
+      }
+
+      {/* Evidence Summary */}
+      <div class="mt-12">
+        <EvidenceSummary
+          classification={classificationLabel}
+          editorialNotes={recipe.editorialNotes}
+        />
+      </div>
+
+      {/* Uncertainty Disclosure */}
+      <div class="mt-8">
+        <UncertaintyNote disclosure={recipe.uncertaintyDisclosure} />
+      </div>
+
+      {/* Source Note */}
+      <div class="mt-8">
+        <RecipeSourceNote
+          recipeId={recipe.recipeResearchId}
+          classification={classificationLabel}
+        />
+      </div>
+
+      {/* Recipe Navigation */}
+      <div class="mt-12">
+        <RecipeNav
+          previousRecipe={previousRecipe}
+          nextRecipe={nextRecipe}
+          chapterOrder={chapter?.order ?? 1}
+          chapterTitle={chapter?.title ?? ''}
+        />
+      </div>
+    </div>
+  </article>
+</CookbookShell>

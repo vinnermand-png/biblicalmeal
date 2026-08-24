@@ -1,0 +1,57 @@
+---
+import CookbookShell from '../../../components/cookbook/CookbookShell.astro';
+import CookbookHeader from '../../../components/cookbook/CookbookHeader.astro';
+import ChapterCover from '../../../components/cookbook/ChapterCover.astro';
+import ChapterRecipeList from '../../../components/cookbook/ChapterRecipeList.astro';
+import ChapterNav from '../../../components/cookbook/ChapterNav.astro';
+import { COOKBOOK_CHAPTERS } from '../../../data/cookbook/structure';
+import { getPreviousChapter, getNextChapter } from '../../../lib/cookbook';
+import { getRecipesForChapter, getChapterArt } from '../../../lib/cookbook';
+
+export async function getStaticPaths() {
+  return COOKBOOK_CHAPTERS.map(
+    (chapter: (typeof COOKBOOK_CHAPTERS)[number]) => ({
+      params: { n: String(chapter.order) },
+      props: { chapter },
+    }),
+  );
+}
+
+interface Props {
+  chapter: (typeof COOKBOOK_CHAPTERS)[number];
+}
+
+const { chapter } = Astro.props;
+const recipes = getRecipesForChapter(chapter.id);
+const previousChapter = getPreviousChapter(chapter.order);
+const nextChapter = getNextChapter(chapter.order);
+const art = getChapterArt(chapter.id);
+---
+
+<CookbookShell
+  title={`${chapter.title} — The Cookbook`}
+  description={chapter.description}
+>
+  <CookbookHeader currentChapter={chapter.title} />
+
+  <ChapterCover
+    order={chapter.order}
+    title={chapter.title}
+    description={chapter.description}
+    recipeCount={recipes.length}
+    art={art as
+      'barley' | 'lentils' | 'honey' | 'galilee' | 'olives' | 'still-life'}
+  />
+
+  <section class="bg-background section-space">
+    <div class="cookbook-content px-5 sm:px-8">
+      <ChapterRecipeList recipes={recipes} />
+    </div>
+  </section>
+
+  <section class="bg-background section-space-compact">
+    <div class="cookbook-content px-5 sm:px-8">
+      <ChapterNav previousChapter={previousChapter} nextChapter={nextChapter} />
+    </div>
+  </section>
+</CookbookShell>

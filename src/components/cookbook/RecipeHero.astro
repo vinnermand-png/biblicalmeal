@@ -1,0 +1,91 @@
+---
+import type { ArtKind } from '../../lib/visuals';
+import type { RecipeClassification } from '../../data/recipe-research/types';
+import FoodIllustration from '../common/FoodIllustration.astro';
+import Chip from '../common/Chip.astro';
+import MetaRow, { type MetaItem } from '../common/MetaRow.astro';
+import {
+  CLASSIFICATION_LABELS,
+  CLASSIFICATION_VARIANTS,
+  getRecipeArt,
+} from '../../lib/cookbook';
+
+interface Props {
+  chapterTitle: string;
+  chapterOrder: number;
+  title: string;
+  introduction: string;
+  classification: RecipeClassification;
+  servings?: string;
+  timingGuidance?: string;
+}
+
+const {
+  chapterTitle,
+  chapterOrder,
+  title,
+  introduction,
+  classification,
+  servings,
+  timingGuidance,
+} = Astro.props;
+
+const art = getRecipeArt(classification) as ArtKind;
+const label = CLASSIFICATION_LABELS[classification] ?? classification;
+const variant = CLASSIFICATION_VARIANTS[classification] ?? 'inspired';
+
+const metaItems: MetaItem[] = [];
+if (servings) metaItems.push({ label: 'Serves', value: servings });
+if (timingGuidance) metaItems.push({ label: 'Time', value: timingGuidance });
+---
+
+<section class="cookbook-hero">
+  <div class="cookbook-hero__wash" aria-hidden="true"></div>
+  <div class="cookbook-hero__grid container-site">
+    <div class="max-w-2xl">
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol
+          class="flex flex-wrap items-center gap-1.5 font-sans text-caption text-ink-muted"
+        >
+          <li>
+            <a href="/cookbook/" class="transition-colors hover:text-ink">
+              Cookbook
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <a
+              href={`/cookbook/chapters/${chapterOrder}/`}
+              class="transition-colors hover:text-ink"
+            >
+              {chapterTitle}
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li class="text-ink" aria-current="page">
+            {title}
+          </li>
+        </ol>
+      </nav>
+      <Chip variant={variant} label={label} />
+      <h1 class="mt-3 font-display text-h1 text-ink">{title}</h1>
+      {
+        introduction && (
+          <p class="mt-4 line-clamp-3 max-w-xl text-body-lg text-ink-muted">
+            {introduction}
+          </p>
+        )
+      }
+      {
+        metaItems.length > 0 && (
+          <div class="mt-6">
+            <MetaRow items={metaItems} />
+          </div>
+        )
+      }
+    </div>
+    <div class="media-frame overflow-hidden">
+      <FoodIllustration kind={art} ratio="4 / 5" />
+    </div>
+  </div>
+</section>

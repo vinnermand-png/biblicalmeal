@@ -1,0 +1,21 @@
+---
+interface Props {
+  disclosure: string;
+}
+
+const { disclosure } = Astro.props;
+---
+
+<aside
+  aria-label="Uncertainty disclosure"
+  class="rounded-xl border border-gold/40 bg-gold/5 p-6 sm:p-8"
+>
+  <p
+    class="font-sans text-eyebrow font-semibold tracking-eyebrow text-ink uppercase"
+  >
+    ℹ About This Recipe
+  </p>
+  <p class="mt-3 max-w-prose text-body-lg text-ink-muted italic">
+    {disclosure}
+  </p>
+</aside>

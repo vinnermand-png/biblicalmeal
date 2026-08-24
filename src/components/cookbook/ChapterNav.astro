@@ -1,0 +1,55 @@
+---
+interface Props {
+  previousChapter: { order: number; title: string } | null;
+  nextChapter: { order: number; title: string } | null;
+}
+
+const { previousChapter, nextChapter } = Astro.props;
+---
+
+<nav class="border-t border-line pt-8" aria-label="Chapter navigation">
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    {
+      previousChapter ? (
+        <a
+          href={`/cookbook/chapters/${previousChapter.order}/`}
+          class="group flex flex-col gap-1 transition-colors hover:text-terracotta-dark"
+        >
+          <span class="font-sans text-caption font-medium text-olive-dark">
+            ← Previous Chapter
+          </span>
+          <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+            {previousChapter.title}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )
+    }
+    <a
+      href="/cookbook/toc/"
+      class="font-sans text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+    >
+      Back to Contents
+    </a>
+    {
+      nextChapter ? (
+        <a
+          href={`/cookbook/chapters/${nextChapter.order}/`}
+          class="group flex flex-col gap-1 text-right transition-colors hover:text-terracotta-dark"
+        >
+          <span class="font-sans text-caption font-medium text-olive-dark">
+            Next Chapter →
+          </span>
+          <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+            {nextChapter.title}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )
+    }
+  </div>
+</nav>
