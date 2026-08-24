@@ -5,6 +5,7 @@ import {
   rejectAnalyticsConsent,
   type ConsentState,
 } from '../../lib/consent';
+import { useFocusTrap } from '../../lib/focus-trap';
 
 type BannerState = 'hidden' | 'show-choices' | 'show-manage';
 
@@ -55,6 +56,9 @@ export default function ConsentBanner() {
     getInitialBannerState(state),
   );
 
+  // V3C.39: Focus trap for dialog management
+  const dialogRef = useFocusTrap(bannerState !== 'hidden');
+
   const handleAccept = () => {
     const newState = acceptAnalyticsConsent();
     setState(newState);
@@ -87,7 +91,9 @@ export default function ConsentBanner() {
   if (bannerState === 'show-choices') {
     return (
       <div
+        ref={dialogRef}
         role="dialog"
+        aria-modal="true"
         aria-label="Cookie consent"
         className="fixed right-0 bottom-0 left-0 z-50 border-t border-line bg-surface/95 p-4 shadow-lg backdrop-blur-sm sm:p-6"
       >
@@ -127,7 +133,9 @@ export default function ConsentBanner() {
   if (bannerState === 'show-manage') {
     return (
       <div
+        ref={dialogRef}
         role="dialog"
+        aria-modal="true"
         aria-label="Cookie preferences"
         className="fixed right-0 bottom-0 left-0 z-50 border-t border-line bg-surface/95 p-4 shadow-lg backdrop-blur-sm sm:p-6"
       >
