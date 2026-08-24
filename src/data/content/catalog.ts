@@ -18,4 +18,5 @@ export const CONTENT_DRAFT_TARGET_IDS = [
   'lentils',
   'honey',
   'barley',
+  'what-did-jesus-eat',
 ] as const;

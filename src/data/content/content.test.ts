@@ -57,7 +57,7 @@ describe('V3C.5 canonical content architecture', () => {
         ),
       ).toBe(true);
     }
-    expect(PILOT_CONTENT_ITEMS).toHaveLength(6);
+    expect(PILOT_CONTENT_ITEMS).toHaveLength(7);
   });
 
   it('keeps V3C.6 editorial drafts internal and unpublished', () => {
@@ -114,6 +114,7 @@ describe('V3C.5 canonical content architecture', () => {
       'lentils',
       'honey',
       'barley',
+      'what-did-jesus-eat',
     ]);
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalPath)).toEqual([
       '/foods/figs/',
@@ -122,8 +123,9 @@ describe('V3C.5 canonical content architecture', () => {
       '/ingredients/lentils/',
       '/ingredients/honey/',
       '/ingredients/barley/',
+      '/articles/what-did-jesus-eat/',
     ]);
-    expect(PUBLIC_FOOD_DRAFTS).toHaveLength(6);
+    expect(PUBLIC_FOOD_DRAFTS).toHaveLength(7);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
   });
 

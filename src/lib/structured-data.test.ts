@@ -43,6 +43,7 @@ describe('V3C.8 structured data', () => {
       'https://biblicalmeal.com/ingredients/lentils/',
       'https://biblicalmeal.com/ingredients/honey/',
       'https://biblicalmeal.com/ingredients/barley/',
+      'https://biblicalmeal.com/articles/what-did-jesus-eat/',
     ]);
     expect(new Set(urls).size).toBe(urls.length);
   });

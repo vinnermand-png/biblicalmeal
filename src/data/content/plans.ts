@@ -192,6 +192,18 @@ const EDITORIAL_DRAFT_CONTENT: Record<string, Record<string, string>> = {
     uncertainty:
       'The devash identification question remains active. KJV wording alone does not resolve bee honey versus syrup in every biblical context. The "milk and honey" formula remains a land-description.',
   },
+  'what-did-jesus-eat': {
+    introduction:
+      'The question "What did Jesus eat?" is one of the most searched biblical food questions. This article examines what the Gospel texts actually say, labeling every claim by its evidence tier and preserving careful boundaries between attested, plausible, and uncertain claims.',
+    'biblical-references':
+      'Only one passage in the Gospels explicitly describes Jesus eating food: Luke 24:42-43, where the risen Jesus is given broiled fish and honeycomb. This is the only verse in the entire Gospel narrative where Jesus is recorded as consuming food.',
+    'biblical-context':
+      'Other Gospel passages involve food in contexts connected to Jesus (the Passover meal, fish and bread by the Sea of Galilee, the feeding miracles), but these do not all explicitly state that Jesus himself ate the food described. Each must be considered on its own terms.',
+    'historical-context':
+      'First-century Galilean peasant diet was based on grains (wheat and barley), legumes (lentils, beans, chickpeas), fruits (figs, dates, olives, grapes), fish from the Sea of Galilee, olive oil, honey, and wine. This picture is supported by archaeological evidence and is consistent with Gospel food references.',
+    uncertainty:
+      'Several important uncertainties remain: the scope of "honeycomb" in Luke 24:42-43, the frequency and preference of Jesus\'s eating, regional dietary variation, seasonal availability, and the social context of meals. The honest answer is that we know one specific meal in detail, can make reasonable inferences about his general food environment, and should be cautious about filling gaps with speculation.',
+  },
 };
 
 function dossierForTarget(targetId: string): ResearchDossier {

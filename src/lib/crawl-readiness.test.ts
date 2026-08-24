@@ -33,12 +33,20 @@ describe('V3C.14 first indexing and crawl readiness', () => {
     );
     expect(
       PUBLIC_FOOD_CONTENT.map((page) => page.canonicalTargetId).sort(),
-    ).toEqual(['barley', 'dates', 'figs', 'honey', 'lentils', 'olives']);
+    ).toEqual([
+      'barley',
+      'dates',
+      'figs',
+      'honey',
+      'lentils',
+      'olives',
+      'what-did-jesus-eat',
+    ]);
     expect(PUBLIC_FOOD_CONTENT.every((page) => page.seo.indexable)).toBe(true);
   });
 
   it('keeps generated public food routes canonical, unique, and restricted to the publication layer', () => {
-    expect(foodRoute).toContain('PUBLIC_FOOD_CONTENT.map((page) => ({');
+    expect(foodRoute).toContain('ingredientPages.map((page) => ({');
     expect(foodRoute).toContain('params: { slug: page.canonicalTargetId }');
     expect(foodRoute).toContain('isContentPublicationEligible(page, draft)');
 
@@ -63,7 +71,11 @@ describe('V3C.14 first indexing and crawl readiness', () => {
   });
 
   it('keeps every released food discoverable through a meaningful published internal link', () => {
-    for (const page of PUBLIC_FOOD_CONTENT) {
+    // Filter to only ingredient content (food pages), not articles
+    const ingredientPages = PUBLIC_FOOD_CONTENT.filter(
+      (page) => !page.canonicalPath.startsWith('/articles/'),
+    );
+    for (const page of ingredientPages) {
       const links = internalLinksFor(page, PUBLIC_FOOD_CONTENT);
       expect(links.length).toBeGreaterThan(0);
       expect(links.every((link) => link.href.startsWith('/'))).toBe(true);

@@ -16,6 +16,7 @@ const PUBLIC_RELEASE_TARGET_IDS = [
   'lentils',
   'honey',
   'barley',
+  'what-did-jesus-eat',
 ] as const;
 
 function planForTarget(targetId: string): ContentPlan {
@@ -45,6 +46,7 @@ function publicationCandidate(
     lentils: 'Lentils in the Bible',
     honey: 'Honey in the Bible',
     barley: 'Barley in the Bible',
+    'what-did-jesus-eat': 'What Did Jesus Eat?',
   };
 
   return {

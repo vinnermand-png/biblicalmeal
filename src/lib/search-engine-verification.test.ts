@@ -80,6 +80,7 @@ describe('V3C.12 search-engine readiness', () => {
       'lentils',
       'honey',
       'barley',
+      'what-did-jesus-eat',
     ]);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
   });

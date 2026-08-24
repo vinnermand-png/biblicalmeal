@@ -4,7 +4,7 @@ import { PUBLIC_FOOD_CONTENT, PUBLIC_FOOD_DRAFTS } from './public';
 import { canIncludeClaim, isContentPublicationEligible } from './validation';
 
 describe('V3C.7 first public content release', () => {
-  it('releases the explicitly approved targets (figs, dates, and Wave 1)', () => {
+  it('releases the explicitly approved targets (figs, dates, Wave 1, and what-did-jesus-eat)', () => {
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId)).toEqual([
       'figs',
       'dates',
@@ -12,6 +12,7 @@ describe('V3C.7 first public content release', () => {
       'lentils',
       'honey',
       'barley',
+      'what-did-jesus-eat',
     ]);
     expect(PUBLIC_FOOD_DRAFTS.map((item) => item.contentItemId)).toEqual([
       'content-figs',
@@ -20,6 +21,7 @@ describe('V3C.7 first public content release', () => {
       'content-lentils',
       'content-honey',
       'content-barley',
+      'content-what-did-jesus-eat',
     ]);
   });
 

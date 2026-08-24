@@ -52,7 +52,15 @@ describe('V3C.9 canonical internal links', () => {
   it('keeps V3C.7 and V3C.8 public inputs intact', () => {
     expect(
       PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId).sort(),
-    ).toEqual(['barley', 'dates', 'figs', 'honey', 'lentils', 'olives']);
+    ).toEqual([
+      'barley',
+      'dates',
+      'figs',
+      'honey',
+      'lentils',
+      'olives',
+      'what-did-jesus-eat',
+    ]);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.schemaEligible)).toBe(
       true,
     );

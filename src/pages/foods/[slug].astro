@@ -23,7 +23,11 @@ import {
 import type { ContentPlan, ContentSection } from '../../data/content/model';
 
 export function getStaticPaths() {
-  return PUBLIC_FOOD_CONTENT.map((page) => ({
+  // Only generate routes for food/ingredient content, not articles
+  const ingredientPages = PUBLIC_FOOD_CONTENT.filter(
+    (page) => !page.canonicalPath.startsWith('/articles/'),
+  );
+  return ingredientPages.map((page) => ({
     params: { slug: page.canonicalTargetId },
     props: { page },
   }));

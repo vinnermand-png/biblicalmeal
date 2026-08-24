@@ -59,6 +59,14 @@ describe('V3C.10 social metadata', () => {
   it('creates public social metadata for all released content', () => {
     expect(
       PUBLIC_FOOD_CONTENT.map((content) => content.canonicalTargetId),
-    ).toEqual(['figs', 'dates', 'olives', 'lentils', 'honey', 'barley']);
+    ).toEqual([
+      'figs',
+      'dates',
+      'olives',
+      'lentils',
+      'honey',
+      'barley',
+      'what-did-jesus-eat',
+    ]);
   });
 });
