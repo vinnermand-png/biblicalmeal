@@ -4,9 +4,10 @@ import { BARLEY_BREAD_CONTENT } from './recipes/barley-bread';
 import { WHEAT_FLATBREAD_CONTENT } from './recipes/wheat-flatbread';
 import { UNLEAVENED_BREAD_CONTENT } from './recipes/unleavened-bread';
 import { LENTIL_POTTAGE_CONTENT } from './recipes/lentil-pottage';
+import { EZEKIEL_BREAD_CONTENT } from './recipes/ezekiel-bread';
 
 /**
- * V3C.18 + V3C.44C + V3C.44D — Recipe Content Records.
+ * V3C.18 + V3C.44C + V3C.44D + V3C.44E — Recipe Content Records.
  *
  * The V3C.17 → V3C.18 pipeline is preserved: research records own evidence
  * and reconstruction; content records own practical quantities and steps.
@@ -17,6 +18,9 @@ import { LENTIL_POTTAGE_CONTENT } from './recipes/lentil-pottage';
  * V3C.44D Wave 2 upgrades the original two historically-informed-
  * reconstruction seeds (Unleavened Bread, Lentil Pottage) from minimal
  * drafts to production-quality content.
+ *
+ * V3C.44E Wave 3 adds Ezekiel Bread — a historically-informed-reconstruction
+ * based on Ezekiel 4:9.
  *
  * Content production and research-state progression are separate lifecycle
  * concerns. Research records may remain in-progress while content is
@@ -30,6 +34,9 @@ export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
   // ─── V3C.44D WAVE 2 — HISTORICALLY-INFORMED RECONSTRUCTIONS ─────────
   UNLEAVENED_BREAD_CONTENT,
   LENTIL_POTTAGE_CONTENT,
+
+  // ─── V3C.44E WAVE 3 — HISTORICALLY-INFORMED RECONSTRUCTION ──────────
+  EZEKIEL_BREAD_CONTENT,
 
   // ─── V3C.44C WAVE 1 — SCRIPTURE-INSPIRED PREPARATIONS ──────────────
   GRILLED_FISH_CONTENT,

@@ -18,25 +18,30 @@ const barleyBreadRecipe = recipeContentById.get('recipe-content-barley-bread');
 const wheatFlatbreadRecipe = recipeContentById.get(
   'recipe-content-wheat-flatbread',
 );
+const ezekielBreadRecipe = recipeContentById.get(
+  'recipe-content-ezekiel-bread',
+);
 
 if (
   !lentilRecipe ||
   !unleavenedBreadRecipe ||
   !grilledFishRecipe ||
   !barleyBreadRecipe ||
-  !wheatFlatbreadRecipe
+  !wheatFlatbreadRecipe ||
+  !ezekielBreadRecipe
 ) {
   throw new Error(
-    'V3C.30 cookbook seeds require canonical V3C.18 + V3C.44C recipe content records.',
+    'V3C.30 cookbook seeds require canonical V3C.18 + V3C.44C + V3C.44E recipe content records.',
   );
 }
 
 /**
- * V3C.30 + V3C.44C — Cookbook Production Records.
+ * V3C.30 + V3C.44C + V3C.44E — Cookbook Production Records.
  *
- * The cookbook now includes five recipes across four sections:
+ * The cookbook now includes six recipes across three sections:
  * - V3C.18 seeds (lentil pottage, unleavened bread)
  * - V3C.44C Wave 1 (grilled fish, barley bread, wheat flatbread)
+ * - V3C.44E Wave 3 (ezekiel bread)
  *
  * Inclusion does not promote any draft to published: cookbook production
  * remains separate from recipe ownership, editorial approval and publication.
@@ -62,6 +67,7 @@ export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
       grilledFishRecipe.id,
       barleyBreadRecipe.id,
       wheatFlatbreadRecipe.id,
+      ezekielBreadRecipe.id,
     ],
   },
 ];
@@ -141,6 +147,18 @@ export const COOKBOOK_RECIPE_INCLUSIONS: readonly CookbookRecipeInclusion[] = [
     productionReady: false,
     notes:
       'Included as a scripture-inspired draft. Wheat is attested as one of the seven species (Deuteronomy 8:8), but no specific flatbread recipe exists in the text.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-breads-and-grains',
+    recipeContentId: ezekielBreadRecipe.id,
+    order: 4,
+    productionStatus: ezekielBreadRecipe.productionStatus,
+    editorialReviewStatus: ezekielBreadRecipe.editorialReviewStatus,
+    publicationStatus: ezekielBreadRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a historically informed reconstruction draft. Ezekiel 4:9 explicitly names five ingredients but provides no proportions, quantities, or cooking instructions. The passage describes a siege/emergency bread — a deliberate act of prophetic symbolism, not a daily recipe. This recipe does NOT represent the modern commercial "Ezekiel bread" product as historical evidence.',
   },
   {
     cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
