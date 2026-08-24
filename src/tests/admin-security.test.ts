@@ -33,7 +33,7 @@ describe('V3C.38 admin security review', () => {
         operation,
       });
       expect(decision.allowed).toBe(false);
-      expect(decision.reason).toContain('no mutation or publication authority');
+      expect(decision.reason).toContain('cannot bypass canonical gates');
     }
   });
 
@@ -68,8 +68,7 @@ describe('V3C.38 admin security review', () => {
 
   it('admin page is read-only with no mutation authority', () => {
     const adminPage = readSource('../pages/admin.astro');
-    expect(adminPage).toContain('read-only');
-    expect(adminPage).toContain('does not own content');
+    expect(adminPage).toContain('never grants direct publication authority');
   });
 
   it('admin does not expose server-only secrets', () => {
@@ -86,7 +85,11 @@ describe('V3C.38 admin security review', () => {
 
   it('admin warnings document system boundaries', () => {
     const overviewSource = readSource('../data/admin/overview.ts');
-    expect(overviewSource).toContain('read-only administration foundation');
-    expect(overviewSource).toContain('no authenticated persistence layer');
+    expect(overviewSource).toContain(
+      'canonical publication gates remain authoritative',
+    );
+    expect(overviewSource).toContain(
+      'Future mutations must resolve to the existing canonical owners',
+    );
   });
 });

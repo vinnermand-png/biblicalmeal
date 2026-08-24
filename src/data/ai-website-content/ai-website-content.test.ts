@@ -6,7 +6,9 @@ import { AI_WEBSITE_CONTENT_RECORDS } from './records';
 describe('V3C.32 AI Website Content Engine', () => {
   it('runs the focused prototype batch through canonical source ownership', () => {
     expect(AI_WEBSITE_CONTENT_RECORDS).toHaveLength(2);
-    expect(AI_WEBSITE_CONTENT_RECORDS.map((record) => record.sourceArticleContentId)).toEqual([
+    expect(
+      AI_WEBSITE_CONTENT_RECORDS.map((record) => record.sourceArticleContentId),
+    ).toEqual([
       'article-figs-research-context',
       'article-honey-evidence-boundaries',
     ]);
@@ -63,11 +65,17 @@ describe('V3C.32 AI Website Content Engine', () => {
         id: 'duplicate-ai-website-record',
         publicationEligible: true,
         requiresExistingPublicationGates: false,
-      },
+      } as unknown as typeof record,
     ]);
 
-    expect(issues).toContain(`Duplicate AI website draft ownership: ${record.sourceArticleContentId}.`);
-    expect(issues).toContain(`AI website draft bypasses existing publication gates: duplicate-ai-website-record.`);
-    expect(issues).toContain(`AI website draft cannot grant itself publication eligibility: duplicate-ai-website-record.`);
+    expect(issues).toContain(
+      `Duplicate AI website draft ownership: ${record.sourceArticleContentId}.`,
+    );
+    expect(issues).toContain(
+      `AI website draft bypasses existing publication gates: duplicate-ai-website-record.`,
+    );
+    expect(issues).toContain(
+      `AI website draft cannot grant itself publication eligibility: duplicate-ai-website-record.`,
+    );
   });
 });
