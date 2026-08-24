@@ -21,6 +21,11 @@ const wheatFlatbreadRecipe = recipeContentById.get(
 const ezekielBreadRecipe = recipeContentById.get(
   'recipe-content-ezekiel-bread',
 );
+const oliveOilFlatbreadRecipe = recipeContentById.get(
+  'recipe-content-olive-oil-flatbread',
+);
+const honeyCakesRecipe = recipeContentById.get('recipe-content-honey-cakes');
+const bitterHerbsRecipe = recipeContentById.get('recipe-content-bitter-herbs');
 
 if (
   !lentilRecipe ||
@@ -28,20 +33,24 @@ if (
   !grilledFishRecipe ||
   !barleyBreadRecipe ||
   !wheatFlatbreadRecipe ||
-  !ezekielBreadRecipe
+  !ezekielBreadRecipe ||
+  !oliveOilFlatbreadRecipe ||
+  !honeyCakesRecipe ||
+  !bitterHerbsRecipe
 ) {
   throw new Error(
-    'V3C.30 cookbook seeds require canonical V3C.18 + V3C.44C + V3C.44E recipe content records.',
+    'V3C.30 cookbook seeds require canonical V3C.18 + V3C.44C + V3C.44E + V3C.44G recipe content records.',
   );
 }
 
 /**
- * V3C.30 + V3C.44C + V3C.44E — Cookbook Production Records.
+ * V3C.30 + V3C.44C + V3C.44E + V3C.44G — Cookbook Production Records.
  *
- * The cookbook now includes six recipes across three sections:
+ * The cookbook now includes nine recipes across six sections:
  * - V3C.18 seeds (lentil pottage, unleavened bread)
  * - V3C.44C Wave 1 (grilled fish, barley bread, wheat flatbread)
  * - V3C.44E Wave 3 (ezekiel bread)
+ * - V3C.44G Wave 4 (olive oil flatbread, honey cakes, bitter herbs)
  *
  * Inclusion does not promote any draft to published: cookbook production
  * remains separate from recipe ownership, editorial approval and publication.
@@ -60,6 +69,9 @@ export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
       'cookbook-section-simple-preparations',
       'cookbook-section-breads-and-grains',
       'cookbook-section-seafood-preparations',
+      'cookbook-section-fruits-and-preserves',
+      'cookbook-section-herbs-oils-seasonings',
+      'cookbook-section-feasts-and-gatherings',
     ],
     recipeContentIds: [
       lentilRecipe.id,
@@ -68,6 +80,9 @@ export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
       barleyBreadRecipe.id,
       wheatFlatbreadRecipe.id,
       ezekielBreadRecipe.id,
+      oliveOilFlatbreadRecipe.id,
+      honeyCakesRecipe.id,
+      bitterHerbsRecipe.id,
     ],
   },
 ];
@@ -96,6 +111,30 @@ export const COOKBOOK_SECTIONS: readonly CookbookSection[] = [
     order: 3,
     description:
       'Scripture-inspired recipes drawing on the attested fish consumption in the Gospels.',
+  },
+  {
+    id: 'cookbook-section-fruits-and-preserves',
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    title: 'Fruits and Preserves',
+    order: 4,
+    description:
+      'Scripture-inspired recipes using honey and fruit — foods attested as part of the seven species of Israel.',
+  },
+  {
+    id: 'cookbook-section-herbs-oils-seasonings',
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    title: 'Herbs, Oils and Seasonings',
+    order: 5,
+    description:
+      'Scripture-inspired recipes centred on olive oil and seasonings — staples of the biblical kitchen.',
+  },
+  {
+    id: 'cookbook-section-feasts-and-gatherings',
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    title: 'Feasts and Gatherings',
+    order: 6,
+    description:
+      'Recipes honouring the biblical feast traditions, including Passover preparations.',
   },
 ];
 
@@ -171,6 +210,42 @@ export const COOKBOOK_RECIPE_INCLUSIONS: readonly CookbookRecipeInclusion[] = [
     productionReady: false,
     notes:
       'Included as a scripture-inspired draft. Fish consumption is explicitly attested in Luke 24:42-43, but the specific preparation method is a modern adaptation.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-herbs-oils-seasonings',
+    recipeContentId: oliveOilFlatbreadRecipe.id,
+    order: 1,
+    productionStatus: oliveOilFlatbreadRecipe.productionStatus,
+    editorialReviewStatus: oliveOilFlatbreadRecipe.editorialReviewStatus,
+    publicationStatus: oliveOilFlatbreadRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Olive oil is attested as one of the seven species (Deuteronomy 8:8) and is used in grain preparations (Leviticus 2:4-7, Exodus 29:2-3), but no specific olive oil flatbread recipe exists in the text.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-fruits-and-preserves',
+    recipeContentId: honeyCakesRecipe.id,
+    order: 1,
+    productionStatus: honeyCakesRecipe.productionStatus,
+    editorialReviewStatus: honeyCakesRecipe.editorialReviewStatus,
+    publicationStatus: honeyCakesRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Honey is attested as one of the seven species (Deuteronomy 8:8) and appears in food preparation contexts (Exodus 16:31), but no specific honey cake recipe exists in the text. The Hebrew word for "cake" refers to baked grain preparations, not modern pastry.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-feasts-and-gatherings',
+    recipeContentId: bitterHerbsRecipe.id,
+    order: 1,
+    productionStatus: bitterHerbsRecipe.productionStatus,
+    editorialReviewStatus: bitterHerbsRecipe.editorialReviewStatus,
+    publicationStatus: bitterHerbsRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Bitter herbs are commanded in Exodus 12:8 as part of the Passover meal, but the specific plant identification remains genuinely uncertain. This recipe does NOT assert any single plant as "the biblical bitter herb."',
   },
 ];
 

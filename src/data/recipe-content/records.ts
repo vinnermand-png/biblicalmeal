@@ -5,9 +5,12 @@ import { WHEAT_FLATBREAD_CONTENT } from './recipes/wheat-flatbread';
 import { UNLEAVENED_BREAD_CONTENT } from './recipes/unleavened-bread';
 import { LENTIL_POTTAGE_CONTENT } from './recipes/lentil-pottage';
 import { EZEKIEL_BREAD_CONTENT } from './recipes/ezekiel-bread';
+import { OLIVE_OIL_FLATBREAD_CONTENT } from './recipes/olive-oil-flatbread';
+import { HONEY_CAKES_CONTENT } from './recipes/honey-cakes';
+import { BITTER_HERBS_CONTENT } from './recipes/bitter-herbs';
 
 /**
- * V3C.18 + V3C.44C + V3C.44D + V3C.44E — Recipe Content Records.
+ * V3C.18 + V3C.44C + V3C.44D + V3C.44E + V3C.44G — Recipe Content Records.
  *
  * The V3C.17 → V3C.18 pipeline is preserved: research records own evidence
  * and reconstruction; content records own practical quantities and steps.
@@ -21,6 +24,10 @@ import { EZEKIEL_BREAD_CONTENT } from './recipes/ezekiel-bread';
  *
  * V3C.44E Wave 3 adds Ezekiel Bread — a historically-informed-reconstruction
  * based on Ezekiel 4:9.
+ *
+ * V3C.44G Wave 4 adds three scripture-inspired-preparation recipes
+ * (Olive Oil Flatbread, Honey Cakes, Bitter Herbs) using the V3C.44F
+ * research records.
  *
  * Content production and research-state progression are separate lifecycle
  * concerns. Research records may remain in-progress while content is
@@ -42,4 +49,9 @@ export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
   GRILLED_FISH_CONTENT,
   BARLEY_BREAD_CONTENT,
   WHEAT_FLATBREAD_CONTENT,
+
+  // ─── V3C.44G WAVE 4 — SCRIPTURE-INSPIRED PREPARATIONS ──────────────
+  OLIVE_OIL_FLATBREAD_CONTENT,
+  HONEY_CAKES_CONTENT,
+  BITTER_HERBS_CONTENT,
 ];
