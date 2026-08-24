@@ -6,9 +6,11 @@ export type AdminResourceKind =
   | 'recipe-content'
   | 'cookbook'
   | 'seo-target'
-  | 'instagram-content';
+  | 'instagram-content'
+  | 'ai-website-content'
+  | 'ai-editorial-image';
 
-export type AdminAccessMode = 'read-only';
+export type AdminAccessMode = 'read-only' | 'authenticated-provider-required';
 
 export interface AdminSummaryMetric {
   id: string;

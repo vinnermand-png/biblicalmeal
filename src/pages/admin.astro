@@ -8,7 +8,7 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
 
 <BaseLayout
   title="Admin Overview"
-  description="Internal read-only visibility across BiblicalMeal canonical content, research, recipes, cookbook production and publication readiness."
+  description="Internal visibility across BiblicalMeal canonical content, research, recipes, cookbook production and publication readiness."
   noindex={true}
 >
   <main class="admin-shell">
@@ -16,14 +16,17 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
       <p class="eyebrow">BiblicalMeal internal foundation</p>
       <h1>Admin &amp; Content Overview</h1>
       <p>
-        Read-only visibility over canonical systems. This dashboard does not own content,
-        mutate records, approve research, or publish anything.
+        Canonical visibility is available now. Authenticated draft persistence requires real server-side
+        authentication and storage providers, and never grants direct publication authority.
       </p>
     </header>
 
     <section class="admin-notice" aria-label="Admin access model">
       <strong>Access mode: {ADMIN_OVERVIEW.accessMode}</strong>
-      <span>Current repository architecture has no authenticated persistence layer, so V3C.31 intentionally exposes visibility without mutation authority.</span>
+      <span>
+        V3C.37 defines the authentication, authorization and persistence boundary. Until real providers are
+        configured, the deployed dashboard remains visibility-only and canonical publication gates stay closed.
+      </span>
     </section>
 
     <section class="metrics" aria-label="Canonical system summary">
@@ -58,17 +61,14 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
           <p class="state">Publication: {item.publicationState}</p>
           <p class="relationships"><strong>Canonical relationships:</strong> {item.relationships.join(', ') || 'None'}</p>
           {item.blockers.length > 0 && (
-            <ul>
-              {item.blockers.map((blocker) => <li>{blocker}</li>)}
-            </ul>
+            <p class="blockers"><strong>Blockers:</strong> {item.blockers.join(' ')}</p>
           )}
         </article>
       ))}
     </section>
 
-    <section class="warnings" aria-labelledby="boundaries-heading">
-      <p class="eyebrow">System boundaries</p>
-      <h2 id="boundaries-heading">What this admin layer cannot do</h2>
+    <section class="admin-warning" aria-labelledby="warning-heading">
+      <h2 id="warning-heading">Canonical boundaries</h2>
       <ul>
         {ADMIN_OVERVIEW.warnings.map((warning) => <li>{warning}</li>)}
       </ul>
@@ -77,36 +77,25 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
 </BaseLayout>
 
 <style>
-  .admin-shell { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: 3rem 0 5rem; }
-  .admin-header { max-width: 760px; }
-  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 700; color: var(--color-olive-700, #526047); }
-  h1, h2, h3 { font-family: var(--font-display, Fraunces, Georgia, serif); }
-  h1 { font-size: clamp(2.3rem, 6vw, 4.5rem); line-height: .98; margin: .25rem 0 1rem; }
-  h2 { margin: 0; }
-  .admin-header > p:last-child { font-size: 1.08rem; max-width: 70ch; }
-  .admin-notice, .metric-card, .workflow-item, .warnings { border: 1px solid rgba(58, 48, 35, .14); background: rgba(255,255,255,.55); border-radius: 1rem; }
-  .admin-notice { display: grid; gap: .35rem; padding: 1rem 1.2rem; margin: 2rem 0; }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .9rem; }
-  .metric-card { padding: 1rem; min-height: 150px; }
-  .metric-card span { font-size: .86rem; color: #6f675d; }
-  .metric-card strong { display: block; font-size: 2rem; margin: .4rem 0; }
-  .metric-card p { margin: 0; font-size: .86rem; color: #6f675d; }
-  .readiness { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin: 3rem 0 1rem; }
+  .admin-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 4rem 0 5rem; }
+  .admin-header { max-width: 780px; }
+  .eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; opacity: .72; }
+  .admin-header h1 { margin: .35rem 0 .8rem; }
+  .admin-notice, .admin-warning { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--border, #ddd); border-radius: 1rem; display: grid; gap: .55rem; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .metric-card, .workflow-item { border: 1px solid var(--border, #ddd); border-radius: 1rem; padding: 1rem; }
+  .metric-card strong { display: block; font-size: 1.7rem; margin-top: .35rem; }
+  .metric-card p { font-size: .88rem; opacity: .78; }
+  .readiness { display: flex; justify-content: space-between; gap: 1rem; align-items: end; margin: 2.5rem 0 1rem; }
+  .readiness h2 { margin: .2rem 0 0; }
   .readiness-counts { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .readiness-counts span { background: #efe9df; border-radius: 999px; padding: .45rem .8rem; }
-  .workflow { display: grid; gap: .8rem; }
-  .workflow-item { padding: 1.15rem 1.25rem; }
-  .workflow-topline { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
-  .kind, .status { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
-  .kind { color: #6f675d; }
-  .status { color: #8b5e20; }
-  .status.eligible { color: #2f6b45; }
-  .workflow-item h3 { margin: .5rem 0 .25rem; font-size: 1.35rem; }
-  .workflow-item p { margin: .35rem 0; }
-  .state { color: #6f675d; }
-  .relationships { font-size: .9rem; overflow-wrap: anywhere; }
-  .workflow-item ul { margin: .75rem 0 0; padding-left: 1.2rem; color: #7a3f2d; }
-  .warnings { margin-top: 3rem; padding: 1.3rem; }
-  .warnings ul { margin: .8rem 0 0; padding-left: 1.2rem; }
-  @media (max-width: 680px) { .admin-shell { padding-top: 2rem; } .readiness { align-items: start; flex-direction: column; } .workflow-topline { align-items: start; flex-direction: column; gap: .35rem; } }
+  .workflow { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .workflow-topline { display: flex; justify-content: space-between; gap: .5rem; align-items: center; }
+  .kind, .status { font-size: .76rem; text-transform: uppercase; letter-spacing: .08em; }
+  .status.eligible { font-weight: 700; }
+  .workflow-item h3 { margin: .7rem 0; }
+  .state, .relationships, .blockers { font-size: .9rem; }
+  .admin-warning { margin-top: 2rem; }
+  .admin-warning ul { margin: 0; padding-left: 1.25rem; display: grid; gap: .55rem; }
+  @media (max-width: 640px) { .admin-shell { padding-top: 2.5rem; } .readiness { align-items: start; flex-direction: column; } }
 </style>
