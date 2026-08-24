@@ -1,0 +1,275 @@
+---
+/**
+ * V3C.45D — Book Page Renderer
+ *
+ * Renders a single book page inline within the viewer.
+ * Uses existing canonical components — no duplication.
+ */
+import type { BookPageKind } from '../../lib/cookbook-book-order';
+import { COOKBOOK_CHAPTERS } from '../../data/cookbook/structure';
+import { COOKBOOK_RECIPE_INCLUSIONS } from '../../data/cookbook-production/records';
+import { RECIPE_CONTENT_RECORDS } from '../../data/recipe-content/records';
+import { getRecipesForChapter, getChapterArt } from '../../lib/cookbook';
+import { CLASSIFICATION_DEFINITIONS } from '../../data/cookbook/classification-guide';
+import { BOOK_METADATA } from '../../data/cookbook/book-metadata';
+import Chip from '../common/Chip.astro';
+import FoodIllustration from '../common/FoodIllustration.astro';
+import EvidenceSummary from './EvidenceSummary.astro';
+
+interface Props {
+  kind: BookPageKind;
+  id: string;
+  /** Whether this is a preview (controls CTA at boundary). */
+  isPreview?: boolean;
+}
+
+const { kind, id } = Astro.props;
+
+// ─── Resolve page data ───────────────────────────────────────────
+
+const SECTION_TO_CHAPTER: Record<string, string> = {
+  'cookbook-section-simple-preparations': 'legumes-one-pot-meals',
+  'cookbook-section-breads-and-grains': 'grains-breads',
+  'cookbook-section-seafood-preparations': 'fish-seafood',
+  'cookbook-section-fruits-and-preserves': 'fruits-preserves',
+  'cookbook-section-herbs-oils-seasonings': 'herbs-oils-seasonings',
+  'cookbook-section-feasts-and-gatherings': 'feasts-gatherings',
+};
+
+const recipeContentById = new Map(RECIPE_CONTENT_RECORDS.map((r) => [r.id, r]));
+
+let chapter = COOKBOOK_CHAPTERS.find((c) => c.id === id);
+let recipe = recipeContentById.get(id);
+// For recipe pages, find the chapter
+let recipeChapter = null;
+if (recipe) {
+  const inclusion = COOKBOOK_RECIPE_INCLUSIONS.find(
+    (i) => i.recipeContentId === id,
+  );
+  if (inclusion) {
+    const chapterId = SECTION_TO_CHAPTER[inclusion.sectionId];
+    recipeChapter = COOKBOOK_CHAPTERS.find((c) => c.id === chapterId);
+  }
+}
+
+const VARIANT_MAP: Record<string, 'inspired' | 'review'> = {
+  'scripture-inspired-preparation': 'inspired',
+  'historically-informed-reconstruction': 'review',
+  'historically-attested-preparation': 'inspired',
+  'modern-adaptation': 'inspired',
+};
+---
+
+{
+  kind === 'front-matter' && id === 'title-page' && (
+    <div class="book-page-inner">
+      <div class="py-16 text-center">
+        <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
+          The BiblicalMeal Cookbook
+        </p>
+        <h1 class="mt-8 font-display text-display text-ink">Biblical Meals</h1>
+        <p class="mt-4 font-display text-h2 text-ink-muted">
+          Recipes Inspired by the Foods of the Bible
+        </p>
+        <div class="mt-12 border-t border-line pt-8">
+          <p class="text-body text-ink-muted">{BOOK_METADATA.publisher}</p>
+          <p class="mt-2 text-body text-ink-muted">{BOOK_METADATA.edition}</p>
+          <p class="mt-2 text-caption text-ink-muted">
+            {BOOK_METADATA.publicationYear}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'front-matter' && id === 'introduction' && (
+    <div class="book-page-inner">
+      <h1 class="font-display text-h1 text-ink">Introduction</h1>
+      <div class="prose-bm mt-6 max-w-2xl space-y-5 text-body text-ink-muted">
+        <p>
+          Every culture is shaped by what it eats. The foods of the biblical
+          world &mdash; bread baked on hot stones, lentils stewed in clay pots,
+          fish caught from Galilean waters, honey gathered from wild hives
+          &mdash; are not just historical curiosities. They are the daily
+          realities that nourished the people whose stories fill Scripture.
+        </p>
+        <p>
+          This cookbook exists to bring those foods back to your kitchen. Not as
+          museum pieces or academic exercises, but as real, cookable recipes
+          that honour the evidence while acknowledging its limits.
+        </p>
+        <p>
+          We have been honest about what we know and what we don&rsquo;t. Some
+          recipes are grounded in explicitly attested ingredients and historical
+          preparation methods. Others are modern creations inspired by
+          biblical-world ingredients where no specific ancient recipe exists.
+        </p>
+        <p>
+          That honesty is what makes this cookbook different. We don&rsquo;t
+          present uncertain reconstructions as discovered facts. We don&rsquo;t
+          pretend that a modern kitchen can perfectly replicate an ancient
+          preparation. And we don&rsquo;t hide uncertainty behind confident
+          language.
+        </p>
+        <p>Welcome to Biblical Meals.</p>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'front-matter' && id === 'classification-guide' && (
+    <div class="book-page-inner">
+      <h1 class="font-display text-h1 text-ink">Recipe Classification Guide</h1>
+      <p class="mt-4 max-w-2xl text-body-lg text-ink-muted">
+        Every recipe carries a classification that tells you exactly how it
+        relates to historical evidence.
+      </p>
+      <div class="mt-8 space-y-6">
+        {CLASSIFICATION_DEFINITIONS.map((def) => (
+          <div class="rounded-lg border border-line bg-background-alt p-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <Chip variant={VARIANT_MAP[def.classification] ?? 'inspired'}>
+                {def.label}
+              </Chip>
+              <span class="text-sm font-medium text-ink">
+                {def.shortDescription}
+              </span>
+            </div>
+            <p class="mt-2 text-sm text-ink-muted">{def.readerDisclosure}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'chapter' && chapter && (
+    <div class="book-page-inner">
+      <div class="relative overflow-hidden rounded-lg bg-background-alt">
+        <div class="absolute inset-0 opacity-20">
+          <FoodIllustration
+            kind={
+              getChapterArt(chapter.id) as
+                | 'barley'
+                | 'lentils'
+                | 'honey'
+                | 'galilee'
+                | 'olives'
+                | 'still-life'
+            }
+            ratio="16 / 9"
+          />
+        </div>
+        <div class="relative z-10 p-8 sm:p-12">
+          <span class="cookbook-chapter-number">
+            {String(chapter.order).padStart(2, '0')}
+          </span>
+          <h1 class="mt-2 font-display text-h1 text-ink">{chapter.title}</h1>
+          <p class="mt-4 max-w-xl text-body-lg text-ink-muted">
+            {chapter.description}
+          </p>
+          <p class="mt-4 font-sans text-caption font-medium text-olive-dark">
+            {getRecipesForChapter(chapter.id).length}{' '}
+            {getRecipesForChapter(chapter.id).length === 1
+              ? 'recipe'
+              : 'recipes'}{' '}
+            in this chapter
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  kind === 'recipe' && recipe && (
+    <div class="book-page-inner">
+      {/* Recipe header */}
+      <div class="mb-6">
+        {recipeChapter && (
+          <p class="mb-2 font-sans text-caption text-ink-muted">
+            {recipeChapter.title}
+          </p>
+        )}
+        <Chip variant={VARIANT_MAP[recipe.classification] ?? 'inspired'}>
+          {recipe.classification === 'scripture-inspired-preparation'
+            ? 'Scripture-inspired'
+            : 'Reconstruction'}
+        </Chip>
+        <h1 class="mt-3 font-display text-h2 text-ink">{recipe.title}</h1>
+        {recipe.introduction && (
+          <p class="mt-3 max-w-2xl text-body text-ink-muted">
+            {recipe.introduction}
+          </p>
+        )}
+      </div>
+
+      {/* Ingredients */}
+      {recipe.ingredients.length > 0 && (
+        <div class="mb-6">
+          <h2 class="font-display text-h3 text-ink">Ingredients</h2>
+          <ul class="mt-3 space-y-2">
+            {recipe.ingredients.map((ing) => (
+              <li class="flex items-start gap-2 text-body text-ink">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-olive" />
+                <span>
+                  {ing.label}
+                  {ing.quantity && (
+                    <span class="text-ink-muted"> — {ing.quantity}</span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Method */}
+      {recipe.preparationSteps.length > 0 && (
+        <div class="mb-6">
+          <h2 class="font-display text-h3 text-ink">Method</h2>
+          <ol class="mt-3 space-y-3">
+            {recipe.preparationSteps.map((step) => (
+              <li class="flex gap-3 text-body text-ink">
+                <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-olive/10 text-caption font-semibold text-olive-dark">
+                  {step.order}
+                </span>
+                <span>{step.instruction}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      {/* Serving guidance */}
+      {recipe.servingGuidance && (
+        <div class="mb-6 rounded-lg border border-line bg-background-alt p-4">
+          <p class="font-sans text-caption font-semibold text-ink">Serving</p>
+          <p class="mt-1 text-sm text-ink-muted">{recipe.servingGuidance}</p>
+        </div>
+      )}
+
+      {/* Evidence summary */}
+      <EvidenceSummary
+        classification={recipe.classification}
+        editorialNotes={recipe.editorialNotes}
+      />
+
+      {/* Uncertainty */}
+      {recipe.uncertaintyDisclosure && (
+        <div class="mt-4 rounded-lg border border-gold/30 bg-gold/5 p-4">
+          <p class="font-sans text-caption font-semibold text-ink">
+            Uncertainty Disclosure
+          </p>
+          <p class="mt-1 text-sm text-ink-muted">
+            {recipe.uncertaintyDisclosure}
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}
