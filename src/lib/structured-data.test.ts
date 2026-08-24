@@ -10,6 +10,10 @@ describe('V3C.8 structured data', () => {
   const descriptions = {
     figs: 'Figs public description.',
     dates: 'Dates public description.',
+    olives: 'Olives public description.',
+    lentils: 'Lentils public description.',
+    honey: 'Honey public description.',
+    barley: 'Barley public description.',
   } as const;
 
   it('generates reusable JSON-LD from canonical public content only', () => {
@@ -35,6 +39,10 @@ describe('V3C.8 structured data', () => {
     expect(urls).toEqual([
       'https://biblicalmeal.com/foods/figs/',
       'https://biblicalmeal.com/foods/dates/',
+      'https://biblicalmeal.com/ingredients/olives/',
+      'https://biblicalmeal.com/ingredients/lentils/',
+      'https://biblicalmeal.com/ingredients/honey/',
+      'https://biblicalmeal.com/ingredients/barley/',
     ]);
     expect(new Set(urls).size).toBe(urls.length);
   });
@@ -46,12 +54,18 @@ describe('V3C.8 structured data', () => {
     expect(
       publicFoodStructuredDataFor('dates', descriptions.dates),
     ).toBeDefined();
-    expect(publicFoodStructuredDataFor('olives', 'No release')).toBeUndefined();
     expect(
-      publicFoodStructuredDataFor('lentils', 'No release'),
-    ).toBeUndefined();
-    expect(publicFoodStructuredDataFor('barley', 'No release')).toBeUndefined();
-    expect(publicFoodStructuredDataFor('honey', 'No release')).toBeUndefined();
+      publicFoodStructuredDataFor('olives', descriptions.olives),
+    ).toBeDefined();
+    expect(
+      publicFoodStructuredDataFor('lentils', descriptions.lentils),
+    ).toBeDefined();
+    expect(
+      publicFoodStructuredDataFor('honey', descriptions.honey),
+    ).toBeDefined();
+    expect(
+      publicFoodStructuredDataFor('barley', descriptions.barley),
+    ).toBeDefined();
   });
 
   it('rejects draft-only or unpublished content', () => {

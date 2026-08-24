@@ -181,7 +181,7 @@ describe('production queue - blockers', () => {
     ).toBe('draft-available');
     expect(
       items.find((item) => item.targetId === 'barley')?.contentPlanStatus,
-    ).toBe('planned');
+    ).toBe('draft-available');
     expect(
       items.find((item) => item.targetId === 'meat-in-the-bible')
         ?.contentPlanStatus,

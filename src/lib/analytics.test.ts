@@ -75,6 +75,10 @@ describe('V3C.13 analytics readiness', () => {
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId)).toEqual([
       'figs',
       'dates',
+      'olives',
+      'lentils',
+      'honey',
+      'barley',
     ]);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
   });

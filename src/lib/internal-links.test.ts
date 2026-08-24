@@ -52,7 +52,7 @@ describe('V3C.9 canonical internal links', () => {
   it('keeps V3C.7 and V3C.8 public inputs intact', () => {
     expect(
       PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId).sort(),
-    ).toEqual(['dates', 'figs']);
+    ).toEqual(['barley', 'dates', 'figs', 'honey', 'lentils', 'olives']);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.schemaEligible)).toBe(
       true,
     );
@@ -155,12 +155,16 @@ describe('V3C.22 internal link optimization audit', () => {
     );
 
     expect(articleToFigs?.href).toBe('/foods/figs/');
-    expect(recipeToLentils?.href).toBeUndefined();
-    expect(CANONICAL_FOOD_UNIVERSE.some((food) => food.id === 'lentils-entity')).toBe(true);
+    expect(recipeToLentils?.href).toBe('/ingredients/lentils/');
+    expect(
+      CANONICAL_FOOD_UNIVERSE.some((food) => food.id === 'lentils-entity'),
+    ).toBe(true);
   });
 
   it('infers article backlinks so relationship coverage does not require duplicate declarations', () => {
-    const relationships = canonicalRelationshipsFor('article-barley-biblical-evidence');
+    const relationships = canonicalRelationshipsFor(
+      'article-barley-biblical-evidence',
+    );
 
     expect(relationships).toContainEqual(
       expect.objectContaining({

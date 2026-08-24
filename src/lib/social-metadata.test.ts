@@ -56,9 +56,9 @@ describe('V3C.10 social metadata', () => {
     }
   });
 
-  it('does not create public social metadata from unpublished content by itself', () => {
+  it('creates public social metadata for all released content', () => {
     expect(
       PUBLIC_FOOD_CONTENT.map((content) => content.canonicalTargetId),
-    ).toEqual(['figs', 'dates']);
+    ).toEqual(['figs', 'dates', 'olives', 'lentils', 'honey', 'barley']);
   });
 });

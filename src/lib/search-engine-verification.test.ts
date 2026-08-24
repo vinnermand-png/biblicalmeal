@@ -72,19 +72,16 @@ describe('V3C.12 search-engine readiness', () => {
     expect(layout).toContain('name="msvalidate.01"');
   });
 
-  it('keeps published public content indexable while unreleased targets remain absent', () => {
+  it('keeps published public content indexable', () => {
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId)).toEqual([
       'figs',
       'dates',
+      'olives',
+      'lentils',
+      'honey',
+      'barley',
     ]);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
-    expect(
-      PUBLIC_FOOD_CONTENT.some((item) =>
-        ['olives', 'lentils', 'barley', 'honey'].includes(
-          item.canonicalTargetId,
-        ),
-      ),
-    ).toBe(false);
   });
 
   it('preserves the V3C.11 technical fallback boundary', () => {

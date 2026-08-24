@@ -11,4 +11,11 @@ export const CONTENT_PLAN_TARGET_IDS = [
   'food-in-biblical-times',
 ] as const;
 
-export const CONTENT_DRAFT_TARGET_IDS = ['figs', 'dates'] as const;
+export const CONTENT_DRAFT_TARGET_IDS = [
+  'figs',
+  'dates',
+  'olives',
+  'lentils',
+  'honey',
+  'barley',
+] as const;

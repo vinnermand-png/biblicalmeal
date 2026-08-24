@@ -57,7 +57,7 @@ describe('V3C.5 canonical content architecture', () => {
         ),
       ).toBe(true);
     }
-    expect(PILOT_CONTENT_ITEMS).toHaveLength(2);
+    expect(PILOT_CONTENT_ITEMS).toHaveLength(6);
   });
 
   it('keeps V3C.6 editorial drafts internal and unpublished', () => {
@@ -106,16 +106,24 @@ describe('V3C.5 canonical content architecture', () => {
     );
   });
 
-  it('defines the two approved public content objects on canonical routes', () => {
+  it('defines the approved public content objects on canonical routes', () => {
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId)).toEqual([
       'figs',
       'dates',
+      'olives',
+      'lentils',
+      'honey',
+      'barley',
     ]);
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalPath)).toEqual([
       '/foods/figs/',
       '/foods/dates/',
+      '/ingredients/olives/',
+      '/ingredients/lentils/',
+      '/ingredients/honey/',
+      '/ingredients/barley/',
     ]);
-    expect(PUBLIC_FOOD_DRAFTS).toHaveLength(2);
+    expect(PUBLIC_FOOD_DRAFTS).toHaveLength(6);
     expect(PUBLIC_FOOD_CONTENT.every((item) => item.seo.indexable)).toBe(true);
   });
 
@@ -274,7 +282,9 @@ describe('V3C.5 canonical content architecture', () => {
       );
       if (!plan) throw new Error(`${targetId} plan must exist`);
       expect(plan.workflowStatus).not.toBe('research-complete');
-      expect(researchStateForContent(plan)?.researchStatus).not.toBe('complete');
+      expect(researchStateForContent(plan)?.researchStatus).not.toBe(
+        'complete',
+      );
     }
   });
 });

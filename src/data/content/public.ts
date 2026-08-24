@@ -2,12 +2,21 @@
  * V3C.7 controlled public release layer.
  * Public content is derived from explicitly approved V3C.6 drafts; the internal
  * drafts themselves remain draft-only and are never exposed directly to routes.
+ *
+ * V3C.43 Wave 1: Added olives, lentils, honey, barley to public release.
  */
 import type { ContentDraft, ContentPlan, ContentSection } from './model';
 import { FIRST_WAVE_CONTENT_PLANS, PILOT_CONTENT_DRAFTS } from './plans';
 import { isContentPublicationEligible } from './validation';
 
-const PUBLIC_RELEASE_TARGET_IDS = ['figs', 'dates'] as const;
+const PUBLIC_RELEASE_TARGET_IDS = [
+  'figs',
+  'dates',
+  'olives',
+  'lentils',
+  'honey',
+  'barley',
+] as const;
 
 function planForTarget(targetId: string): ContentPlan {
   const plan = FIRST_WAVE_CONTENT_PLANS.find(
@@ -29,20 +38,27 @@ function publicationCandidate(
   plan: ContentPlan,
   draft: ContentDraft,
 ): ContentDraft {
+  const titles: Record<string, string> = {
+    figs: 'Figs in the Bible',
+    dates: 'Dates in the Bible',
+    olives: 'Olives in the Bible',
+    lentils: 'Lentils in the Bible',
+    honey: 'Honey in the Bible',
+    barley: 'Barley in the Bible',
+  };
+
   return {
     ...draft,
     id: `published-${plan.canonicalTargetId}`,
     status: 'published',
     workflowStatus: 'approved',
-    title:
-      plan.canonicalTargetId === 'figs'
-        ? 'Figs in the Bible'
-        : 'Dates in the Bible',
+    title: titles[plan.canonicalTargetId] ?? plan.title,
     reviewState: 'approved',
     publicationState: 'published',
+    disclosureQuestionIds: plan.requiredDisclosureQuestionIds,
     editorialNotes: [
       ...draft.editorialNotes,
-      'V3C.7 explicit first public release approval.',
+      'V3C.43 Wave 1 public release approval.',
     ],
   };
 }

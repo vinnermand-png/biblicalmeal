@@ -33,7 +33,7 @@ describe('V3C.14 first indexing and crawl readiness', () => {
     );
     expect(
       PUBLIC_FOOD_CONTENT.map((page) => page.canonicalTargetId).sort(),
-    ).toEqual(['dates', 'figs']);
+    ).toEqual(['barley', 'dates', 'figs', 'honey', 'lentils', 'olives']);
     expect(PUBLIC_FOOD_CONTENT.every((page) => page.seo.indexable)).toBe(true);
   });
 
@@ -74,14 +74,13 @@ describe('V3C.14 first indexing and crawl readiness', () => {
     }
   });
 
-  it('keeps draft-only first-wave targets off public crawl surfaces', () => {
+  it('includes Wave 1 targets in public crawl surfaces', () => {
     const publicTargets = new Set(
       PUBLIC_FOOD_CONTENT.map((page) => page.canonicalTargetId),
     );
 
-    for (const unreleased of ['olives', 'lentils', 'barley', 'honey']) {
-      expect(publicTargets.has(unreleased)).toBe(false);
-      expect(foodRoute).not.toContain(`params: { slug: '${unreleased}' }`);
+    for (const released of ['olives', 'lentils', 'barley', 'honey']) {
+      expect(publicTargets.has(released)).toBe(true);
     }
   });
 });

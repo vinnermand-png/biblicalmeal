@@ -140,6 +140,58 @@ const EDITORIAL_DRAFT_CONTENT: Record<string, Record<string, string>> = {
     uncertainty:
       'The palm-versus-edible-date distinction remains unresolved for the individual KJV palm references in the current evidence set. The archaeological evidence supports ancient date palms and a historic date culture, while the relationship between that evidence and each biblical palm reference remains a separate interpretive question.',
   },
+  olives: {
+    introduction:
+      'Olives belong to the BiblicalMeal food universe as a research subject where olive oil and the olive tree appear across agricultural, harvest, and covenant contexts. The present draft preserves uncertainty boundaries and does not treat olive oil as automatically proven from biblical wording alone.',
+    'biblical-references':
+      'The KJV renders Deuteronomy 8:8 as "oil olive" — tree, fruit, and oil remain distinct subjects until the wording question is fully resolved. The verified references span agricultural, harvest, and symbolic passages.',
+    'historical-context':
+      'Olive oil was the principal dietary fat of the ancient Israelite diet, though this contextual attribution remains unverified from MacDonald (2008). The olive appears across agricultural, harvest, and covenant contexts in Scripture.',
+    'archaeological-evidence':
+      'Tel Tsaf archaeological evidence for nearby olive orchards is recorded as plausible and in-review. The tree, fruit, and oil remain distinct subjects that should not be conflated.',
+    'food-use':
+      'Olives and olive oil remain central to Mediterranean cuisine today. The ancient methods of treading and pressing have evolved, but the fundamental product — pressed olive fruit — connects ancient and modern tables.',
+    uncertainty:
+      'The KJV "oil olive" wording in Deuteronomy 8:8 raises a scope question: the passage names the olive, but the precise relationship between the tree, its fruit, and its oil in the ancient diet remains open.',
+  },
+  lentils: {
+    introduction:
+      'Lentils belong to the BiblicalMeal food universe as a research subject where archaeological evidence and biblical narrative intersect. The present draft preserves the uncertainty boundary between narrative mention and historical cooking practice.',
+    'biblical-references':
+      'Genesis 25 presents lentil pottage in a narrative context — it must never be presented as a recipe endorsement or reconstruction basis on its own. The verified references span domestic cooking, provision, and siege contexts.',
+    'historical-context':
+      'Archaeological evidence from Neolithic Galilee sites suggests legumes — including lentils alongside fava beans, peas, and chickpeas — formed a substantial part of the prehistoric diet. This remains a single-study researcher interpretation.',
+    'archaeological-evidence':
+      'The Weizmann/IAA study of Neolithic Galilee sites provides direct evidence for legume cultivation, including lentils. This evidence is based on archaeological recovery and is reported through the Biblical Archaeology Society.',
+    'food-use':
+      'Lentils remain a staple pulse across the Middle East and Mediterranean today. Their simplicity, nutritional density, and long cooking tradition make them a natural bridge between ancient and modern kitchens.',
+    uncertainty:
+      'The full archaeological review of the Weizmann/IAA study is pending. While the secondary reporting supports the antiquity of lentil cultivation, the precise scope and interpretation of the findings require additional verification.',
+  },
+  barley: {
+    introduction:
+      'Barley belongs to the BiblicalMeal food universe as a research subject where agricultural, harvest, and provision contexts converge. The present draft preserves uncertainty boundaries across narrative settings.',
+    'biblical-references':
+      'Barley appears in seven distinct KJV contexts, spanning agricultural, harvest, provision, and narrative settings. Judges 7:13 is dream symbolism, and 2 Kings 4:42 and John 6:9 are narrative food contexts.',
+    'historical-context':
+      "Barley's appearance across agricultural, harvest, provision, and narrative contexts suggests it was deeply integrated into ancient Israelite life. The narrative bread references present barley as a recognized food, but each passage has its own narrative purpose.",
+    'food-use':
+      'Barley remains a global grain crop today, used in breads, soups, and beverages. Its ancient role as an everyday staple connects to its continued presence in Mediterranean and Middle Eastern cuisines.',
+    uncertainty:
+      'The precise role of barley in the daily diet of ancient Israelites remains interpretive rather than directly attested from a single source. The narrative contexts each require careful reading in their own setting.',
+  },
+  honey: {
+    introduction:
+      'Honey belongs to the BiblicalMeal food universe as a research subject where the Hebrew term devash raises an identification question. The present draft preserves the uncertainty boundary between bee honey and other sweet substances.',
+    'biblical-references':
+      'Honey appears in eight distinct KJV contexts, each with its own narrative setting. The passages that explicitly mention bees, honeycomb, or wild honey provide the strongest evidence for actual bee honey.',
+    'historical-context':
+      'The KJV uses the English word "honey" to translate the Hebrew term devash, but scholars have long debated whether this term always refers to bee honey or sometimes to date syrup or other sweet substances.',
+    'food-use':
+      'Honey remains a valued sweetener today, though modern beekeeping and production methods differ significantly from ancient practices. The distinction between bee honey and other sweet substances remains relevant.',
+    uncertainty:
+      'The devash identification question remains active. KJV wording alone does not resolve bee honey versus syrup in every biblical context. The "milk and honey" formula remains a land-description.',
+  },
 };
 
 function dossierForTarget(targetId: string): ResearchDossier {
@@ -162,17 +214,25 @@ function buildSections(
   targetId: string,
   dossier: ResearchDossier,
 ): ContentSection[] {
-  const claims = RESEARCH_CLAIMS.filter((claim) =>
+  const allClaims = RESEARCH_CLAIMS.filter((claim) =>
     [dossier.subjectId, ...dossier.relatedTargetIds].includes(claim.subjectId),
+  );
+  const verifiedClaims = allClaims.filter(
+    (claim) => claim.verification === 'verified' && canIncludeClaim(claim.id),
   );
   const questions = questionsForSubject(dossier.subjectId).concat(
     ...dossier.relatedTargetIds.map(questionsForSubject),
   );
   return (SECTION_KINDS[targetId] ?? []).map((kind) => {
-    const mode =
+    const baseMode =
       kind === 'uncertainty' && questions.length === 0
         ? 'editorial-only'
         : sectionMode(kind);
+    // If evidence-backed section has no verified claims, fall back to editorial-only
+    const mode =
+      baseMode === 'evidence-backed' && verifiedClaims.length === 0
+        ? 'editorial-only'
+        : baseMode;
     return {
       id: `${targetId}-${kind}`,
       kind: kind as ContentSection['kind'],
@@ -180,13 +240,15 @@ function buildSections(
       mode,
       evidence: {
         claimIds:
-          mode === 'editorial-only' ? [] : claims.map((claim) => claim.id),
+          mode === 'editorial-only'
+            ? []
+            : verifiedClaims.map((claim) => claim.id),
         sourceIds:
           mode === 'editorial-only'
             ? []
             : [
                 ...new Set(
-                  claims.flatMap((claim) =>
+                  verifiedClaims.flatMap((claim) =>
                     claim.supports.map((support) => support.sourceId),
                   ),
                 ),
@@ -194,7 +256,7 @@ function buildSections(
         scriptureRefs:
           mode === 'editorial-only'
             ? []
-            : claims.flatMap((claim) =>
+            : verifiedClaims.flatMap((claim) =>
                 claim.scriptureContext
                   ? [claim.scriptureContext.reference]
                   : [],

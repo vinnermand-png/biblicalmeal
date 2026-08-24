@@ -4,14 +4,22 @@ import { PUBLIC_FOOD_CONTENT, PUBLIC_FOOD_DRAFTS } from './public';
 import { canIncludeClaim, isContentPublicationEligible } from './validation';
 
 describe('V3C.7 first public content release', () => {
-  it('releases only the explicitly approved figs and dates targets', () => {
+  it('releases the explicitly approved targets (figs, dates, and Wave 1)', () => {
     expect(PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId)).toEqual([
       'figs',
       'dates',
+      'olives',
+      'lentils',
+      'honey',
+      'barley',
     ]);
     expect(PUBLIC_FOOD_DRAFTS.map((item) => item.contentItemId)).toEqual([
       'content-figs',
       'content-dates',
+      'content-olives',
+      'content-lentils',
+      'content-honey',
+      'content-barley',
     ]);
   });
 
@@ -80,13 +88,13 @@ describe('V3C.7 first public content release', () => {
     ).toBe(PUBLIC_FOOD_CONTENT.length);
   });
 
-  it('does not release future first-wave drafts automatically', () => {
+  it('releases all Wave 1 targets', () => {
     const publicIds = new Set(
       PUBLIC_FOOD_CONTENT.map((item) => item.canonicalTargetId),
     );
-    expect(publicIds.has('olives')).toBe(false);
-    expect(publicIds.has('lentils')).toBe(false);
-    expect(publicIds.has('barley')).toBe(false);
-    expect(publicIds.has('honey')).toBe(false);
+    expect(publicIds.has('olives')).toBe(true);
+    expect(publicIds.has('lentils')).toBe(true);
+    expect(publicIds.has('barley')).toBe(true);
+    expect(publicIds.has('honey')).toBe(true);
   });
 });
