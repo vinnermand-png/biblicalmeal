@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import { PRIVACY_DATA_FLOWS } from '../lib/privacy-inventory';
+
+const dataFlowsByCategory = {
+  analytics: PRIVACY_DATA_FLOWS.filter(
+    (f) => f.category === 'analytics-measurement',
+  ),
+  admin: PRIVACY_DATA_FLOWS.filter(
+    (f) =>
+      f.category === 'admin-audit-history' ||
+      f.category === 'draft-content-persistence',
+  ),
+  newsletter: PRIVACY_DATA_FLOWS.filter(
+    (f) => f.category === 'newsletter-email',
+  ),
+  external: PRIVACY_DATA_FLOWS.filter(
+    (f) => f.category === 'external-providers',
+  ),
+  serp: PRIVACY_DATA_FLOWS.filter(
+    (f) => f.category === 'search-console-import',
+  ),
+};
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Privacy policy for BiblicalMeal - how we handle data, cookies, and tracking."
+>
+  <Header />
+  <main id="main" class="bg-background">
+    <section class="container-site py-20 md:py-28">
+      <div class="mx-auto max-w-3xl">
+        <p class="eyebrow text-terracotta">Legal</p>
+        <h1 class="mt-4 font-display text-h1 text-ink">Privacy Policy</h1>
+        <p class="mt-4 text-body-lg text-ink-muted">
+          <em
+            >Last updated: {
+              new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }</em
+          >
+        </p>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Overview</h2>
+          <p class="mt-4 text-body text-ink">
+            BiblicalMeal is an independent food publication exploring Scripture,
+            history, and cooking. We respect your privacy and are committed to
+            being transparent about the data we collect and how we use it.
+          </p>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Data We Collect</h2>
+
+          <div class="mt-6 space-y-6">
+            {
+              dataFlowsByCategory.analytics.length > 0 && (
+                <div>
+                  <h3 class="font-semibold text-ink">Analytics (Optional)</h3>
+                  <p class="mt-2 text-body text-ink-muted">
+                    We use optional browser analytics (Google Analytics 4) to
+                    understand how visitors use BiblicalMeal.
+                    <strong>
+                      No tracking occurs unless you explicitly consent.
+                    </strong>
+                  </p>
+                  <ul class="mt-2 list-disc pl-6 text-body text-ink-muted">
+                    {dataFlowsByCategory.analytics.map((flow) => (
+                      <li class="mt-1">{flow.description}</li>
+                    ))}
+                  </ul>
+                  <p class="mt-2 text-caption text-ink-muted">
+                    Status: <span class="font-semibold">Integration-ready</span>{' '}
+                    — Analytics is disabled by default and requires both a
+                    configured GA4 measurement ID and your explicit consent.
+                  </p>
+                </div>
+              )
+            }
+
+            {
+              dataFlowsByCategory.newsletter.length > 0 && (
+                <div>
+                  <h3 class="font-semibold text-ink">Newsletter (Demo)</h3>
+                  <p class="mt-2 text-body text-ink-muted">
+                    We provide a newsletter subscription form. Currently, this
+                    is a demo form — email delivery is not connected.
+                  </p>
+                  <ul class="mt-2 list-disc pl-6 text-body text-ink-muted">
+                    {dataFlowsByCategory.newsletter.map((flow) => (
+                      <li class="mt-1">{flow.description}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+
+            {
+              dataFlowsByCategory.admin.length > 0 && (
+                <div>
+                  <h3 class="font-semibold text-ink">
+                    Content & Administration
+                  </h3>
+                  <p class="mt-2 text-body text-ink-muted">
+                    BiblicalMeal is a static website. Content is published as
+                    static HTML and does not collect personal data.
+                  </p>
+                  <ul class="mt-2 list-disc pl-6 text-body text-ink-muted">
+                    {dataFlowsByCategory.admin.map((flow) => (
+                      <li class="mt-1">{flow.description}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+          </div>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Cookies</h2>
+          <p class="mt-4 text-body text-ink">
+            BiblicalMeal uses minimal cookies:
+          </p>
+          <ul class="mt-4 list-disc pl-6 text-body text-ink-muted">
+            <li class="mt-2">
+              <strong>Necessary cookies:</strong> None currently required for basic
+              site functionality.
+            </li>
+            <li class="mt-2">
+              <strong>Analytics cookies:</strong> Google Analytics cookies (_ga, _gid)
+              — only set if you consent to analytics tracking.
+            </li>
+            <li class="mt-2">
+              <strong>Consent cookie:</strong> We store your consent preference in
+              localStorage (bm-consent) to remember your choice.
+            </li>
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Your Choices</h2>
+          <p class="mt-4 text-body text-ink">
+            You can control your privacy preferences:
+          </p>
+          <ul class="mt-4 list-disc pl-6 text-body text-ink-muted">
+            <li class="mt-2">
+              <strong>Analytics consent:</strong> You can accept or reject analytics
+              tracking. No tracking occurs without your explicit consent.
+            </li>
+            <li class="mt-2">
+              <strong>Withdraw consent:</strong> You can change or withdraw your consent
+              at any time by clicking "Manage Preferences" in the cookie banner.
+            </li>
+            <li class="mt-2">
+              <strong>Browser controls:</strong> You can clear localStorage at any
+              time through your browser settings.
+            </li>
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Third-Party Services</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            <strong>Currently implemented:</strong> None. BiblicalMeal does not currently
+            integrate with any third-party services that collect personal data.
+          </p>
+          <p class="mt-4 text-body text-ink-muted">
+            <strong>Integration-ready:</strong>
+          </p>
+          <ul class="mt-2 list-disc pl-6 text-body text-ink-muted">
+            <li class="mt-2">
+              Google Analytics 4 (requires configuration and consent)
+            </li>
+            <li class="mt-2">
+              Google Search Console (for search visibility data — no personal
+              data collected)
+            </li>
+            <li class="mt-2">
+              Bing Webmaster Tools (for search visibility data — no personal
+              data collected)
+            </li>
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Data Security</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            BiblicalMeal is a static website. We implement security headers
+            including:
+          </p>
+          <ul class="mt-4 list-disc pl-6 text-body text-ink-muted">
+            <li class="mt-2">Content Security Policy (CSP)</li>
+            <li class="mt-2">
+              X-Frame-Options: DENY (clickjacking protection)
+            </li>
+            <li class="mt-2">X-Content-Type-Options: nosniff</li>
+            <li class="mt-2">
+              Referrer-Policy: strict-origin-when-cross-origin
+            </li>
+            <li class="mt-2">Strict-Transport-Security (HSTS)</li>
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Changes to This Policy</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            We may update this privacy policy from time to time. Changes will be
+            posted on this page with an updated date.
+          </p>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Contact</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            For questions about this privacy policy, please contact us through
+            the BiblicalMeal website.
+          </p>
+        </section>
+
+        <div class="mt-16 border-t border-line pt-8">
+          <p class="text-caption text-ink-muted">
+            Th This privacy policy reflects the actual current behavior of the
+            BiblicalMeal repository. We do not claim GDPR compliance or legal
+            certification. This is a transparency document, not a legal
+            guarantee.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

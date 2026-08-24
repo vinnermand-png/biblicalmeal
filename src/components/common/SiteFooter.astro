@@ -9,8 +9,8 @@ const exploreLinks = [
 ];
 
 const legalLinks = [
-  { label: 'Privacy Policy', href: '#' },
-  { label: 'Terms of Use', href: '#' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Cookie Policy', href: '/cookies' },
 ];
 
 const socialLinks = [
@@ -79,9 +79,12 @@ const socialLinks = [
         {
           legalLinks.map((link) => (
             <li>
-              <span class="text-body text-cream-muted" title="Coming soon">
+              <a
+                href={link.href}
+                class="text-body text-cream-muted transition-colors hover:text-cream"
+              >
                 {link.label}
-              </span>
+              </a>
             </li>
           ))
         }
@@ -97,7 +100,7 @@ const socialLinks = [
       <p class="text-caption leading-relaxed text-cream-muted">
         BiblicalMeal is an independent food publication exploring Scripture,
         history, and cooking. Factual profiles are researched before
-        publication; items marked “In research” are works in progress.
+        publication; items marked "In research" are works in progress.
       </p>
     </div>
   </div>

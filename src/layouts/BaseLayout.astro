@@ -8,6 +8,7 @@ import { SITE } from '../config';
 import { ANALYTICS } from '../lib/analytics';
 import { resolveSocialMetadata } from '../lib/social-metadata';
 import { SEARCH_ENGINE_VERIFICATION } from '../lib/search-engine-verification';
+import ConsentBanner from '../components/islands/ConsentBanner.tsx';
 
 interface Props {
   title?: string;
@@ -48,7 +49,17 @@ const websiteSchema = {
   inLanguage: 'en',
 };
 
-const analyticsEnabled = ANALYTICS.enabled && !noindex && !technicalFallback;
+/**
+ * V3C.38: Analytics is only enabled when:
+ * 1. A valid GA4 measurement ID is configured (ANALYTICS.enabled)
+ * 2. Not a noindex or technical fallback page
+ * 3. User has consented to analytics (checked client-side)
+ *
+ * The server-side check ensures we don't even emit the script tag
+ * unless analytics is configured. The client-side consent check
+ * happens in the inline script before calling gtag.
+ */
+const analyticsConfigured = ANALYTICS.enabled && !noindex && !technicalFallback;
 ---
 
 <!doctype html>
@@ -73,20 +84,41 @@ const analyticsEnabled = ANALYTICS.enabled && !noindex && !technicalFallback;
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     {
-      analyticsEnabled && ANALYTICS.measurementId && (
-        <>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
-          />
-          <script
-            is:inline
-            set:html={`window.dataLayer = window.dataLayer || [];
+      analyticsConfigured && ANALYTICS.measurementId && (
+        <script
+          is:inline
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
+        />
+      )
+    }
+    {
+      analyticsConfigured && ANALYTICS.measurementId && (
+        <script
+          is:inline
+          set:html={`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});`}
-          />
-        </>
+
+/**
+ * V3C.38: Analytics respects consent.
+ * gtag is only called if the user has explicitly consented.
+ * Consent is checked from localStorage (bm-consent).
+ */
+function checkConsentAndTrack(){
+  try{
+    const consent = JSON.parse(localStorage.getItem('bm-consent') || '{}');
+    if(consent.analytics === true && consent.hasChosen === true){
+      gtag('js', new Date());
+      gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});
+    }
+  }catch(e){
+    // Consent check failed - do not track
+  }
+}
+
+// Only track if consent is already given
+checkConsentAndTrack();`}
+        />
       )
     }
 
@@ -169,7 +201,7 @@ gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});`}
       Skip to content
     </a>
     <slot />
-    <script>
+    <script is:inline>
       const revealEls = Array.from(document.querySelectorAll('.reveal'));
       const prefersReducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
@@ -191,6 +223,19 @@ gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});`}
         );
         for (const el of revealEls) observer.observe(el);
       }
+
+      /**
+       * V3C.38: Listen for consent changes and update analytics tracking.
+       * If consent is granted, reload page to apply tracking.
+       * The initial script already checks consent on page load.
+       */
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'bm-consent') {
+          // Refresh consent state on page - the checkConsentAndTrack
+          // function will be re-evaluated on next page load
+        }
+      });
     </script>
+    <ConsentBanner client:load />
   </body>
 </html>

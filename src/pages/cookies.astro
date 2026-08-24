@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="Cookie policy for BiblicalMeal - how we use cookies and tracking technologies."
+>
+  <Header />
+  <main id="main" class="bg-background">
+    <section class="container-site py-20 md:py-28">
+      <div class="mx-auto max-w-3xl">
+        <p class="eyebrow text-terracotta">Legal</p>
+        <h1 class="mt-4 font-display text-h1 text-ink">Cookie Policy</h1>
+        <p class="mt-4 text-body-lg text-ink-muted">
+          <em
+            >Last updated: {
+              new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }</em
+          >
+        </p>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">What Are Cookies?</h2>
+          <p class="mt-4 text-body text-ink">
+            Cookies are small text files stored on your device when you visit a
+            website. They help the site remember your preferences and understand
+            how you use it.
+          </p>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">How We Use Cookies</h2>
+          <p class="mt-4 text-body text-ink">
+            BiblicalMeal uses cookies minimally. Here's what we use:
+          </p>
+
+          <div class="mt-6 space-y-6">
+            <div>
+              <h3 class="font-semibold text-ink">Necessary Cookies</h3>
+              <p class="mt-2 text-body text-ink-muted">
+                <strong>Status: None currently required.</strong>
+              </p>
+              <p class="mt-2 text-body text-ink-muted">
+                BiblicalMeal is a static website that does not currently require
+                any cookies for basic functionality.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="font-semibold text-ink">Analytics Cookies</h3>
+              <p class="mt-2 text-body text-ink-muted">
+                <strong
+                  >Status: Integration-ready (not currently active).</strong
+                >
+              </p>
+              <p class="mt-2 text-body text-ink-muted">
+                When you consent to analytics tracking, Google Analytics sets
+                the following cookies:
+              </p>
+              <ul class="mt-2 list-disc pl-6 text-body text-ink-muted">
+                <li class="mt-1">
+                  <strong>_ga</strong> — Distinguishes unique users by assigning a
+                  randomly generated number as a client identifier.
+                </li>
+                <li class="mt-1">
+                  <strong>_ga_</strong> — Used to maintain session state.
+                </li>
+              </ul>
+              <p class="mt-2 text-body text-ink-muted">
+                These cookies are only set if you explicitly consent to
+                analytics tracking. No tracking occurs without your consent.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="font-semibold text-ink">Consent Storage</h3>
+              <p class="mt-2 text-body text-ink-muted">
+                <strong>Status: Currently implemented.</strong>
+              </p>
+              <p class="mt-2 text-body text-ink-muted">
+                We store your cookie consent preference in localStorage (not a
+                cookie) under the key <code>bm-consent</code>. This remembers
+                your choice so you don't have to choose again on each visit.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Your Choices</h2>
+          <p class="mt-4 text-body text-ink">You have control over cookies:</p>
+          <ul class="mt-4 list-disc pl-6 text-body text-ink-muted">
+            <li class="mt-2">
+              <strong>Consent banner:</strong> When you first visit, you can accept
+              or reject analytics cookies.
+            </li>
+            <li class="mt-2">
+              <strong>Manage preferences:</strong> Click "Manage Preferences" in the
+              cookie banner to change your choices at any time.
+            </li>
+            <li class="mt-2">
+              <strong>Browser settings:</strong> You can block or delete cookies through
+              your browser settings.
+            </li>
+            <li class="mt-2">
+              <strong>Clear localStorage:</strong> You can clear the consent preference
+              by clearing your browser's localStorage for this site.
+            </li>
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Third-Party Cookies</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            <strong>Currently implemented:</strong> None. BiblicalMeal does not currently
+            use any third-party cookies.
+          </p>
+          <p class="mt-4 text-body text-ink-muted">
+            <strong>Integration-ready:</strong> Google Analytics cookies (only if
+            you consent to analytics tracking).
+          </p>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="font-display text-h2 text-ink">Changes to This Policy</h2>
+          <p class="mt-4 text-body text-ink-muted">
+            We may update this cookie policy from time to time. Changes will be
+            posted on this page with an updated date.
+          </p>
+        </section>
+
+        <div class="mt-16 border-t border-line pt-8">
+          <p class="text-caption text-ink-muted">
+            This cookie policy reflects the actual current behavior of the
+            BiblicalMeal repository. We do not claim GDPR compliance or legal
+            certification. This is a transparency document, not a legal
+            guarantee.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

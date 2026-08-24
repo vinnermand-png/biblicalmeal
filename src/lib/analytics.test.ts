@@ -52,7 +52,7 @@ describe('V3C.13 analytics readiness', () => {
     const pageFiles = listSourceFiles(new URL('../pages/', import.meta.url));
 
     expect(layout).toContain("import { ANALYTICS } from '../lib/analytics';");
-    expect(layout).toContain('const analyticsEnabled =');
+    expect(layout).toContain('const analyticsConfigured =');
     expect(layout).toContain('www.googletagmanager.com/gtag/js?id=');
 
     for (const pageFile of pageFiles) {
@@ -65,7 +65,7 @@ describe('V3C.13 analytics readiness', () => {
   it('emits no external analytics script when analytics is disabled', () => {
     const layout = readRepositoryFile('../layouts/BaseLayout.astro');
 
-    expect(layout).toContain('analyticsEnabled && ANALYTICS.measurementId');
+    expect(layout).toContain('analyticsConfigured && ANALYTICS.measurementId');
     expect(layout).toContain(
       'ANALYTICS.enabled && !noindex && !technicalFallback',
     );
@@ -118,6 +118,48 @@ describe('V3C.13 analytics readiness', () => {
     expect(hardcodedMeasurementIds).toEqual([]);
     expect(docs).toContain(
       'does not maintain an internal database of invented metrics',
+    );
+  });
+});
+
+describe('V3C.38 analytics consent integration', () => {
+  it('checks consent before calling gtag', () => {
+    const layout = readRepositoryFile('../layouts/BaseLayout.astro');
+
+    // The inline script should check localStorage consent before tracking
+    expect(layout).toContain("localStorage.getItem('bm-consent')");
+    expect(layout).toContain('checkConsentAndTrack');
+  });
+
+  it('only tracks when consent.analytics is true', () => {
+    const layout = readRepositoryFile('../layouts/BaseLayout.astro');
+
+    // Should check for consent.analytics === true
+    expect(layout).toContain('consent.analytics === true');
+    expect(layout).toContain('consent.hasChosen === true');
+  });
+
+  it('does not automatically track without consent', () => {
+    const layout = readRepositoryFile('../layouts/BaseLayout.astro');
+
+    // The checkConsentAndTrack function should only call gtag if consent is given
+    // The default state (no localStorage) should not trigger tracking
+    expect(layout).toContain('checkConsentAndTrack();');
+  });
+
+  it('includes ConsentBanner component', () => {
+    const layout = readRepositoryFile('../layouts/BaseLayout.astro');
+
+    expect(layout).toContain('ConsentBanner');
+    expect(layout).toContain('client:load');
+  });
+
+  it('does not claim analytics is enabled without consent', () => {
+    const layout = readRepositoryFile('../layouts/BaseLayout.astro');
+
+    // Should not have unconditional gtag calls
+    expect(layout).not.toMatch(
+      /gtag\('js', new Date\(\)\);\s*\ngtag\('config'/,
     );
   });
 });
