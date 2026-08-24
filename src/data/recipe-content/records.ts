@@ -1,5 +1,8 @@
 import { RECIPE_RESEARCH_RECORDS } from '../recipe-research/records';
 import type { RecipeContentRecord } from './types';
+import { GRILLED_FISH_CONTENT } from './recipes/grilled-fish';
+import { BARLEY_BREAD_CONTENT } from './recipes/barley-bread';
+import { WHEAT_FLATBREAD_CONTENT } from './recipes/wheat-flatbread';
 
 const researchById = new Map(
   RECIPE_RESEARCH_RECORDS.map((record) => [record.id, record]),
@@ -9,18 +12,27 @@ const lentilResearch = researchById.get('recipe-lentil-pottage');
 const breadResearch = researchById.get('recipe-unleavened-bread');
 
 if (!lentilResearch || !breadResearch) {
-  throw new Error('V3C.18 recipe content seeds require the canonical V3C.17 research records.');
+  throw new Error(
+    'V3C.18 recipe content seeds require the canonical V3C.17 research records.',
+  );
 }
 
 /**
- * First scoped production batch.
+ * V3C.18 + V3C.44C — Recipe Content Records.
  *
- * These are intentionally internal, draft and non-public. The practical
- * quantities and timings below are modern kitchen choices for testing the
- * V3C.17 → V3C.18 pipeline; they are not presented as recovered ancient
+ * The V3C.17 → V3C.18 pipeline is preserved: research records own evidence
+ * and reconstruction; content records own practical quantities and steps.
+ *
+ * V3C.44C Wave 1 adds three scripture-inspired-preparation recipes
+ * (Grilled Fish, Barley Bread, Wheat Flatbread) alongside the original
+ * two historically-informed-reconstruction drafts.
+ *
+ * All records are intentionally draft and non-public. The practical
+ * quantities and timings are modern kitchen choices, not recovered ancient
  * measurements or exact biblical preparation instructions.
  */
 export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
+  // ─── V3C.18 ORIGINAL SEEDS ──────────────────────────────────────────
   {
     id: 'recipe-content-lentil-pottage',
     recipeResearchId: lentilResearch.id,
@@ -55,22 +67,26 @@ export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
     preparationSteps: [
       {
         order: 1,
-        instruction: 'Rinse the lentils and combine them with the measured water in a modern saucepan.',
+        instruction:
+          'Rinse the lentils and combine them with the measured water in a modern saucepan.',
         evidenceLayer: 'practical-adaptation',
         disclosure:
           'The vessel and exact water ratio are modern production choices; the V3C.17 record does not establish one exact historical method.',
       },
       {
         order: 2,
-        instruction: 'Bring to a gentle simmer, then cook until the lentils are soft enough to form a thick, spoonable preparation.',
+        instruction:
+          'Bring to a gentle simmer, then cook until the lentils are soft enough to form a thick, spoonable preparation.',
         evidenceLayer: 'practical-adaptation',
         disclosure:
           'Texture and cooking endpoint are practical reconstruction choices rather than historically verified instructions.',
       },
     ],
     servings: '2 modern servings',
-    timingGuidance: 'Approximately 25–35 minutes in a modern kitchen; timing is an adaptation, not historical evidence.',
-    servingGuidance: 'Serve as a simple modern reconstruction draft without claiming that the exact ancient preparation is known.',
+    timingGuidance:
+      'Approximately 25-35 minutes in a modern kitchen; timing is an adaptation, not historical evidence.',
+    servingGuidance:
+      'Serve as a simple modern reconstruction draft without claiming that the exact ancient preparation is known.',
     editorialNotes: [
       'Do not add onions, spices, oil or other ingredients unless a later research record maps their evidence to this specific reconstruction.',
       'Keep modern quantity, timing and vessel choices visibly separated from the historical basis.',
@@ -122,22 +138,26 @@ export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
     preparationSteps: [
       {
         order: 1,
-        instruction: 'Mix the modern flour with water gradually until a workable unleavened dough forms.',
+        instruction:
+          'Mix the modern flour with water gradually until a workable unleavened dough forms.',
         evidenceLayer: 'practical-adaptation',
         disclosure:
           'This is a modern preparation method selected for reproducibility, not a claim of one exact ancient technique.',
       },
       {
         order: 2,
-        instruction: 'Divide, flatten, and cook the dough in a modern dry skillet until cooked through.',
+        instruction:
+          'Divide, flatten, and cook the dough in a modern dry skillet until cooked through.',
         evidenceLayer: 'practical-adaptation',
         disclosure:
           'Shape, vessel and cooking method remain modern reconstruction choices because the current research record does not establish one exact method.',
       },
     ],
     servings: '4 small modern flatbreads',
-    timingGuidance: 'Approximately 20 minutes plus brief resting time; modern adaptation only.',
-    servingGuidance: 'Use this only as a transparent modern reconstruction draft, not as a claim that an exact biblical bread recipe has been recovered.',
+    timingGuidance:
+      'Approximately 20 minutes plus brief resting time; modern adaptation only.',
+    servingGuidance:
+      'Use this only as a transparent modern reconstruction draft, not as a claim that an exact biblical bread recipe has been recovered.',
     editorialNotes: [
       'The record must not be upgraded to a historically attested recipe without research that supports the selected flour and cooking method.',
       'Keep the distinction between the attested unleavened-bread concept and the modern formula visible to reviewers and future readers.',
@@ -148,4 +168,9 @@ export const RECIPE_CONTENT_RECORDS: readonly RecipeContentRecord[] = [
     publicationStatus: breadResearch.publicationStatus,
     publicationEligible: false,
   },
+
+  // ─── V3C.44C WAVE 1 — SCRIPTURE-INSPIRED PREPARATIONS ──────────────
+  GRILLED_FISH_CONTENT,
+  BARLEY_BREAD_CONTENT,
+  WHEAT_FLATBREAD_CONTENT,
 ];

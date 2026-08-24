@@ -6,15 +6,23 @@ import type { RecipeContentRecord } from './types';
 describe('V3C.18 recipe content production', () => {
   it('keeps canonical identity and V3C.17 research linkage intact', () => {
     expect(RECIPE_CONTENT_AUDIT.issues).toEqual([]);
-    expect(new Set(RECIPE_CONTENT_RECORDS.map((record) => record.id)).size).toBe(
-      RECIPE_CONTENT_RECORDS.length,
-    );
-    expect(RECIPE_CONTENT_RECORDS.every((record) => record.recipeResearchId)).toBe(true);
+    expect(
+      new Set(RECIPE_CONTENT_RECORDS.map((record) => record.id)).size,
+    ).toBe(RECIPE_CONTENT_RECORDS.length);
+    expect(
+      RECIPE_CONTENT_RECORDS.every((record) => record.recipeResearchId),
+    ).toBe(true);
   });
 
   it('preserves research classification and unresolved evidence disclosures', () => {
+    const VALID_CLASSIFICATIONS = [
+      'historically-informed-reconstruction',
+      'scripture-inspired-preparation',
+      'historically-attested-preparation',
+      'modern-adaptation',
+    ];
     for (const record of RECIPE_CONTENT_RECORDS) {
-      expect(record.classification).toBe('historically-informed-reconstruction');
+      expect(VALID_CLASSIFICATIONS).toContain(record.classification);
       expect(record.uncertaintyDisclosure.trim()).not.toBe('');
       expect(record.editorialNotes.length).toBeGreaterThan(0);
     }
@@ -35,8 +43,12 @@ describe('V3C.18 recipe content production', () => {
       expect(record.metaDescription.length).toBeGreaterThan(40);
       expect(record.ingredients.length).toBeGreaterThan(0);
       expect(record.preparationSteps.length).toBeGreaterThan(0);
-      expect(record.ingredients.every((ingredient) => ingredient.evidenceLayer)).toBe(true);
-      expect(record.preparationSteps.every((step) => step.evidenceLayer)).toBe(true);
+      expect(
+        record.ingredients.every((ingredient) => ingredient.evidenceLayer),
+      ).toBe(true);
+      expect(record.preparationSteps.every((step) => step.evidenceLayer)).toBe(
+        true,
+      );
     }
   });
 
@@ -46,8 +58,12 @@ describe('V3C.18 recipe content production', () => {
         (ingredient) => ingredient.evidenceLayer === 'practical-adaptation',
       );
       expect(modernChoices.length).toBeGreaterThan(0);
-      expect(modernChoices.every((ingredient) => ingredient.disclosure?.trim())).toBe(true);
-      expect(record.preparationSteps.every((step) => step.disclosure?.trim())).toBe(true);
+      expect(
+        modernChoices.every((ingredient) => ingredient.disclosure?.trim()),
+      ).toBe(true);
+      expect(
+        record.preparationSteps.every((step) => step.disclosure?.trim()),
+      ).toBe(true);
     }
   });
 
@@ -96,8 +112,9 @@ describe('V3C.18 recipe content production', () => {
   it('requires disclosure for practical ingredient additions', () => {
     const invalid = {
       ...RECIPE_CONTENT_RECORDS[0],
-      ingredients: RECIPE_CONTENT_RECORDS[0].ingredients.map((ingredient, index) =>
-        index === 1 ? { ...ingredient, disclosure: '' } : ingredient,
+      ingredients: RECIPE_CONTENT_RECORDS[0].ingredients.map(
+        (ingredient, index) =>
+          index === 1 ? { ...ingredient, disclosure: '' } : ingredient,
       ),
     } satisfies RecipeContentRecord;
 

@@ -1,23 +1,45 @@
 import { RECIPE_CONTENT_RECORDS } from '../recipe-content/records';
-import type { CookbookRecord, CookbookRecipeInclusion, CookbookSection } from './types';
+import type {
+  CookbookRecord,
+  CookbookRecipeInclusion,
+  CookbookSection,
+} from './types';
 
 const recipeContentById = new Map(
   RECIPE_CONTENT_RECORDS.map((record) => [record.id, record]),
 );
 
 const lentilRecipe = recipeContentById.get('recipe-content-lentil-pottage');
-const unleavenedBreadRecipe = recipeContentById.get('recipe-content-unleavened-bread');
+const unleavenedBreadRecipe = recipeContentById.get(
+  'recipe-content-unleavened-bread',
+);
+const grilledFishRecipe = recipeContentById.get('recipe-content-grilled-fish');
+const barleyBreadRecipe = recipeContentById.get('recipe-content-barley-bread');
+const wheatFlatbreadRecipe = recipeContentById.get(
+  'recipe-content-wheat-flatbread',
+);
 
-if (!lentilRecipe || !unleavenedBreadRecipe) {
-  throw new Error('V3C.30 cookbook seeds require canonical V3C.18 recipe content records.');
+if (
+  !lentilRecipe ||
+  !unleavenedBreadRecipe ||
+  !grilledFishRecipe ||
+  !barleyBreadRecipe ||
+  !wheatFlatbreadRecipe
+) {
+  throw new Error(
+    'V3C.30 cookbook seeds require canonical V3C.18 + V3C.44C recipe content records.',
+  );
 }
 
 /**
- * V3C.30 — Full Cookbook Creation.
+ * V3C.30 + V3C.44C — Cookbook Production Records.
  *
- * This first real cookbook batch uses only the canonical V3C.18 recipe content
- * records. Inclusion does not promote either draft: cookbook production remains
- * separate from recipe ownership, editorial approval and publication.
+ * The cookbook now includes five recipes across four sections:
+ * - V3C.18 seeds (lentil pottage, unleavened bread)
+ * - V3C.44C Wave 1 (grilled fish, barley bread, wheat flatbread)
+ *
+ * Inclusion does not promote any draft to published: cookbook production
+ * remains separate from recipe ownership, editorial approval and publication.
  */
 export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
   {
@@ -25,15 +47,22 @@ export const COOKBOOK_RECORDS: readonly CookbookRecord[] = [
     title: 'BiblicalMeal: First Evidence-Aware Reconstructions',
     slug: 'first-evidence-aware-reconstructions',
     description:
-      'An internal production cookbook batch that groups the first evidence-aware reconstruction drafts while preserving their uncertainty and modern-kitchen adaptation disclosures.',
+      'An internal production cookbook batch that groups the first evidence-aware reconstruction and scripture-inspired drafts while preserving their uncertainty and modern-kitchen adaptation disclosures.',
     productionStatus: 'in-production',
     publicationStatus: 'draft',
     publicationEligible: false,
     sectionIds: [
       'cookbook-section-simple-preparations',
       'cookbook-section-breads-and-grains',
+      'cookbook-section-seafood-preparations',
     ],
-    recipeContentIds: [lentilRecipe.id, unleavenedBreadRecipe.id],
+    recipeContentIds: [
+      lentilRecipe.id,
+      unleavenedBreadRecipe.id,
+      grilledFishRecipe.id,
+      barleyBreadRecipe.id,
+      wheatFlatbreadRecipe.id,
+    ],
   },
 ];
 
@@ -52,7 +81,15 @@ export const COOKBOOK_SECTIONS: readonly CookbookSection[] = [
     title: 'Breads and Grain Preparations',
     order: 2,
     description:
-      'Reconstruction drafts that preserve the distinction between an attested food concept and a modern practical formula.',
+      'Reconstruction and scripture-inspired drafts that preserve the distinction between an attested food concept and a modern practical formula.',
+  },
+  {
+    id: 'cookbook-section-seafood-preparations',
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    title: 'Seafood Preparations',
+    order: 3,
+    description:
+      'Scripture-inspired recipes drawing on the attested fish consumption in the Gospels.',
   },
 ];
 
@@ -80,6 +117,42 @@ export const COOKBOOK_RECIPE_INCLUSIONS: readonly CookbookRecipeInclusion[] = [
     productionReady: false,
     notes:
       'Included as an internal production draft only. The selected flour, quantities and skillet method remain modern practical choices rather than a claimed exact biblical formula.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-breads-and-grains',
+    recipeContentId: barleyBreadRecipe.id,
+    order: 2,
+    productionStatus: barleyBreadRecipe.productionStatus,
+    editorialReviewStatus: barleyBreadRecipe.editorialReviewStatus,
+    publicationStatus: barleyBreadRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Barley is attested as one of the seven species (Deuteronomy 8:8) and barley loaves appear in John 6:9, but no specific bread recipe exists in the text.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-breads-and-grains',
+    recipeContentId: wheatFlatbreadRecipe.id,
+    order: 3,
+    productionStatus: wheatFlatbreadRecipe.productionStatus,
+    editorialReviewStatus: wheatFlatbreadRecipe.editorialReviewStatus,
+    publicationStatus: wheatFlatbreadRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Wheat is attested as one of the seven species (Deuteronomy 8:8), but no specific flatbread recipe exists in the text.',
+  },
+  {
+    cookbookId: 'cookbook-biblicalmeal-first-reconstructions',
+    sectionId: 'cookbook-section-seafood-preparations',
+    recipeContentId: grilledFishRecipe.id,
+    order: 1,
+    productionStatus: grilledFishRecipe.productionStatus,
+    editorialReviewStatus: grilledFishRecipe.editorialReviewStatus,
+    publicationStatus: grilledFishRecipe.publicationStatus,
+    productionReady: false,
+    notes:
+      'Included as a scripture-inspired draft. Fish consumption is explicitly attested in Luke 24:42-43, but the specific preparation method is a modern adaptation.',
   },
 ];
 
