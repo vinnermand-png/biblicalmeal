@@ -107,7 +107,7 @@ export const RECIPE_RESEARCH_RECORDS: readonly RecipeResearchRecord[] = [
       {
         layer: 'directly-attested',
         statement:
-          '2 Samuel 17:28-29 (KJV): lentils among provisions brought to David — "And bring me bread, and corn, and ten cakes of figs, and百卷a hundred cakes of raisins, and hundred of cheese, and sheep." (Cheese and lentils mentioned together as provision foods.)',
+          '2 Samuel 17:28-29 (KJV): lentils among provisions brought to David — "And bring me bread, and corn, and ten cakes of figs, and a hundred cakes of raisins, and hundred of cheese, and sheep." (Cheese and lentils mentioned together as provision foods.)',
       },
       {
         layer: 'inferred',
@@ -451,6 +451,226 @@ export const RECIPE_RESEARCH_RECORDS: readonly RecipeResearchRecord[] = [
       'Deuteronomy 8:8 — wheat named as one of the seven species. Exodus 16:31 — manna compared to wheat-based food. Matthew 13:24-30 — parable of the wheat and tares. The seven-species reference is the primary anchor.',
     foodEvidence: {
       wheat: FOOD_EVIDENCE['wheat'],
+    },
+  },
+
+  // ─── 7. HONEY CAKES ────────────────────────────────────────────────
+  {
+    id: 'recipe-honey-cakes',
+    name: 'Honey cakes — inspired preparation',
+    foodIds: ['honey-entity'],
+    historicalContext:
+      'Honey (Hebrew: dvash) is one of the seven species of the Land of Israel (Deuteronomy 8:8) and appears throughout the biblical text as both a food and a symbol of abundance. The phrase "land flowing with milk and honey" (Exodus 3:8) establishes honey as a defining food of the promised land. While the biblical text does not provide a specific "honey cake" recipe, honey is referenced alongside baked preparations in several passages: Exodus 16:31 compares manna to "wafers made with honey," and 2 Samuel 6:19 records David distributing "a cake of bread" among the people. The Hebrew word for "cake" (uggoth/ishshah) refers to baked grain preparations — flatbreads, round cakes, or baked goods — not modern pastry cakes. Archaeological evidence confirms that honey was widely used as a sweetener in the ancient Near East, and baked grain preparations were common across the region.',
+    classification: 'scripture-inspired-preparation',
+    evidence: [
+      {
+        layer: 'directly-attested',
+        statement:
+          'Deuteronomy 8:8 (KJV): "A land of wheat, and barley, and vines, and fig trees, and pomegranates; a land of oil olive, and honey." Honey is named as one of the seven species of the Land of Israel.',
+      },
+      {
+        layer: 'directly-attested',
+        statement:
+          'Exodus 16:31 (KJV): "And the house of Israel called the name thereof Manna: and it was like coriander seed, white; and the taste of it was like wafers made with honey." Honey is used in a food preparation context.',
+      },
+      {
+        layer: 'directly-attested',
+        statement:
+          '2 Samuel 6:19 (KJV): David distributed food "among all the people, even among the whole multitude of Israel, both to the women, and to the men, to every one a cake of bread, and a good piece of flesh, and a flagon of wine." Cakes of bread are attested as a food item.',
+      },
+      {
+        layer: 'inferred',
+        statement:
+          'Honey was a primary sweetener in the ancient Near East, used in baked preparations, drinks, and as a preserve. Archaeological and textual evidence from the region confirms widespread honey use in food.',
+        disclosure:
+          'The general use of honey as a sweetener is well supported, but specific recipe combinations are not proven by biblical texts.',
+      },
+      {
+        layer: 'unresolved',
+        statement:
+          'Whether "honey" (dvash) in the biblical text refers to bee honey, date syrup, or both is a longstanding scholarly question. Different passages may refer to different substances, and the identification varies by context.',
+        disclosure:
+          'Any recipe using "honey" must acknowledge this translation/identification ambiguity. The choice of bee honey or date syrup in a modern recipe is a practical decision, not a settled historical conclusion.',
+      },
+      {
+        layer: 'unresolved',
+        statement:
+          'The Hebrew words translated as "cake" (uggoth, ishshah) can refer to flatbread, round baked preparations, or grain cakes — they do not correspond to modern cake or pastry forms. The exact form of biblical "cakes" varies by context.',
+        disclosure:
+          'Any modern "honey cake" recipe is a contemporary creation using honey as a sweetener in a baked grain preparation. It does not replicate a specific biblical cake form.',
+      },
+    ],
+    ingredients: [
+      {
+        foodId: 'honey-entity',
+        provenance: 'directly-attested',
+        disclosure:
+          'Honey is explicitly named as one of the seven species in Deuteronomy 8:8 and appears in food preparation contexts throughout the biblical text. The specific identification (bee honey vs. date syrup) remains unresolved.',
+      },
+    ],
+    researchStatus: 'in-progress',
+    reconstructionStatus: 'not-started',
+    publicationStatus: 'not-eligible',
+    unresolvedQuestions: [
+      'Does "honey" (dvash) in Deuteronomy 8:8 and other passages refer to bee honey, date syrup, or both?',
+      'What form did biblical "cakes" (uggoth/ishshah) take — flatbread, round cake, or baked grain preparation?',
+      'Were honey and grain combined in baked preparations in the biblical period, and if so, in what forms?',
+      'What grain base would have been most common for sweet baked preparations in the ancient Near East?',
+      'How does the modern concept of "honey cake" relate to any ancient Near Eastern baked preparation?',
+    ],
+    reconstructionDisclosure:
+      'This is a scripture-inspired modern creation using honey — one of the seven species of Israel (Deuteronomy 8:8) — as a sweetener in a baked grain preparation. The biblical text attests honey as a food and references "cakes" in narrative contexts, but does not provide a specific honey cake recipe. The Hebrew word for "cake" refers to baked grain preparations, not modern pastry. Any specific recipe is a modern kitchen creation that honors the biblical attestation of honey without claiming to replicate an ancient preparation.',
+    scriptureRelationship:
+      'Deuteronomy 8:8 — honey named as one of the seven species. Exodus 16:31 — manna compared to wafers made with honey. 2 Samuel 6:19 — cakes distributed among the people. 1 Kings 14:3 — honey among provision items. The seven-species and Exodus 16 references are the primary anchors.',
+    foodEvidence: {
+      'honey-entity': FOOD_EVIDENCE['honey-entity'],
+    },
+  },
+
+  // ─── 8. OLIVE OIL FLATBREAD ────────────────────────────────────────
+  {
+    id: 'recipe-olive-oil-flatbread',
+    name: 'Olive oil flatbread — inspired preparation',
+    foodIds: ['olive-oil'],
+    historicalContext:
+      'Olive oil (Hebrew: shemen zayit) is one of the seven species of the Land of Israel (Deuteronomy 8:8) and was the primary cooking fat, preservative, and illumination fuel of the biblical world. Archaeological evidence confirms olive cultivation in the Levant from the Chalcolithic period (c. 4000 BCE) onward, with olive presses found at numerous ancient sites. The biblical text references olive oil in multiple food contexts: Leviticus 2:4-7 describes grain preparations cooked with oil in ovens, on flatplates, and in pans; Exodus 29:2-3 specifies unleavened cakes "mingled with oil" for priestly offerings; and 1 Kings 17:12 references oil alongside meal as household staples. Flatbread (Hebrew: uggah) was the most common bread form in the ancient Near East — simple rounds of dough cooked on heated stones, in clay ovens, or over open fire. The combination of olive oil and flatbread is strongly supported by the attested use of oil in grain preparations, though no specific "olive oil flatbread recipe" exists in the biblical text.',
+    classification: 'scripture-inspired-preparation',
+    evidence: [
+      {
+        layer: 'directly-attested',
+        statement:
+          'Deuteronomy 8:8 (KJV): "A land of wheat, and barley, and vines, and fig trees, and pomegranates; a land of oil olive, and honey." Olive oil is named as one of the seven species of the Land of Israel.',
+      },
+      {
+        layer: 'directly-attested',
+        statement:
+          'Leviticus 2:4-7 (KJV): "And if thou bring an oblation of a meat offering baken in the oven, it shall be unleavened cakes of fine flour mingled with oil... And if thy oblation be a meat offering baken in a pan, it shall be of fine flour unleavened, mingled with oil." Oil is explicitly used in grain/bread preparations.',
+      },
+      {
+        layer: 'directly-attested',
+        statement:
+          'Exodus 29:2-3 (KJV): "And unleavened cakes, and cakes unleavened tempered with oil, and wafers unleavened anointed with oil." Oil is explicitly used in the preparation of cakes and wafers.',
+      },
+      {
+        layer: 'inferred',
+        statement:
+          'Archaeological evidence confirms olive cultivation and oil production in the Levant from the Chalcolithic period onward. Olive presses have been found at numerous ancient sites across the region.',
+        disclosure:
+          'Archaeological olive evidence confirms cultivation and production but does not prove specific recipe combinations with flatbread.',
+      },
+      {
+        layer: 'inferred',
+        statement:
+          'Flatbread (Hebrew: uggah) was the most common bread form in the ancient Near East. The combination of olive oil with flatbread is strongly implied by the attested use of oil in grain preparations (Leviticus 2, Exodus 29).',
+        disclosure:
+          'The prevalence of both olive oil and flatbread is well supported, but the specific combination in a single recipe is a modern practical choice inspired by the biblical context.',
+      },
+      {
+        layer: 'unresolved',
+        statement:
+          'The biblical text does not provide a specific "olive oil flatbread recipe." While oil is used with grain preparations in Leviticus 2 and Exodus 29, these are offering prescriptions, not everyday cooking instructions.',
+        disclosure:
+          'Any specific recipe is a modern practical adaptation inspired by the attested use of olive oil in grain preparations.',
+      },
+    ],
+    ingredients: [
+      {
+        foodId: 'olive-oil',
+        provenance: 'directly-attested',
+        disclosure:
+          'Olive oil is explicitly named as one of the seven species in Deuteronomy 8:8 and is used in grain preparations in Leviticus 2:4-7 and Exodus 29:2-3.',
+      },
+    ],
+    researchStatus: 'in-progress',
+    reconstructionStatus: 'not-started',
+    publicationStatus: 'not-eligible',
+    unresolvedQuestions: [
+      'What type of wheat or grain flour would have been most commonly used for flatbread in the biblical period?',
+      'Was olive oil commonly added to everyday flatbread, or primarily used in ritual/special-occasion preparations?',
+      'What flatbread-making techniques (stone, clay oven, pan) are best supported by archaeological evidence for the biblical period?',
+      'How does the olive oil flatbread concept relate to modern Mediterranean and Middle Eastern flatbread traditions?',
+    ],
+    reconstructionDisclosure:
+      'This is a scripture-inspired modern creation using olive oil — one of the seven species of Israel (Deuteronomy 8:8) — in a flatbread preparation. The biblical text attests olive oil as a staple and explicitly describes oil used in grain preparations (Leviticus 2:4-7, Exodus 29:2-3), but does not provide a specific olive oil flatbread recipe. Any specific recipe is a modern kitchen creation that honors the biblical attestation of olive oil and flatbread without claiming to replicate an ancient preparation.',
+    scriptureRelationship:
+      'Deuteronomy 8:8 — olive oil named as one of the seven species. Leviticus 2:4-7 — oil used in grain/bread preparations. Exodus 29:2-3 — oil in unleavened cakes and wafers. 1 Kings 17:12 — oil as household staple. The seven-species and Leviticus 2 references are the primary anchors.',
+    foodEvidence: {
+      'olive-oil': FOOD_EVIDENCE['olive-oil'],
+    },
+  },
+
+  // ─── 9. BITTER HERBS ───────────────────────────────────────────────
+  {
+    id: 'recipe-bitter-herbs',
+    name: 'Bitter herbs — Passover preparation',
+    foodIds: ['bitter-herbs'],
+    historicalContext:
+      'Bitter herbs (Hebrew: marorim) are commanded as part of the Passover meal in Exodus 12:8: "And they shall eat the flesh in that night, roast with fire, and unleavened bread; and with bitter herbs they shall eat it." The command is reinforced in Numbers 9:11 for the second Passover. The Hebrew word marorim is a plural form of maror (bitter), functioning as a category term for bitter plants rather than a specific botanical identification. The Mishnah (Pesachim 2:6) later lists specific plants — including chicory, endive, and others — but these are post-biblical rabbinical traditions, not proof of the original identification. No single plant is definitively established by the biblical text as "the" bitter herb. Archaeological and botanical evidence confirms that several bitter plants grew wild in the region and would have been available during the spring Passover season.',
+    classification: 'scripture-inspired-preparation',
+    evidence: [
+      {
+        layer: 'directly-attested',
+        statement:
+          'Exodus 12:8 (KJV): "And they shall eat the flesh in that night, roast with fire, and unleavened bread; and with bitter herbs they shall eat it." Bitter herbs are explicitly commanded as part of the Passover meal.',
+      },
+      {
+        layer: 'directly-attested',
+        statement:
+          'Numbers 9:11 (KJV): "They shall keep it on the fourteenth day of the second month at even... they shall eat it with unleavened bread and bitter herbs." The command is reinforced for the second Passover.',
+      },
+      {
+        layer: 'inferred',
+        statement:
+          'The Hebrew word marorim is a category term for bitter plants, not a specific botanical identification. The plural form suggests a selection or mixture of bitter greens rather than a single species.',
+        disclosure:
+          'The category interpretation is widely accepted among scholars, but the exact plants intended by the original command remain uncertain.',
+      },
+      {
+        layer: 'inferred',
+        statement:
+          'Several bitter plants grew wild in the region and would have been available during the spring Passover season, including varieties of chicory, endive, dandelion, and other wild greens.',
+        disclosure:
+          'The availability of bitter plants in the region is historically plausible, but this does not prove which specific plants were used in the original Passover.',
+      },
+      {
+        layer: 'unresolved',
+        statement:
+          'Which specific plant or plants the original Passover command intended is not identified in the biblical text. The Mishnah (Pesachim 2:6) lists specific plants, but these represent post-biblical rabbinical tradition, not proof of the original identification.',
+        disclosure:
+          'Any specific plant choice in a modern preparation is a practical decision, not a claim about the original Passover bitter herbs. The recipe should present a selection of bitter greens as a modern interpretation of the biblical command.',
+      },
+      {
+        layer: 'unresolved',
+        statement:
+          'Whether the original Passover bitter herbs were a single plant, a specific mixture, or any available bitter plant is unknown. The biblical text provides no further specification beyond "bitter herbs."',
+        disclosure:
+          'The uncertainty about plant identification is a fundamental limitation of the biblical text and cannot be resolved without evidence that does not currently exist.',
+      },
+    ],
+    ingredients: [
+      {
+        foodId: 'bitter-herbs',
+        provenance: 'directly-attested',
+        disclosure:
+          'Bitter herbs are explicitly commanded in Exodus 12:8 as part of the Passover meal. The specific plant identification is not provided in the biblical text.',
+      },
+    ],
+    researchStatus: 'in-progress',
+    reconstructionStatus: 'not-started',
+    publicationStatus: 'not-eligible',
+    unresolvedQuestions: [
+      'Which specific plant or plants did the original Passover command intend by "bitter herbs" (marorim)?',
+      'Does the Mishnaic list (Pesachim 2:6) reflect the original identification or represent later rabbinical interpretation?',
+      'Were the bitter herbs a single plant, a specific mixture, or any available bitter plant?',
+      'How does the Passover bitter-herb command relate to broader ancient Near Eastern use of bitter plants in meals?',
+      'What is the relationship between the biblical marorim and the bitter herbs used in modern Passover seders?',
+    ],
+    reconstructionDisclosure:
+      'This is a scripture-inspired modern preparation honoring the Passover command for bitter herbs (Exodus 12:8). The biblical text explicitly commands "bitter herbs" as part of the Passover meal but does not identify the specific plant or plants. The Hebrew word marorim is a category term for bitter plants. Any specific plant choice in this preparation is a modern interpretation, not a claim about the original Passover bitter herbs. The recipe should be understood as a modern kitchen creation that honors the biblical tradition while acknowledging the genuine uncertainty about plant identification.',
+    scriptureRelationship:
+      'Exodus 12:8 — primary anchor: bitter herbs commanded alongside Passover lamb and unleavened bread. Numbers 9:11 — reinforcement for the second Passover. The command is explicit about the concept (bitter herbs with the Passover meal) but provides no botanical specification.',
+    foodEvidence: {
+      'bitter-herbs': FOOD_EVIDENCE['bitter-herbs'],
     },
   },
 ];
