@@ -1,0 +1,30 @@
+---
+import CookbookShell from './CookbookShell.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Title Page' } = Astro.props;
+---
+
+<CookbookShell title={`${title} | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-20 sm:px-8 sm:py-32">
+    <div class="mx-auto max-w-lg text-center">
+      <p
+        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        The BiblicalMeal Cookbook
+      </p>
+      <h1 class="mt-8 font-display text-display text-ink">Biblical Meals</h1>
+      <p class="mt-4 font-display text-h2 text-ink-muted">
+        Recipes Inspired by the Foods of the Bible
+      </p>
+      <div class="mt-12 border-t border-line pt-8">
+        <p class="text-body text-ink-muted">BiblicalMeal</p>
+        <p class="mt-2 text-body text-ink-muted">First Edition</p>
+        <p class="mt-2 text-caption text-ink-muted">2026</p>
+      </div>
+    </div>
+  </section>
+</CookbookShell>

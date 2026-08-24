@@ -1,0 +1,81 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import {
+  AUTHORITY_RECORDS,
+  CITATION_RECORDS,
+} from '../../data/authority/records';
+
+/** Group authorities by classification for display. */
+const groupedMap = new Map<string, (typeof AUTHORITY_RECORDS)[number][]>();
+for (const auth of AUTHORITY_RECORDS) {
+  const group = auth.classification;
+  const arr = groupedMap.get(group) ?? [];
+  arr.push(auth);
+  groupedMap.set(group, arr);
+}
+const GROUPED = Object.fromEntries(groupedMap);
+
+const GROUP_LABELS: Record<string, string> = {
+  'primary-scripture': 'Scripture',
+  'academic-source': 'Academic & Scholarly',
+  'archaeological-or-material-evidence': 'Archaeological & Material Evidence',
+};
+
+/** Count citations per authority. */
+const citationCountByAuth = new Map<string, number>();
+for (const cit of CITATION_RECORDS) {
+  citationCountByAuth.set(
+    cit.authorityId,
+    (citationCountByAuth.get(cit.authorityId) ?? 0) + 1,
+  );
+}
+---
+
+<CookbookShell title={`Sources & Bibliography | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">Sources &amp; Bibliography</h1>
+
+    <p class="prose-bm mt-4 max-w-2xl text-body-lg text-ink-muted">
+      The following sources have been consulted in the research behind this
+      cookbook. Every historical claim is traceable to a recorded source. No
+      source is included speculatively.
+    </p>
+
+    <div class="mt-12 space-y-12">
+      {
+        Object.entries(GROUPED).map(([group, authorities]) => (
+          <div>
+            <h2 class="font-display text-h2 text-ink">
+              {GROUP_LABELS[group] ?? group}
+            </h2>
+            <ul class="mt-4 space-y-4">
+              {authorities.map((auth) => (
+                <li class="rounded-lg border border-line bg-background-alt p-4">
+                  <p class="text-body font-medium text-ink">{auth.sourceId}</p>
+                  <p class="mt-1 text-sm text-ink-muted">{auth.notes}</p>
+                  {citationCountByAuth.get(auth.id) !== undefined && (
+                    <p class="mt-2 text-caption text-olive-dark">
+                      Referenced in {citationCountByAuth.get(auth.id)} citation
+                      {citationCountByAuth.get(auth.id) !== 1 ? 's' : ''}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 rounded-lg border border-gold/30 bg-gold/5 p-6">
+      <p class="font-sans text-caption font-semibold text-ink">
+        Additional Sources
+      </p>
+      <p class="mt-2 text-sm text-ink-muted">
+        This bibliography grows as research continues. Additional scholarly
+        sources will be added in future editions as recipe research records are
+        completed.
+      </p>
+    </div>
+  </section>
+</CookbookShell>

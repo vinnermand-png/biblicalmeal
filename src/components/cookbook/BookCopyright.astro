@@ -1,0 +1,52 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import { BOOK_METADATA } from '../../data/cookbook/book-metadata';
+---
+
+<CookbookShell title={`Copyright & Disclaimer | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">Copyright &amp; Disclaimer</h1>
+
+    <div class="prose-bm mt-8 max-w-2xl space-y-6 text-body text-ink-muted">
+      <p>{BOOK_METADATA.copyright}</p>
+
+      <h2 class="font-display text-h3 text-ink">Recipe Classification</h2>
+      <p>
+        Every recipe in this cookbook is classified according to its evidence
+        basis. Recipes labelled <em>Scripture-inspired</em> are modern creations using
+        ingredients attested in the biblical world. Recipes labelled <em
+          >Reconstruction</em
+        > are scholarly best-effort assemblies based on historical evidence. Recipes
+        labelled
+        <em>Historically-Informed</em> preserve the distinction between attested food
+        concepts and modern practical formulas. No recipe in this cookbook claims
+        to represent an exact ancient preparation unless explicitly stated and supported
+        by cited evidence.
+      </p>
+
+      <h2 class="font-display text-h3 text-ink">Historical Evidence</h2>
+      <p>
+        Historical claims in this cookbook are traceable to cited research.
+        Where evidence is uncertain, inference is distinguished from direct
+        attestation. Archaeological claims reference specific finds and
+        scholarly sources. No historical claim is presented as certain unless
+        the evidence supports that level of confidence.
+      </p>
+
+      <h2 class="font-display text-h3 text-ink">Scripture</h2>
+      <p>
+        Scripture quotations follow the King James Version (KJV). All references
+        cite book, chapter, and verse. Scripture text is quoted carefully and
+        claims do not extend beyond the recorded text.
+      </p>
+
+      <h2 class="font-display text-h3 text-ink">Modern Adaptations</h2>
+      <p>
+        Modern cooking quantities, methods, equipment, and ingredients are
+        identified as practical adaptations. These are modern kitchen choices
+        that honour the ancient tradition without claiming to replicate specific
+        historical preparations.
+      </p>
+    </div>
+  </section>
+</CookbookShell>

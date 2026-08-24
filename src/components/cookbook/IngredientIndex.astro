@@ -1,0 +1,36 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import { generateIngredientIndex } from '../../lib/cookbook-indexes';
+
+const ingredients = generateIngredientIndex();
+---
+
+<CookbookShell title={`Ingredient Index | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">Ingredient Index</h1>
+
+    <p class="prose-bm mt-4 max-w-2xl text-body-lg text-ink-muted">
+      Ingredients listed alphabetically, with recipes that use each one.
+    </p>
+
+    <div class="mt-10 divide-y divide-line">
+      {
+        ingredients.map((entry) => (
+          <div class="py-4">
+            <p class="text-body font-medium text-ink">{entry.label}</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {entry.recipes.map((recipe) => (
+                <a
+                  href={recipe.route}
+                  class="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-caption text-ink-muted transition-colors hover:border-olive/40 hover:text-olive-dark"
+                >
+                  {recipe.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</CookbookShell>

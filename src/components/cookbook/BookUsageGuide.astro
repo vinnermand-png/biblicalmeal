@@ -1,0 +1,93 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import EvidenceSummary from './EvidenceSummary.astro';
+---
+
+<CookbookShell title={`How to Use This Cookbook | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">How to Use This Cookbook</h1>
+
+    <div class="prose-bm mt-8 max-w-2xl space-y-8 text-body text-ink-muted">
+      <div>
+        <h2 class="font-display text-h2 text-ink">Recipe Layout</h2>
+        <p class="mt-3">
+          Every recipe follows a consistent structure. At the top you will find
+          the recipe title and its classification label. Below that, an
+          introduction explains the biblical connection. The ingredients list
+          and preparation method follow, with evidence notes at the end.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-h2 text-ink">Classification Labels</h2>
+        <p class="mt-3">
+          Every recipe carries a classification that tells you exactly how the
+          recipe relates to historical evidence:
+        </p>
+        <ul class="mt-3 list-disc space-y-2 pl-6">
+          <li>
+            <strong>Inspired</strong> &mdash; Modern creation using biblical-world
+            ingredients.
+          </li>
+          <li>
+            <strong>Researched</strong> &mdash; Built from cited historical sources.
+          </li>
+          <li>
+            <strong>Reconstructed</strong> &mdash; Scholarly best-effort historical
+            assembly.
+          </li>
+          <li>
+            <strong>Historically-Informed</strong> &mdash; Evidence-aware modern adaptation.
+          </li>
+        </ul>
+        <p class="mt-3">
+          The <a
+            href="/cookbook/classification/"
+            class="text-terracotta-dark underline transition-colors hover:text-terracotta"
+            >Classification Guide</a
+          > explains each label in detail.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-h2 text-ink">Evidence Layers</h2>
+        <p class="mt-3">
+          Ingredients and preparation steps are labelled with their evidence
+          basis. This tells you how confident the historical evidence is for
+          each element of the recipe.
+        </p>
+        <div class="mt-4">
+          <EvidenceSummary classification="example" editorialNotes={[]} />
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-display text-h2 text-ink">Uncertainty Notes</h2>
+        <p class="mt-3">
+          Where historical details remain uncertain, you will find an
+          uncertainty note. These notes explain what we don&rsquo;t know and
+          why. They are a core part of the cookbook&rsquo;s honesty &mdash; not
+          a sign of poor research.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-h2 text-ink">Scripture References</h2>
+        <p class="mt-3">
+          All Scripture quotations follow the King James Version (KJV).
+          References cite book, chapter, and verse. Scripture text is quoted
+          carefully, and claims do not extend beyond the recorded text.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-h2 text-ink">Modern Adaptations</h2>
+        <p class="mt-3">
+          Modern cooking quantities, methods, equipment, and ingredients are
+          identified as practical adaptations. These are modern kitchen choices
+          &mdash; not claims about ancient preparation.
+        </p>
+      </div>
+    </div>
+  </section>
+</CookbookShell>

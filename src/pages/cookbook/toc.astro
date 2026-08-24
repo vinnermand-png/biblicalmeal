@@ -1,7 +1,11 @@
 ---
 import CookbookShell from '../../components/cookbook/CookbookShell.astro';
 import CookbookHeader from '../../components/cookbook/CookbookHeader.astro';
-import { COOKBOOK_CHAPTERS } from '../../data/cookbook/structure';
+import {
+  COOKBOOK_CHAPTERS,
+  FRONT_MATTER,
+  BACK_MATTER,
+} from '../../data/cookbook/structure';
 import { COOKBOOK_RECIPE_INCLUSIONS } from '../../data/cookbook-production/records';
 import { RECIPE_CONTENT_RECORDS } from '../../data/recipe-content/records';
 
@@ -23,11 +27,31 @@ const CLASSIFICATION_LABELS: Record<string, string> = {
   'modern-adaptation': 'Modern adaptation',
 };
 
+/** Front matter routes. */
+const FM_ROUTES: Record<string, string> = {
+  'title-page': '/cookbook/title/',
+  'copyright-disclaimer': '/cookbook/copyright/',
+  introduction: '/cookbook/introduction/',
+  methodology: '/cookbook/methodology/',
+  'how-to-use': '/cookbook/how-to-use/',
+  'classification-guide': '/cookbook/classification/',
+};
+
+/** Back matter routes. */
+const BM_ROUTES: Record<string, string> = {
+  'sources-bibliography': '/cookbook/sources/',
+  'recipe-index': '/cookbook/index-recipes/',
+  'ingredient-index': '/cookbook/index-ingredients/',
+  'scripture-index': '/cookbook/index-scripture/',
+  acknowledgments: '/cookbook/acknowledgments/',
+};
+
 interface TocRecipe {
   title: string;
   classification: string;
   recipeContentId: string;
   order: number;
+  route: string;
 }
 
 const recipesByChapter = new Map<string, TocRecipe[]>();
@@ -45,6 +69,7 @@ for (const inclusion of COOKBOOK_RECIPE_INCLUSIONS) {
     classification: recipe.classification,
     recipeContentId: inclusion.recipeContentId,
     order: inclusion.order,
+    route: `/cookbook/recipes/${recipe.slug}/`,
   });
   recipesByChapter.set(chapterId, list);
 }
@@ -56,7 +81,7 @@ for (const [, recipes] of recipesByChapter) {
 
 <CookbookShell
   title="Table of Contents"
-  description="Browse all nine recipes across six chapters in the BiblicalMeal Cookbook."
+  description="The complete table of contents for the BiblicalMeal Cookbook."
 >
   <CookbookHeader />
 
@@ -69,59 +94,131 @@ for (const [, recipes] of recipesByChapter) {
       </p>
       <h1 class="mt-3 font-display text-h1 text-ink">Table of Contents</h1>
       <p class="mt-4 max-w-2xl text-body-lg text-ink-muted">
-        Nine evidence-aware recipes across six chapters — from grains and breads
-        to feasts and gatherings.
+        A complete reading guide through front matter, six chapters of recipes,
+        and supporting indexes.
       </p>
     </div>
   </section>
 
+  <!-- Front Matter -->
   <section class="bg-background section-space-compact">
     <div class="cookbook-content px-5 sm:px-8">
-      {
-        COOKBOOK_CHAPTERS.map((chapter) => {
-          const recipes = recipesByChapter.get(chapter.id) ?? [];
-          return (
-            <div class="cookbook-toc-chapter">
-              <div class="flex items-baseline gap-4">
-                <span class="cookbook-chapter-number text-3xl sm:text-4xl">
-                  {String(chapter.order).padStart(2, '0')}
-                </span>
-                <div>
-                  <h2 class="font-display text-h2 text-ink">{chapter.title}</h2>
-                  <p class="mt-1 text-body text-ink-muted">
-                    {chapter.description}
-                  </p>
-                </div>
-              </div>
+      <h2
+        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        Front Matter
+      </h2>
+      <div class="mt-4 space-y-0 divide-y divide-line">
+        {
+          FRONT_MATTER.map((item) => (
+            <div class="flex items-center justify-between py-3">
+              <a
+                href={FM_ROUTES[item.id] ?? '#'}
+                class="text-body text-ink transition-colors hover:text-terracotta-dark"
+              >
+                {item.title}
+              </a>
+              <span class="text-caption text-ink-muted">
+                {item.approximatePages} page
+                {item.approximatePages !== 1 ? 's' : ''}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
-              {recipes.length > 0 && (
-                <div class="mt-6 ml-0 sm:ml-16">
-                  {recipes.map((recipe) => (
-                    <div class="cookbook-toc-recipe">
-                      <div class="flex items-baseline gap-3">
-                        <span class="font-sans text-caption font-medium text-olive-dark">
-                          {recipe.order}.
+  <!-- Chapters & Recipes -->
+  <section class="bg-background-alt section-space-compact">
+    <div class="cookbook-content px-5 sm:px-8">
+      <h2
+        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        Recipes
+      </h2>
+      <div class="mt-4">
+        {
+          COOKBOOK_CHAPTERS.map((chapter) => {
+            const recipes = recipesByChapter.get(chapter.id) ?? [];
+            return (
+              <div class="cookbook-toc-chapter">
+                <div class="flex items-baseline gap-4">
+                  <span class="cookbook-chapter-number text-3xl sm:text-4xl">
+                    {String(chapter.order).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 class="font-display text-h2 text-ink">
+                      {chapter.title}
+                    </h3>
+                    <p class="mt-1 text-body text-ink-muted">
+                      {chapter.description}
+                    </p>
+                  </div>
+                </div>
+
+                {recipes.length > 0 && (
+                  <div class="mt-6 ml-0 sm:ml-16">
+                    {recipes.map((recipe) => (
+                      <div class="cookbook-toc-recipe">
+                        <div class="flex items-baseline gap-3">
+                          <span class="font-sans text-caption font-medium text-olive-dark">
+                            {recipe.order}.
+                          </span>
+                          <a
+                            href={recipe.route}
+                            class="text-body text-ink transition-colors hover:text-terracotta-dark"
+                          >
+                            {recipe.title}
+                          </a>
+                        </div>
+                        <span class="shrink-0 rounded-full border border-line bg-background-alt px-3 py-1 text-xs font-medium text-ink-muted">
+                          {CLASSIFICATION_LABELS[recipe.classification] ??
+                            recipe.classification}
                         </span>
-                        <span class="text-body text-ink">{recipe.title}</span>
                       </div>
-                      <span class="shrink-0 rounded-full border border-line bg-background-alt px-3 py-1 text-xs font-medium text-ink-muted">
-                        {CLASSIFICATION_LABELS[recipe.classification] ??
-                          recipe.classification}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
 
-              {recipes.length === 0 && (
-                <p class="mt-4 ml-0 text-body text-ink-muted italic sm:ml-16">
-                  Recipes coming soon.
-                </p>
+                {recipes.length === 0 && (
+                  <p class="mt-4 ml-0 text-body text-ink-muted italic sm:ml-16">
+                    Recipes coming soon.
+                  </p>
+                )}
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Back Matter -->
+  <section class="bg-background section-space-compact">
+    <div class="cookbook-content px-5 sm:px-8">
+      <h2
+        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+      >
+        Back Matter
+      </h2>
+      <div class="mt-4 space-y-0 divide-y divide-line">
+        {
+          BACK_MATTER.map((item) => (
+            <div class="flex items-center justify-between py-3">
+              <a
+                href={BM_ROUTES[item.id] ?? '#'}
+                class="text-body text-ink transition-colors hover:text-terracotta-dark"
+              >
+                {item.title}
+              </a>
+              {item.autoGenerated && (
+                <span class="text-caption text-olive-dark">Auto-generated</span>
               )}
             </div>
-          );
-        })
-      }
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -135,7 +232,7 @@ for (const [, recipes] of recipesByChapter) {
         href="/cookbook/"
         class="mt-6 inline-flex items-center rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-ink transition-all duration-200 hover:border-olive/40 hover:text-olive-dark"
       >
-        ← Back to Cookbook
+        &larr; Back to Cookbook
       </a>
     </div>
   </section>

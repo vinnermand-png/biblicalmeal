@@ -1,0 +1,64 @@
+---
+import { getPreviousPage, getNextPage } from '../../lib/cookbook-book-order';
+
+interface Props {
+  currentPageId: string;
+  currentTitle: string;
+}
+
+const { currentPageId, currentTitle } = Astro.props;
+const prev = getPreviousPage(currentPageId);
+const next = getNextPage(currentPageId);
+---
+
+<nav class="border-t border-line pt-8" aria-label="Book navigation">
+  <p class="mb-4 text-center text-caption text-ink-muted">
+    {currentTitle}
+  </p>
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      {
+        prev && (
+          <a
+            href={prev.route ?? '#'}
+            class="group flex flex-col gap-1 transition-colors hover:text-terracotta-dark"
+          >
+            <span class="font-sans text-caption font-medium text-olive-dark">
+              &larr; Previous
+            </span>
+            <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+              {prev.title}
+            </span>
+          </a>
+        )
+      }
+    </div>
+
+    <a
+      href="/cookbook/toc/"
+      class="font-sans text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+    >
+      Back to Contents
+    </a>
+
+    <div>
+      {
+        next && (
+          <a
+            href={next.route ?? '#'}
+            class="group flex flex-col gap-1 text-right transition-colors hover:text-terracotta-dark"
+          >
+            <span class="font-sans text-caption font-medium text-olive-dark">
+              Next &rarr;
+            </span>
+            <span class="font-display text-h3 text-ink group-hover:text-terracotta-dark">
+              {next.title}
+            </span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</nav>

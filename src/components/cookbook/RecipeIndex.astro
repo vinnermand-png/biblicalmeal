@@ -1,0 +1,53 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import { generateRecipeIndex } from '../../lib/cookbook-indexes';
+import Chip from '../common/Chip.astro';
+
+const recipes = generateRecipeIndex();
+
+const VARIANT_MAP: Record<string, 'inspired' | 'review'> = {
+  'scripture-inspired-preparation': 'inspired',
+  'historically-attested-preparation': 'inspired',
+  'historically-informed-reconstruction': 'review',
+  'modern-adaptation': 'inspired',
+};
+---
+
+<CookbookShell title={`Recipe Index | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">Recipe Index</h1>
+
+    <p class="prose-bm mt-4 max-w-2xl text-body-lg text-ink-muted">
+      All recipes listed alphabetically, with chapter reference and
+      classification.
+    </p>
+
+    <div class="mt-10 divide-y divide-line">
+      {
+        recipes.map((entry) => (
+          <div class="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <a
+                href={entry.route}
+                class="text-body font-medium text-ink transition-colors hover:text-terracotta-dark"
+              >
+                {entry.title}
+              </a>
+              <p class="mt-0.5 text-caption text-ink-muted">
+                {entry.chapterTitle}
+              </p>
+            </div>
+            <Chip variant={VARIANT_MAP[entry.classification] ?? 'inspired'}>
+              {entry.classification === 'scripture-inspired-preparation'
+                ? 'Inspired'
+                : entry.classification ===
+                    'historically-informed-reconstruction'
+                  ? 'Reconstruction'
+                  : entry.classification}
+            </Chip>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</CookbookShell>

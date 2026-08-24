@@ -1,0 +1,66 @@
+---
+import CookbookShell from './CookbookShell.astro';
+import { CLASSIFICATION_DEFINITIONS } from '../../data/cookbook/classification-guide';
+import Chip from '../common/Chip.astro';
+
+const VARIANT_MAP: Record<string, 'inspired' | 'review'> = {
+  'scripture-inspired-preparation': 'inspired',
+  'historically-attested-preparation': 'inspired',
+  'historically-informed-reconstruction': 'review',
+  'modern-adaptation': 'inspired',
+};
+---
+
+<CookbookShell title={`Recipe Classification Guide | BiblicalMeal Cookbook`}>
+  <section class="cookbook-content px-5 py-16 sm:px-8 sm:py-24">
+    <h1 class="font-display text-h1 text-ink">Recipe Classification Guide</h1>
+
+    <p class="prose-bm mt-4 max-w-2xl text-body-lg text-ink-muted">
+      Every recipe in this cookbook carries a classification that tells you
+      exactly how it relates to historical evidence. This transparency is a core
+      part of how BiblicalMeal works.
+    </p>
+
+    <div class="mt-12 space-y-12">
+      {
+        CLASSIFICATION_DEFINITIONS.map((def) => (
+          <article class="rounded-xl border border-line bg-background-alt p-6 sm:p-8">
+            <div class="flex flex-wrap items-center gap-3">
+              <Chip variant={VARIANT_MAP[def.classification] ?? 'inspired'}>
+                {def.label}
+              </Chip>
+              <p class="text-body font-medium text-ink">
+                {def.shortDescription}
+              </p>
+            </div>
+
+            <p class="prose-bm mt-4 max-w-2xl text-body text-ink-muted">
+              {def.fullDescription}
+            </p>
+
+            <div class="mt-4">
+              <p class="font-sans text-caption font-semibold tracking-eyebrow text-olive-dark uppercase">
+                Key Characteristics
+              </p>
+              <ul class="mt-2 space-y-1">
+                {def.keyCharacteristics.map((char) => (
+                  <li class="flex items-start gap-2 text-sm text-ink-muted">
+                    <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-olive" />
+                    {char}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="mt-4 rounded-lg border border-gold/30 bg-gold/5 p-4">
+              <p class="font-sans text-caption font-semibold text-ink">
+                What this means for you
+              </p>
+              <p class="mt-1 text-sm text-ink-muted">{def.readerDisclosure}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</CookbookShell>
