@@ -644,6 +644,8 @@ body {
 }
 .book-viewer__page {
   animation: book-fade-in 200ms ease-out;
+  display: flex;
+  justify-content: center;
 }
 @keyframes book-fade-in {
   from {
@@ -666,11 +668,40 @@ body {
   box-shadow:
     0 1px 3px rgb(0 0 0 / 0.06),
     0 4px 12px rgb(0 0 0 / 0.04);
-  padding: clamp(2rem, 5vw, 3.5rem);
-  min-height: 50vh;
+  width: min(100%, 720px);
+  aspect-ratio: 7 / 10;
+  overflow: hidden;
+  position: relative;
 }
 .book-page-inner {
-  /* Inner content spacing for rendered pages */
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-sizing: border-box;
+  /* Hide scrollbar but allow scrolling */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.book-page-inner::-webkit-scrollbar {
+  display: none;
+}
+/* Book page internal typography scaling */
+.book-page .book-page-inner h1 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.2;
+}
+.book-page .book-page-inner h2 {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.3;
+}
+.book-page .book-page-inner p,
+.book-page .book-page-inner li {
+  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
+  line-height: 1.6;
+}
+.book-page .book-page-inner .cookbook-chapter-number {
+  font-size: clamp(2.5rem, 6vw, 5rem);
 }
 .book-viewer__controls {
   max-width: 48rem;
