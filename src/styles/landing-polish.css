@@ -36,34 +36,16 @@
   bottom: 2rem;
 }
 
-/* Featured foods: a real editorial shelf, not a compressed card wall. */
+/* Featured foods: one clean, balanced six-card shelf. */
 .page-home #foods > .container-site {
   max-width: var(--landing-max);
   padding-top: clamp(5rem, 8vw, 7.5rem);
   padding-bottom: clamp(5rem, 8vw, 7.5rem);
 }
 
-.page-home #foods > .container-site > .mt-14.grid {
-  margin-top: clamp(2.5rem, 4vw, 4rem);
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(1rem, 1.6vw, 1.4rem);
-}
-
 .page-home #foods .ingredient-card {
-  border-radius: 0.8rem;
+  border-radius: 0.45rem;
   box-shadow: 0 12px 30px rgb(41 32 24 / 0.055);
-}
-
-.page-home #foods .ingredient-card:nth-child(1) {
-  grid-column: span 2;
-}
-
-.page-home #foods .ingredient-card:nth-child(1) .ingredient-card__art {
-  aspect-ratio: 16 / 10;
-}
-
-.page-home #foods .ingredient-card:nth-child(1) h3 {
-  font-size: clamp(1.35rem, 1.35rem + 0.25vw, 1.7rem);
 }
 
 .page-home #foods .ingredient-card__art {
@@ -201,14 +183,6 @@
 }
 
 @media (max-width: 1099px) {
-  .page-home #foods > .container-site > .mt-14.grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .page-home #foods .ingredient-card:nth-child(1) {
-    grid-column: span 1;
-  }
-
   .page-home #regions .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -224,7 +198,6 @@
     min-height: 22rem;
   }
 
-  .page-home #foods > .container-site > .mt-14.grid,
   .page-home #regions .grid {
     grid-template-columns: 1fr;
   }
