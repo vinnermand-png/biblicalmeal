@@ -15,6 +15,7 @@ interface Props {
   ratio?: string;
   class?: string;
   loading?: 'eager' | 'lazy';
+  fit?: 'cover' | 'contain';
 }
 
 const {
@@ -25,12 +26,14 @@ const {
   ratio,
   class: className = '',
   loading = 'lazy',
+  fit = 'cover',
 } = Astro.props;
 const asset = getEditorialImage(id);
 const dimensions = getEditorialImageDimensions(asset);
 const useGenerated = asset?.status === 'generated';
 const imageAlt = decorative ? '' : getEditorialImageAlt(asset, alt);
 const fetchPriority = loading === 'eager' ? 'high' : 'auto';
+const imageFitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
 ---
 
 <div
@@ -47,7 +50,10 @@ const fetchPriority = loading === 'eager' ? 'high' : 'auto';
         loading={loading}
         decoding="async"
         fetchpriority={fetchPriority}
-        class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+        class:list={[
+          'absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.025]',
+          imageFitClass,
+        ]}
       />
     ) : decorative ? (
       <div aria-hidden="true" class="absolute inset-0">
