@@ -1,0 +1,234 @@
+/* Global visual cleanup for every non-homepage route. */
+.bm-subpage-surface {
+  --site-bg: #f5f2ea;
+  --site-surface: #eee9df;
+  --site-ink: #2f2d28;
+  --site-muted: #746f66;
+  --site-olive: #5e6048;
+  --site-line: #d8d1c5;
+  --site-dark: #34352f;
+}
+
+.bm-subpage-surface,
+.bm-subpage-surface main {
+  background: var(--site-bg);
+  color: var(--site-ink);
+}
+
+.bm-subpage-surface .container-site {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4.5vw, 56px);
+}
+
+.bm-subpage-surface .section-space {
+  padding-block: clamp(64px, 7vw, 88px);
+}
+
+.bm-subpage-surface h1,
+.bm-subpage-surface h2,
+.bm-subpage-surface h3,
+.bm-subpage-surface .font-display {
+  color: var(--site-ink);
+  letter-spacing: -.02em;
+}
+
+.bm-subpage-surface .text-body,
+.bm-subpage-surface .text-body-lg,
+.bm-subpage-surface .text-caption {
+  color: var(--site-muted);
+}
+
+.bm-subpage-surface .content-hero {
+  background: var(--site-bg);
+  border-bottom: 1px solid var(--site-line);
+  padding-block: clamp(72px, 8vw, 104px);
+}
+
+.bm-subpage-surface .content-hero__grid {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4.5vw, 56px);
+  gap: clamp(28px, 5vw, 64px);
+}
+
+.bm-subpage-surface .content-hero__art,
+.bm-subpage-surface .media-frame,
+.bm-subpage-surface .ingredient-card__art,
+.bm-subpage-surface .recipe-card > div:first-child,
+.bm-subpage-surface .region-card__media,
+.bm-subpage-surface .editorial-card > div:first-child {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--site-line);
+  border-radius: 10px;
+  background: var(--site-dark);
+}
+
+/* One placeholder treatment for all subpage imagery. The real source can be restored later without changing geometry. */
+.bm-subpage-surface .content-hero__art,
+.bm-subpage-surface .media-frame,
+.bm-subpage-surface .ingredient-card__art,
+.bm-subpage-surface .recipe-card > div:first-child,
+.bm-subpage-surface .region-card__media,
+.bm-subpage-surface .editorial-card > div:first-child {
+  isolation: isolate;
+}
+
+.bm-subpage-surface .content-hero__art > *,
+.bm-subpage-surface .media-frame > *,
+.bm-subpage-surface .ingredient-card__art > *,
+.bm-subpage-surface .recipe-card > div:first-child > *,
+.bm-subpage-surface .region-card__media > *,
+.bm-subpage-surface .editorial-card > div:first-child > * {
+  visibility: hidden !important;
+}
+
+.bm-subpage-surface .content-hero__art::after,
+.bm-subpage-surface .media-frame::after,
+.bm-subpage-surface .ingredient-card__art::after,
+.bm-subpage-surface .recipe-card > div:first-child::after,
+.bm-subpage-surface .region-card__media::after,
+.bm-subpage-surface .editorial-card > div:first-child::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  content: 'EDITORIAL IMAGE';
+  color: #9f9a90;
+  font: 600 9px/1 var(--font-sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.bm-subpage-surface .content-hero__art::after,
+.bm-subpage-surface .media-frame::after,
+.bm-subpage-surface .ingredient-card__art::after,
+.bm-subpage-surface .recipe-card > div:first-child::after,
+.bm-subpage-surface .region-card__media::after,
+.bm-subpage-surface .editorial-card > div:first-child::after {
+  background: #34352f;
+}
+
+.bm-subpage-surface .content-listing__grid,
+.bm-subpage-surface .grid {
+  gap: 18px;
+}
+
+.bm-subpage-surface .ingredient-card,
+.bm-subpage-surface .editorial-card,
+.bm-subpage-surface .surface-panel,
+.bm-subpage-surface .content-surface,
+.bm-subpage-surface .editorial-surface,
+.bm-subpage-surface .ingredient-feature,
+.bm-subpage-surface .recipe-feature {
+  border-color: var(--site-line);
+  border-radius: 10px;
+  box-shadow: none;
+  background: var(--site-surface);
+}
+
+.bm-subpage-surface .ingredient-card,
+.bm-subpage-surface .editorial-card {
+  overflow: hidden;
+}
+
+.bm-subpage-surface .ingredient-card:hover,
+.bm-subpage-surface .editorial-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--site-olive) 24%, var(--site-line));
+  box-shadow: 0 10px 24px rgb(47 42 34 / .06);
+}
+
+.bm-subpage-surface a[class*='bg-terracotta'],
+.bm-subpage-surface a[class*='bg-olive'],
+.bm-subpage-surface button[class*='bg-terracotta'],
+.bm-subpage-surface button[class*='bg-olive'] {
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.bm-subpage-surface .chip,
+.bm-subpage-surface [class*='chip'] {
+  box-shadow: none;
+}
+
+.bm-subpage-surface footer {
+  margin-top: 0;
+  border-top: 1px solid var(--site-line);
+  background: var(--site-bg);
+  color: var(--site-ink);
+}
+
+.bm-subpage-surface footer .container-site {
+  width: min(100%, 1180px);
+}
+
+.bm-subpage-surface footer .text-cream,
+.bm-subpage-surface footer .text-cream-muted,
+.bm-subpage-surface footer .text-gold {
+  color: var(--site-muted);
+}
+
+.bm-subpage-surface footer .border-line-dark,
+.bm-subpage-surface footer [class*='border-line-dark'] {
+  border-color: var(--site-line);
+}
+
+.bm-subpage-surface footer a:hover {
+  color: var(--site-ink);
+}
+
+.bm-subpage-surface table {
+  border-color: var(--site-line);
+}
+
+.bm-subpage-surface th {
+  color: var(--site-ink);
+  background: var(--site-surface);
+}
+
+.bm-subpage-surface td {
+  color: var(--site-muted);
+  border-color: var(--site-line);
+}
+
+.bm-subpage-surface hr {
+  border-color: var(--site-line);
+}
+
+.bm-subpage-surface :focus-visible {
+  outline: 2px solid var(--site-olive);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .bm-subpage-surface .content-hero__grid {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bm-subpage-surface .container-site,
+  .bm-subpage-surface .content-hero__grid {
+    padding-inline: 20px;
+  }
+
+  .bm-subpage-surface .content-hero,
+  .bm-subpage-surface .section-space {
+    padding-block: 58px;
+  }
+
+  .bm-subpage-surface .content-listing__grid,
+  .bm-subpage-surface .grid {
+    gap: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-subpage-surface .ingredient-card,
+  .bm-subpage-surface .editorial-card {
+    transition: none;
+  }
+}
