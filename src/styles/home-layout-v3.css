@@ -1,55 +1,52 @@
-/* Home landing v3 — section two must follow the approved editorial reference exactly. */
+/* Home landing v3 — compact section two, matching the approved reference proportions. */
 .home-page .ingredient-story {
   position: relative;
   overflow: hidden;
-  padding: clamp(4.25rem, 7vw, 6.5rem) 0 clamp(4rem, 7vw, 6rem) !important;
-  background:
-    radial-gradient(circle at 10% 30%, rgb(178 141 76 / .055), transparent 18rem),
-    linear-gradient(180deg, #f6f0e4 0%, #efe8da 100%);
+  padding: clamp(3rem, 4.5vw, 4.5rem) 0 clamp(3rem, 4.5vw, 4.5rem) !important;
+  background: #f3eddf;
 }
 
 .home-page .ingredient-story::before {
-  width: min(58rem, 74vw) !important;
-  opacity: .28 !important;
+  width: min(48rem, 64vw) !important;
+  opacity: .2 !important;
 }
 
 .home-page .ingredient-story::after {
   content: '';
   position: absolute;
-  width: 32rem;
-  height: 32rem;
-  right: -17rem;
+  width: 26rem;
+  height: 26rem;
+  right: -16rem;
   top: -14rem;
-  border: 1px solid rgb(156 122 68 / .12);
+  border: 1px solid rgb(156 122 68 / .09);
   border-radius: 50%;
-  box-shadow: 0 0 0 4rem rgb(156 122 68 / .025), 0 0 0 8rem rgb(156 122 68 / .018);
   pointer-events: none;
 }
 
 .home-page .ingredient-story .ingredient-story__shell {
   position: relative;
   z-index: 1;
-  max-width: 74rem;
+  max-width: 68rem;
 }
 
-/* The reference is a compact editorial spread, not a giant headline section. */
+/* Keep the heading close to the content: no giant empty editorial field. */
 .home-page .ingredient-story .ingredient-story__intro {
   width: 100%;
-  margin: 0 0 clamp(2.75rem, 4vw, 4rem) !important;
+  margin: 0 0 clamp(1.5rem, 2.5vw, 2.25rem) !important;
 }
 
 .home-page .ingredient-story .section-kicker {
-  margin-bottom: .85rem !important;
+  margin-bottom: .55rem !important;
   color: #7f6a43 !important;
-  font-size: .56rem !important;
-  letter-spacing: .22em !important;
+  font-size: .54rem !important;
+  letter-spacing: .2em !important;
 }
 
 .home-page .ingredient-story h2 {
-  max-width: 9.5ch !important;
-  font-size: clamp(2.55rem, 4.35vw, 4.25rem) !important;
+  max-width: 10ch !important;
+  font-size: clamp(2.35rem, 3.65vw, 3.65rem) !important;
   line-height: .98 !important;
-  letter-spacing: -.045em !important;
+  letter-spacing: -.04em !important;
 }
 
 .home-page .ingredient-story h2 em {
@@ -57,54 +54,53 @@
   font-style: normal !important;
 }
 
+/* Compact two-column spread, with the image intentionally smaller than the previous version. */
 .home-page .ingredient-story__content {
   position: relative;
-  grid-template-columns: minmax(17rem, .72fr) minmax(26rem, 1.08fr) !important;
-  gap: clamp(3rem, 8vw, 8rem) !important;
+  grid-template-columns: minmax(15rem, .78fr) minmax(24rem, 1.22fr) !important;
+  gap: clamp(2.5rem, 5vw, 5rem) !important;
   align-items: center !important;
 }
 
 .home-page .ingredient-story__copy {
   position: relative;
-  max-width: 24rem !important;
+  max-width: 20rem !important;
   padding-left: 0 !important;
 }
 
 .home-page .ingredient-story__copy::before {
   content: '✦';
   display: block;
-  margin-bottom: 1.1rem;
+  margin-bottom: .75rem;
   color: #aa8952;
-  font-size: .8rem;
-  letter-spacing: .8rem;
+  font-size: .7rem;
 }
 
 .home-page .ingredient-story__lead {
-  margin: 0 0 1.15rem !important;
+  margin: 0 0 .9rem !important;
   font-family: var(--font-display, Georgia, serif) !important;
-  font-size: clamp(1.1rem, 1.5vw, 1.45rem) !important;
-  line-height: 1.48 !important;
-  letter-spacing: -.015em !important;
+  font-size: clamp(1rem, 1.2vw, 1.18rem) !important;
+  line-height: 1.5 !important;
+  letter-spacing: -.01em !important;
 }
 
 .home-page .ingredient-story__copy > p:not(.ingredient-story__lead) {
-  max-width: 23rem !important;
-  font-size: .83rem !important;
-  line-height: 1.8 !important;
+  max-width: 20rem !important;
+  font-size: .76rem !important;
+  line-height: 1.7 !important;
 }
 
 .home-page .ingredient-story .text-link {
-  margin-top: 1.7rem !important;
-  gap: 1rem !important;
-  padding-bottom: .35rem !important;
+  margin-top: 1.2rem !important;
+  gap: .8rem !important;
+  padding-bottom: .3rem !important;
   color: #5b4c30 !important;
-  font-size: .56rem !important;
+  font-size: .52rem !important;
 }
 
-/* Wide landscape image, matching the approved reference. */
 .home-page .ingredient-story__image {
   width: 100%;
-  max-width: 40rem !important;
+  max-width: 29rem !important;
   justify-self: end !important;
   margin: 0 !important;
   overflow: visible !important;
@@ -113,38 +109,42 @@
 .home-page .ingredient-story__image :global(img) {
   display: block !important;
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   aspect-ratio: 16 / 9 !important;
   object-fit: cover !important;
   object-position: center 42% !important;
-  border: 1px solid rgb(98 77 44 / .22);
-  box-shadow: 0 20px 45px rgb(44 34 19 / .12);
+  border: 1px solid rgb(98 77 44 / .18);
+  box-shadow: 0 12px 28px rgb(44 34 19 / .09);
   filter: saturate(.78) contrast(1.02) brightness(.92) !important;
 }
 
 .home-page .ingredient-story__image::after {
   content: '' !important;
-  inset: auto auto -1rem -1rem !important;
-  width: 10rem !important;
-  height: 10rem !important;
+  inset: auto auto -.7rem -.7rem !important;
+  width: 6.5rem !important;
+  height: 6.5rem !important;
   z-index: -1 !important;
-  border: 1px solid rgb(156 122 68 / .28) !important;
+  border: 1px solid rgb(156 122 68 / .22) !important;
   transform: rotate(45deg);
   box-shadow: none !important;
 }
 
-.home-page .ingredient-story figcaption {
-  display: none !important;
-}
-
-/* The four-step block belongs to the later Scripture section in the reference, not here. */
+.home-page .ingredient-story figcaption,
 .home-page .ingredient-story__principles {
   display: none !important;
 }
 
 @media (max-width: 900px) {
+  .home-page .ingredient-story {
+    padding: 3.25rem 0 !important;
+  }
+
+  .home-page .ingredient-story .ingredient-story__shell {
+    max-width: 60rem;
+  }
+
   .home-page .ingredient-story__content {
-    grid-template-columns: minmax(15rem, .72fr) minmax(21rem, 1.05fr) !important;
+    grid-template-columns: minmax(14rem, .8fr) minmax(20rem, 1.2fr) !important;
     gap: 2.5rem !important;
   }
 
@@ -155,35 +155,33 @@
 
 @media (max-width: 700px) {
   .home-page .ingredient-story {
-    padding: 4.5rem 0 4rem !important;
+    padding: 3.5rem 0 3.25rem !important;
   }
 
   .home-page .ingredient-story .ingredient-story__intro {
-    margin-bottom: 2.2rem !important;
+    margin-bottom: 1.8rem !important;
   }
 
   .home-page .ingredient-story h2 {
-    font-size: clamp(2.45rem, 11vw, 3.7rem) !important;
+    font-size: clamp(2.25rem, 10vw, 3.2rem) !important;
   }
 
   .home-page .ingredient-story__content {
     grid-template-columns: 1fr !important;
-    gap: 2.4rem !important;
+    gap: 1.9rem !important;
   }
 
-  .home-page .ingredient-story__copy {
-    max-width: 31rem !important;
-  }
-
+  .home-page .ingredient-story__copy,
   .home-page .ingredient-story__copy > p:not(.ingredient-story__lead) {
     max-width: 31rem !important;
   }
 
   .home-page .ingredient-story__image {
     justify-self: stretch !important;
+    max-width: 34rem !important;
   }
 
   .home-page .ingredient-story__image :global(img) {
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 16 / 10 !important;
   }
 }
