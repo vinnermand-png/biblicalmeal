@@ -29,7 +29,11 @@ const { items } = Astro.props;
           <a
             class:list={[
               'bm-food-panel',
-              { 'bm-food-panel--feature': isFeature, 'bm-food-panel--wide': isWide },
+              {
+                'bm-food-panel--feature': isFeature,
+                'bm-food-panel--wide': isWide,
+                'bm-food-panel--dates': entry.id === 'dates',
+              },
             ]}
             href={href}
           >
@@ -38,6 +42,7 @@ const { items } = Astro.props;
               fallbackArt={art}
               ratio="4 / 3"
               alt={`${entry.data.name} ingredient portrait`}
+              class="bm-food-panel__image"
             />
             <div class="bm-food-panel__shade"></div>
             <div class="bm-food-panel__copy">
@@ -128,6 +133,27 @@ const { items } = Astro.props;
   .bm-food-panel b { display: inline-flex; gap: 10px; margin-top: 12px; color: #c7ab72; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .bm-food-panel--wide .bm-food-panel__copy { display: grid; grid-template-columns: auto auto minmax(0,1fr) auto; align-items: end; gap: 18px; }
   .bm-food-panel--wide p { max-width: 32rem; }
+
+  .bm-food-panel--dates > .bm-food-panel__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto !important;
+    z-index: 0;
+  }
+  .bm-food-panel--dates .bm-food-panel__image :global(img) {
+    object-position: 70% center;
+    filter: saturate(0.82) contrast(1.04) brightness(0.66);
+  }
+  .bm-food-panel--dates .bm-food-panel__shade {
+    z-index: 1;
+    background: linear-gradient(90deg, rgba(7,20,12,0.84) 0%, rgba(7,20,12,0.58) 42%, rgba(7,20,12,0.18) 72%, rgba(7,20,12,0.05) 100%);
+  }
+  .bm-food-panel--dates .bm-food-panel__copy { z-index: 2; max-width: 720px; }
+  .bm-food-panel--dates .bm-food-panel__index { font-size: 12px; }
+  .bm-food-panel--dates h3 { font-size: clamp(2.25rem, 4.2vw, 4.2rem); }
+
   @media (max-width: 900px) {
     .bm-featured-foods__intro { grid-template-columns: 1fr; gap: 18px; }
     .bm-foods-grid { grid-template-rows: repeat(2,230px) 170px; }
@@ -141,5 +167,6 @@ const { items } = Astro.props;
     .bm-food-panel--feature h3 { font-size: 2.55rem; }
     .bm-food-panel__copy { right:18px; bottom:18px; left:18px; }
     .bm-food-panel--wide .bm-food-panel__copy { display:block; }
+    .bm-food-panel--dates .bm-food-panel__image :global(img) { object-position: 70% center; }
   }
 </style>
