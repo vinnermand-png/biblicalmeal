@@ -21,6 +21,11 @@
   text-wrap: pretty;
 }
 
+/* Remove the legacy forced line-break so the title can flow naturally. */
+.bm-reset-home .bm-featured-article__copy h2 br {
+  display: none;
+}
+
 .bm-reset-home .bm-featured-article__copy > p:not(.bm-eyebrow) {
   max-width: 520px;
   margin-top: 15px;
