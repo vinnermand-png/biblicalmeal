@@ -1,0 +1,150 @@
+/* Site-wide responsive foundation — mobile and tablet first. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+}
+
+:where(img, picture, video, canvas, svg, iframe) {
+  max-width: 100%;
+}
+
+:where(img, video, canvas) {
+  height: auto;
+}
+
+:where(main, header, footer, section, article, aside, nav, form, ul, ol, li) {
+  min-width: 0;
+}
+
+:where(input, textarea, select, button) {
+  max-width: 100%;
+  font: inherit;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.table-scroll,
+.prose-table-wrap,
+article .overflow-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tablet: prevent desktop layouts from becoming cramped before the mobile breakpoint. */
+@media (max-width: 1023px) {
+  :root {
+    --bm-section-space: clamp(4rem, 8vw, 5.5rem);
+    --bm-section-space-compact: clamp(2.75rem, 6vw, 4rem);
+  }
+
+  .container-site {
+    padding-inline: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .content-hero__grid,
+  .ingredient-feature,
+  .journal-feature,
+  .journal__intro {
+    min-width: 0;
+  }
+
+  .content-hero__copy,
+  .ingredient-feature__copy,
+  .journal-feature__copy,
+  .journal__intro-copy {
+    max-width: 100%;
+  }
+}
+
+/* Phone and small tablet ergonomics. */
+@media (max-width: 767px) {
+  :root {
+    --bm-section-space: clamp(3.5rem, 13vw, 4.5rem);
+    --bm-section-space-compact: clamp(2.5rem, 9vw, 3.5rem);
+  }
+
+  .container-site {
+    padding-inline: 1.25rem;
+  }
+
+  .content-hero__grid {
+    gap: 1.75rem;
+    padding-block: clamp(3rem, 10vw, 4.5rem);
+  }
+
+  .content-hero__art,
+  .ingredient-feature__media,
+  .journal-feature__media {
+    width: 100%;
+  }
+
+  .journal-feature__copy,
+  .concept-flow__copy-inner {
+    padding-inline: 1.25rem;
+  }
+
+  .content-listing__intro,
+  .journal__intro,
+  .journal-context__heading {
+    margin-bottom: 2rem;
+  }
+
+  .surface-card,
+  .surface-panel,
+  .media-frame,
+  .editorial-card {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .container-site {
+    padding-inline: 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  blockquote,
+  a,
+  button {
+    overflow-wrap: anywhere;
+  }
+
+  .content-hero__grid,
+  .ingredient-feature,
+  .journal-feature {
+    gap: 1.5rem;
+  }
+
+  .content-hero__copy nav,
+  .content-hero--listing .content-hero__copy nav {
+    width: 100%;
+  }
+
+  .journal-context__grid,
+  .content-listing__grid {
+    gap: 1rem;
+  }
+}
