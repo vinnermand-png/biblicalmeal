@@ -1,39 +1,172 @@
 ---
 import MobileMenu from '../islands/MobileMenu.tsx';
 import { NAV_LINKS, SITE } from '../../config';
+
+const isHome = Astro.url.pathname === '/';
 ---
 
-<header
-  class="sticky top-0 z-50 border-b border-line/70 bg-background/88 backdrop-blur-md"
->
-  <div class="container-site flex h-[4.5rem] items-center justify-between lg:h-[5rem]">
+<header class:list={['site-header', { 'site-header--home': isHome }]}>
+  <div class="site-header__inner container-site">
     <a
       href="/"
-      class="font-display text-[1.05rem] font-semibold tracking-tight text-ink md:text-xl"
+      class="site-header__brand"
       aria-label={`${SITE.name} — home`}
     >
-      BiblicalMeal<span class="text-terracotta">.</span>
+      BiblicalMeal<span>.</span>
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="Main navigation">
+    <nav class="site-header__nav" aria-label="Main navigation">
       {
         NAV_LINKS.map((link) => (
-          <a
-            href={link.href}
-            class="relative py-2 font-sans text-[0.62rem] font-semibold tracking-[0.16em] text-ink-muted uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-terracotta after:transition-transform after:duration-200 hover:text-ink hover:after:scale-x-100"
-          >
+          <a href={link.href} class="site-header__link">
             {link.label}
           </a>
         ))
       }
-      <a
-        href="/#newsletter"
-        class="bg-terracotta px-5 py-2.5 font-sans text-[0.6rem] font-semibold tracking-[0.16em] text-cream uppercase shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-terracotta-dark"
-      >
-        Newsletter
+      <a href="/#newsletter" class="site-header__cta">
+        <span>Explore the table</span>
+        <b aria-hidden="true">→</b>
       </a>
     </nav>
 
-    <MobileMenu client:load links={NAV_LINKS} />
+    <MobileMenu client:load links={NAV_LINKS} dark={isHome} />
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgba(56, 42, 26, .11);
+    background: rgba(247, 242, 233, .9);
+    backdrop-filter: blur(18px);
+  }
+
+  .site-header--home {
+    position: absolute;
+    inset: 0 0 auto;
+    border-bottom-color: rgba(240, 228, 204, .08);
+    background: linear-gradient(180deg, rgba(4, 9, 5, .42), transparent);
+    backdrop-filter: none;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 5.5rem;
+    gap: 2rem;
+  }
+
+  .site-header__brand {
+    flex: 0 0 auto;
+    color: #202117;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 1.16rem;
+    font-weight: 600;
+    letter-spacing: -.035em;
+    line-height: 1;
+  }
+
+  .site-header--home .site-header__brand { color: #f4eee0; }
+  .site-header__brand span { color: #c49a57; }
+
+  .site-header__nav {
+    display: none;
+    align-items: center;
+    gap: clamp(1.35rem, 2.3vw, 2.55rem);
+  }
+
+  .site-header__link {
+    position: relative;
+    padding: .65rem 0;
+    color: rgba(49, 44, 35, .68);
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: .56rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    line-height: 1;
+    text-transform: uppercase;
+    transition: color .22s ease;
+  }
+
+  .site-header--home .site-header__link { color: rgba(244, 238, 224, .62); }
+
+  .site-header__link::after {
+    position: absolute;
+    right: 0;
+    bottom: .1rem;
+    left: 0;
+    height: 1px;
+    content: '';
+    background: #c49a57;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .24s ease;
+  }
+
+  .site-header__link:hover { color: #1d1d16; }
+  .site-header--home .site-header__link:hover { color: #f5eddf; }
+  .site-header__link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .site-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.35rem;
+    min-height: 2.7rem;
+    padding: 0 .9rem 0 1.05rem;
+    border: 1px solid rgba(196, 154, 87, .42);
+    background: rgba(196, 154, 87, .1);
+    color: #5c4120;
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: .53rem;
+    font-weight: 700;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+
+  .site-header--home .site-header__cta {
+    border-color: rgba(225, 195, 137, .42);
+    background: rgba(196, 154, 87, .16);
+    color: #f4e6c9;
+  }
+
+  .site-header__cta b {
+    font-size: .9rem;
+    font-weight: 400;
+    transition: transform .22s ease;
+  }
+
+  .site-header__cta:hover {
+    border-color: #c49a57;
+    background: #c49a57;
+    color: #17140d;
+    transform: translateY(-1px);
+  }
+
+  .site-header__cta:hover b { transform: translateX(3px); }
+
+  @media (min-width: 1024px) {
+    .site-header__inner { min-height: 6rem; }
+    .site-header__nav { display: flex; }
+  }
+
+  @media (max-width: 1023px) {
+    .site-header__inner { min-height: 4.75rem; }
+  }
+
+  @media (max-width: 640px) {
+    .site-header__inner { min-height: 4.25rem; }
+    .site-header__brand { font-size: 1.05rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__link,
+    .site-header__link::after,
+    .site-header__cta,
+    .site-header__cta b { transition: none; }
+  }
+</style>
