@@ -1,12 +1,12 @@
 ---
-import SectionHeader from '../common/SectionHeader.astro';
+import EditorialImage from '../common/EditorialImage.astro';
 
 const steps = [
   {
     number: '01',
     title: 'Scripture',
     description:
-      'We begin with the biblical text itself — read carefully, in context.',
+      'We begin with the biblical text itself — read carefully and in context.',
   },
   {
     number: '02',
@@ -24,83 +24,112 @@ const steps = [
     number: '04',
     title: 'Recipe',
     description:
-      'We bring it home: dishes inspired by the ancient table, made in your kitchen.',
+      'We bring it home: dishes inspired by the ancient table, made for your kitchen.',
   },
 ];
 ---
 
 <section class="relative overflow-hidden bg-background-alt" id="story">
-  <div
-    class="pointer-events-none absolute inset-x-0 top-0 h-px bg-line"
-    aria-hidden="true"
-  >
-  </div>
-  <div class="container-site section-space">
-    <SectionHeader
-      eyebrow="Our Approach"
-      title="From Scripture to Table"
-      description="Every BiblicalMeal story follows the same path — from the ancient text, through history and the ingredient itself, to a recipe you can cook tonight."
-    />
-    <ol
-      class="concept-flow mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0"
+  <div class="grid lg:grid-cols-2">
+    <div
+      class="container-site flex items-center py-20 sm:py-24 lg:py-24 xl:py-28"
     >
-      {
-        steps.map((step) => (
-          <li class="reveal concept-flow__step relative px-6 py-7 first:pl-0 last:pr-0 lg:min-h-[17rem]">
-            <span class="concept-flow__line" aria-hidden="true" />
-            <div class="relative space-y-4">
-              <p
-                class="font-display text-h1 font-medium text-terracotta/65"
-                aria-hidden="true"
+      <div class="max-w-2xl">
+        <p
+          class="reveal font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
+        >
+          Our approach
+        </p>
+        <h2
+          class="reveal mt-4 max-w-xl font-display text-display-sm text-ink"
+          style="--reveal-delay:80ms"
+        >
+          From Scripture to Table<span class="text-terracotta">.</span>
+        </h2>
+        <p
+          class="reveal mt-6 max-w-2xl text-body-lg text-ink-muted"
+          style="--reveal-delay:120ms"
+        >
+          Every meal begins with meaning — for the land, the people, and the
+          world behind the text. We move through Scripture, history,
+          ingredients, and practical cooking without collapsing them into one
+          claim.
+        </p>
+
+        <ol
+          class="mt-12 grid gap-x-8 gap-y-9 sm:grid-cols-2"
+          aria-label="BiblicalMeal approach"
+        >
+          {
+            steps.map((step) => (
+              <li
+                class="reveal border-t border-line pt-5"
+                style={`--reveal-delay:${160 + Number(step.number) * 30}ms`}
               >
-                {step.number}
-              </p>
-              <div class="h-px w-10 bg-gold/60" aria-hidden="true" />
-              <h3 class="font-display text-h3 text-ink">{step.title}</h3>
-              <p class="text-body text-ink-muted">{step.description}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ol>
-    <p
-      class="mt-10 max-w-2xl border-l-2 border-gold/60 pl-5 text-caption leading-relaxed text-ink-muted"
+                <div class="flex items-start gap-4">
+                  <span
+                    class="font-display text-h2 text-terracotta/65"
+                    aria-hidden="true"
+                  >
+                    {step.number}
+                  </span>
+                  <div>
+                    <h3 class="font-display text-h3 text-ink">{step.title}</h3>
+                    <p class="mt-2 text-body text-ink-muted">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <a
+          href="/editorial-method/"
+          class="mt-10 inline-flex items-center gap-3 font-sans text-caption font-semibold tracking-wide text-terracotta uppercase transition-transform hover:translate-x-1"
+        >
+          Learn our approach <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="relative min-h-[30rem] overflow-hidden bg-olive-dark lg:min-h-full"
     >
-      A consistent editorial path helps us keep research, interpretation, and
-      practical reconstruction distinct rather than collapsing them into one
-      claim.
-    </p>
+      <EditorialImage
+        id="journal-meal-preparation"
+        fallbackArt="still-life"
+        ratio="4 / 3"
+        alt="A warm editorial table scene with bread, herbs, and clay vessels"
+        decorative
+        loading="lazy"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-olive-dark/55 via-olive-dark/22 to-transparent"
+      ></div>
+      <div
+        class="relative z-10 flex h-full min-h-[30rem] items-end p-8 sm:p-12 lg:min-h-full lg:p-16"
+      >
+        <div class="max-w-xl border-l-2 border-gold pl-6 sm:pl-8">
+          <p
+            class="font-sans text-eyebrow font-semibold tracking-eyebrow text-gold uppercase"
+          >
+            Where meals meet meaning
+          </p>
+          <blockquote
+            class="mt-4 font-display text-display-sm leading-[1.02] text-cream"
+          >
+            “A land of wheat and barley, and vines, and fig trees, and
+            pomegranates; a land of oil olive, and honey.”
+          </blockquote>
+          <cite
+            class="mt-6 block font-sans text-caption font-semibold not-italic tracking-wide text-cream/75 uppercase"
+          >
+            Deuteronomy 8:8
+          </cite>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
-<style>
-  .concept-flow__step {
-    border-top: 1px solid var(--color-line);
-  }
-  .concept-flow__line {
-    position: absolute;
-    top: -1px;
-    left: 0;
-    width: 2.5rem;
-    height: 1px;
-    background: var(--color-terracotta);
-  }
-  @media (min-width: 1024px) {
-    .concept-flow__step {
-      border-top: 0;
-      border-left: 1px solid var(--color-line);
-    }
-    .concept-flow__step:first-child {
-      border-left: 0;
-    }
-    .concept-flow__line {
-      top: 0;
-      left: 0;
-      width: 1px;
-      height: 2.75rem;
-    }
-    .concept-flow__step:first-child .concept-flow__line {
-      display: none;
-    }
-  }
-</style>
