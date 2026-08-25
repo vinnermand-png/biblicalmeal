@@ -25,7 +25,29 @@ export interface EditorialImageDimensions {
   height: number;
 }
 
-export const EDITORIAL_IMAGES = editorialImages as EditorialImageAsset[];
+const supplementalEditorialImages: EditorialImageAsset[] = [
+  {
+    id: 'ingredient-portrait-dates',
+    title: 'Premium dates ingredient portrait',
+    category: 'ingredients',
+    purpose: 'Premium ingredient portrait for landing page',
+    subject: 'A cluster of naturally wrinkled Medjool dates with one opened date on natural linen and dark stone.',
+    pageUsage: ['/'],
+    aspectRatio: '16:9',
+    size: '1536x1024',
+    quality: 'high',
+    output: 'public/assets/editorial/ingredients/dates.webp',
+    publicPath: '/assets/editorial/ingredients/dates.webp',
+    status: 'generated',
+    promptSubject: 'Editorial portrait of naturally wrinkled Medjool dates arranged on rough natural linen over dark textured stone, with one partially opened date showing its interior. Deep muted olive background, warm brown and amber tones, refined negative space and premium cookbook photography.',
+    fallbackArt: 'dates',
+  },
+];
+
+export const EDITORIAL_IMAGES = [
+  ...(editorialImages as EditorialImageAsset[]),
+  ...supplementalEditorialImages,
+];
 
 export function getEditorialImage(id: string | undefined) {
   return EDITORIAL_IMAGES.find((asset) => asset.id === id);
