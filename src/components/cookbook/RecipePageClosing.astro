@@ -1,0 +1,174 @@
+---
+/**
+ * V3C.45D — Recipe Closing Page
+ *
+ * Physical page 4 of a recipe: uncertainty disclosure, source notes.
+ * Designed for the 8:10 book frame.
+ */
+import type { RecipeContentRecord } from '../../data/recipe-content/types';
+
+interface Props {
+  recipe: RecipeContentRecord;
+}
+
+const { recipe } = Astro.props;
+---
+
+<div class="recipe-closing-page">
+  <h2 class="recipe-closing-page__title">Uncertainty Disclosure</h2>
+  <div class="recipe-closing-page__uncertainty">
+    <p class="recipe-closing-page__uncertainty-text">
+      {recipe.uncertaintyDisclosure}
+    </p>
+  </div>
+
+  <h2 class="recipe-closing-page__title">Source Notes</h2>
+  <div class="recipe-closing-page__sources">
+    <p class="recipe-closing-page__source-text">
+      This recipe draws on the following evidence categories:
+    </p>
+    <ul class="recipe-closing-page__source-list">
+      {
+        recipe.ingredients.some(
+          (i) => i.evidenceLayer === 'directly-attested',
+        ) && (
+          <li class="recipe-closing-page__source-item recipe-closing-page__source-item--attested">
+            <span class="recipe-closing-page__source-dot" aria-hidden="true" />
+            Directly attested ingredients
+          </li>
+        )
+      }
+      {
+        recipe.ingredients.some((i) => i.evidenceLayer === 'inferred') && (
+          <li class="recipe-closing-page__source-item recipe-closing-page__source-item--inferred">
+            <span class="recipe-closing-page__source-dot" aria-hidden="true" />
+            Historically inferred elements
+          </li>
+        )
+      }
+      {
+        recipe.ingredients.some(
+          (i) => i.evidenceLayer === 'practical-adaptation',
+        ) && (
+          <li class="recipe-closing-page__source-item recipe-closing-page__source-item--adaptation">
+            <span class="recipe-closing-page__source-dot" aria-hidden="true" />
+            Practical modern adaptations
+          </li>
+        )
+      }
+      {
+        recipe.ingredients.some((i) => i.evidenceLayer === 'unresolved') && (
+          <li class="recipe-closing-page__source-item recipe-closing-page__source-item--unresolved">
+            <span class="recipe-closing-page__source-dot" aria-hidden="true" />
+            Unresolved historical questions
+          </li>
+        )
+      }
+    </ul>
+  </div>
+
+  <div class="recipe-closing-page__footer">
+    <p class="recipe-closing-page__footer-text">
+      For the complete source bibliography, see{' '}
+      <a href="/cookbook/sources/" class="recipe-closing-page__link">
+        Sources &amp; Bibliography
+      </a>.
+    </p>
+  </div>
+</div>
+
+<style>
+  .recipe-closing-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+  .recipe-closing-page__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    line-height: 1.25;
+    color: var(--color-ink);
+    margin: 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .recipe-closing-page__uncertainty {
+    background: rgba(201, 162, 75, 0.08);
+    border: 1px solid rgba(201, 162, 75, 0.25);
+    border-radius: 0.5rem;
+    padding: clamp(0.5rem, 1.5vw, 0.875rem);
+  }
+  .recipe-closing-page__uncertainty-text {
+    font-size: clamp(0.7rem, 1.5vw, 0.825rem);
+    line-height: 1.6;
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+  .recipe-closing-page__sources {
+    flex: 1;
+  }
+  .recipe-closing-page__source-text {
+    font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+    line-height: 1.55;
+    color: var(--color-ink-muted);
+    margin: 0 0 0.5rem;
+  }
+  .recipe-closing-page__source-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .recipe-closing-page__source-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+    color: var(--color-ink);
+  }
+  .recipe-closing-page__source-dot {
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    border-radius: 50%;
+  }
+  .recipe-closing-page__source-item--attested .recipe-closing-page__source-dot {
+    background: var(--color-olive);
+  }
+  .recipe-closing-page__source-item--inferred .recipe-closing-page__source-dot {
+    background: var(--color-gold);
+  }
+  .recipe-closing-page__source-item--adaptation
+    .recipe-closing-page__source-dot {
+    background: var(--color-terracotta);
+  }
+  .recipe-closing-page__source-item--unresolved
+    .recipe-closing-page__source-dot {
+    background: var(--color-ink-muted);
+  }
+  .recipe-closing-page__footer {
+    margin-top: auto;
+    padding-top: clamp(0.25rem, 1vw, 0.5rem);
+    border-top: 1px solid var(--color-line);
+  }
+  .recipe-closing-page__footer-text {
+    font-family: var(--font-sans);
+    font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+  .recipe-closing-page__link {
+    color: var(--color-olive-dark);
+    text-decoration: underline;
+    text-decoration-color: rgba(65, 77, 43, 0.3);
+    text-underline-offset: 2px;
+  }
+  .recipe-closing-page__link:hover {
+    text-decoration-color: var(--color-olive-dark);
+  }
+</style>

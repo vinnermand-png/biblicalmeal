@@ -1,0 +1,98 @@
+---
+/**
+ * V3C.45D — Recipe Evidence Page
+ *
+ * Physical page 3 of a recipe: historical context, evidence, editorial notes.
+ * Designed for the 8:10 book frame.
+ */
+import type { RecipeContentRecord } from '../../data/recipe-content/types';
+import EvidenceSummary from './EvidenceSummary.astro';
+
+interface Props {
+  recipe: RecipeContentRecord;
+}
+
+const { recipe } = Astro.props;
+---
+
+<div class="recipe-evidence-page">
+  <h2 class="recipe-evidence-page__title">Historical Context</h2>
+
+  {
+    recipe.historicalContext && (
+      <p class="recipe-evidence-page__context">{recipe.historicalContext}</p>
+    )
+  }
+
+  <h2 class="recipe-evidence-page__title">Evidence</h2>
+  <EvidenceSummary
+    classification={recipe.classification}
+    editorialNotes={recipe.editorialNotes}
+  />
+
+  {
+    recipe.editorialNotes.length > 0 && (
+      <div class="recipe-evidence-page__notes">
+        <h3 class="recipe-evidence-page__subtitle">Editorial Notes</h3>
+        <ul class="recipe-evidence-page__notes-list">
+          {recipe.editorialNotes.map((note) => (
+            <li class="recipe-evidence-page__note">{note}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .recipe-evidence-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    gap: clamp(0.375rem, 1.2vw, 0.625rem);
+    overflow: hidden;
+  }
+  .recipe-evidence-page__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    line-height: 1.25;
+    color: var(--color-ink);
+    margin: 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .recipe-evidence-page__context {
+    font-size: clamp(0.7rem, 1.5vw, 0.825rem);
+    line-height: 1.6;
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+  .recipe-evidence-page__notes {
+    margin-top: auto;
+  }
+  .recipe-evidence-page__subtitle {
+    font-family: var(--font-sans);
+    font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-muted);
+    margin: 0 0 0.375rem;
+  }
+  .recipe-evidence-page__notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.25rem, 0.8vw, 0.375rem);
+  }
+  .recipe-evidence-page__note {
+    font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+    line-height: 1.55;
+    color: var(--color-ink-muted);
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--color-line);
+  }
+</style>

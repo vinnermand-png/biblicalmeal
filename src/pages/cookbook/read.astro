@@ -1,0 +1,29 @@
+---
+/**
+ * V3C.45D — Book Reader Route
+ *
+ * The premium digital book reader at /cookbook/read/.
+ * Renders the BookReader component with spread/single mode.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookReader from '../../components/cookbook/BookReader.astro';
+---
+
+<BaseLayout
+  title="Read — Biblical Meals"
+  description="Preview Biblical Meals — nine evidence-aware recipes rooted in Scripture, history, and the culinary traditions of the ancient world."
+>
+  <main id="main" class="book-reader-page">
+    <BookReader />
+  </main>
+</BaseLayout>
+
+<style>
+  .book-reader-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--color-background);
+  }
+</style>

@@ -1,0 +1,443 @@
+---
+/**
+ * V3C.45D — Premium Book Reader
+ *
+ * Interactive digital book reader with:
+ * - Fixed 8:10 book frame on every page
+ * - Desktop two-page spread when viewport allows
+ * - Tablet/mobile single-page reading
+ * - Real book page navigation
+ * - Preview boundary
+ *
+ * Vanilla JS — no frameworks. Minimal client state.
+ */
+import BookPageRenderer from './BookPageRenderer.astro';
+import PreviewBoundary from './PreviewBoundary.astro';
+import { generatePreviewPhysicalPages } from '../../lib/cookbook-pagination';
+import type { BookPage } from '../../lib/cookbook-book-order';
+
+/**
+ * Preview book pages — deterministic preview boundary.
+ */
+const PREVIEW_BOOK_PAGES: BookPage[] = [
+  { order: 1, kind: 'front-matter', id: 'title-page', title: 'Title Page' },
+  { order: 2, kind: 'front-matter', id: 'introduction', title: 'Introduction' },
+  {
+    order: 3,
+    kind: 'front-matter',
+    id: 'classification-guide',
+    title: 'Classification Guide',
+  },
+  { order: 4, kind: 'chapter', id: 'grains-breads', title: 'Grains & Breads' },
+  {
+    order: 5,
+    kind: 'recipe',
+    id: 'recipe-content-unleavened-bread',
+    title: 'Unleavened Bread',
+    chapterId: 'grains-breads',
+  },
+  {
+    order: 6,
+    kind: 'recipe',
+    id: 'recipe-content-barley-bread',
+    title: 'Barley Bread',
+    chapterId: 'grains-breads',
+  },
+  {
+    order: 7,
+    kind: 'recipe',
+    id: 'recipe-content-wheat-flatbread',
+    title: 'Wheat Flatbread',
+    chapterId: 'grains-breads',
+  },
+  {
+    order: 8,
+    kind: 'chapter',
+    id: 'legumes-one-pot-meals',
+    title: 'Legumes & One-Pot Meals',
+  },
+  {
+    order: 9,
+    kind: 'recipe',
+    id: 'recipe-content-lentil-pottage',
+    title: 'Lentil Pottage',
+    chapterId: 'legumes-one-pot-meals',
+  },
+];
+const physicalPages = generatePreviewPhysicalPages(PREVIEW_BOOK_PAGES);
+
+// Append the preview boundary as the final physical page
+const allPages = [
+  ...physicalPages,
+  {
+    id: 'preview-boundary',
+    type: 'preview-boundary' as const,
+    bookPageId: 'preview-boundary',
+    title: 'Preview Ended',
+    index: physicalPages.length,
+    sectionPage: 1,
+    sectionTotal: 1,
+  },
+];
+const totalPages = allPages.length;
+
+// Serialise page metadata for client JS
+const pageMeta = allPages.map((p) => ({
+  id: p.id,
+  type: p.type,
+  bookPageId: p.bookPageId,
+  title: p.title,
+}));
+---
+
+<div
+  id="book-reader"
+  class="book-reader"
+  data-total={totalPages}
+  aria-label="Book preview reader"
+>
+  {/* ─── Cover ─────────────────────────────────────── */}
+  <div id="reader-cover" class="book-reader__cover">
+    <div class="book-reader__cover-frame">
+      <div class="book-reader__cover-surface">
+        <div class="book-reader__cover-art">
+          <div class="book-reader__cover-illustration"></div>
+        </div>
+        <div class="book-reader__cover-text">
+          <p class="book-reader__cover-publisher">The BiblicalMeal Cookbook</p>
+          <h1 class="book-reader__cover-title">Biblical Meals</h1>
+          <p class="book-reader__cover-subtitle">
+            Recipes Inspired by the Foods of the Bible
+          </p>
+          <div class="book-reader__cover-divider"></div>
+          <p class="book-reader__cover-meta">
+            BiblicalMeal &middot; First Edition &middot; 2026
+          </p>
+        </div>
+      </div>
+    </div>
+    <button
+      id="reader-open"
+      class="book-reader__open-btn"
+      aria-label="Open the book preview"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="book-reader__open-icon"
+        aria-hidden="true"
+      >
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+      </svg>
+      Open the Book
+    </button>
+  </div>
+
+  {/* ─── All physical pages (hidden, server-rendered) ── */}
+  <div id="reader-all-pages" class="sr-only" aria-hidden="true">
+    {
+      allPages.map((page) => (
+        <div
+          class="book-reader__rendered"
+          data-physical-id={page.id}
+          data-page-type={page.type}
+          data-book-page-id={page.bookPageId}
+          data-title={page.title}
+        >
+          {page.type === 'preview-boundary' ? (
+            <PreviewBoundary />
+          ) : (
+            <BookPageRenderer
+              kind={
+                page.type === 'chapter-opener'
+                  ? 'chapter'
+                  : page.type === 'recipe-hero' ||
+                      page.type === 'recipe-cooking' ||
+                      page.type === 'recipe-evidence' ||
+                      page.type === 'recipe-closing'
+                    ? 'recipe'
+                    : page.type === 'back-matter'
+                      ? 'back-matter'
+                      : 'front-matter'
+              }
+              id={page.bookPageId}
+              physicalPageType={page.type}
+              isPreview={true}
+            />
+          )}
+        </div>
+      ))
+    }
+  </div>
+
+  {/* ─── Visible reading area ──────────────────────── */}
+  <div id="reader-pages" class="book-reader__pages" hidden>
+    {/* Spread container — holds left + right slots */}
+    <div id="reader-spread" class="book-reader__spread">
+      <div class="book-reader__slot book-reader__slot--left" id="slot-left">
+        <div class="book-page">
+          <div class="book-page-inner"></div>
+        </div>
+      </div>
+      <div class="book-reader__slot book-reader__slot--right" id="slot-right">
+        <div class="book-page">
+          <div class="book-page-inner book-page-inner--centered"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* ─── Boundary template ─────────────────────────── */}
+  <div id="reader-boundary-template" class="sr-only">
+    <PreviewBoundary />
+  </div>
+
+  {/* ─── Controls ──────────────────────────────────── */}
+  <div id="reader-controls" class="book-reader__controls" hidden>
+    <div class="book-reader__controls-inner">
+      <button
+        id="reader-prev"
+        class="book-reader__btn"
+        disabled
+        aria-label="Previous page"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="book-reader__btn-icon"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+            clip-rule="evenodd"></path>
+        </svg>
+        <span class="book-reader__btn-label">Previous</span>
+      </button>
+
+      <span
+        id="reader-counter"
+        class="book-reader__counter"
+        aria-live="polite"
+        aria-atomic="true">1 / {totalPages}</span
+      >
+
+      <button id="reader-next" class="book-reader__btn" aria-label="Next page">
+        <span class="book-reader__btn-label">Next</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="book-reader__btn-icon"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ pageMeta, totalPages }}>
+  window.__BM_PAGE_META = pageMeta;
+  window.__BM_TOTAL = totalPages;
+</script>
+
+<script>
+  // V3C.45D — Premium Book Reader Client Logic
+  // Vanilla JS. No frameworks.
+
+  declare global {
+    interface Window {
+      __BM_PAGE_META: Array<{
+        id: string;
+        type: string;
+        bookPageId: string;
+        title: string;
+      }>;
+      __BM_TOTAL: number;
+    }
+  }
+
+  function initReader() {
+    const reader = document.getElementById('book-reader');
+    if (!reader) return;
+
+    const totalPages = window.__BM_TOTAL;
+    const pageMeta = window.__BM_PAGE_META;
+
+    const cover = document.getElementById('reader-cover')!;
+    const openBtn = document.getElementById('reader-open')!;
+    const pagesContainer = document.getElementById('reader-pages')!;
+    const controls = document.getElementById('reader-controls')!;
+    const slotLeft = document.getElementById('slot-left')!;
+    const slotRight = document.getElementById('slot-right')!;
+    const prevBtn = document.getElementById('reader-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('reader-next') as HTMLButtonElement;
+    const counter = document.getElementById('reader-counter')!;
+    const boundaryTemplate = document.getElementById(
+      'reader-boundary-template',
+    );
+
+    const allRendered = reader.querySelectorAll(
+      '.book-reader__rendered',
+    ) as NodeListOf<HTMLElement>;
+
+    // Build a map of physical-id → rendered element
+    const renderedMap = new Map<string, HTMLElement>();
+    allRendered.forEach((el) => {
+      renderedMap.set(el.dataset.physicalId!, el);
+    });
+
+    let currentPage = 0;
+
+    function isSpreadMode(): boolean {
+      return window.innerWidth >= 1080;
+    }
+
+    function fillSlot(
+      slot: HTMLElement,
+      physicalId: string | null,
+      meta: {
+        id: string;
+        type: string;
+        bookPageId: string;
+        title: string;
+      } | null,
+    ) {
+      const inner = slot.querySelector('.book-page-inner');
+      if (!inner) return;
+
+      if (!physicalId || !meta) {
+        inner.innerHTML = '';
+        slot.style.visibility = 'hidden';
+        slot.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      slot.style.visibility = 'visible';
+      slot.removeAttribute('aria-hidden');
+
+      const rendered = renderedMap.get(physicalId);
+      if (rendered) {
+        inner.innerHTML = rendered.innerHTML;
+      } else if (meta.type === 'preview-boundary' && boundaryTemplate) {
+        inner.innerHTML = boundaryTemplate.innerHTML;
+      } else {
+        inner.innerHTML = `<div class="book-page-placeholder">${meta.title}</div>`;
+      }
+
+      // Apply page-type class
+      inner.className = 'book-page-inner';
+      if (
+        meta.type === 'front-matter' ||
+        meta.type === 'chapter-opener' ||
+        meta.type === 'recipe-hero' ||
+        meta.type === 'back-matter' ||
+        meta.type === 'preview-boundary'
+      ) {
+        inner.classList.add('book-page-inner--centered');
+      }
+    }
+
+    function showPage(index: number) {
+      currentPage = index;
+      const spread = isSpreadMode();
+
+      if (spread) {
+        pagesContainer.classList.add('book-reader__pages--spread');
+        pagesContainer.classList.remove('book-reader__pages--single');
+
+        // In spread: left = previous page, right = current page
+        const leftIndex = index > 0 ? index - 1 : -1;
+        const rightIndex = index;
+
+        if (leftIndex >= 0) {
+          fillSlot(slotLeft, pageMeta[leftIndex].id, pageMeta[leftIndex]);
+        } else {
+          fillSlot(slotLeft, null, null);
+        }
+        fillSlot(slotRight, pageMeta[rightIndex].id, pageMeta[rightIndex]);
+      } else {
+        pagesContainer.classList.remove('book-reader__pages--spread');
+        pagesContainer.classList.add('book-reader__pages--single');
+
+        slotLeft.style.display = 'none';
+        slotLeft.style.visibility = 'hidden';
+        fillSlot(slotRight, pageMeta[index].id, pageMeta[index]);
+        slotRight.style.display = '';
+      }
+
+      counter.textContent = `${index + 1} / ${totalPages}`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index >= totalPages - 1;
+    }
+
+    // Open
+    openBtn.addEventListener('click', () => {
+      cover.hidden = true;
+      pagesContainer.removeAttribute('hidden');
+      controls.removeAttribute('hidden');
+      showPage(0);
+    });
+
+    // Prev
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        const step = isSpreadMode() ? 2 : 1;
+        showPage(Math.max(0, currentPage - step));
+      }
+    });
+
+    // Next
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages - 1) {
+        const step = isSpreadMode() ? 2 : 1;
+        showPage(Math.min(totalPages - 1, currentPage + step));
+      }
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (pagesContainer.hidden) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentPage > 0) {
+          const step = isSpreadMode() ? 2 : 1;
+          showPage(Math.max(0, currentPage - step));
+        }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (currentPage < totalPages - 1) {
+          const step = isSpreadMode() ? 2 : 1;
+          showPage(Math.min(totalPages - 1, currentPage + step));
+        }
+      }
+    });
+
+    // Resize
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (!pagesContainer.hidden) showPage(currentPage);
+      }, 150);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReader);
+  } else {
+    initReader();
+  }
+</script>
