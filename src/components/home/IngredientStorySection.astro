@@ -1,0 +1,39 @@
+<section class="bm-ingredient-story" aria-labelledby="bm-ingredient-story-title">
+  <div class="container-site bm-ingredient-story__grid">
+    <div class="bm-ingredient-story__copy">
+      <p class="bm-eyebrow bm-eyebrow--light">More than food</p>
+      <h2 id="bm-ingredient-story-title">Every ingredient<br />carries a story.</h2>
+      <div class="bm-rule bm-rule--warm" aria-hidden="true"><span></span><b>✦</b><span></span></div>
+      <p>In the ancient world, food was never only food. Bread carried meaning. Oil travelled through trade. Figs marked the seasons. Wine gathered people around the table.</p>
+      <a class="bm-text-link" href="/ingredients/">Discover the stories <span aria-hidden="true">→</span></a>
+    </div>
+
+    <figure class="bm-ingredient-story__media">
+      <EditorialImage id="ingredients-olives-still-life" fallbackArt="olives" ratio="3 / 2" alt="Olives and olive leaves arranged with handmade ceramics on weathered stone" />
+      <span class="bm-ingredient-story__botanical" aria-hidden="true">
+        <FoodIllustration kind="olives" ratio="1 / 1" />
+      </span>
+      <figcaption>Rooted in Scripture &amp; history</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .bm-ingredient-story { position: relative; overflow: hidden; padding-block: 96px; background: #f3eee4; color: #1b1915; }
+  .bm-ingredient-story::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 86% 16%, rgba(184,150,83,.06), transparent 22rem); }
+  .bm-ingredient-story__grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(48px, 7vw, 110px); align-items: center; min-height: 440px; }
+  .bm-ingredient-story__copy { max-width: 470px; }
+  .bm-eyebrow--light { color: #8f7b54; }
+  .bm-ingredient-story h2 { margin: 0; font-family: var(--font-display); font-size: clamp(3.1rem, 5.2vw, 4.6rem); font-weight: 400; line-height: .98; letter-spacing: -.045em; }
+  .bm-rule--warm { margin: 20px 0 18px; color: #ad8a4c; }
+  .bm-ingredient-story__copy > p:not(.bm-eyebrow) { margin: 0; max-width: 410px; color: #645f55; font-size: 16px; line-height: 1.75; }
+  .bm-text-link { display: inline-flex; gap: 14px; margin-top: 24px; padding-bottom: 5px; border-bottom: 1px solid rgba(91,72,46,.42); color: #574b36; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .bm-ingredient-story__media { position: relative; width: 100%; max-width: 720px; margin: 0 0 0 auto; }
+  .bm-ingredient-story__media :global(img) { width: 100%; height: auto; min-height: 360px; object-fit: cover; border: 1px solid rgba(91,72,46,.18); box-shadow: 0 18px 42px rgba(52,39,29,.12); filter: saturate(.88) contrast(1.02); }
+  .bm-ingredient-story__media::after { content: ''; position: absolute; left: -12px; bottom: -12px; width: 96px; height: 96px; border: 1px solid rgba(184,150,83,.35); transform: rotate(45deg); pointer-events: none; }
+  .bm-ingredient-story__botanical { position: absolute; left: -52px; bottom: 12px; width: 118px; height: 118px; opacity: .72; transform: rotate(-12deg); }
+  .bm-ingredient-story__botanical :global(svg) { width: 100%; height: 100%; }
+  .bm-ingredient-story__media figcaption { margin-top: 12px; color: #8a7b63; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  @media (max-width: 900px) { .bm-ingredient-story { padding-block: 72px; } .bm-ingredient-story__grid { gap: 48px; } .bm-ingredient-story__botanical { left: -26px; width: 90px; height: 90px; } }
+  @media (max-width: 700px) { .bm-ingredient-story { padding-block: 68px; } .bm-ingredient-story__grid { grid-template-columns: 1fr; min-height: auto; gap: 34px; } .bm-ingredient-story__copy { max-width: 32rem; } .bm-ingredient-story h2 { font-size: clamp(2.8rem, 11vw, 4rem); } .bm-ingredient-story__media { max-width: none; } .bm-ingredient-story__media :global(img) { min-height: 0; } .bm-ingredient-story__botanical { left: -14px; bottom: 12px; width: 78px; height: 78px; } }
+</style>
