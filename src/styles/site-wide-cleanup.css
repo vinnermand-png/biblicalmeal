@@ -1,22 +1,31 @@
-/* Global visual cleanup for every non-homepage route. */
+/*
+ * BiblicalMeal — shared subpage design system.
+ * Homepage remains the visual authority; this file only styles non-homepage routes.
+ */
 .bm-subpage-surface {
   --site-bg: #f5f2ea;
   --site-surface: #eee9df;
+  --site-paper: #f8f5ee;
   --site-ink: #2f2d28;
   --site-muted: #746f66;
   --site-olive: #5e6048;
+  --site-olive-deep: #414838;
   --site-line: #d8d1c5;
-  --site-dark: #34352f;
-}
-
-.bm-subpage-surface,
-.bm-subpage-surface main {
+  --site-dark: #35362f;
+  --site-gold: #9d8458;
+  --site-radius: 10px;
+  --site-container: 1180px;
   background: var(--site-bg);
   color: var(--site-ink);
 }
 
+/* Shared page geometry */
+.bm-subpage-surface main {
+  background: var(--site-bg);
+}
+
 .bm-subpage-surface .container-site {
-  width: min(100%, 1180px);
+  width: min(100%, var(--site-container));
   margin-inline: auto;
   padding-inline: clamp(20px, 4.5vw, 56px);
 }
@@ -28,6 +37,7 @@
 .bm-subpage-surface h1,
 .bm-subpage-surface h2,
 .bm-subpage-surface h3,
+.bm-subpage-surface h4,
 .bm-subpage-surface .font-display {
   color: var(--site-ink);
   letter-spacing: -.02em;
@@ -39,40 +49,54 @@
   color: var(--site-muted);
 }
 
+.bm-subpage-surface .text-eyebrow {
+  color: var(--site-olive);
+}
+
+/* Editorial hero / page intro family */
 .bm-subpage-surface .content-hero {
   background: var(--site-bg);
   border-bottom: 1px solid var(--site-line);
-  padding-block: clamp(72px, 8vw, 104px);
+  padding-block: clamp(68px, 7.5vw, 96px);
 }
 
 .bm-subpage-surface .content-hero__grid {
-  width: min(100%, 1180px);
+  width: min(100%, var(--site-container));
   margin-inline: auto;
   padding-inline: clamp(20px, 4.5vw, 56px);
   gap: clamp(28px, 5vw, 64px);
 }
 
-.bm-subpage-surface .content-hero__art,
-.bm-subpage-surface .media-frame,
-.bm-subpage-surface .ingredient-card__art,
-.bm-subpage-surface .recipe-card > div:first-child,
-.bm-subpage-surface .region-card__media,
-.bm-subpage-surface .editorial-card > div:first-child {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--site-line);
-  border-radius: 10px;
-  background: var(--site-dark);
+.bm-subpage-surface .content-hero__copy {
+  min-width: 0;
 }
 
-/* One placeholder treatment for all subpage imagery. The real source can be restored later without changing geometry. */
+.bm-subpage-surface .content-hero__copy h1 {
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: .98;
+}
+
+.bm-subpage-surface .content-hero__copy > p {
+  max-width: 58rem;
+}
+
+/* One placeholder treatment for all subpage imagery. */
 .bm-subpage-surface .content-hero__art,
 .bm-subpage-surface .media-frame,
 .bm-subpage-surface .ingredient-card__art,
 .bm-subpage-surface .recipe-card > div:first-child,
 .bm-subpage-surface .region-card__media,
-.bm-subpage-surface .editorial-card > div:first-child {
+.bm-subpage-surface .editorial-card > div:first-child,
+.bm-subpage-surface .journal-feature__media,
+.bm-subpage-surface .journal-context__media,
+.bm-subpage-surface .editorial-method__image {
+  position: relative;
+  overflow: hidden;
   isolation: isolate;
+  border: 1px solid var(--site-line);
+  border-radius: var(--site-radius);
+  background: var(--site-dark);
 }
 
 .bm-subpage-surface .content-hero__art > *,
@@ -80,7 +104,10 @@
 .bm-subpage-surface .ingredient-card__art > *,
 .bm-subpage-surface .recipe-card > div:first-child > *,
 .bm-subpage-surface .region-card__media > *,
-.bm-subpage-surface .editorial-card > div:first-child > * {
+.bm-subpage-surface .editorial-card > div:first-child > *,
+.bm-subpage-surface .journal-feature__media > *,
+.bm-subpage-surface .journal-context__media > *,
+.bm-subpage-surface .editorial-method__image > * {
   visibility: hidden !important;
 }
 
@@ -89,71 +116,219 @@
 .bm-subpage-surface .ingredient-card__art::after,
 .bm-subpage-surface .recipe-card > div:first-child::after,
 .bm-subpage-surface .region-card__media::after,
-.bm-subpage-surface .editorial-card > div:first-child::after {
+.bm-subpage-surface .editorial-card > div:first-child::after,
+.bm-subpage-surface .journal-feature__media::after,
+.bm-subpage-surface .journal-context__media::after,
+.bm-subpage-surface .editorial-method__image::after {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
   content: 'EDITORIAL IMAGE';
-  color: #9f9a90;
+  background: var(--site-dark);
+  color: #9d988e;
   font: 600 9px/1 var(--font-sans);
   letter-spacing: .16em;
   text-transform: uppercase;
   pointer-events: none;
 }
 
-.bm-subpage-surface .content-hero__art::after,
-.bm-subpage-surface .media-frame::after,
-.bm-subpage-surface .ingredient-card__art::after,
-.bm-subpage-surface .recipe-card > div:first-child::after,
-.bm-subpage-surface .region-card__media::after,
-.bm-subpage-surface .editorial-card > div:first-child::after {
-  background: #34352f;
-}
-
-.bm-subpage-surface .content-listing__grid,
-.bm-subpage-surface .grid {
-  gap: 18px;
-}
-
+/* Shared card family */
 .bm-subpage-surface .ingredient-card,
+.bm-subpage-surface .recipe-card,
 .bm-subpage-surface .editorial-card,
+.bm-subpage-surface .surface-card,
 .bm-subpage-surface .surface-panel,
 .bm-subpage-surface .content-surface,
 .bm-subpage-surface .editorial-surface,
 .bm-subpage-surface .ingredient-feature,
-.bm-subpage-surface .recipe-feature {
-  border-color: var(--site-line);
-  border-radius: 10px;
+.bm-subpage-surface .recipe-feature,
+.bm-subpage-surface .journal-feature,
+.bm-subpage-surface .journal-context__item {
+  border: 1px solid var(--site-line);
+  border-radius: var(--site-radius);
+  background: var(--site-paper);
   box-shadow: none;
-  background: var(--site-surface);
 }
 
 .bm-subpage-surface .ingredient-card,
+.bm-subpage-surface .recipe-card,
 .bm-subpage-surface .editorial-card {
+  min-width: 0;
   overflow: hidden;
+  transition: border-color .2s ease, transform .2s ease;
 }
 
 .bm-subpage-surface .ingredient-card:hover,
+.bm-subpage-surface .recipe-card:hover,
 .bm-subpage-surface .editorial-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--site-olive) 24%, var(--site-line));
-  box-shadow: 0 10px 24px rgb(47 42 34 / .06);
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--site-olive) 28%, var(--site-line));
+  box-shadow: none;
 }
 
+.bm-subpage-surface .ingredient-feature,
+.bm-subpage-surface .recipe-feature,
+.bm-subpage-surface .journal-feature {
+  overflow: hidden;
+}
+
+/* Listing pages */
+.bm-subpage-surface .content-listing__intro {
+  max-width: 720px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.bm-subpage-surface .content-listing__grid {
+  gap: 18px;
+}
+
+.bm-subpage-surface .content-listing__grid > li {
+  min-width: 0;
+}
+
+.bm-subpage-surface .content-listing__closing-note,
+.bm-subpage-surface .journal__note {
+  max-width: 60rem;
+  margin-top: 32px;
+}
+
+/* Ingredient index / featured specimen */
+.bm-subpage-surface .ingredient-feature {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  margin-block: clamp(40px, 5vw, 64px);
+}
+
+.bm-subpage-surface .ingredient-feature__copy {
+  padding: clamp(28px, 4vw, 52px);
+}
+
+.bm-subpage-surface .ingredient-feature__media {
+  border: 0;
+  border-left: 1px solid var(--site-line);
+  border-radius: 0;
+}
+
+/* Journal hierarchy */
+.bm-subpage-surface .journal__intro,
+.bm-subpage-surface .journal-context__heading,
+.bm-subpage-surface .journal-archive__heading {
+  max-width: 760px;
+}
+
+.bm-subpage-surface .journal-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  margin-top: 40px;
+}
+
+.bm-subpage-surface .journal-feature__copy {
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.bm-subpage-surface .journal-context {
+  margin-top: clamp(56px, 7vw, 88px);
+  padding-top: clamp(40px, 5vw, 64px);
+  border-top: 1px solid var(--site-line);
+}
+
+.bm-subpage-surface .journal-context__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.bm-subpage-surface .journal-context__item {
+  padding-bottom: 24px;
+  overflow: hidden;
+}
+
+.bm-subpage-surface .journal-context__item > p,
+.bm-subpage-surface .journal-context__item > h3 {
+  padding-inline: 24px;
+}
+
+.bm-subpage-surface .journal-archive {
+  margin-top: clamp(56px, 7vw, 88px);
+  padding-top: clamp(40px, 5vw, 64px);
+  border-top: 1px solid var(--site-line);
+}
+
+/* Research register */
+.bm-subpage-surface main > section[class*='max-w-4xl'] > div[class*='rounded-card'] {
+  border: 1px solid var(--site-line);
+  border-radius: var(--site-radius);
+  background: var(--site-paper);
+  box-shadow: none;
+}
+
+.bm-subpage-surface main > section[class*='max-w-4xl'] article[class*='rounded-card'] {
+  border: 1px solid var(--site-line);
+  border-radius: var(--site-radius);
+  background: var(--site-paper);
+  box-shadow: none;
+}
+
+.bm-subpage-surface main > section[class*='max-w-4xl'] article[class*='rounded-card'] + article[class*='rounded-card'] {
+  margin-top: 18px;
+}
+
+.bm-subpage-surface dl {
+  border-color: var(--site-line);
+}
+
+.bm-subpage-surface dt {
+  color: var(--site-ink);
+}
+
+.bm-subpage-surface dd {
+  color: var(--site-muted);
+}
+
+/* Editorial method */
+.bm-subpage-surface .editorial-method__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .72fr);
+  gap: clamp(32px, 6vw, 72px);
+  align-items: center;
+}
+
+.bm-subpage-surface .editorial-method__image {
+  min-height: 280px;
+}
+
+.bm-subpage-surface .page-editorial-method .rounded-card {
+  border-radius: var(--site-radius);
+  box-shadow: none;
+}
+
+.bm-subpage-surface .page-editorial-method .bg-ink {
+  background: var(--site-dark);
+}
+
+/* Buttons, links and labels */
 .bm-subpage-surface a[class*='bg-terracotta'],
 .bm-subpage-surface a[class*='bg-olive'],
+.bm-subpage-surface a[class*='bg-ink'],
 .bm-subpage-surface button[class*='bg-terracotta'],
-.bm-subpage-surface button[class*='bg-olive'] {
+.bm-subpage-surface button[class*='bg-olive'],
+.bm-subpage-surface button[class*='bg-ink'] {
   border-radius: 5px;
   box-shadow: none;
 }
 
-.bm-subpage-surface .chip,
-.bm-subpage-surface [class*='chip'] {
-  box-shadow: none;
+.bm-subpage-surface a[class*='rounded-full'] {
+  border-radius: 5px;
 }
 
+.bm-subpage-surface .text-terracotta-dark,
+.bm-subpage-surface .text-terracotta {
+  color: var(--site-olive-deep);
+}
+
+/* Footer: homepage-like light publication finish on all subpages. */
 .bm-subpage-surface footer {
   margin-top: 0;
   border-top: 1px solid var(--site-line);
@@ -162,13 +337,17 @@
 }
 
 .bm-subpage-surface footer .container-site {
-  width: min(100%, 1180px);
+  width: min(100%, var(--site-container));
 }
 
 .bm-subpage-surface footer .text-cream,
 .bm-subpage-surface footer .text-cream-muted,
 .bm-subpage-surface footer .text-gold {
   color: var(--site-muted);
+}
+
+.bm-subpage-surface footer .font-display {
+  color: var(--site-ink);
 }
 
 .bm-subpage-surface footer .border-line-dark,
@@ -180,8 +359,11 @@
   color: var(--site-ink);
 }
 
+/* Data-heavy pages: quiet tables, clear metadata, no visual clutter. */
 .bm-subpage-surface table {
+  width: 100%;
   border-color: var(--site-line);
+  border-collapse: collapse;
 }
 
 .bm-subpage-surface th {
@@ -198,14 +380,38 @@
   border-color: var(--site-line);
 }
 
+/* 404 */
+.bm-subpage-surface main.min-h-\[70vh\] {
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+  background: var(--site-bg);
+}
+
+.bm-subpage-surface main.min-h-\[70vh\] a {
+  border-radius: 5px;
+}
+
 .bm-subpage-surface :focus-visible {
   outline: 2px solid var(--site-olive);
   outline-offset: 3px;
 }
 
 @media (max-width: 900px) {
-  .bm-subpage-surface .content-hero__grid {
-    gap: 28px;
+  .bm-subpage-surface .content-hero__grid,
+  .bm-subpage-surface .journal-feature,
+  .bm-subpage-surface .ingredient-feature,
+  .bm-subpage-surface .editorial-method__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .bm-subpage-surface .ingredient-feature__media {
+    border-left: 0;
+    border-top: 1px solid var(--site-line);
+  }
+
+  .bm-subpage-surface .journal-context__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -220,14 +426,33 @@
     padding-block: 58px;
   }
 
+  .bm-subpage-surface .content-hero__copy h1 {
+    max-width: none;
+    font-size: clamp(2.35rem, 12vw, 3.35rem);
+  }
+
   .bm-subpage-surface .content-listing__grid,
   .bm-subpage-surface .grid {
     gap: 14px;
+  }
+
+  .bm-subpage-surface .journal-context__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bm-subpage-surface .ingredient-feature__copy,
+  .bm-subpage-surface .journal-feature__copy {
+    padding: 24px;
+  }
+
+  .bm-subpage-surface .editorial-method__image {
+    min-height: 220px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bm-subpage-surface .ingredient-card,
+  .bm-subpage-surface .recipe-card,
   .bm-subpage-surface .editorial-card {
     transition: none;
   }
