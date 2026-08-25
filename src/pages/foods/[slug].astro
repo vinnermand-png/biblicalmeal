@@ -12,131 +12,43 @@ import { RESEARCH_CLAIMS } from '../../data/research/claims';
 import { validatePublication } from '../../lib/publication-gate';
 import { foodStructuredData } from '../../lib/structured-data';
 import { internalLinksFor } from '../../lib/internal-links';
-import {
-  isContentPublicationEligible,
-  validateContentPlan,
-} from '../../data/content/validation';
-import {
-  PUBLIC_FOOD_CONTENT,
-  PUBLIC_FOOD_DRAFTS,
-} from '../../data/content/public';
+import { isContentPublicationEligible, validateContentPlan } from '../../data/content/validation';
+import { PUBLIC_FOOD_CONTENT, PUBLIC_FOOD_DRAFTS } from '../../data/content/public';
 import type { ContentPlan, ContentSection } from '../../data/content/model';
 
 export function getStaticPaths() {
-  // Only generate routes for food/ingredient content, not articles
-  const ingredientPages = PUBLIC_FOOD_CONTENT.filter(
-    (page) => !page.canonicalPath.startsWith('/articles/'),
-  );
-  return ingredientPages.map((page) => ({
-    params: { slug: page.canonicalTargetId },
-    props: { page },
-  }));
+  const ingredientPages = PUBLIC_FOOD_CONTENT.filter((page) => !page.canonicalPath.startsWith('/articles/'));
+  return ingredientPages.map((page) => ({ params: { slug: page.canonicalTargetId }, props: { page } }));
 }
 
-interface Props {
-  page: ContentPlan;
-}
-
+interface Props { page: ContentPlan; }
 const { page } = Astro.props as Props;
 const draft = PUBLIC_FOOD_DRAFTS.find((item) => item.contentItemId === page.id);
-if (!draft || validateContentPlan(page, PUBLIC_FOOD_CONTENT).length > 0) {
-  throw new Error(`Invalid public content plan: ${page.id}`);
-}
+if (!draft || validateContentPlan(page, PUBLIC_FOOD_CONTENT).length > 0) throw new Error(`Invalid public content plan: ${page.id}`);
 
-const scriptureClaims = RESEARCH_CLAIMS.filter(
-  (claim) =>
-    claim.subjectId === page.subjectId ||
-    claim.subjectId === page.canonicalTargetId,
-).filter((claim) => claim.category === 'scripture');
-const scriptureRefs = scriptureClaims.flatMap((claim) =>
-  claim.scriptureContext ? [claim.scriptureContext.reference] : [],
-);
-const uniqueScriptureRefs = scriptureRefs.filter(
-  (ref, index, refs) =>
-    refs.findIndex(
-      (candidate) =>
-        candidate.book === ref.book &&
-        candidate.chapter === ref.chapter &&
-        candidate.verseStart === ref.verseStart &&
-        candidate.verseEnd === ref.verseEnd,
-    ) === index,
-);
-const sources = [
-  ...new Set(
-    page.sections.flatMap((section) =>
-      section.evidence.claimIds.flatMap((claimId) => {
-        const claim = RESEARCH_CLAIMS.find((item) => item.id === claimId);
-        return claim?.supports.map((support) => support.sourceId) ?? [];
-      }),
-    ),
-  ),
-]
-  .filter((sourceId) => sourceId !== 'scripture-canon')
-  .map(getSource)
-  .filter((source) => source !== undefined);
-const seoDescription =
-  page.canonicalTargetId === 'figs'
-    ? 'What the Bible says about figs, with KJV references, common-fig archaeological context, and a clear sycomore scope note.'
-    : 'What the Bible says about dates and palm trees, with KJV references, Judean date-palm evidence, and a clear palm-versus-date scope note.';
-const gate = validatePublication(
-  {
-    collection: 'ingredients',
-    id: page.canonicalTargetId,
-    status: 'published',
-    workflowStatus: 'approved',
-    data: {
-      description:
-        page.sections.find((section) => section.kind === 'introduction')
-          ?.content ?? '',
-      scriptureRefs: uniqueScriptureRefs,
-      scriptureNote:
-        'These references are presented as references to the KJV passages, with their narrative or poetic context kept visible.',
-      history: page.sections.find(
-        (section) => section.kind === 'historical-context',
-      )?.content,
-      foodUniverseId: page.subjectId,
-      seoTargetId: page.canonicalTargetId,
-      researchSubjectId: page.dossierId,
-    },
-  },
-  { consumeResearchState: true },
-);
-if (!isContentPublicationEligible(page, draft) || !gate.ready) {
-  throw new Error(`Public content failed publication eligibility: ${page.id}`);
-}
+const scriptureClaims = RESEARCH_CLAIMS.filter((claim) => claim.subjectId === page.subjectId || claim.subjectId === page.canonicalTargetId).filter((claim) => claim.category === 'scripture');
+const scriptureRefs = scriptureClaims.flatMap((claim) => claim.scriptureContext ? [claim.scriptureContext.reference] : []);
+const uniqueScriptureRefs = scriptureRefs.filter((ref, index, refs) => refs.findIndex((candidate) => candidate.book === ref.book && candidate.chapter === ref.chapter && candidate.verseStart === ref.verseStart && candidate.verseEnd === ref.verseEnd) === index);
+const sources = [...new Set(page.sections.flatMap((section) => section.evidence.claimIds.flatMap((claimId) => { const claim = RESEARCH_CLAIMS.find((item) => item.id === claimId); return claim?.supports.map((support) => support.sourceId) ?? []; })))]
+  .filter((sourceId) => sourceId !== 'scripture-canon').map(getSource).filter((source) => source !== undefined);
+const seoDescription = page.canonicalTargetId === 'figs' ? 'What the Bible says about figs, with KJV references, common-fig archaeological context, and a clear sycomore scope note.' : 'What the Bible says about dates and palm trees, with KJV references, Judean date-palm evidence, and a clear palm-versus-date scope note.';
+const gate = validatePublication({ collection: 'ingredients', id: page.canonicalTargetId, status: 'published', workflowStatus: 'approved', data: { description: page.sections.find((section) => section.kind === 'introduction')?.content ?? '', scriptureRefs: uniqueScriptureRefs, scriptureNote: 'These references are presented as references to the KJV passages, with their narrative or poetic context kept visible.', history: page.sections.find((section) => section.kind === 'historical-context')?.content, foodUniverseId: page.subjectId, seoTargetId: page.canonicalTargetId, researchSubjectId: page.dossierId } }, { consumeResearchState: true });
+if (!isContentPublicationEligible(page, draft) || !gate.ready) throw new Error(`Public content failed publication eligibility: ${page.id}`);
 
 const art = page.canonicalTargetId === 'figs' ? 'figs' : 'dates';
-const breadcrumbs = [
-  { label: 'Foods', href: '/ingredients/' },
-  { label: page.title },
-];
-const section = (kind: ContentSection['kind']) =>
-  page.sections.find((item) => item.kind === kind);
+const breadcrumbs = [{ label: 'Foods', href: '/ingredients/' }, { label: page.title }];
+const section = (kind: ContentSection['kind']) => page.sections.find((item) => item.kind === kind);
 const internalLinks = internalLinksFor(page, PUBLIC_FOOD_CONTENT);
 const jsonLd = foodStructuredData(page, seoDescription);
 ---
 
-<BaseLayout
-  title={page.title}
-  description={seoDescription}
-  ogType="article"
-  jsonLd={jsonLd}
->
+<BaseLayout title={page.title} description={seoDescription} ogType="article" jsonLd={jsonLd}>
   <Header />
-  <main id="main">
-    <ContentHero
-      eyebrow="Foods of the Biblical World"
-      title={page.title}
-      lead={section('introduction')?.content}
-      art={art}
-    >
+  <main id="main" class="page-food-detail">
+    <ContentHero eyebrow="Foods of the Biblical World" title={page.title} lead={section('introduction')?.content} art={art}>
       <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
       <div slot="meta" class="mt-6 flex flex-wrap items-center gap-3">
-        <p
-          class="font-sans text-caption font-medium tracking-wide text-ink-muted uppercase"
-        >
-          Evidence-led profile
-        </p>
+        <p class="font-sans text-caption font-medium tracking-wide text-ink-muted uppercase">Evidence-led profile</p>
         <span class="h-1 w-1 rounded-full bg-gold" aria-hidden="true"></span>
         <p class="font-sans text-caption text-ink-muted">KJV references</p>
       </div>
@@ -146,143 +58,58 @@ const jsonLd = foodStructuredData(page, seoDescription);
       <div class="mx-auto max-w-4xl">
         <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
           <div class="space-y-14">
-            <ScriptureBlock
-              refs={uniqueScriptureRefs}
-              note="References are presented from the King James Version. This page distinguishes direct biblical wording from historical interpretation."
-            />
-            {
-              section('biblical-references')?.content && (
-                <section aria-labelledby="biblical-references">
-                  <>
-                    <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
-                      The text
-                    </p>
-                    <h2
-                      id="biblical-references"
-                      class="mt-2 font-display text-h2 text-ink"
-                    >
-                      Biblical references
-                    </h2>
-                    <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                      {section('biblical-references')?.content}
-                    </p>
-                  </>
-                </section>
-              )
-            }
-            {
-              section('historical-context')?.content && (
-                <section aria-labelledby="historical-context">
-                  <>
-                    <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
-                      Beyond the text
-                    </p>
-                    <h2
-                      id="historical-context"
-                      class="mt-2 font-display text-h2 text-ink"
-                    >
-                      Historical context
-                    </h2>
-                    <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                      {section('historical-context')?.content}
-                    </p>
-                  </>
-                </section>
-              )
-            }
-            {
-              section('archaeological-evidence')?.content && (
-                <section aria-labelledby="archaeological-evidence">
-                  <>
-                    <h2
-                      id="archaeological-evidence"
-                      class="font-display text-h2 text-ink"
-                    >
-                      Archaeological evidence
-                    </h2>
-                    <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                      {section('archaeological-evidence')?.content}
-                    </p>
-                  </>
-                </section>
-              )
-            }
-            {
-              section('food-use')?.content && (
-                <section aria-labelledby="food-use">
-                  <>
-                    <h2 id="food-use" class="font-display text-h2 text-ink">
-                      Food context
-                    </h2>
-                    <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                      {section('food-use')?.content}
-                    </p>
-                  </>
-                </section>
-              )
-            }
-            {
-              section('uncertainty')?.content && (
-                <ResearchNote
-                  title={
-                    page.canonicalTargetId === 'figs'
-                      ? 'Common fig and sycomore are not the same claim'
-                      : 'A palm reference is not automatically a date reference'
-                  }
-                >
-                  {section('uncertainty')?.content}
-                </ResearchNote>
-              )
-            }
-            {
-              section('related-foods')?.content && (
-                <section aria-labelledby="related-foods">
-                  <>
-                    <h2
-                      id="related-foods"
-                      class="font-display text-h2 text-ink"
-                    >
-                      Related biblical foods
-                    </h2>
-                    <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                      {section('related-foods')?.content}
-                    </p>
-                  </>
-                </section>
-              )
-            }
+            <ScriptureBlock refs={uniqueScriptureRefs} note="References are presented from the King James Version. This page distinguishes direct biblical wording from historical interpretation." />
+            {section('biblical-references')?.content && (
+              <section aria-labelledby="biblical-references">
+                <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">The text</p>
+                <h2 id="biblical-references" class="mt-2 font-display text-h2 text-ink">Biblical references</h2>
+                <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('biblical-references')?.content}</p>
+              </section>
+            )}
+            {section('historical-context')?.content && (
+              <section aria-labelledby="historical-context">
+                <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Beyond the text</p>
+                <h2 id="historical-context" class="mt-2 font-display text-h2 text-ink">Historical context</h2>
+                <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('historical-context')?.content}</p>
+              </section>
+            )}
+            {section('archaeological-evidence')?.content && (
+              <section aria-labelledby="archaeological-evidence">
+                <h2 id="archaeological-evidence" class="font-display text-h2 text-ink">Archaeological evidence</h2>
+                <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('archaeological-evidence')?.content}</p>
+              </section>
+            )}
+            {section('food-use')?.content && (
+              <section aria-labelledby="food-use">
+                <h2 id="food-use" class="font-display text-h2 text-ink">Food context</h2>
+                <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('food-use')?.content}</p>
+              </section>
+            )}
+            {section('uncertainty')?.content && (
+              <ResearchNote title={page.canonicalTargetId === 'figs' ? 'Common fig and sycomore are not the same claim' : 'A palm reference is not automatically a date reference'}>{section('uncertainty')?.content}</ResearchNote>
+            )}
+            {section('related-foods')?.content && (
+              <section aria-labelledby="related-foods">
+                <h2 id="related-foods" class="font-display text-h2 text-ink">Related biblical foods</h2>
+                <p class="mt-4 max-w-prose text-body-lg text-ink-muted">{section('related-foods')?.content}</p>
+              </section>
+            )}
           </div>
           <aside class="space-y-8 lg:pt-2">
-            <InternalLinks links={internalLinks} />{
-              sources.length > 0 && (
-                <div class="border-t border-line pt-5">
-                  <>
-                    <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
-                      Sources
-                    </p>
-                    <ul class="mt-3 space-y-4 text-caption text-ink-muted">
-                      {sources.map((source) => (
-                        <li>
-                          {source.identifier ? (
-                            <a
-                              class="text-terracotta-dark underline decoration-terracotta/30 underline-offset-2 hover:text-terracotta"
-                              href={source.identifier}
-                            >
-                              {source.title}
-                            </a>
-                          ) : (
-                            <span class="text-ink">{source.title}</span>
-                          )}
-                          {source.author && (
-                            <span class="mt-1 block">{source.author}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                </div>
-              )
-            }
+            <InternalLinks links={internalLinks} />
+            {sources.length > 0 && (
+              <div class="border-t border-line pt-5">
+                <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">Sources</p>
+                <ul class="mt-3 space-y-4 text-caption text-ink-muted">
+                  {sources.map((source) => (
+                    <li>
+                      {source.identifier ? <a class="text-terracotta-dark underline decoration-terracotta/30 underline-offset-2 hover:text-terracotta" href={source.identifier}>{source.title}</a> : <span class="text-ink">{source.title}</span>}
+                      {source.author && <span class="mt-1 block">{source.author}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </aside>
         </div>
       </div>
