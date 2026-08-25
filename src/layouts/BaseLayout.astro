@@ -13,6 +13,7 @@ import '../styles/home-final-polish.css';
 import '../styles/home-reference-fit.css';
 import '../styles/home-finish-pass.css';
 import '../styles/home-locked-final.css';
+import '../styles/subpages-unified.css';
 import { SITE } from '../config';
 import { ANALYTICS } from '../lib/analytics';
 import { resolveSocialMetadata } from '../lib/social-metadata';
@@ -43,6 +44,7 @@ const {
 const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const social = resolveSocialMetadata({ title, description, pathname: Astro.url.pathname, type: ogType });
+const isHomepage = Astro.url.pathname === '/';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -109,7 +111,7 @@ checkConsentAndTrack();`} />
     {!technicalFallback && <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />}
     {!technicalFallback && jsonLd.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
   </head>
-  <body>
+  <body class:list={[isHomepage ? '' : 'bm-subpage-surface']}>
     <svg aria-hidden="true" focusable="false" class="pointer-events-none fixed h-0 w-0 overflow-hidden">
       <filter id="bm-grain">
         <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence>
