@@ -1,0 +1,378 @@
+/* BiblicalMeal global design system for every non-homepage route. */
+.bm-subpage-surface {
+  --bm-bg: #f3f0e8;
+  --bm-surface: #eee9df;
+  --bm-surface-strong: #e6dfd3;
+  --bm-ink: #2f2d29;
+  --bm-muted: #746f66;
+  --bm-olive: #5e6048;
+  --bm-olive-dark: #454a38;
+  --bm-gold: #a88f61;
+  --bm-line: #d8d1c5;
+  --bm-dark: #34352f;
+  --bm-radius: 10px;
+  --bm-container: 1180px;
+  --bm-space-section: clamp(64px, 7vw, 92px);
+  background: var(--bm-bg);
+  color: var(--bm-ink);
+}
+
+.bm-subpage-surface main {
+  width: min(100%, var(--bm-container));
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4.5vw, 56px);
+}
+
+.bm-subpage-surface .container-site,
+.bm-subpage-surface .content-hero__grid {
+  width: min(100%, var(--bm-container));
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4.5vw, 56px);
+}
+
+/* Typography */
+.bm-subpage-surface h1,
+.bm-subpage-surface h2,
+.bm-subpage-surface h3,
+.bm-subpage-surface h4,
+.bm-subpage-surface .font-display {
+  color: var(--bm-ink);
+  text-wrap: balance;
+}
+
+.bm-subpage-surface p,
+.bm-subpage-surface li,
+.bm-subpage-surface td,
+.bm-subpage-surface th {
+  color: var(--bm-muted);
+}
+
+.bm-subpage-surface .text-ink,
+.bm-subpage-surface .text-ink-muted,
+.bm-subpage-surface .text-body,
+.bm-subpage-surface .text-body-lg {
+  color: var(--bm-muted);
+}
+
+.bm-subpage-surface .text-eyebrow,
+.bm-subpage-surface .text-caption {
+  font-family: var(--font-sans, Arial, sans-serif);
+}
+
+.bm-subpage-surface .text-eyebrow {
+  color: var(--bm-olive);
+  font-size: .68rem;
+  line-height: 1.25;
+  letter-spacing: .16em;
+}
+
+.bm-subpage-surface .text-caption {
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+/* Header: same quiet architectural language as the homepage. */
+.bm-subpage-surface .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--bm-line);
+  background: rgba(243, 240, 232, .96);
+  backdrop-filter: blur(12px);
+}
+
+.bm-subpage-surface .site-header__inner {
+  min-height: 68px;
+  gap: 24px;
+}
+
+.bm-subpage-surface .site-header__brand {
+  color: var(--bm-ink);
+  font-size: clamp(1.02rem, 1.3vw, 1.16rem);
+  letter-spacing: -.035em;
+}
+
+.bm-subpage-surface .site-header__brand span {
+  color: var(--bm-gold);
+}
+
+.bm-subpage-surface .site-header__link {
+  color: #625d54;
+  font-size: .62rem;
+  letter-spacing: .14em;
+}
+
+.bm-subpage-surface .site-header__link:hover {
+  color: var(--bm-ink);
+}
+
+.bm-subpage-surface .site-header__link::after {
+  background: var(--bm-olive);
+}
+
+.bm-subpage-surface .site-header__cta {
+  min-height: 38px;
+  border: 1px solid var(--bm-line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--bm-olive);
+  font-size: .6rem;
+  letter-spacing: .12em;
+  box-shadow: none;
+}
+
+.bm-subpage-surface .site-header__cta:hover {
+  border-color: var(--bm-olive);
+  background: var(--bm-olive);
+  color: #f6f2e8;
+}
+
+/* Shared page intro */
+.bm-subpage-surface .content-hero {
+  border-bottom: 1px solid var(--bm-line);
+  background: var(--bm-bg);
+  padding-block: clamp(64px, 8vw, 104px);
+}
+
+.bm-subpage-surface .content-hero__grid {
+  gap: clamp(28px, 5vw, 64px);
+}
+
+.bm-subpage-surface .content-hero__copy h1,
+.bm-subpage-surface .page-title {
+  max-width: 820px;
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
+  line-height: .98;
+  letter-spacing: -.035em;
+}
+
+.bm-subpage-surface .content-hero__copy > p {
+  max-width: 680px;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.bm-subpage-surface .content-hero__art,
+.bm-subpage-surface .media-frame,
+.bm-subpage-surface .content-hero__art > div {
+  overflow: hidden;
+  border: 1px solid var(--bm-line);
+  border-radius: var(--bm-radius);
+  background: var(--bm-dark);
+}
+
+/* Universal surfaces and cards */
+.bm-subpage-surface .content-surface,
+.bm-subpage-surface .editorial-surface,
+.bm-subpage-surface .surface-panel,
+.bm-subpage-surface .ingredient-feature,
+.bm-subpage-surface .recipe-feature,
+.bm-subpage-surface .card-surface {
+  border: 1px solid var(--bm-line);
+  border-radius: var(--bm-radius);
+  background: var(--bm-surface);
+  box-shadow: none;
+}
+
+.bm-subpage-surface .content-surface,
+.bm-subpage-surface .surface-panel {
+  padding: clamp(22px, 3vw, 36px);
+}
+
+.bm-subpage-surface .content-listing__grid,
+.bm-subpage-surface .related-grid,
+.bm-subpage-surface .cards-grid {
+  gap: clamp(16px, 2vw, 22px);
+}
+
+.bm-subpage-surface .content-listing__grid > li,
+.bm-subpage-surface .cards-grid > * {
+  min-width: 0;
+}
+
+/* Buttons and links */
+.bm-subpage-surface a[class*='bg-terracotta'],
+.bm-subpage-surface a[class*='bg-olive'],
+.bm-subpage-surface button[class*='bg-terracotta'],
+.bm-subpage-surface button[class*='bg-olive'] {
+  min-height: 40px;
+  border-radius: 6px;
+  box-shadow: none;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.bm-subpage-surface a[class*='border-'],
+.bm-subpage-surface button[class*='border-'] {
+  border-radius: 6px;
+}
+
+.bm-subpage-surface a:hover,
+.bm-subpage-surface button:hover {
+  text-decoration-thickness: 1px;
+}
+
+/* Placeholder media system: stable geometry and calm visual weight. */
+.bm-subpage-surface .bm-subpage-placeholder {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  border: 0;
+  border-radius: inherit;
+  background: #34352f;
+}
+
+.bm-subpage-surface .bm-subpage-placeholder::before {
+  display: none;
+}
+
+.bm-subpage-surface .bm-subpage-placeholder span {
+  margin: 12px;
+  color: rgba(238, 233, 223, .48);
+  font-size: .55rem;
+  letter-spacing: .16em;
+}
+
+/* Article / detail content */
+.bm-subpage-surface .prose,
+.bm-subpage-surface .prose-content,
+.bm-subpage-surface .article-body,
+.bm-subpage-surface .recipe-body {
+  max-width: 760px;
+  color: var(--bm-ink);
+}
+
+.bm-subpage-surface .prose h2,
+.bm-subpage-surface .prose h3,
+.bm-subpage-surface .article-body h2,
+.bm-subpage-surface .article-body h3,
+.bm-subpage-surface .recipe-body h2,
+.bm-subpage-surface .recipe-body h3 {
+  margin-top: 2.75em;
+  margin-bottom: .8em;
+  font-family: var(--font-display, Georgia, serif);
+  color: var(--bm-ink);
+  letter-spacing: -.02em;
+}
+
+.bm-subpage-surface .prose p,
+.bm-subpage-surface .article-body p,
+.bm-subpage-surface .recipe-body p {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.bm-subpage-surface .breadcrumbs,
+.bm-subpage-surface .breadcrumb {
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+
+/* Tables and research surfaces */
+.bm-subpage-surface table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--bm-line);
+  background: var(--bm-surface);
+  border-radius: var(--bm-radius);
+  overflow: hidden;
+}
+
+.bm-subpage-surface th,
+.bm-subpage-surface td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--bm-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.bm-subpage-surface th {
+  color: var(--bm-ink);
+  font-family: var(--font-sans, Arial, sans-serif);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* Footer: quiet, light, and consistent with the homepage family. */
+.bm-subpage-surface footer {
+  margin-top: var(--bm-space-section);
+  border-top: 1px solid var(--bm-line);
+  background: var(--bm-bg);
+  color: var(--bm-ink);
+}
+
+.bm-subpage-surface footer .text-cream,
+.bm-subpage-surface footer .text-cream-muted,
+.bm-subpage-surface footer .text-gold {
+  color: var(--bm-muted);
+}
+
+.bm-subpage-surface footer .text-gold {
+  color: var(--bm-gold);
+}
+
+.bm-subpage-surface footer .border-line-dark,
+.bm-subpage-surface footer [class*='border-line-dark'] {
+  border-color: var(--bm-line);
+}
+
+/* Keep motion restrained. */
+.bm-subpage-surface .reveal {
+  transition-duration: .45s;
+}
+
+@media (max-width: 1023px) {
+  .bm-subpage-surface .site-header__inner {
+    min-height: 62px;
+  }
+
+  .bm-subpage-surface .content-hero__copy h1,
+  .bm-subpage-surface .page-title {
+    font-size: clamp(2.35rem, 7vw, 3.8rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .bm-subpage-surface main,
+  .bm-subpage-surface .container-site,
+  .bm-subpage-surface .content-hero__grid {
+    padding-inline: 20px;
+  }
+
+  .bm-subpage-surface .content-hero {
+    padding-block: 56px;
+  }
+
+  .bm-subpage-surface .content-hero__copy h1,
+  .bm-subpage-surface .page-title {
+    font-size: clamp(2.15rem, 11vw, 3.1rem);
+    line-height: 1;
+  }
+
+  .bm-subpage-surface .content-surface,
+  .bm-subpage-surface .surface-panel {
+    padding: 22px;
+  }
+
+  .bm-subpage-surface .prose p,
+  .bm-subpage-surface .article-body p,
+  .bm-subpage-surface .recipe-body p {
+    font-size: .98rem;
+  }
+
+  .bm-subpage-surface th,
+  .bm-subpage-surface td {
+    padding: 11px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-subpage-surface a,
+  .bm-subpage-surface button,
+  .bm-subpage-surface .reveal {
+    transition: none;
+  }
+}
