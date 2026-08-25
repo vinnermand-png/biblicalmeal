@@ -1,7 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import type { ArtKind } from '../../lib/visuals';
-import { INGREDIENT_ART } from '../../lib/visuals';
+import {
+  INGREDIENT_ART,
+  INGREDIENT_PREMIUM_IMAGE_IDS,
+} from '../../lib/visuals';
 import { statusChip } from '../../lib/content';
 import Chip from './Chip.astro';
 import EditorialImage from './EditorialImage.astro';
@@ -18,7 +21,7 @@ const publicFoodPath = ['figs', 'dates'].includes(entry.id)
 const href = publicFoodPath;
 const art: ArtKind = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
 const chip = statusChip(entry.data.status);
-const editorialImageId = `ingredients-${entry.id}-still-life`;
+const premiumImageId = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
 ---
 
 <a
@@ -27,10 +30,11 @@ const editorialImageId = `ingredients-${entry.id}-still-life`;
 >
   <div class="ingredient-card__art relative overflow-hidden">
     <EditorialImage
-      id={editorialImageId}
+      id={premiumImageId}
       fallbackArt={art}
-      ratio="4 / 3"
-      alt={`${entry.data.name} in a restrained editorial still life`}
+      ratio="1 / 1"
+      fit="contain"
+      alt={`${entry.data.name} ingredient portrait`}
     />
     <span class="ingredient-card__wash" aria-hidden="true"></span>
     <span class="ingredient-card__veil" aria-hidden="true"></span>
@@ -70,26 +74,16 @@ const editorialImageId = `ingredients-${entry.id}-still-life`;
       border-color var(--bm-motion-standard) ease;
   }
   .ingredient-card__art {
+    min-height: 12rem;
     border-bottom: 1px solid var(--color-line);
     background: var(--color-background-alt);
   }
-  .ingredient-card__wash {
-    position: absolute;
-    inset: auto -20% -45%;
-    height: 70%;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgb(201 162 75 / 0.15),
-      transparent 68%
-    );
-    pointer-events: none;
+  .ingredient-card__art :global(img) {
+    object-fit: contain;
   }
+  .ingredient-card__wash,
   .ingredient-card__veil {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(41 32 24 / 0.12), transparent 52%);
-    pointer-events: none;
+    display: none;
   }
   @media (prefers-reduced-motion: no-preference) {
     .ingredient-card:hover {
