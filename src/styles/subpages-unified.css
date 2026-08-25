@@ -1,4 +1,4 @@
-/* Shared visual language for all non-homepage routes. Homepage is intentionally excluded. */
+/* Shared visual language for all non-homepage routes. Homepage is the authority. */
 .bm-subpage-surface {
   --subpage-bg: #f5f2ea;
   --subpage-surface: #eee9df;
@@ -11,42 +11,48 @@
   color: var(--subpage-ink);
 }
 
+/* Use the exact shared Header geometry/typography from the homepage.
+   Only the page context remains light because the hero below is not an overlay hero. */
 .bm-subpage-surface .site-header {
   position: sticky;
   top: 0;
-  background: rgba(245, 242, 234, 0.96);
-  border-bottom-color: var(--subpage-line);
-  backdrop-filter: blur(12px);
+  z-index: 50;
+  border-bottom: 1px solid rgba(56, 42, 26, .11);
+  background: rgba(247, 242, 233, .9);
+  backdrop-filter: blur(18px);
 }
 
-.bm-subpage-surface .site-header__inner,
-.bm-subpage-surface .site-header__nav {
-  min-height: 68px;
+.bm-subpage-surface .site-header__inner {
+  min-height: 6rem;
+  gap: 2rem;
 }
 
 .bm-subpage-surface .site-header__brand {
-  color: var(--subpage-ink);
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
+  color: #202117;
+  font-size: 1.16rem;
+  font-weight: 600;
+  letter-spacing: -.035em;
 }
 
 .bm-subpage-surface .site-header__link {
-  color: #5f5a50;
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
+  color: rgba(49, 44, 35, .68);
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .2em;
 }
 
 .bm-subpage-surface .site-header__cta {
-  min-height: 2.4rem;
-  border-color: var(--subpage-line);
-  background: transparent;
-  color: var(--subpage-olive);
+  min-height: 2.7rem;
+  padding: 0 .9rem 0 1.05rem;
+  border: 1px solid rgba(196, 154, 87, .42);
+  background: rgba(196, 154, 87, .1);
+  color: #5c4120;
 }
 
 .bm-subpage-surface .site-header__cta:hover {
-  border-color: var(--subpage-olive);
-  background: var(--subpage-olive);
-  color: #f7f4ed;
+  border-color: #c49a57;
+  background: #c49a57;
+  color: #17140d;
 }
 
 .bm-subpage-surface .container-site,
@@ -72,7 +78,7 @@
 .bm-subpage-surface h1.font-display,
 .bm-subpage-surface h2.font-display {
   color: var(--subpage-ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -.02em;
 }
 
 .bm-subpage-surface .content-hero__copy > p,
@@ -167,7 +173,7 @@
   margin: 12px;
   color: #aaa59b;
   font: 600 9px/1.2 var(--font-sans);
-  letter-spacing: 0.14em;
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
 
@@ -202,6 +208,12 @@
   outline-offset: 3px;
 }
 
+@media (max-width: 1023px) {
+  .bm-subpage-surface .site-header__inner {
+    min-height: 4.75rem;
+  }
+}
+
 @media (max-width: 900px) {
   .bm-subpage-surface .content-hero__grid {
     gap: 28px;
@@ -209,6 +221,14 @@
 }
 
 @media (max-width: 640px) {
+  .bm-subpage-surface .site-header__inner {
+    min-height: 4.25rem;
+  }
+
+  .bm-subpage-surface .site-header__brand {
+    font-size: 1.05rem;
+  }
+
   .bm-subpage-surface .content-hero,
   .bm-subpage-surface .section-space {
     padding-block: 58px;
