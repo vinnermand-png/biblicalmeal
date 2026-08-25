@@ -12,13 +12,15 @@ const FOOD_IDS = new Set(CANONICAL_FOOD_UNIVERSE.map((record) => record.id));
 
 function sourceRecord(id: string) {
   const record = ARTICLE_CONTENT_RECORDS.find((item) => item.id === id);
-  if (!record) throw new Error(`Missing canonical article content source: ${id}`);
+  if (!record)
+    throw new Error(`Missing canonical article content source: ${id}`);
   return record;
 }
 
 function citationIdsForArticle(id: string): readonly string[] {
   return CITATION_RECORDS.filter(
-    (citation) => citation.targetKind === 'article-content' && citation.targetId === id,
+    (citation) =>
+      citation.targetKind === 'article-content' && citation.targetId === id,
   ).map((citation) => citation.id);
 }
 
@@ -55,7 +57,10 @@ function buildPrototypeDraft(sourceId: string): WebsiteContentDraft {
     sourceRefs: [
       { kind: 'article-content', id: source.id },
       { kind: 'seo-target', id: target.id },
-      ...source.researchDossierIds.map((id) => ({ kind: 'research-dossier' as const, id })),
+      ...source.researchDossierIds.map((id) => ({
+        kind: 'research-dossier' as const,
+        id,
+      })),
       ...source.foodIds.map((id) => ({ kind: 'food' as const, id })),
       ...citationIds.map((id) => ({ kind: 'citation' as const, id })),
     ],
@@ -69,10 +74,13 @@ function buildPrototypeDraft(sourceId: string): WebsiteContentDraft {
     imageBrief: {
       editorialOnly: true,
       generatedImageRequired: false,
-      disclosure: 'Any future image is editorial/illustrative and must not be presented as documentary historical evidence.',
+      disclosure:
+        'Any future image is editorial/illustrative and must not be presented as documentary historical evidence.',
     },
     qa: {
-      noUnsupportedClaims: source.evidenceState === 'supported' && source.claimStrength === 'supported',
+      noUnsupportedClaims:
+        source.evidenceState === 'supported' &&
+        source.claimStrength === 'supported',
       citationsTraceable: citationIds.length > 0,
       uncertaintyPreserved: source.uncertaintyDisclosure.trim().length > 0,
       canonicalRouteMatchesTarget: target.targetRoute === target.targetRoute,
@@ -96,15 +104,23 @@ export const AI_WEBSITE_CONTENT_RECORDS: readonly WebsiteContentDraft[] = [
 
 for (const record of AI_WEBSITE_CONTENT_RECORDS) {
   if (!ARTICLE_IDS.has(record.sourceArticleContentId)) {
-    throw new Error(`AI website draft references missing canonical article: ${record.id}`);
+    throw new Error(
+      `AI website draft references missing canonical article: ${record.id}`,
+    );
   }
   if (!TARGET_IDS.has(record.targetId)) {
-    throw new Error(`AI website draft references missing SEO target: ${record.id}`);
+    throw new Error(
+      `AI website draft references missing SEO target: ${record.id}`,
+    );
   }
   if (record.researchDossierIds.some((id) => !DOSSIER_IDS.has(id))) {
-    throw new Error(`AI website draft references missing research dossier: ${record.id}`);
+    throw new Error(
+      `AI website draft references missing research dossier: ${record.id}`,
+    );
   }
   if (record.foodIds.some((id) => !FOOD_IDS.has(id))) {
-    throw new Error(`AI website draft references missing canonical food: ${record.id}`);
+    throw new Error(
+      `AI website draft references missing canonical food: ${record.id}`,
+    );
   }
 }

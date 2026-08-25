@@ -76,16 +76,17 @@ export interface ContentRefreshRecord {
   requiresExistingPublicationGate: boolean;
 }
 
-export const CONTENT_REFRESH_CANDIDATES: readonly ContentRefreshCandidate[] = SEO_TARGETS
-  .filter((target) => target.status !== 'not-pursuing')
-  .map((target) => ({
-    targetId: target.id,
-    canonicalRoute: target.targetRoute,
-    topic: target.topic,
-    contentType: target.contentType,
-    seoStatus: target.status,
-    cluster: target.cluster,
-  }));
+export const CONTENT_REFRESH_CANDIDATES: readonly ContentRefreshCandidate[] =
+  SEO_TARGETS.filter((target) => target.status !== 'not-pursuing').map(
+    (target) => ({
+      targetId: target.id,
+      canonicalRoute: target.targetRoute,
+      topic: target.topic,
+      contentType: target.contentType,
+      seoStatus: target.status,
+      cluster: target.cluster,
+    }),
+  );
 
 /**
  * Empty by design. A candidate is not automatically a refresh task, and missing
@@ -97,7 +98,9 @@ export const CONTENT_REFRESH_RECORDS: readonly ContentRefreshRecord[] = [];
 export function getContentRefreshCandidate(
   targetId: string,
 ): ContentRefreshCandidate | undefined {
-  return CONTENT_REFRESH_CANDIDATES.find((candidate) => candidate.targetId === targetId);
+  return CONTENT_REFRESH_CANDIDATES.find(
+    (candidate) => candidate.targetId === targetId,
+  );
 }
 
 export function getRefreshRecordsForTarget(
@@ -122,7 +125,9 @@ export function hasRealRefreshTrigger(record: ContentRefreshRecord): boolean {
  * This deliberately models hand-off only. It never approves publication; the
  * existing content lifecycle remains the sole publication authority.
  */
-export function isReadyForExistingPublicationGates(record: ContentRefreshRecord): boolean {
+export function isReadyForExistingPublicationGates(
+  record: ContentRefreshRecord,
+): boolean {
   return (
     record.status === 'ready-for-existing-publication-gates' &&
     hasRealRefreshTrigger(record) &&
@@ -140,31 +145,41 @@ export function auditContentRefreshSystem(
   const recordIds = new Set<string>();
 
   for (const candidate of candidates) {
-    if (!candidate.targetId.trim()) issues.push('Missing canonical refresh target ID.');
+    if (!candidate.targetId.trim())
+      issues.push('Missing canonical refresh target ID.');
     if (candidateIds.has(candidate.targetId)) {
       issues.push(`Duplicate canonical refresh target: ${candidate.targetId}.`);
     }
     candidateIds.add(candidate.targetId);
 
     if (!candidate.canonicalRoute.startsWith('/')) {
-      issues.push(`Refresh candidate route is not canonical: ${candidate.targetId}.`);
+      issues.push(
+        `Refresh candidate route is not canonical: ${candidate.targetId}.`,
+      );
     }
     if (candidateRoutes.has(candidate.canonicalRoute)) {
-      issues.push(`Duplicate refresh candidate route: ${candidate.canonicalRoute}.`);
+      issues.push(
+        `Duplicate refresh candidate route: ${candidate.canonicalRoute}.`,
+      );
     }
     candidateRoutes.add(candidate.canonicalRoute);
   }
 
   for (const record of records) {
     if (!record.id.trim()) issues.push('Missing content refresh record ID.');
-    if (recordIds.has(record.id)) issues.push(`Duplicate content refresh record: ${record.id}.`);
+    if (recordIds.has(record.id))
+      issues.push(`Duplicate content refresh record: ${record.id}.`);
     recordIds.add(record.id);
 
     const candidate = getContentRefreshCandidate(record.targetId);
     if (!candidate || !candidateIds.has(record.targetId)) {
-      issues.push(`Refresh record references unknown canonical target: ${record.id}.`);
+      issues.push(
+        `Refresh record references unknown canonical target: ${record.id}.`,
+      );
     } else if (record.canonicalRoute !== candidate.canonicalRoute) {
-      issues.push(`Refresh record route does not match canonical target: ${record.id}.`);
+      issues.push(
+        `Refresh record route does not match canonical target: ${record.id}.`,
+      );
     }
 
     if (record.reasons.length === 0) {
@@ -174,16 +189,26 @@ export function auditContentRefreshSystem(
       issues.push(`Refresh record has no history: ${record.id}.`);
     }
     if (record.requiresExistingPublicationGate !== true) {
-      issues.push(`Refresh record bypasses existing publication gates: ${record.id}.`);
+      issues.push(
+        `Refresh record bypasses existing publication gates: ${record.id}.`,
+      );
     }
 
     for (const reason of record.reasons) {
-      if (!reason.summary.trim()) issues.push(`Refresh reason is missing a summary: ${record.id}.`);
+      if (!reason.summary.trim())
+        issues.push(`Refresh reason is missing a summary: ${record.id}.`);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(reason.observedOn)) {
-        issues.push(`Refresh reason date must be ISO calendar format: ${record.id}.`);
+        issues.push(
+          `Refresh reason date must be ISO calendar format: ${record.id}.`,
+        );
       }
-      if (reason.relatedSerpTargetId && reason.relatedSerpTargetId !== record.targetId) {
-        issues.push(`Refresh reason references a different SERP target: ${record.id}.`);
+      if (
+        reason.relatedSerpTargetId &&
+        reason.relatedSerpTargetId !== record.targetId
+      ) {
+        issues.push(
+          `Refresh reason references a different SERP target: ${record.id}.`,
+        );
       }
     }
 
@@ -191,7 +216,9 @@ export function auditContentRefreshSystem(
       record.status === 'ready-for-existing-publication-gates' &&
       !hasRealRefreshTrigger(record)
     ) {
-      issues.push(`Refresh record cannot reach publication hand-off without a real trigger: ${record.id}.`);
+      issues.push(
+        `Refresh record cannot reach publication hand-off without a real trigger: ${record.id}.`,
+      );
     }
   }
 

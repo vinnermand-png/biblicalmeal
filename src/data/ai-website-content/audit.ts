@@ -19,12 +19,16 @@ export function auditAiWebsiteContentEngine(
   const sourceOwners = new Set<string>();
 
   for (const record of records) {
-    if (!record.id.trim()) issues.push('AI website draft is missing a canonical ID.');
-    if (ids.has(record.id)) issues.push(`Duplicate AI website draft ID: ${record.id}.`);
+    if (!record.id.trim())
+      issues.push('AI website draft is missing a canonical ID.');
+    if (ids.has(record.id))
+      issues.push(`Duplicate AI website draft ID: ${record.id}.`);
     ids.add(record.id);
 
     if (sourceOwners.has(record.sourceArticleContentId)) {
-      issues.push(`Duplicate AI website draft ownership: ${record.sourceArticleContentId}.`);
+      issues.push(
+        `Duplicate AI website draft ownership: ${record.sourceArticleContentId}.`,
+      );
     }
     sourceOwners.add(record.sourceArticleContentId);
 
@@ -36,11 +40,15 @@ export function auditAiWebsiteContentEngine(
     if (!target) {
       issues.push(`Unknown canonical SEO target: ${record.id}.`);
     } else if (target.targetRoute !== record.canonicalRoute) {
-      issues.push(`AI website draft route is not the canonical target route: ${record.id}.`);
+      issues.push(
+        `AI website draft route is not the canonical target route: ${record.id}.`,
+      );
     }
 
     if (record.researchDossierIds.some((id) => !dossierIds.has(id))) {
-      issues.push(`Unknown canonical research dossier reference: ${record.id}.`);
+      issues.push(
+        `Unknown canonical research dossier reference: ${record.id}.`,
+      );
     }
     if (record.foodIds.some((id) => !foodIds.has(id))) {
       issues.push(`Unknown canonical food reference: ${record.id}.`);
@@ -66,12 +74,19 @@ export function auditAiWebsiteContentEngine(
       issues.push(`AI website draft bypasses admin review: ${record.id}.`);
     }
     if (!record.requiresExistingPublicationGates) {
-      issues.push(`AI website draft bypasses existing publication gates: ${record.id}.`);
+      issues.push(
+        `AI website draft bypasses existing publication gates: ${record.id}.`,
+      );
     }
     if (record.publicationEligible) {
-      issues.push(`AI website draft cannot grant itself publication eligibility: ${record.id}.`);
+      issues.push(
+        `AI website draft cannot grant itself publication eligibility: ${record.id}.`,
+      );
     }
-    if (record.pipelineStatus === 'ready-for-existing-publication-gates' && !record.requiresExistingPublicationGates) {
+    if (
+      record.pipelineStatus === 'ready-for-existing-publication-gates' &&
+      !record.requiresExistingPublicationGates
+    ) {
       issues.push(`Publication hand-off bypass detected: ${record.id}.`);
     }
   }

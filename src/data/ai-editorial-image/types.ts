@@ -1,6 +1,5 @@
 export type AiEditorialImageProviderKind =
-  | 'external-ai-image'
-  | 'deterministic-canonical-prototype';
+  'external-ai-image' | 'deterministic-canonical-prototype';
 
 export type AiEditorialImagePipelineStatus =
   | 'image-brief-ready'
@@ -44,7 +43,9 @@ export interface AiEditorialImageGenerationOutput {
 export interface AiEditorialImageProvider {
   kind: 'external-ai-image';
   configured: boolean;
-  generate(input: AiEditorialImageGenerationInput): Promise<AiEditorialImageGenerationOutput>;
+  generate(
+    input: AiEditorialImageGenerationInput,
+  ): Promise<AiEditorialImageGenerationOutput>;
 }
 
 export interface AiEditorialImageValidation {

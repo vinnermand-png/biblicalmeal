@@ -1,4 +1,5 @@
-export type InstagramContentMode = 'factual' | 'inspirational' | 'creative-social';
+export type InstagramContentMode =
+  'factual' | 'inspirational' | 'creative-social';
 
 export type InstagramContentStatus =
   | 'candidate'
@@ -11,13 +12,15 @@ export type InstagramContentStatus =
   | 'rejected';
 
 export type AIProviderMode =
-  | 'not-configured'
-  | 'external-ai'
-  | 'deterministic-canonical-prototype';
+  'not-configured' | 'external-ai' | 'deterministic-canonical-prototype';
 export type InstagramPublishingMode = 'external-integration-not-configured';
 
 export interface CanonicalInstagramSource {
-  kind: 'article-content' | 'recipe-content' | 'food-universe' | 'ai-website-content';
+  kind:
+    | 'article-content'
+    | 'recipe-content'
+    | 'food-universe'
+    | 'ai-website-content';
   id: string;
 }
 

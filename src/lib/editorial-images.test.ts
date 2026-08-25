@@ -22,7 +22,9 @@ describe('V3C.23 editorial image performance metadata', () => {
   });
 
   it('rejects malformed or impossible image dimensions instead of emitting invalid layout metadata', () => {
-    expect(getEditorialImageDimensions({ size: '1536 by 1024' })).toBeUndefined();
+    expect(
+      getEditorialImageDimensions({ size: '1536 by 1024' }),
+    ).toBeUndefined();
     expect(getEditorialImageDimensions({ size: '0x1024' })).toBeUndefined();
     expect(getEditorialImageDimensions({ size: '1536x0' })).toBeUndefined();
     expect(getEditorialImageDimensions({ size: '-1x1024' })).toBeUndefined();

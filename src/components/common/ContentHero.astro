@@ -12,29 +12,44 @@ interface Props {
   variant?: HeroVariant;
 }
 const { eyebrow, title, lead, art, editorialImageId } = Astro.props;
-const variant: HeroVariant = Astro.props.variant ?? (eyebrow.includes('Foods of') ? 'food' : art ? 'editorial' : 'listing');
+const variant: HeroVariant =
+  Astro.props.variant ??
+  (eyebrow.includes('Foods of') ? 'food' : art ? 'editorial' : 'listing');
 const variantClass = `content-hero content-hero--${variant}`;
 const fallbackArt: ArtKind = art ?? 'still-life';
 ---
+
 <section class={variantClass}>
   <div class="content-hero__wash" aria-hidden="true"></div>
-  <div class="container-site content-hero__grid">
+  <div class="content-hero__grid container-site">
     <div class="content-hero__copy">
       <slot name="breadcrumbs" />
-      <p class="mt-5 font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase first:mt-0">{eyebrow}</p>
+      <p
+        class="mt-5 font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase first:mt-0"
+      >
+        {eyebrow}
+      </p>
       <h1 class="mt-3 max-w-4xl font-display text-h1 text-ink">{title}</h1>
       {lead && <p class="mt-5 max-w-2xl text-body-lg text-ink-muted">{lead}</p>}
       <slot name="meta" />
     </div>
-    {(art || editorialImageId) && (
-      <div class="content-hero__art media-frame group">
-        <EditorialImage
-          id={editorialImageId}
-          fallbackArt={fallbackArt}
-          ratio={variant === 'recipe' ? '4 / 5' : variant === 'food' ? '1 / 1' : '4 / 3'}
-          loading="eager"
-        />
-      </div>
-    )}
+    {
+      (art || editorialImageId) && (
+        <div class="content-hero__art group media-frame">
+          <EditorialImage
+            id={editorialImageId}
+            fallbackArt={fallbackArt}
+            ratio={
+              variant === 'recipe'
+                ? '4 / 5'
+                : variant === 'food'
+                  ? '1 / 1'
+                  : '4 / 3'
+            }
+            loading="eager"
+          />
+        </div>
+      )
+    }
   </div>
 </section>

@@ -78,7 +78,8 @@ function stageFor(
   if (entity.classification === 'not-pursuing') return 'excluded';
   if (draft) return 'content-draft';
   if (plan?.workflowStatus === 'research-complete') return 'research-complete';
-  if (plan?.workflowStatus === 'research-in-progress') return 'research-in-progress';
+  if (plan?.workflowStatus === 'research-in-progress')
+    return 'research-in-progress';
   if (entity.classification === 'research-first') return 'research-required';
   if (entity.classification === 'direct-page-candidate') return 'classified';
   if (entity.evidence === 'requires-verification') return 'candidate';
@@ -114,8 +115,9 @@ function buildCanonicalFoodRecord(entity: FoodEntity): CanonicalFoodRecord {
   };
 }
 
-export const CANONICAL_FOOD_UNIVERSE: CanonicalFoodRecord[] =
-  FOOD_UNIVERSE.map(buildCanonicalFoodRecord);
+export const CANONICAL_FOOD_UNIVERSE: CanonicalFoodRecord[] = FOOD_UNIVERSE.map(
+  buildCanonicalFoodRecord,
+);
 
 export const FOOD_UNIVERSE_STAGE_COUNTS = CANONICAL_FOOD_UNIVERSE.reduce(
   (counts, record) => {

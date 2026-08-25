@@ -78,7 +78,10 @@ export function isValidEditorialImageAsset(
   const outputPath = asset.output.replace(/^public/, '');
   if (outputPath !== asset.publicPath) return false;
 
-  if (asset.pageUsage.length === 0 || asset.pageUsage.some((path) => !path.startsWith('/'))) {
+  if (
+    asset.pageUsage.length === 0 ||
+    asset.pageUsage.some((path) => !path.startsWith('/'))
+  ) {
     return false;
   }
 

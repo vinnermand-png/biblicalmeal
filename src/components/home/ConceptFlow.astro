@@ -2,36 +2,105 @@
 import SectionHeader from '../common/SectionHeader.astro';
 
 const steps = [
-  { number: '01', title: 'Scripture', description: 'We begin with the biblical text itself — read carefully, in context.' },
-  { number: '02', title: 'History', description: 'We study the culinary world behind the text: what was grown, traded, and cooked.' },
-  { number: '03', title: 'Ingredient', description: 'We trace each food to its roots — olives, barley, honey, figs, lentils.' },
-  { number: '04', title: 'Recipe', description: 'We bring it home: dishes inspired by the ancient table, made in your kitchen.' },
+  {
+    number: '01',
+    title: 'Scripture',
+    description:
+      'We begin with the biblical text itself — read carefully, in context.',
+  },
+  {
+    number: '02',
+    title: 'History',
+    description:
+      'We study the culinary world behind the text: what was grown, traded, and cooked.',
+  },
+  {
+    number: '03',
+    title: 'Ingredient',
+    description:
+      'We trace each food to its roots — olives, barley, honey, figs, lentils.',
+  },
+  {
+    number: '04',
+    title: 'Recipe',
+    description:
+      'We bring it home: dishes inspired by the ancient table, made in your kitchen.',
+  },
 ];
 ---
 
 <section class="relative overflow-hidden bg-background-alt" id="story">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-line" aria-hidden="true"></div>
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-px bg-line"
+    aria-hidden="true"
+  >
+  </div>
   <div class="container-site section-space">
-    <SectionHeader eyebrow="Our Approach" title="From Scripture to Table" description="Every BiblicalMeal story follows the same path — from the ancient text, through history and the ingredient itself, to a recipe you can cook tonight." />
-    <ol class="concept-flow mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
-      {steps.map((step) => (
-        <li class="reveal concept-flow__step relative px-6 py-7 first:pl-0 last:pr-0 lg:min-h-[17rem]">
-          <span class="concept-flow__line" aria-hidden="true"></span>
-          <div class="relative space-y-4">
-            <p class="font-display text-h1 font-medium text-terracotta/65" aria-hidden="true">{step.number}</p>
-            <div class="h-px w-10 bg-gold/60" aria-hidden="true"></div>
-            <h3 class="font-display text-h3 text-ink">{step.title}</h3>
-            <p class="text-body text-ink-muted">{step.description}</p>
-          </div>
-        </li>
-      ))}
+    <SectionHeader
+      eyebrow="Our Approach"
+      title="From Scripture to Table"
+      description="Every BiblicalMeal story follows the same path — from the ancient text, through history and the ingredient itself, to a recipe you can cook tonight."
+    />
+    <ol
+      class="concept-flow mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0"
+    >
+      {
+        steps.map((step) => (
+          <li class="reveal concept-flow__step relative px-6 py-7 first:pl-0 last:pr-0 lg:min-h-[17rem]">
+            <span class="concept-flow__line" aria-hidden="true" />
+            <div class="relative space-y-4">
+              <p
+                class="font-display text-h1 font-medium text-terracotta/65"
+                aria-hidden="true"
+              >
+                {step.number}
+              </p>
+              <div class="h-px w-10 bg-gold/60" aria-hidden="true" />
+              <h3 class="font-display text-h3 text-ink">{step.title}</h3>
+              <p class="text-body text-ink-muted">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
     </ol>
-    <p class="mt-10 max-w-2xl border-l-2 border-gold/60 pl-5 text-caption leading-relaxed text-ink-muted">A consistent editorial path helps us keep research, interpretation, and practical reconstruction distinct rather than collapsing them into one claim.</p>
+    <p
+      class="mt-10 max-w-2xl border-l-2 border-gold/60 pl-5 text-caption leading-relaxed text-ink-muted"
+    >
+      A consistent editorial path helps us keep research, interpretation, and
+      practical reconstruction distinct rather than collapsing them into one
+      claim.
+    </p>
   </div>
 </section>
 
 <style>
-  .concept-flow__step { border-top:1px solid var(--color-line); }
-  .concept-flow__line { position:absolute; top:-1px; left:0; width:2.5rem; height:1px; background:var(--color-terracotta); }
-  @media (min-width:1024px) { .concept-flow__step { border-top:0; border-left:1px solid var(--color-line); } .concept-flow__step:first-child { border-left:0; } .concept-flow__line { top:0; left:0; width:1px; height:2.75rem; } .concept-flow__step:first-child .concept-flow__line { display:none; } }
+  .concept-flow__step {
+    border-top: 1px solid var(--color-line);
+  }
+  .concept-flow__line {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--color-terracotta);
+  }
+  @media (min-width: 1024px) {
+    .concept-flow__step {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+    }
+    .concept-flow__step:first-child {
+      border-left: 0;
+    }
+    .concept-flow__line {
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 2.75rem;
+    }
+    .concept-flow__step:first-child .concept-flow__line {
+      display: none;
+    }
+  }
 </style>

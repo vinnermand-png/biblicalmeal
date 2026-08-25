@@ -28,9 +28,12 @@ describe('V3C.24 editorial image SEO metadata', () => {
 
     expect(asset).toBeDefined();
     expect(getEditorialImageAlt(asset)).toBe(asset?.subject);
-    expect(getEditorialImageAlt(asset, 'Editorial still life of a Mediterranean table')).toBe(
-      'Editorial still life of a Mediterranean table',
-    );
+    expect(
+      getEditorialImageAlt(
+        asset,
+        'Editorial still life of a Mediterranean table',
+      ),
+    ).toBe('Editorial still life of a Mediterranean table');
   });
 
   it('preserves V3C.23 intrinsic dimensions for generated assets', () => {

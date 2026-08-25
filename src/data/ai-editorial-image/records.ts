@@ -14,30 +14,32 @@ if (!source) {
  * validation and explicit admin review have completed. This prototype is not a
  * public asset and does not claim documentary historical evidence.
  */
-export const AI_EDITORIAL_IMAGE_ASSET_RECORDS: readonly AiEditorialImageAssetRecord[] = [
-  {
-    id: 'ai-editorial-ai-website-article-figs-research-context',
-    sourceWebsiteContentId: source.id,
-    canonicalRoute: source.canonicalRoute,
-    provider: 'deterministic-canonical-prototype',
-    providerConfigured: false,
-    pipelineStatus: 'image-brief-ready',
-    brief: {
-      contentDraftId: source.id,
+export const AI_EDITORIAL_IMAGE_ASSET_RECORDS: readonly AiEditorialImageAssetRecord[] =
+  [
+    {
+      id: 'ai-editorial-ai-website-article-figs-research-context',
+      sourceWebsiteContentId: source.id,
       canonicalRoute: source.canonicalRoute,
-      subject: source.imageBrief.disclosure,
-      purpose: 'Editorial image direction for an evidence-bound website content draft.',
-      editorialOnly: true,
-      documentaryEvidence: false,
-      disclosure: source.imageBrief.disclosure,
-      altText: `Editorial illustration supporting ${source.title}.`,
-      targetSize: '1536x1024',
-      targetFormat: 'webp',
+      provider: 'deterministic-canonical-prototype',
+      providerConfigured: false,
+      pipelineStatus: 'image-brief-ready',
+      brief: {
+        contentDraftId: source.id,
+        canonicalRoute: source.canonicalRoute,
+        subject: source.imageBrief.disclosure,
+        purpose:
+          'Editorial image direction for an evidence-bound website content draft.',
+        editorialOnly: true,
+        documentaryEvidence: false,
+        disclosure: source.imageBrief.disclosure,
+        altText: `Editorial illustration supporting ${source.title}.`,
+        targetSize: '1536x1024',
+        targetFormat: 'webp',
+      },
+      manifestAssignmentStatus: 'not-added',
+      adminReviewRequired: true,
+      requiresExistingPublicationGates: true,
+      publicationEligible: false,
+      retryCount: 0,
     },
-    manifestAssignmentStatus: 'not-added',
-    adminReviewRequired: true,
-    requiresExistingPublicationGates: true,
-    publicationEligible: false,
-    retryCount: 0,
-  },
-];
+  ];

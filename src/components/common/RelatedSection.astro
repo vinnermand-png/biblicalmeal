@@ -5,28 +5,72 @@ import SectionHeader from './SectionHeader.astro';
 import IngredientCard from './IngredientCard.astro';
 import RecipeCard from './RecipeCard.astro';
 import ArticleCard from './ArticleCard.astro';
-interface Props { related: RelatedContent; }
+interface Props {
+  related: RelatedContent;
+}
 const { related } = Astro.props;
-const groups=[
-{id:'related-recipes',title:'From the kitchen',description:'Recipes connected through the same ingredients and themes.',entries:related.recipes},
-{id:'related-ingredients',title:'More from the pantry',description:'Ingredients that belong to the same biblical food world.',entries:related.ingredients},
-{id:'related-articles',title:'Continue the reading',description:'Editorial context to carry the subject further.',entries:related.articles},
-].filter(group=>group.entries.length>0);
+const groups = [
+  {
+    id: 'related-recipes',
+    title: 'From the kitchen',
+    description: 'Recipes connected through the same ingredients and themes.',
+    entries: related.recipes,
+  },
+  {
+    id: 'related-ingredients',
+    title: 'More from the pantry',
+    description: 'Ingredients that belong to the same biblical food world.',
+    entries: related.ingredients,
+  },
+  {
+    id: 'related-articles',
+    title: 'Continue the reading',
+    description: 'Editorial context to carry the subject further.',
+    entries: related.articles,
+  },
+].filter((group) => group.entries.length > 0);
 ---
-{groups.length>0&&(
-<section class="section-dark relative overflow-hidden border-y border-line-dark py-[var(--bm-section-space)]">
-  <div class="container-site relative z-10 space-y-16">
-    {groups.map((group,index)=>(
-      <div class:list={["space-y-8",index>0&&"border-t border-line-dark pt-14"]} aria-labelledby={group.id}>
-        <div class="max-w-2xl">
-          <SectionHeader id={group.id} eyebrow="Continue exploring" title={group.title} align="start" tone="dark" />
-          <p class="mt-3 text-body text-cream-muted">{group.description}</p>
-        </div>
-        <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {group.entries.map((item)=><li>{'recipeType' in item.data?<RecipeCard entry={item as CollectionEntry<'recipes'>}/>: 'excerpt' in item.data?<ArticleCard entry={item as CollectionEntry<'articles'>}/>:<IngredientCard entry={item as CollectionEntry<'ingredients'>}/>}</li>)}
-        </ul>
+
+{
+  groups.length > 0 && (
+    <section class="relative overflow-hidden border-y border-line-dark py-[var(--bm-section-space)] section-dark">
+      <div class="relative z-10 container-site space-y-16">
+        {groups.map((group, index) => (
+          <div
+            class:list={[
+              'space-y-8',
+              index > 0 && 'border-t border-line-dark pt-14',
+            ]}
+            aria-labelledby={group.id}
+          >
+            <div class="max-w-2xl">
+              <SectionHeader
+                id={group.id}
+                eyebrow="Continue exploring"
+                title={group.title}
+                align="start"
+                tone="dark"
+              />
+              <p class="mt-3 text-body text-cream-muted">{group.description}</p>
+            </div>
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {group.entries.map((item) => (
+                <li>
+                  {'recipeType' in item.data ? (
+                    <RecipeCard entry={item as CollectionEntry<'recipes'>} />
+                  ) : 'excerpt' in item.data ? (
+                    <ArticleCard entry={item as CollectionEntry<'articles'>} />
+                  ) : (
+                    <IngredientCard
+                      entry={item as CollectionEntry<'ingredients'>}
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</section>
-)}
+    </section>
+  )
+}

@@ -23,11 +23,7 @@ export type ArticleEvidenceState =
   | 'unresolved';
 
 export type ArticleClaimStrength =
-  | 'supported'
-  | 'partially-supported'
-  | 'inferred'
-  | 'editorial'
-  | 'unresolved';
+  'supported' | 'partially-supported' | 'inferred' | 'editorial' | 'unresolved';
 
 export interface ArticleContentRecord {
   id: string;

@@ -1,4 +1,7 @@
-import type { RecipeContentProductionStatus, RecipeEditorialReviewStatus } from '../recipe-content/types';
+import type {
+  RecipeContentProductionStatus,
+  RecipeEditorialReviewStatus,
+} from '../recipe-content/types';
 import type { RecipePublicationStatus } from '../recipe-research/types';
 
 /** V3C.21 — Trust Pages & Editorial Transparency. */

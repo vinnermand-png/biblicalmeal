@@ -39,9 +39,12 @@ export const RECONSTRUCTION_CONFIDENCE_DEFINITIONS: Readonly<
   Record<ReconstructionConfidence, string>
 > = {
   HIGH: 'Multiple relevant evidence sources support the reconstruction components; exact historical preparation may still contain bounded reconstruction.',
-  MODERATE: 'Historical context is well supported, but the exact recipe form is partly reconstructed.',
-  LIMITED: 'Important evidence gaps remain and the reconstruction should foreground uncertainty.',
-  SPECULATIVE: 'The reconstruction relies primarily on explicit inference and must never be presented as an authentic historical recipe.',
+  MODERATE:
+    'Historical context is well supported, but the exact recipe form is partly reconstructed.',
+  LIMITED:
+    'Important evidence gaps remain and the reconstruction should foreground uncertainty.',
+  SPECULATIVE:
+    'The reconstruction relies primarily on explicit inference and must never be presented as an authentic historical recipe.',
 };
 
 export const RECIPE_RECONSTRUCTION_STAGES = [
@@ -71,10 +74,7 @@ export type RecipeComponentKind =
   | 'substitution';
 
 export type RecipeComponentReconstructionStatus =
-  | 'historically-supported'
-  | 'reconstructed'
-  | 'modern-adaptation'
-  | 'unknown';
+  'historically-supported' | 'reconstructed' | 'modern-adaptation' | 'unknown';
 
 export interface RecipeEvidenceLink {
   classification: RecipeEvidenceClassification;
@@ -152,7 +152,9 @@ export function stageMatchesWorkflow(record: RecipeResearchRecord): boolean {
   return expected === undefined || expected === record.workflowStatus;
 }
 
-export function requiresExplicitDisclosure(record: RecipeResearchRecord): boolean {
+export function requiresExplicitDisclosure(
+  record: RecipeResearchRecord,
+): boolean {
   return (
     record.confidence === 'LIMITED' ||
     record.confidence === 'SPECULATIVE' ||
@@ -174,8 +176,11 @@ export function validateRecipeResearchRecord(
 ): string[] {
   const errors: string[] = [];
 
-  if (!record.id.trim()) errors.push('Recipe research record requires a canonical ID.');
-  if (new Set(record.canonicalFoodIds).size !== record.canonicalFoodIds.length) {
+  if (!record.id.trim())
+    errors.push('Recipe research record requires a canonical ID.');
+  if (
+    new Set(record.canonicalFoodIds).size !== record.canonicalFoodIds.length
+  ) {
     errors.push('Canonical food IDs must not contain duplicates.');
   }
   for (const foodId of record.canonicalFoodIds) {
@@ -184,7 +189,10 @@ export function validateRecipeResearchRecord(
     }
   }
   for (const component of record.components) {
-    if (component.canonicalFoodId && !canonicalFoodById(component.canonicalFoodId)) {
+    if (
+      component.canonicalFoodId &&
+      !canonicalFoodById(component.canonicalFoodId)
+    ) {
       errors.push(`Unknown component food ID: ${component.canonicalFoodId}.`);
     }
     if (
@@ -201,7 +209,9 @@ export function validateRecipeResearchRecord(
     }
   }
   if (requiresExplicitDisclosure(record) && !record.disclosure.required) {
-    errors.push('Disclosure is required when reconstruction uncertainty or adaptation exists.');
+    errors.push(
+      'Disclosure is required when reconstruction uncertainty or adaptation exists.',
+    );
   }
   if (record.stage === 'published' && !record.publicationEligible) {
     errors.push('Published recipes must pass publication eligibility.');
@@ -210,10 +220,14 @@ export function validateRecipeResearchRecord(
     errors.push('Published recipes must reuse the approved workflow gate.');
   }
   if (!stageMatchesWorkflow(record)) {
-    errors.push('Recipe reconstruction stage does not match the canonical workflow gate.');
+    errors.push(
+      'Recipe reconstruction stage does not match the canonical workflow gate.',
+    );
   }
   if (record.confidence === 'SPECULATIVE' && record.publicationEligible) {
-    errors.push('Speculative reconstructions are not publication-eligible as historical recipes.');
+    errors.push(
+      'Speculative reconstructions are not publication-eligible as historical recipes.',
+    );
   }
   return errors;
 }
@@ -236,7 +250,9 @@ export const INTERNAL_RECIPE_RESEARCH_FIXTURES: RecipeResearchRecord[] = [
     archaeologicalEvidence: [],
     culinaryEvidence: [],
     evidenceGaps: ['Exact original preparation is unknown.'],
-    reconstructionNotes: ['Fixture exists only to exercise evidence and disclosure architecture.'],
+    reconstructionNotes: [
+      'Fixture exists only to exercise evidence and disclosure architecture.',
+    ],
     explicitAssumptions: ['No historical preparation method is asserted.'],
     modernSubstitutions: [],
     components: [
@@ -244,7 +260,9 @@ export const INTERNAL_RECIPE_RESEARCH_FIXTURES: RecipeResearchRecord[] = [
         kind: 'ingredient',
         label: 'Barley',
         canonicalFoodId: 'barley',
-        evidence: [{ classification: 'INFERENCE', note: 'No production claim.' }],
+        evidence: [
+          { classification: 'INFERENCE', note: 'No production claim.' },
+        ],
         confidence: 'SPECULATIVE',
         reconstructionStatus: 'reconstructed',
       },

@@ -83,13 +83,16 @@ export function auditRecipeContent(
       issues.push({
         code: 'classification-mismatch',
         contentId: record.id,
-        message: 'Recipe content classification must match its canonical research record.',
+        message:
+          'Recipe content classification must match its canonical research record.',
       });
     }
 
     for (const foodId of [
       ...record.relatedFoodIds,
-      ...record.ingredients.flatMap((ingredient) => ingredient.foodId ? [ingredient.foodId] : []),
+      ...record.ingredients.flatMap((ingredient) =>
+        ingredient.foodId ? [ingredient.foodId] : [],
+      ),
     ]) {
       if (!foodIds.has(foodId)) {
         issues.push({
@@ -128,7 +131,8 @@ export function auditRecipeContent(
       issues.push({
         code: 'unresolved-evidence-hidden',
         contentId: record.id,
-        message: 'Unresolved research evidence must remain visible in recipe content production.',
+        message:
+          'Unresolved research evidence must remain visible in recipe content production.',
       });
     }
 
@@ -153,7 +157,8 @@ export function auditRecipeContent(
       issues.push({
         code: 'invalid-lifecycle',
         contentId: record.id,
-        message: 'Publication eligibility requires complete research, ready reconstruction, produced content and editorial approval.',
+        message:
+          'Publication eligibility requires complete research, ready reconstruction, produced content and editorial approval.',
       });
     }
 
@@ -164,7 +169,8 @@ export function auditRecipeContent(
       issues.push({
         code: 'publication-state-mismatch',
         contentId: record.id,
-        message: 'Recipe content cannot advance publication status independently of its eligibility state.',
+        message:
+          'Recipe content cannot advance publication status independently of its eligibility state.',
       });
     }
   }

@@ -30,7 +30,9 @@ const validRow: GoogleSearchConsoleImportRow = {
 describe('V3C.35 Google Search Console integration', () => {
   it('keeps the provider boundary import-ready without claiming a live connection', () => {
     expect(GOOGLE_SEARCH_CONSOLE_PROVIDER.status).toBe('import-ready');
-    expect(GOOGLE_SEARCH_CONSOLE_PROVIDER.note).toContain('No Google Search Console API');
+    expect(GOOGLE_SEARCH_CONSOLE_PROVIDER.note).toContain(
+      'No Google Search Console API',
+    );
   });
 
   it('maps real-format import rows to existing canonical SERP targets', () => {
@@ -85,7 +87,12 @@ describe('V3C.35 Google Search Console integration', () => {
   it('groups multiple query rows into one canonical target/date snapshot', () => {
     const result = mapGoogleSearchConsoleRows([
       validRow,
-      { ...validRow, query: `${validRow.query} history`, clicks: 2, impressions: 30 },
+      {
+        ...validRow,
+        query: `${validRow.query} history`,
+        clicks: 2,
+        impressions: 30,
+      },
     ]);
 
     expect(result.snapshots).toHaveLength(1);
@@ -111,12 +118,19 @@ describe('V3C.35 Google Search Console integration', () => {
 
   it('connects imported measurement context to V3C.26, V3C.27 and V3C.28 without duplicate targets', () => {
     const snapshots = mapGoogleSearchConsoleRows([validRow]).snapshots;
-    const context = getGoogleSearchConsoleOptimizationContext(sampleTarget.id, snapshots);
+    const context = getGoogleSearchConsoleOptimizationContext(
+      sampleTarget.id,
+      snapshots,
+    );
 
     expect(context.target?.canonicalRoute).toBe(sampleTarget.targetRoute);
     expect(context.searchConsole.availability).toBe('measured');
     expect(context.serp.availability).toBe('measured');
-    expect(context.refreshCandidate?.canonicalRoute).toBe(sampleTarget.targetRoute);
-    expect(context.rankingCandidate?.canonicalRoute).toBe(sampleTarget.targetRoute);
+    expect(context.refreshCandidate?.canonicalRoute).toBe(
+      sampleTarget.targetRoute,
+    );
+    expect(context.rankingCandidate?.canonicalRoute).toBe(
+      sampleTarget.targetRoute,
+    );
   });
 });

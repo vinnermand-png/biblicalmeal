@@ -13,15 +13,17 @@ describe('V3C.17 Recipe Research & Reconstruction System', () => {
   it('keeps historical authority and publication separate', () => {
     for (const record of RECIPE_RESEARCH_RECORDS) {
       expect(record.publicationStatus).toBe('not-eligible');
-      expect(record.classification).not.toBe('historically-attested-preparation');
+      expect(record.classification).not.toBe(
+        'historically-attested-preparation',
+      );
     }
   });
 
   it('keeps uncertainty visible instead of silently upgrading reconstruction choices', () => {
     for (const record of RECIPE_RESEARCH_RECORDS) {
-      expect(record.evidence.some((entry) => entry.layer === 'unresolved')).toBe(
-        true,
-      );
+      expect(
+        record.evidence.some((entry) => entry.layer === 'unresolved'),
+      ).toBe(true);
       expect(record.unresolvedQuestions.length).toBeGreaterThan(0);
       expect(record.reconstructionDisclosure).not.toHaveLength(0);
     }
@@ -45,7 +47,9 @@ describe('V3C.17 Recipe Research & Reconstruction System', () => {
       },
     ];
 
-    const issues = auditRecipeResearch(broken).issues.map((issue) => issue.code);
+    const issues = auditRecipeResearch(broken).issues.map(
+      (issue) => issue.code,
+    );
     expect(issues).toContain('duplicate-id');
     expect(issues).toContain('duplicate-name');
     expect(issues).toContain('invalid-food-reference');
@@ -59,7 +63,9 @@ describe('V3C.17 Recipe Research & Reconstruction System', () => {
       publicationStatus: 'public' as const,
     };
 
-    const issues = auditRecipeResearch([broken]).issues.map((issue) => issue.code);
+    const issues = auditRecipeResearch([broken]).issues.map(
+      (issue) => issue.code,
+    );
     expect(issues).toContain('invalid-lifecycle');
     expect(issues).toContain('public-without-readiness');
   });

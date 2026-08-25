@@ -14,7 +14,8 @@ const qualified: ExternalAuthorityOpportunity = {
   verificationState: 'unverified',
   relevance: 'Relevant to documented biblical food research.',
   qualityAssessment: 'high',
-  qualityNotes: 'Assessment recorded without invented traffic or domain metrics.',
+  qualityNotes:
+    'Assessment recorded without invented traffic or domain metrics.',
   relevantSitePaths: ['/ingredients/figs'],
   discoveryNotes: 'Fixture only; not a real outreach target.',
 };
@@ -28,9 +29,15 @@ describe('V3C.25 external authority opportunity foundation', () => {
   it('rejects duplicate targets and invalid lifecycle progression', () => {
     const contacted = { ...qualified, status: 'contacted' as const };
     const issues = auditExternalAuthorityOpportunities([qualified, contacted]);
-    expect(issues.map((issue) => issue.message)).toContain('Duplicate canonical opportunity ID.');
-    expect(issues.map((issue) => issue.message)).toContain('Duplicate outreach target domain.');
-    expect(issues.map((issue) => issue.message)).toContain('Contact lifecycle states require recorded contact history.');
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Duplicate canonical opportunity ID.',
+    );
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Duplicate outreach target domain.',
+    );
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Contact lifecycle states require recorded contact history.',
+    );
   });
 
   it('never accepts an unverified mention or link as a verified result', () => {
@@ -39,7 +46,9 @@ describe('V3C.25 external authority opportunity foundation', () => {
       status: 'verified-mention-link' as const,
     };
     const issues = auditExternalAuthorityOpportunities([claimed]);
-    expect(issues.map((issue) => issue.message)).toContain('Verified mentions or links require explicit verification evidence.');
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Verified mentions or links require explicit verification evidence.',
+    );
     expect(isExternalAuthorityOpportunityVerified(claimed)).toBe(false);
   });
 
@@ -52,7 +61,8 @@ describe('V3C.25 external authority opportunity foundation', () => {
         observedOn: '2026-08-23',
         evidenceUrl: 'https://archive.example.org/resources/biblicalmeal',
         evidenceType: 'mention',
-        notes: 'Fixture evidence only; not a claim about a real external mention.',
+        notes:
+          'Fixture evidence only; not a claim about a real external mention.',
       },
     };
     expect(auditExternalAuthorityOpportunities([verified])).toEqual([]);
@@ -62,9 +72,18 @@ describe('V3C.25 external authority opportunity foundation', () => {
   it('requires low-quality targets to stop and rejected targets to explain why', () => {
     const issues = auditExternalAuthorityOpportunities([
       { ...qualified, qualityAssessment: 'insufficient' },
-      { ...qualified, id: 'rejected-target', domain: 'rejected.example.org', status: 'rejected' },
+      {
+        ...qualified,
+        id: 'rejected-target',
+        domain: 'rejected.example.org',
+        status: 'rejected',
+      },
     ]);
-    expect(issues.map((issue) => issue.message)).toContain('Insufficient-quality targets must be rejected rather than progressed.');
-    expect(issues.map((issue) => issue.message)).toContain('Rejected targets require an explicit rejection reason.');
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Insufficient-quality targets must be rejected rather than progressed.',
+    );
+    expect(issues.map((issue) => issue.message)).toContain(
+      'Rejected targets require an explicit rejection reason.',
+    );
   });
 });

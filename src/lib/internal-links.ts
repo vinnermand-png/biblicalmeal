@@ -1,6 +1,9 @@
 import type { ContentPlan } from '../data/content/model';
 import { isContentPublicationEligible } from '../data/content/validation';
-import { PUBLIC_FOOD_CONTENT, PUBLIC_FOOD_DRAFTS } from '../data/content/public';
+import {
+  PUBLIC_FOOD_CONTENT,
+  PUBLIC_FOOD_DRAFTS,
+} from '../data/content/public';
 import { ARTICLE_CONTENT_RECORDS } from '../data/article-content/records';
 import { RECIPE_CONTENT_RECORDS } from '../data/recipe-content/records';
 import { CANONICAL_FOOD_UNIVERSE } from '../data/food-universe-registry';
@@ -206,10 +209,7 @@ export function internalLinksFor(
  * systems, while Food Universe IDs remain the shared relationship key.
  */
 export type CanonicalRelationshipKind =
-  | 'food-related'
-  | 'article-food'
-  | 'recipe-food'
-  | 'article-related';
+  'food-related' | 'article-food' | 'recipe-food' | 'article-related';
 
 export type CanonicalRelationshipDirection = 'explicit' | 'inferred-backlink';
 
@@ -235,7 +235,9 @@ export interface CanonicalRelationshipAuditIssue {
 }
 
 function publicHrefForFood(foodId: string): string | undefined {
-  const food = CANONICAL_FOOD_UNIVERSE.find((candidate) => candidate.id === foodId);
+  const food = CANONICAL_FOOD_UNIVERSE.find(
+    (candidate) => candidate.id === foodId,
+  );
   if (!food?.canonicalTargetId) return undefined;
 
   const publicContent = PUBLIC_FOOD_CONTENT.find(
@@ -315,8 +317,12 @@ export function canonicalRelationshipAudit(
   relationships: readonly CanonicalContentRelationship[] = canonicalContentRelationships(),
 ): CanonicalRelationshipAuditIssue[] {
   const issues: CanonicalRelationshipAuditIssue[] = [];
-  const foodById = new Map(CANONICAL_FOOD_UNIVERSE.map((food) => [food.id, food]));
-  const knownArticleIds = new Set(ARTICLE_CONTENT_RECORDS.map((article) => article.id));
+  const foodById = new Map(
+    CANONICAL_FOOD_UNIVERSE.map((food) => [food.id, food]),
+  );
+  const knownArticleIds = new Set(
+    ARTICLE_CONTENT_RECORDS.map((article) => article.id),
+  );
   const seen = new Set<string>();
 
   for (const relationship of relationships) {
@@ -383,6 +389,7 @@ export function canonicalRelationshipsFor(
   contentId: string,
 ): CanonicalContentRelationship[] {
   return canonicalContentRelationships().filter(
-    (relationship) => relationship.fromId === contentId || relationship.toId === contentId,
+    (relationship) =>
+      relationship.fromId === contentId || relationship.toId === contentId,
   );
 }

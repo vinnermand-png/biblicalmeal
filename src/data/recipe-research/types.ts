@@ -15,10 +15,7 @@ export type RecipeClassification =
   | 'modern-adaptation';
 
 export type RecipeEvidenceLayer =
-  | 'directly-attested'
-  | 'inferred'
-  | 'practical-adaptation'
-  | 'unresolved';
+  'directly-attested' | 'inferred' | 'practical-adaptation' | 'unresolved';
 
 export type RecipeIngredientProvenance =
   | 'directly-attested'
@@ -28,9 +25,7 @@ export type RecipeIngredientProvenance =
 
 export type RecipeResearchStatus = 'not-started' | 'in-progress' | 'complete';
 export type RecipeReconstructionStatus =
-  | 'not-started'
-  | 'in-progress'
-  | 'ready';
+  'not-started' | 'in-progress' | 'ready';
 export type RecipePublicationStatus = 'not-eligible' | 'eligible' | 'public';
 
 export interface RecipeIngredient {

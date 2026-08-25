@@ -38,7 +38,9 @@ describe('V3C.15 Content Expansion Wave 2', () => {
     const honey = V3C15_WAVE2_DRAFTS.find(
       (draft) => draft.contentItemId === 'content-honey',
     );
-    const copy = honey?.sections.map((section) => section.content ?? '').join(' ');
+    const copy = honey?.sections
+      .map((section) => section.content ?? '')
+      .join(' ');
     expect(copy).toContain('devash identification question remains active');
     expect(copy).toContain('does not resolve bee honey versus syrup');
     expect(honey?.disclosureQuestionIds).toContain(
@@ -50,7 +52,9 @@ describe('V3C.15 Content Expansion Wave 2', () => {
     const barley = V3C15_WAVE2_DRAFTS.find(
       (draft) => draft.contentItemId === 'content-barley',
     );
-    const copy = barley?.sections.map((section) => section.content ?? '').join(' ');
+    const copy = barley?.sections
+      .map((section) => section.content ?? '')
+      .join(' ');
     expect(copy).toContain('does not reconstruct a universal biblical diet');
     expect(copy).toContain('dream report with symbolic interpretation');
   });

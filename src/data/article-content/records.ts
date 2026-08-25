@@ -53,7 +53,10 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     seoTargetId: 'barley',
     researchDossierIds: ['dossier-barley'],
     foodIds: ['barley'],
-    relatedContentIds: ['question-what-does-barley-evidence-support', 'article-biblical-food-evidence-labels'],
+    relatedContentIds: [
+      'question-what-does-barley-evidence-support',
+      'article-biblical-food-evidence-labels',
+    ],
     scriptureContext: [],
     summary:
       'The draft preserves the completed barley scope across agricultural, harvest, provision, narrative bread and crop contexts while retaining its stated limits.',
@@ -82,7 +85,10 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     seoTargetId: 'barley',
     researchDossierIds: ['dossier-barley'],
     foodIds: ['barley'],
-    relatedContentIds: ['article-barley-biblical-evidence', 'article-biblical-food-evidence-labels'],
+    relatedContentIds: [
+      'article-barley-biblical-evidence',
+      'article-biblical-food-evidence-labels',
+    ],
     scriptureContext: [],
     summary:
       'The answer is limited to the canonical research scope and explicitly separates recorded contexts from broader diet or recipe claims.',
@@ -114,7 +120,10 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
     seoTargetId: 'dates',
     researchDossierIds: ['dossier-dates'],
     foodIds: ['dates-entity'],
-    relatedContentIds: ['question-do-palm-references-always-mean-edible-dates', 'article-biblical-food-evidence-labels'],
+    relatedContentIds: [
+      'question-do-palm-references-always-mean-edible-dates',
+      'article-biblical-food-evidence-labels',
+    ],
     scriptureContext: [],
     summary:
       'This draft connects completed historical date-palm research to future food content without collapsing palm-tree and palm-branch references into edible-date claims.',
@@ -168,14 +177,18 @@ export const ARTICLE_CONTENT_RECORDS: readonly ArticleContentRecord[] = [
   },
   {
     id: 'article-honey-evidence-boundaries',
-    title: 'Honey in Biblical Food Research: What the Evidence Does and Does Not Identify',
+    title:
+      'Honey in Biblical Food Research: What the Evidence Does and Does Not Identify',
     contentType: 'historical-context',
     purpose:
       'Provide an evidence-bound editorial bridge around completed KJV honey and bee narrative research while retaining the devash identification warning.',
     seoTargetId: 'honey',
     researchDossierIds: ['dossier-honey'],
     foodIds: ['honey-entity'],
-    relatedContentIds: ['question-does-biblical-honey-always-mean-bee-honey', 'article-biblical-food-evidence-labels'],
+    relatedContentIds: [
+      'question-does-biblical-honey-always-mean-bee-honey',
+      'article-biblical-food-evidence-labels',
+    ],
     scriptureContext: [],
     summary:
       'This draft distinguishes completed evidence for recorded honey contexts from a universal identification of every relevant biblical term as bee honey.',

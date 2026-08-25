@@ -34,7 +34,11 @@ describe('V3C.33 AI Editorial Image & Asset Engine', () => {
     const invalid: AiEditorialImageAssetRecord = {
       ...record,
       sourceWebsiteContentId: 'missing-source',
-      brief: { ...record.brief, disclosure: 'Image generated for display.', altText: '' },
+      brief: {
+        ...record.brief,
+        disclosure: 'Image generated for display.',
+        altText: '',
+      },
       generation: {
         provider: 'deterministic-canonical-prototype',
         requestId: 'bad',
@@ -58,7 +62,9 @@ describe('V3C.33 AI Editorial Image & Asset Engine', () => {
     const result = await generateAiEditorialImage(record, {
       kind: 'external-ai-image',
       configured: true,
-      generate: async () => { throw new Error('provider unavailable'); },
+      generate: async () => {
+        throw new Error('provider unavailable');
+      },
     });
     expect(result.pipelineStatus).toBe('generation-failed');
     expect(result.generation).toBeUndefined();

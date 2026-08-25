@@ -6,17 +6,17 @@ Premium international website about the foods, ingredients, recipes, history, an
 
 ## Tech Stack
 
-| Concern       | Technology                                                  |
-| ------------- | ----------------------------------------------------------- |
-| Framework     | Astro (static-first, content-driven)                        |
-| UI islands    | React 19                                                    |
-| Styling       | Tailwind CSS v4                                             |
-| Language      | TypeScript (strict)                                         |
-| Content       | Astro Content Collections (Markdown/MDX + Zod schemas)      |
-| Site search   | Pagefind                                                    |
-| Testing       | Vitest                                                      |
-| Lint / format | ESLint 9 + Prettier                                         |
-| CI            | GitHub Actions                                              |
+| Concern       | Technology                                             |
+| ------------- | ------------------------------------------------------ |
+| Framework     | Astro (static-first, content-driven)                   |
+| UI islands    | React 19                                               |
+| Styling       | Tailwind CSS v4                                        |
+| Language      | TypeScript (strict)                                    |
+| Content       | Astro Content Collections (Markdown/MDX + Zod schemas) |
+| Site search   | Pagefind                                               |
+| Testing       | Vitest                                                 |
+| Lint / format | ESLint 9 + Prettier                                    |
+| CI            | GitHub Actions                                         |
 
 ## Project Structure
 
@@ -83,18 +83,18 @@ The script reads `src/data/editorial-images.json`, applies the canonical Biblica
 
 ## Available Scripts
 
-| Command                | Description                                  |
-| ---------------------- | -------------------------------------------- |
-| `npm run dev`          | Start dev server with hot reload             |
-| `npm run build`        | Production build to `dist/` + Pagefind index |
-| `npm run preview`      | Serve the production build locally           |
-| `npm run lint`         | ESLint check                                 |
-| `npm run lint:fix`     | ESLint autofix                               |
-| `npm run format`       | Prettier write                               |
-| `npm run format:check` | Prettier check (CI mode)                     |
-| `npm run typecheck`    | `astro check` type checking                  |
-| `npm test`             | Vitest                                       |
-| `npm run images:generate -- --pilot` | Generate the V3D.4 pilot set locally |
+| Command                              | Description                                  |
+| ------------------------------------ | -------------------------------------------- |
+| `npm run dev`                        | Start dev server with hot reload             |
+| `npm run build`                      | Production build to `dist/` + Pagefind index |
+| `npm run preview`                    | Serve the production build locally           |
+| `npm run lint`                       | ESLint check                                 |
+| `npm run lint:fix`                   | ESLint autofix                               |
+| `npm run format`                     | Prettier write                               |
+| `npm run format:check`               | Prettier check (CI mode)                     |
+| `npm run typecheck`                  | `astro check` type checking                  |
+| `npm test`                           | Vitest                                       |
+| `npm run images:generate -- --pilot` | Generate the V3D.4 pilot set locally         |
 
 Pre-commit hook runs Prettier + ESLint on staged files automatically.
 

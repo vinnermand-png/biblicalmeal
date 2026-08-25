@@ -4,8 +4,14 @@ import { ADMIN_OVERVIEW, evaluateAdminMutation } from './overview';
 
 describe('V3C.31 admin foundation', () => {
   it('reads canonical records without creating a parallel registry', () => {
-    expect(ADMIN_OVERVIEW.metrics.some((metric) => metric.id === 'foods')).toBe(true);
-    expect(ADMIN_OVERVIEW.workflowItems.some((item) => item.kind === 'recipe-content')).toBe(true);
+    expect(ADMIN_OVERVIEW.metrics.some((metric) => metric.id === 'foods')).toBe(
+      true,
+    );
+    expect(
+      ADMIN_OVERVIEW.workflowItems.some(
+        (item) => item.kind === 'recipe-content',
+      ),
+    ).toBe(true);
   });
 
   it('preserves draft and published separation in the overview', () => {
@@ -30,13 +36,17 @@ describe('V3C.31 admin foundation', () => {
       ],
     };
     expect(
-      auditAdminOverview(duplicate).some((issue) => issue.code === 'duplicate-workflow-item'),
+      auditAdminOverview(duplicate).some(
+        (issue) => issue.code === 'duplicate-workflow-item',
+      ),
     ).toBe(true);
 
     const invalidPublic = {
       ...ADMIN_OVERVIEW,
       workflowItems: ADMIN_OVERVIEW.workflowItems.map((item, index) =>
-        index === 0 ? { ...item, publicationState: 'public', publicationEligible: false } : item,
+        index === 0
+          ? { ...item, publicationState: 'public', publicationEligible: false }
+          : item,
       ),
     };
     expect(

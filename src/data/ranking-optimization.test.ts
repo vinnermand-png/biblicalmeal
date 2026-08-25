@@ -9,7 +9,9 @@ import {
   type RankingOptimizationRecord,
 } from './ranking-optimization';
 
-const sampleTarget = SEO_TARGETS.find((target) => target.status !== 'not-pursuing')!;
+const sampleTarget = SEO_TARGETS.find(
+  (target) => target.status !== 'not-pursuing',
+)!;
 
 function makeRecord(
   overrides: Partial<RankingOptimizationRecord> = {},
@@ -51,7 +53,9 @@ describe('V3C.28 ranking optimization foundation', () => {
 
   it('does not fabricate optimization opportunities', () => {
     expect(RANKING_OPTIMIZATION_RECORDS).toHaveLength(0);
-    expect(getRankingOptimizationContext(sampleTarget.id).serp.availability).toBe('future-source');
+    expect(
+      getRankingOptimizationContext(sampleTarget.id).serp.availability,
+    ).toBe('future-source');
   });
 
   it('distinguishes an observation from a documented opportunity', () => {
@@ -65,14 +69,19 @@ describe('V3C.28 ranking optimization foundation', () => {
         {
           state: 'opportunity',
           observedOn: '2026-08-24',
-          summary: 'A documented optimization opportunity requires gated review.',
+          summary:
+            'A documented optimization opportunity requires gated review.',
         },
       ],
     });
 
     expect(isReadyForExistingPublicationGates(observation)).toBe(false);
-    expect(isReadyForExistingPublicationGates(handoffWithoutOpportunity)).toBe(false);
-    expect(isReadyForExistingPublicationGates(documentedOpportunity)).toBe(true);
+    expect(isReadyForExistingPublicationGates(handoffWithoutOpportunity)).toBe(
+      false,
+    );
+    expect(isReadyForExistingPublicationGates(documentedOpportunity)).toBe(
+      true,
+    );
   });
 
   it('preserves publication gates and rejects invalid records', () => {
@@ -87,16 +96,28 @@ describe('V3C.28 ranking optimization foundation', () => {
       [invalid],
     );
 
-    expect(issues.some((issue) => issue.includes('does not match canonical target'))).toBe(true);
-    expect(issues.some((issue) => issue.includes('bypasses existing publication gates'))).toBe(true);
-    expect(issues.some((issue) => issue.includes('without a documented opportunity'))).toBe(true);
+    expect(
+      issues.some((issue) => issue.includes('does not match canonical target')),
+    ).toBe(true);
+    expect(
+      issues.some((issue) =>
+        issue.includes('bypasses existing publication gates'),
+      ),
+    ).toBe(true);
+    expect(
+      issues.some((issue) =>
+        issue.includes('without a documented opportunity'),
+      ),
+    ).toBe(true);
   });
 
   it('keeps V3C.26 and V3C.27 context connected without creating parallel targets', () => {
     const context = getRankingOptimizationContext(sampleTarget.id);
 
     expect(context.candidate?.canonicalRoute).toBe(sampleTarget.targetRoute);
-    expect(context.refreshCandidate?.canonicalRoute).toBe(sampleTarget.targetRoute);
+    expect(context.refreshCandidate?.canonicalRoute).toBe(
+      sampleTarget.targetRoute,
+    );
     expect(context.refreshRecords).toHaveLength(0);
   });
 });

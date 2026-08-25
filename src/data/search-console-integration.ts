@@ -19,15 +19,10 @@ import {
  */
 
 export type GoogleSearchConsoleProviderStatus =
-  | 'not-configured'
-  | 'import-ready'
-  | 'connected';
+  'not-configured' | 'import-ready' | 'connected';
 
 export type GoogleSearchConsoleDataAvailability =
-  | 'measured'
-  | 'missing'
-  | 'partial'
-  | 'future-source';
+  'measured' | 'missing' | 'partial' | 'future-source';
 
 export interface GoogleSearchConsoleImportRow {
   date: string;
@@ -187,7 +182,8 @@ export function getGoogleSearchConsoleTargetStatus(
   const targetSnapshots = snapshots
     .filter(
       (snapshot) =>
-        snapshot.targetId === targetId && snapshot.source === 'google-search-console',
+        snapshot.targetId === targetId &&
+        snapshot.source === 'google-search-console',
     )
     .sort((a, b) => b.observedOn.localeCompare(a.observedOn));
 
@@ -195,9 +191,10 @@ export function getGoogleSearchConsoleTargetStatus(
     return {
       targetId,
       canonicalRoute: target.canonicalRoute,
-      availability: GOOGLE_SEARCH_CONSOLE_PROVIDER.status === 'connected'
-        ? 'missing'
-        : 'future-source',
+      availability:
+        GOOGLE_SEARCH_CONSOLE_PROVIDER.status === 'connected'
+          ? 'missing'
+          : 'future-source',
       snapshotCount: 0,
     };
   }
@@ -245,11 +242,15 @@ export function auditGoogleSearchConsoleSnapshots(
 
     const target = getGoogleSearchConsoleTarget(snapshot.targetId);
     if (!target) {
-      issues.push(`Google Search Console snapshot references unknown canonical target: ${snapshot.targetId}.`);
+      issues.push(
+        `Google Search Console snapshot references unknown canonical target: ${snapshot.targetId}.`,
+      );
       continue;
     }
     if (!isIsoCalendarDate(snapshot.observedOn)) {
-      issues.push(`Google Search Console snapshot date is invalid: ${snapshot.targetId}.`);
+      issues.push(
+        `Google Search Console snapshot date is invalid: ${snapshot.targetId}.`,
+      );
     }
 
     const key = `${snapshot.targetId}:${snapshot.observedOn}`;
@@ -260,19 +261,29 @@ export function auditGoogleSearchConsoleSnapshots(
 
     for (const measurement of snapshot.measurements) {
       if (measurement.canonicalRoute !== target.canonicalRoute) {
-        issues.push(`Google Search Console measurement route does not match canonical target: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console measurement route does not match canonical target: ${snapshot.targetId}.`,
+        );
       }
       if (!measurement.query.trim()) {
-        issues.push(`Google Search Console measurement query is missing: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console measurement query is missing: ${snapshot.targetId}.`,
+        );
       }
       if (!isFinitePositive(measurement.position ?? 0)) {
-        issues.push(`Google Search Console position is invalid: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console position is invalid: ${snapshot.targetId}.`,
+        );
       }
       if (!isFiniteNonNegative(measurement.impressions ?? Number.NaN)) {
-        issues.push(`Google Search Console impressions are invalid: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console impressions are invalid: ${snapshot.targetId}.`,
+        );
       }
       if (!isFiniteNonNegative(measurement.clicks ?? Number.NaN)) {
-        issues.push(`Google Search Console clicks are invalid: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console clicks are invalid: ${snapshot.targetId}.`,
+        );
       }
       if (
         !Number.isFinite(measurement.averageCtr) ||
@@ -280,7 +291,9 @@ export function auditGoogleSearchConsoleSnapshots(
         measurement.averageCtr < 0 ||
         measurement.averageCtr > 1
       ) {
-        issues.push(`Google Search Console CTR is invalid: ${snapshot.targetId}.`);
+        issues.push(
+          `Google Search Console CTR is invalid: ${snapshot.targetId}.`,
+        );
       }
     }
   }

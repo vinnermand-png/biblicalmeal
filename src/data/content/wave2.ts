@@ -43,7 +43,9 @@ const COPY: Record<string, Record<string, string>> = {
   },
 };
 
-function planFor(targetId: (typeof V3C15_WAVE2_TARGET_IDS)[number]): ContentPlan {
+function planFor(
+  targetId: (typeof V3C15_WAVE2_TARGET_IDS)[number],
+): ContentPlan {
   const plan = FIRST_WAVE_CONTENT_PLANS.find(
     (item) => item.canonicalTargetId === targetId,
   );

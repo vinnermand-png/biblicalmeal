@@ -100,7 +100,10 @@ export function auditRecipeResearch(
       });
     }
 
-    for (const foodId of [...record.foodIds, ...record.ingredients.map((ingredient) => ingredient.foodId)]) {
+    for (const foodId of [
+      ...record.foodIds,
+      ...record.ingredients.map((ingredient) => ingredient.foodId),
+    ]) {
       if (!foodIds.has(foodId)) {
         issues.push({
           code: 'invalid-food-reference',
@@ -129,16 +132,22 @@ export function auditRecipeResearch(
       });
     }
 
-    const hasUnresolved = record.evidence.some((entry) => entry.layer === 'unresolved');
+    const hasUnresolved = record.evidence.some(
+      (entry) => entry.layer === 'unresolved',
+    );
     if (hasUnresolved && record.unresolvedQuestions.length === 0) {
       issues.push({
         code: 'missing-unresolved-disclosure',
         recipeId: record.id,
-        message: 'Unresolved evidence must remain visible through unresolved questions.',
+        message:
+          'Unresolved evidence must remain visible through unresolved questions.',
       });
     }
 
-    if (record.researchStatus !== 'complete' && record.reconstructionStatus === 'ready') {
+    if (
+      record.researchStatus !== 'complete' &&
+      record.reconstructionStatus === 'ready'
+    ) {
       issues.push({
         code: 'invalid-lifecycle',
         recipeId: record.id,
@@ -148,12 +157,14 @@ export function auditRecipeResearch(
 
     if (
       record.publicationStatus !== 'not-eligible' &&
-      (record.researchStatus !== 'complete' || record.reconstructionStatus !== 'ready')
+      (record.researchStatus !== 'complete' ||
+        record.reconstructionStatus !== 'ready')
     ) {
       issues.push({
         code: 'public-without-readiness',
         recipeId: record.id,
-        message: 'Publication eligibility requires complete research and a ready reconstruction.',
+        message:
+          'Publication eligibility requires complete research and a ready reconstruction.',
       });
     }
   }

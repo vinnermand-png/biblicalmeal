@@ -9,11 +9,11 @@ export type WebsiteContentPipelineStatus =
   | 'rejected';
 
 export type WebsiteContentProviderKind =
-  | 'external-ai'
-  | 'deterministic-canonical-prototype';
+  'external-ai' | 'deterministic-canonical-prototype';
 
 export interface AiWebsiteContentSourceRef {
-  kind: 'article-content' | 'research-dossier' | 'citation' | 'seo-target' | 'food';
+  kind:
+    'article-content' | 'research-dossier' | 'citation' | 'seo-target' | 'food';
   id: string;
 }
 

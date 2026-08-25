@@ -16,7 +16,10 @@ type Entry = CollectionEntry<'articles'>;
 
 export async function getStaticPaths() {
   const articles = await getVisibleArticles();
-  return articles.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return articles.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
 interface Props {
@@ -25,28 +28,42 @@ interface Props {
 
 const { entry }: Props = Astro.props;
 const { Content } = await render(entry);
-const { title, subtitle, excerpt, category, pubDate, scriptureRefs, art } = entry.data;
+const { title, subtitle, excerpt, category, pubDate, scriptureRefs, art } =
+  entry.data;
 const related = await getRelated({ collection: 'articles', id: entry.id });
 const minutes = readingTime(entry.body);
 const isDevPreview = draftsPreview() && entry.data.status !== 'published';
-const editorialImageId = entry.id === 'how-we-research'
-  ? 'journal-research-manuscript'
-  : 'journal-ancient-table';
-const articleSchema = entry.data.status === 'published'
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: title,
-      description: excerpt,
-      author: { '@type': 'Organization', name: 'BiblicalMeal' },
-      publisher: { '@type': 'Organization', name: 'BiblicalMeal' },
-      mainEntityOfPage: new URL(`/articles/${entry.id}/`, Astro.site).toString(),
-    }
-  : undefined;
-const breadcrumbs = [{ label: 'Journal', href: '/articles/' }, { label: title }];
+const editorialImageId =
+  entry.id === 'how-we-research'
+    ? 'journal-research-manuscript'
+    : 'journal-ancient-table';
+const articleSchema =
+  entry.data.status === 'published'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: excerpt,
+        author: { '@type': 'Organization', name: 'BiblicalMeal' },
+        publisher: { '@type': 'Organization', name: 'BiblicalMeal' },
+        mainEntityOfPage: new URL(
+          `/articles/${entry.id}/`,
+          Astro.site,
+        ).toString(),
+      }
+    : undefined;
+const breadcrumbs = [
+  { label: 'Journal', href: '/articles/' },
+  { label: title },
+];
 ---
 
-<BaseLayout title={title} description={excerpt} ogType="article" jsonLd={articleSchema ? [articleSchema] : []}>
+<BaseLayout
+  title={title}
+  description={excerpt}
+  ogType="article"
+  jsonLd={articleSchema ? [articleSchema] : []}
+>
   <Header />
   <main id="main">
     <ContentHero
@@ -60,7 +77,9 @@ const breadcrumbs = [{ label: 'Journal', href: '/articles/' }, { label: title }]
       <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
       <div slot="meta" class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2">
         {isDevPreview && <Chip variant="dev" />}
-        <p class="font-sans text-caption font-medium tracking-wide text-ink-muted">
+        <p
+          class="font-sans text-caption font-medium tracking-wide text-ink-muted"
+        >
           {minutes} min read{pubDate && ` · ${formatDate(pubDate)}`}
         </p>
       </div>
@@ -69,7 +88,9 @@ const breadcrumbs = [{ label: 'Journal', href: '/articles/' }, { label: title }]
     <article class="container-site section-space">
       <div class="mx-auto max-w-3xl">
         <div class="mb-10 border-b border-line pb-6">
-          <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">
+          <p
+            class="font-sans text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+          >
             Editorial reading
           </p>
         </div>

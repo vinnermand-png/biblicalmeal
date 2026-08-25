@@ -22,7 +22,8 @@ export default defineConfig({
     react(),
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('/seo-map/') && !page.includes('/admin/'),
+      filter: (page) =>
+        !page.includes('/seo-map/') && !page.includes('/admin/'),
     }),
   ],
 

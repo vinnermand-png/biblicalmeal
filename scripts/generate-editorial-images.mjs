@@ -16,7 +16,9 @@ const selectedIds = args
   .filter(Boolean);
 
 if (has('--help')) {
-  console.log(`Usage:\n  npm run images:generate -- --pilot\n  npm run images:generate -- --id journal-ancient-table\n  npm run images:generate -- --all\n  npm run images:generate -- --all --force\n\nThe command is manual, development-time only, and never runs during the public site runtime.`);
+  console.log(
+    `Usage:\n  npm run images:generate -- --pilot\n  npm run images:generate -- --id journal-ancient-table\n  npm run images:generate -- --all\n  npm run images:generate -- --all --force\n\nThe command is manual, development-time only, and never runs during the public site runtime.`,
+  );
   process.exit(0);
 }
 
@@ -31,7 +33,9 @@ if (has('--pilot')) {
 } else if (selectedIds.length > 0) {
   selected = manifest.filter((asset) => selectedIds.includes(asset.id));
 } else {
-  console.error('Select --pilot, --id <asset-id>, or --all. No images were generated.');
+  console.error(
+    'Select --pilot, --id <asset-id>, or --all. No images were generated.',
+  );
   process.exit(1);
 }
 
@@ -42,7 +46,9 @@ if (selected.length === 0) {
 
 const apiKey = process.env.OPENAI_API_KEY;
 if (!apiKey) {
-  console.error('OPENAI_API_KEY is required locally. The public website never reads this value.');
+  console.error(
+    'OPENAI_API_KEY is required locally. The public website never reads this value.',
+  );
   process.exit(1);
 }
 
@@ -61,7 +67,9 @@ for (const asset of selected) {
   }
 
   if (exists && !force) {
-    console.log(`Skipping ${asset.id}: ${asset.output} already exists. Use --force to regenerate.`);
+    console.log(
+      `Skipping ${asset.id}: ${asset.output} already exists. Use --force to regenerate.`,
+    );
     continue;
   }
 
@@ -85,7 +93,9 @@ for (const asset of selected) {
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(`OpenAI image generation failed for ${asset.id}: ${response.status} ${body}`);
+    throw new Error(
+      `OpenAI image generation failed for ${asset.id}: ${response.status} ${body}`,
+    );
   }
 
   const payload = await response.json();
@@ -103,4 +113,6 @@ for (const asset of selected) {
 }
 
 await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log('Editorial image manifest updated. Review generated files before committing them.');
+console.log(
+  'Editorial image manifest updated. Review generated files before committing them.',
+);

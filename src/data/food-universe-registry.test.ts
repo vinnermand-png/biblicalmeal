@@ -46,13 +46,17 @@ describe('V3C.16 canonical food universe registry', () => {
   it('does not imply recipe production while preparing relationship slots', () => {
     expect(
       CANONICAL_FOOD_UNIVERSE.every(
-        (item) => Array.isArray(item.relatedRecipeIds) && item.relatedRecipeIds.length === 0,
+        (item) =>
+          Array.isArray(item.relatedRecipeIds) &&
+          item.relatedRecipeIds.length === 0,
       ),
     ).toBe(true);
   });
 
   it('has explicit stage coverage for the current universe', () => {
-    expect(FOOD_UNIVERSE_STAGE_COUNTS['content-draft']).toBeGreaterThanOrEqual(2);
+    expect(FOOD_UNIVERSE_STAGE_COUNTS['content-draft']).toBeGreaterThanOrEqual(
+      2,
+    );
     expect(FOOD_UNIVERSE_STAGE_COUNTS['research-required']).toBeGreaterThan(0);
     expect(FOOD_UNIVERSE_STAGE_COUNTS.excluded).toBeGreaterThan(0);
   });

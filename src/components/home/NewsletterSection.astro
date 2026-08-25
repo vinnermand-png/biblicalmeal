@@ -2,21 +2,76 @@
 import NewsletterForm from '../islands/NewsletterForm.tsx';
 ---
 
-<section class="newsletter-world relative isolate overflow-hidden border-y border-line" id="newsletter">
+<section
+  class="newsletter-world relative isolate overflow-hidden border-y border-line"
+  id="newsletter"
+>
   <div class="newsletter-world__olive" aria-hidden="true"></div>
   <div class="relative container-site section-space-compact">
-    <div class="newsletter-world__panel reveal mx-auto max-w-4xl px-6 py-10 sm:px-10 sm:py-12 lg:px-14">
+    <div
+      class="newsletter-world__panel reveal mx-auto max-w-4xl px-6 py-10 sm:px-10 sm:py-12 lg:px-14"
+    >
       <div class="grid items-center gap-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-14">
-        <div class="space-y-5 text-center lg:text-left"><p class="text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase">The BiblicalMeal Letter</p><h2 class="font-display text-h2 text-ink">Bring the biblical table to your kitchen<span class="text-terracotta">.</span></h2><p class="text-body text-ink-muted">New recipes, ingredient histories, and notes from the test kitchen — a short, considered letter.</p></div>
-        <div class="border-t border-line pt-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"><NewsletterForm client:visible /><p class="mt-4 text-caption text-ink-muted/70">No noise, unsubscribe anytime.</p></div>
+        <div class="space-y-5 text-center lg:text-left">
+          <p
+            class="text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
+          >
+            The BiblicalMeal Letter
+          </p><h2 class="font-display text-h2 text-ink">
+            Bring the biblical table to your kitchen<span
+              class="text-terracotta">.</span
+            >
+          </h2><p class="text-body text-ink-muted">
+            New recipes, ingredient histories, and notes from the test kitchen —
+            a short, considered letter.
+          </p>
+        </div>
+        <div
+          class="border-t border-line pt-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
+        >
+          <NewsletterForm client:visible /><p
+            class="mt-4 text-caption text-ink-muted/70"
+          >
+            No noise, unsubscribe anytime.
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .newsletter-world { background:linear-gradient(120deg, var(--color-background), var(--color-background-alt)); contain:paint; }
-  .newsletter-world__olive { position:absolute; width:26rem; height:26rem; left:-15rem; bottom:-17rem; border-radius:50%; background:radial-gradient(circle, rgb(92 107 60 / .1), transparent 68%); pointer-events:none; }
-  .newsletter-world__panel { position:relative; border:1px solid var(--color-line); border-radius:1rem; background:rgb(255 252 245 / .78); box-shadow:0 16px 40px rgb(41 32 24 / .05); }
-  .newsletter-world__panel::before { content:''; position:absolute; inset:.55rem; border:1px solid rgb(226 216 195 / .65); border-radius:.7rem; pointer-events:none; }
+  .newsletter-world {
+    background: linear-gradient(
+      120deg,
+      var(--color-background),
+      var(--color-background-alt)
+    );
+    contain: paint;
+  }
+  .newsletter-world__olive {
+    position: absolute;
+    width: 26rem;
+    height: 26rem;
+    left: -15rem;
+    bottom: -17rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(92 107 60 / 0.1), transparent 68%);
+    pointer-events: none;
+  }
+  .newsletter-world__panel {
+    position: relative;
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    background: rgb(255 252 245 / 0.78);
+    box-shadow: 0 16px 40px rgb(41 32 24 / 0.05);
+  }
+  .newsletter-world__panel::before {
+    content: '';
+    position: absolute;
+    inset: 0.55rem;
+    border: 1px solid rgb(226 216 195 / 0.65);
+    border-radius: 0.7rem;
+    pointer-events: none;
+  }
 </style>

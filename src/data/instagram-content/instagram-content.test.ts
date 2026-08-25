@@ -6,7 +6,10 @@ import {
   generateInstagramContent,
   validateInstagramContent,
 } from './engine';
-import { INSTAGRAM_CONTENT_RECORDS, INSTAGRAM_PROVIDER_BOUNDARY } from './records';
+import {
+  INSTAGRAM_CONTENT_RECORDS,
+  INSTAGRAM_PROVIDER_BOUNDARY,
+} from './records';
 
 describe('V3C.34 AI Daily Instagram Content Engine', () => {
   const prototype = INSTAGRAM_CONTENT_RECORDS.find(
@@ -30,7 +33,9 @@ describe('V3C.34 AI Daily Instagram Content Engine', () => {
   it('rejects invalid canonical source relationships and fabricated evidence links', () => {
     const invalid = {
       ...prototype!,
-      canonicalSources: [{ kind: 'ai-website-content' as const, id: 'missing-source' }],
+      canonicalSources: [
+        { kind: 'ai-website-content' as const, id: 'missing-source' },
+      ],
       sourceWebsiteContentId: 'missing-source',
       citationReferences: ['fabricated-citation'],
     };
@@ -42,13 +47,23 @@ describe('V3C.34 AI Daily Instagram Content Engine', () => {
 
   it('prevents duplicate social ownership for the same canonical website source and mode', () => {
     const duplicate = { ...prototype!, id: 'duplicate-social-record' };
-    expect(duplicateInstagramSourceIds([prototype!, duplicate])).toEqual(['duplicate-social-record']);
-    expect(auditInstagramContent([prototype!, duplicate]).some((issue) => issue.code === 'duplicate-social-content-ownership')).toBe(true);
+    expect(duplicateInstagramSourceIds([prototype!, duplicate])).toEqual([
+      'duplicate-social-record',
+    ]);
+    expect(
+      auditInstagramContent([prototype!, duplicate]).some(
+        (issue) => issue.code === 'duplicate-social-content-ownership',
+      ),
+    ).toBe(true);
   });
 
   it('requires image assets to remain connected to the same website content and editorial boundary', () => {
     const invalid = { ...prototype!, sourceImageAssetIds: ['missing-image'] };
-    expect(auditInstagramContent([invalid]).some((issue) => issue.code === 'invalid-image-relationship')).toBe(true);
+    expect(
+      auditInstagramContent([invalid]).some(
+        (issue) => issue.code === 'invalid-image-relationship',
+      ),
+    ).toBe(true);
   });
 
   it('keeps review and publication boundaries closed when the canonical website source is not publication eligible', async () => {
@@ -60,8 +75,11 @@ describe('V3C.34 AI Daily Instagram Content Engine', () => {
 
   it('handles provider failure with retry state and no fabricated publication readiness', async () => {
     const failed = await generateInstagramContent(prototype!, {
-      kind: 'external-ai', configured: true,
-      generate: async () => { throw new Error('provider unavailable'); },
+      kind: 'external-ai',
+      configured: true,
+      generate: async () => {
+        throw new Error('provider unavailable');
+      },
     });
     expect(failed.status).toBe('generation-failed');
     expect(failed.retryCount).toBe(prototype!.retryCount + 1);
@@ -72,6 +90,8 @@ describe('V3C.34 AI Daily Instagram Content Engine', () => {
 
   it('keeps external AI and Instagram publishing integrations unconfigured by default', () => {
     expect(INSTAGRAM_PROVIDER_BOUNDARY.aiProviderMode).toBe('not-configured');
-    expect(INSTAGRAM_PROVIDER_BOUNDARY.instagramPublishingMode).toBe('external-integration-not-configured');
+    expect(INSTAGRAM_PROVIDER_BOUNDARY.instagramPublishingMode).toBe(
+      'external-integration-not-configured',
+    );
   });
 });

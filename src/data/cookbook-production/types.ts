@@ -1,10 +1,18 @@
-import type { RecipeContentProductionStatus, RecipeEditorialReviewStatus } from '../recipe-content/types';
+import type {
+  RecipeContentProductionStatus,
+  RecipeEditorialReviewStatus,
+} from '../recipe-content/types';
 import type { RecipePublicationStatus } from '../recipe-research/types';
 
 /** V3C.29 — Cookbook Production System.
  * Cookbook records organize existing recipe content; they never own or upgrade recipes.
  */
-export type CookbookProductionStatus = 'not-started' | 'in-production' | 'editorial-review' | 'approved' | 'published';
+export type CookbookProductionStatus =
+  | 'not-started'
+  | 'in-production'
+  | 'editorial-review'
+  | 'approved'
+  | 'published';
 export type CookbookPublicationStatus = 'draft' | 'published';
 
 export interface CookbookSection {

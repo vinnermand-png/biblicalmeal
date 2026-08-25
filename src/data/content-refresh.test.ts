@@ -12,15 +12,21 @@ import {
 
 describe('V3C.27 content refresh foundation', () => {
   it('derives refresh candidates from canonical existing SEO targets', () => {
-    expect(CONTENT_REFRESH_CANDIDATES.map((candidate) => candidate.targetId)).toEqual(
-      SEO_TARGETS.filter((target) => target.status !== 'not-pursuing').map((target) => target.id),
+    expect(
+      CONTENT_REFRESH_CANDIDATES.map((candidate) => candidate.targetId),
+    ).toEqual(
+      SEO_TARGETS.filter((target) => target.status !== 'not-pursuing').map(
+        (target) => target.id,
+      ),
     );
     expect(auditContentRefreshSystem()).toEqual([]);
   });
 
   it('does not create refresh work or fake triggers without real observations', () => {
     expect(CONTENT_REFRESH_RECORDS).toEqual([]);
-    const context = getSerpRefreshContext(CONTENT_REFRESH_CANDIDATES[0].targetId);
+    const context = getSerpRefreshContext(
+      CONTENT_REFRESH_CANDIDATES[0].targetId,
+    );
     expect(context.availability).toBe('future-source');
     expect(context.positionStatus).toBe('not-measured');
   });
@@ -37,13 +43,15 @@ describe('V3C.27 content refresh foundation', () => {
           type: 'serp-observation',
           evidenceState: 'missing-data',
           observedOn: '2026-08-24',
-          summary: 'No imported measurement exists yet; this is not a refresh trigger.',
+          summary:
+            'No imported measurement exists yet; this is not a refresh trigger.',
         },
         {
           type: 'editorial-observation',
           evidenceState: 'observation',
           observedOn: '2026-08-24',
-          summary: 'Editorial review should determine whether a material change is needed.',
+          summary:
+            'Editorial review should determine whether a material change is needed.',
         },
       ],
       history: [
@@ -61,7 +69,9 @@ describe('V3C.27 content refresh foundation', () => {
 
     expect(hasRealRefreshTrigger(record)).toBe(false);
     expect(isReadyForExistingPublicationGates(record)).toBe(false);
-    expect(auditContentRefreshSystem(CONTENT_REFRESH_CANDIDATES, [record])).toEqual([]);
+    expect(
+      auditContentRefreshSystem(CONTENT_REFRESH_CANDIDATES, [record]),
+    ).toEqual([]);
   });
 
   it('requires a real trigger before publication-gate hand-off and rejects bypasses', () => {
@@ -76,7 +86,8 @@ describe('V3C.27 content refresh foundation', () => {
           type: 'research-update',
           evidenceState: 'observation',
           observedOn: '2026-08-24',
-          summary: 'Needs research review, but no verified trigger is recorded.',
+          summary:
+            'Needs research review, but no verified trigger is recorded.',
         },
       ],
       history: [
@@ -92,8 +103,12 @@ describe('V3C.27 content refresh foundation', () => {
       requiresExistingPublicationGate: false,
     };
 
-    const issues = auditContentRefreshSystem(CONTENT_REFRESH_CANDIDATES, [invalidRecord]);
-    expect(issues).toContain('Refresh record bypasses existing publication gates: refresh-invalid.');
+    const issues = auditContentRefreshSystem(CONTENT_REFRESH_CANDIDATES, [
+      invalidRecord,
+    ]);
+    expect(issues).toContain(
+      'Refresh record bypasses existing publication gates: refresh-invalid.',
+    );
     expect(issues).toContain(
       'Refresh record cannot reach publication hand-off without a real trigger: refresh-invalid.',
     );

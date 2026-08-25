@@ -44,7 +44,8 @@ export const VISUAL_DIRECTION = {
   motion: {
     duration: '200ms to 550ms',
     behavior: 'Subtle opacity, position, image, and hover transitions only.',
-    reducedMotion: 'Respect prefers-reduced-motion and avoid decorative motion.',
+    reducedMotion:
+      'Respect prefers-reduced-motion and avoid decorative motion.',
   },
   materialDirection: [
     'parchment',

@@ -10,48 +10,117 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   name: 'Sources & Research Records',
-  description: 'The current canonical source registry used by BiblicalMeal research and citation systems, including explicit review and uncertainty notes.',
+  description:
+    'The current canonical source registry used by BiblicalMeal research and citation systems, including explicit review and uncertainty notes.',
   url: new URL('/sources/', Astro.site).toString(),
   inLanguage: 'en',
 };
 ---
-<BaseLayout title="Sources & Research Records" description="The current canonical source registry used by BiblicalMeal research and citation systems, including explicit review and uncertainty notes." jsonLd={[schema]}>
+
+<BaseLayout
+  title="Sources & Research Records"
+  description="The current canonical source registry used by BiblicalMeal research and citation systems, including explicit review and uncertainty notes."
+  jsonLd={[schema]}
+>
   <Header />
   <main id="main">
-    <section class="container-site section-space max-w-4xl">
+    <section class="container-site max-w-4xl section-space">
       <Breadcrumbs items={[{ label: 'Sources & Research Records' }]} />
-      <p class="mt-8 font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">Research transparency</p>
-      <h1 class="mt-4 font-display text-display text-ink">Sources & Research Records</h1>
-      <p class="mt-6 max-w-3xl text-body-lg text-ink-muted">This page exposes the current canonical source registry used by BiblicalMeal. A source being listed does not automatically mean that every related claim is verified, every question is resolved, or every source has equal evidentiary weight.</p>
+      <p
+        class="mt-8 font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
+      >
+        Research transparency
+      </p>
+      <h1 class="mt-4 font-display text-display text-ink">
+        Sources & Research Records
+      </h1>
+      <p class="mt-6 max-w-3xl text-body-lg text-ink-muted">
+        This page exposes the current canonical source registry used by
+        BiblicalMeal. A source being listed does not automatically mean that
+        every related claim is verified, every question is resolved, or every
+        source has equal evidentiary weight.
+      </p>
     </section>
 
-    <section class="container-site pb-16 max-w-4xl">
-      <div class="rounded-card border border-border bg-surface p-6 text-body text-ink-muted">
+    <section class="container-site max-w-4xl pb-16">
+      <div
+        class="rounded-card border-border border bg-surface p-6 text-body text-ink-muted"
+      >
         <p class="font-display text-h3 text-ink">How to read this register</p>
-        <p class="mt-3">Source metadata, review notes, authority classification, claim verification, and publication eligibility are separate systems. BiblicalMeal keeps those distinctions deliberately visible so a bibliography cannot be mistaken for proof of every downstream statement.</p>
-        <p class="mt-3">For the editorial rules behind this separation, read the <a class="font-semibold text-terracotta-dark underline" href="/editorial-method/">Editorial Method & Evidence</a>.</p>
+        <p class="mt-3">
+          Source metadata, review notes, authority classification, claim
+          verification, and publication eligibility are separate systems.
+          BiblicalMeal keeps those distinctions deliberately visible so a
+          bibliography cannot be mistaken for proof of every downstream
+          statement.
+        </p>
+        <p class="mt-3">
+          For the editorial rules behind this separation, read the <a
+            class="font-semibold text-terracotta-dark underline"
+            href="/editorial-method/">Editorial Method & Evidence</a
+          >.
+        </p>
       </div>
 
       <div class="mt-10 space-y-6">
-        {sources.map((source) => (
-          <article class="rounded-card border border-border bg-cream p-6 sm:p-8">
-            <div class="flex flex-wrap items-center gap-3">
-              <p class="font-sans text-caption font-semibold tracking-wide text-terracotta-dark uppercase">{source.kind}</p>
-              <span class="text-ink-muted" aria-hidden="true">•</span>
-              <p class="text-caption text-ink-muted">{source.primarySource ? 'Primary source record' : 'Secondary or contextual source record'}</p>
-            </div>
-            <h2 class="mt-3 font-display text-h3 text-ink">{source.title}</h2>
-            <p class="mt-2 text-body text-ink-muted">
-              {[source.author, source.organization, source.publisher, source.year].filter(Boolean).join(' · ')}
-            </p>
-            {source.identifier && <p class="mt-4 text-body"><a class="font-semibold text-terracotta-dark underline break-all" href={source.identifier}>{source.identifier}</a></p>}
-            <dl class="mt-5 grid gap-3 border-t border-border pt-5 text-caption sm:grid-cols-2">
-              <div><dt class="font-semibold text-ink">Reliability state</dt><dd class="mt-1 text-ink-muted">{source.reliability}</dd></div>
-              <div><dt class="font-semibold text-ink">Reviewed</dt><dd class="mt-1 text-ink-muted">{source.reviewedAt ?? 'No review date recorded in the canonical registry.'}</dd></div>
-            </dl>
-            <p class="mt-5 text-body text-ink-muted">{source.notes}</p>
-          </article>
-        ))}
+        {
+          sources.map((source) => (
+            <article class="rounded-card border-border border bg-cream p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-3">
+                <p class="font-sans text-caption font-semibold tracking-wide text-terracotta-dark uppercase">
+                  {source.kind}
+                </p>
+                <span class="text-ink-muted" aria-hidden="true">
+                  •
+                </span>
+                <p class="text-caption text-ink-muted">
+                  {source.primarySource
+                    ? 'Primary source record'
+                    : 'Secondary or contextual source record'}
+                </p>
+              </div>
+              <h2 class="mt-3 font-display text-h3 text-ink">{source.title}</h2>
+              <p class="mt-2 text-body text-ink-muted">
+                {[
+                  source.author,
+                  source.organization,
+                  source.publisher,
+                  source.year,
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+              {source.identifier && (
+                <p class="mt-4 text-body">
+                  <a
+                    class="font-semibold break-all text-terracotta-dark underline"
+                    href={source.identifier}
+                  >
+                    {source.identifier}
+                  </a>
+                </p>
+              )}
+              <dl class="border-border mt-5 grid gap-3 border-t pt-5 text-caption sm:grid-cols-2">
+                <div>
+                  <>
+                    <dt class="font-semibold text-ink">Reliability state</dt>
+                    <dd class="mt-1 text-ink-muted">{source.reliability}</dd>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <dt class="font-semibold text-ink">Reviewed</dt>
+                    <dd class="mt-1 text-ink-muted">
+                      {source.reviewedAt ??
+                        'No review date recorded in the canonical registry.'}
+                    </dd>
+                  </>
+                </div>
+              </dl>
+              <p class="mt-5 text-body text-ink-muted">{source.notes}</p>
+            </article>
+          ))
+        }
       </div>
     </section>
   </main>

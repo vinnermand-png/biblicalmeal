@@ -17,8 +17,10 @@ export type ExternalAuthorityOpportunityStatus =
   | 'verified-mention-link'
   | 'rejected';
 
-export type ExternalAuthorityQualityAssessment = 'high' | 'medium' | 'insufficient';
-export type ExternalAuthorityVerificationState = 'unverified' | 'verified' | 'rejected';
+export type ExternalAuthorityQualityAssessment =
+  'high' | 'medium' | 'insufficient';
+export type ExternalAuthorityVerificationState =
+  'unverified' | 'verified' | 'rejected';
 
 export interface ExternalAuthorityContactEvent {
   channel: string;

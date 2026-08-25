@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { ADMIN_OVERVIEW } from '../data/admin/overview';
 
-const eligible = ADMIN_OVERVIEW.workflowItems.filter((item) => item.publicationEligible).length;
+const eligible = ADMIN_OVERVIEW.workflowItems.filter(
+  (item) => item.publicationEligible,
+).length;
 const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
 ---
 
@@ -16,27 +18,31 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
       <p class="eyebrow">BiblicalMeal internal foundation</p>
       <h1>Admin &amp; Content Overview</h1>
       <p>
-        Canonical visibility is available now. Authenticated draft persistence requires real server-side
-        authentication and storage providers, and never grants direct publication authority.
+        Canonical visibility is available now. Authenticated draft persistence
+        requires real server-side authentication and storage providers, and
+        never grants direct publication authority.
       </p>
     </header>
 
     <section class="admin-notice" aria-label="Admin access model">
       <strong>Access mode: {ADMIN_OVERVIEW.accessMode}</strong>
       <span>
-        V3C.37 defines the authentication, authorization and persistence boundary. Until real providers are
-        configured, the deployed dashboard remains visibility-only and canonical publication gates stay closed.
+        V3C.37 defines the authentication, authorization and persistence
+        boundary. Until real providers are configured, the deployed dashboard
+        remains visibility-only and canonical publication gates stay closed.
       </span>
     </section>
 
     <section class="metrics" aria-label="Canonical system summary">
-      {ADMIN_OVERVIEW.metrics.map((metric) => (
-        <article class="metric-card">
-          <span>{metric.label}</span>
-          <strong>{metric.value}</strong>
-          <p>{metric.note}</p>
-        </article>
-      ))}
+      {
+        ADMIN_OVERVIEW.metrics.map((metric) => (
+          <article class="metric-card">
+            <span>{metric.label}</span>
+            <strong>{metric.value}</strong>
+            <p>{metric.note}</p>
+          </article>
+        ))
+      }
     </section>
 
     <section class="readiness" aria-labelledby="readiness-heading">
@@ -51,20 +57,31 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
     </section>
 
     <section class="workflow" aria-label="Canonical workflow items">
-      {ADMIN_OVERVIEW.workflowItems.map((item) => (
-        <article class="workflow-item">
-          <div class="workflow-topline">
-            <span class="kind">{item.kind}</span>
-            <span class:list={['status', { eligible: item.publicationEligible }]}>{item.stage}</span>
-          </div>
-          <h3>{item.label}</h3>
-          <p class="state">Publication: {item.publicationState}</p>
-          <p class="relationships"><strong>Canonical relationships:</strong> {item.relationships.join(', ') || 'None'}</p>
-          {item.blockers.length > 0 && (
-            <p class="blockers"><strong>Blockers:</strong> {item.blockers.join(' ')}</p>
-          )}
-        </article>
-      ))}
+      {
+        ADMIN_OVERVIEW.workflowItems.map((item) => (
+          <article class="workflow-item">
+            <div class="workflow-topline">
+              <span class="kind">{item.kind}</span>
+              <span
+                class:list={['status', { eligible: item.publicationEligible }]}
+              >
+                {item.stage}
+              </span>
+            </div>
+            <h3>{item.label}</h3>
+            <p class="state">Publication: {item.publicationState}</p>
+            <p class="relationships">
+              <strong>Canonical relationships:</strong>{' '}
+              {item.relationships.join(', ') || 'None'}
+            </p>
+            {item.blockers.length > 0 && (
+              <p class="blockers">
+                <strong>Blockers:</strong> {item.blockers.join(' ')}
+              </p>
+            )}
+          </article>
+        ))
+      }
     </section>
 
     <section class="admin-warning" aria-labelledby="warning-heading">
@@ -77,25 +94,112 @@ const blocked = ADMIN_OVERVIEW.workflowItems.length - eligible;
 </BaseLayout>
 
 <style>
-  .admin-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 4rem 0 5rem; }
-  .admin-header { max-width: 780px; }
-  .eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; opacity: .72; }
-  .admin-header h1 { margin: .35rem 0 .8rem; }
-  .admin-notice, .admin-warning { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--border, #ddd); border-radius: 1rem; display: grid; gap: .55rem; }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
-  .metric-card, .workflow-item { border: 1px solid var(--border, #ddd); border-radius: 1rem; padding: 1rem; }
-  .metric-card strong { display: block; font-size: 1.7rem; margin-top: .35rem; }
-  .metric-card p { font-size: .88rem; opacity: .78; }
-  .readiness { display: flex; justify-content: space-between; gap: 1rem; align-items: end; margin: 2.5rem 0 1rem; }
-  .readiness h2 { margin: .2rem 0 0; }
-  .readiness-counts { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .workflow { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-  .workflow-topline { display: flex; justify-content: space-between; gap: .5rem; align-items: center; }
-  .kind, .status { font-size: .76rem; text-transform: uppercase; letter-spacing: .08em; }
-  .status.eligible { font-weight: 700; }
-  .workflow-item h3 { margin: .7rem 0; }
-  .state, .relationships, .blockers { font-size: .9rem; }
-  .admin-warning { margin-top: 2rem; }
-  .admin-warning ul { margin: 0; padding-left: 1.25rem; display: grid; gap: .55rem; }
-  @media (max-width: 640px) { .admin-shell { padding-top: 2.5rem; } .readiness { align-items: start; flex-direction: column; } }
+  .admin-shell {
+    width: min(1180px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 4rem 0 5rem;
+  }
+  .admin-header {
+    max-width: 780px;
+  }
+  .eyebrow {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.72;
+  }
+  .admin-header h1 {
+    margin: 0.35rem 0 0.8rem;
+  }
+  .admin-notice,
+  .admin-warning {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .metric-card,
+  .workflow-item {
+    border: 1px solid var(--border, #ddd);
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+  .metric-card strong {
+    display: block;
+    font-size: 1.7rem;
+    margin-top: 0.35rem;
+  }
+  .metric-card p {
+    font-size: 0.88rem;
+    opacity: 0.78;
+  }
+  .readiness {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: end;
+    margin: 2.5rem 0 1rem;
+  }
+  .readiness h2 {
+    margin: 0.2rem 0 0;
+  }
+  .readiness-counts {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .workflow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .workflow-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .kind,
+  .status {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .status.eligible {
+    font-weight: 700;
+  }
+  .workflow-item h3 {
+    margin: 0.7rem 0;
+  }
+  .state,
+  .relationships,
+  .blockers {
+    font-size: 0.9rem;
+  }
+  .admin-warning {
+    margin-top: 2rem;
+  }
+  .admin-warning ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+  @media (max-width: 640px) {
+    .admin-shell {
+      padding-top: 2.5rem;
+    }
+    .readiness {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
 </style>

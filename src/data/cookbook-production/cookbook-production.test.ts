@@ -6,12 +6,20 @@ import {
   COOKBOOK_SECTIONS,
   RECIPE_CONTENT_BY_ID,
 } from './records';
-import type { CookbookRecord, CookbookRecipeInclusion, CookbookSection } from './types';
+import type {
+  CookbookRecord,
+  CookbookRecipeInclusion,
+  CookbookSection,
+} from './types';
 
-const canonicalRecipe = RECIPE_CONTENT_BY_ID.get('recipe-content-lentil-pottage');
+const canonicalRecipe = RECIPE_CONTENT_BY_ID.get(
+  'recipe-content-lentil-pottage',
+);
 
 if (!canonicalRecipe) {
-  throw new Error('Cookbook validation fixture requires canonical lentil recipe content.');
+  throw new Error(
+    'Cookbook validation fixture requires canonical lentil recipe content.',
+  );
 }
 
 const cookbook: CookbookRecord = {
@@ -56,11 +64,16 @@ describe('V3C.30 cookbook production audit', () => {
   });
 
   it('accepts a valid draft structure without publishing it', () => {
-    expect(auditCookbookProduction([cookbook], [section], [inclusion]).valid).toBe(true);
+    expect(
+      auditCookbookProduction([cookbook], [section], [inclusion]).valid,
+    ).toBe(true);
   });
 
   it('rejects duplicate cookbook ownership', () => {
-    expect(auditCookbookProduction([cookbook], [section], [inclusion, inclusion]).valid).toBe(false);
+    expect(
+      auditCookbookProduction([cookbook], [section], [inclusion, inclusion])
+        .valid,
+    ).toBe(false);
   });
 
   it('rejects invalid recipe references', () => {
@@ -96,7 +109,13 @@ describe('V3C.30 cookbook production audit', () => {
   it('rejects lifecycle and publication gate bypass', () => {
     expect(
       auditCookbookProduction(
-        [{ ...cookbook, productionStatus: 'published', publicationEligible: false }],
+        [
+          {
+            ...cookbook,
+            productionStatus: 'published',
+            publicationEligible: false,
+          },
+        ],
         [section],
         [{ ...inclusion, publicationStatus: 'public', productionReady: false }],
       ).valid,

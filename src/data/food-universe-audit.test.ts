@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  FOOD_UNIVERSE_AUDIT,
-  auditFoodUniverse,
-} from './food-universe-audit';
+import { FOOD_UNIVERSE_AUDIT, auditFoodUniverse } from './food-universe-audit';
 import { FOOD_CATEGORIES, FOOD_UNIVERSE } from './food-universe';
 
 describe('V3C.16 Full Biblical Foods Universe', () => {
@@ -33,7 +30,9 @@ describe('V3C.16 Full Biblical Foods Universe', () => {
 
   it('connects known direct page candidates to the existing SEO universe', () => {
     expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain('figs');
-    expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain('barley');
+    expect(FOOD_UNIVERSE_AUDIT.directPageCandidateTargetIds).toContain(
+      'barley',
+    );
   });
 
   it('surfaces unmapped direct page candidates honestly for the next expansion pass', () => {
@@ -54,6 +53,8 @@ describe('V3C.16 Full Biblical Foods Universe', () => {
     ]);
 
     expect(broken.issues.map((issue) => issue.code)).toContain('duplicate-id');
-    expect(broken.issues.map((issue) => issue.code)).toContain('duplicate-name');
+    expect(broken.issues.map((issue) => issue.code)).toContain(
+      'duplicate-name',
+    );
   });
 });

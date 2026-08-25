@@ -14,8 +14,10 @@ import type {
  * underlying evidence boundaries visible.
  */
 
-export type RecipeContentProductionStatus = 'not-started' | 'draft' | 'produced';
-export type RecipeEditorialReviewStatus = 'not-started' | 'in-review' | 'approved';
+export type RecipeContentProductionStatus =
+  'not-started' | 'draft' | 'produced';
+export type RecipeEditorialReviewStatus =
+  'not-started' | 'in-review' | 'approved';
 
 export interface RecipeContentIngredient {
   /** Optional when a modern kitchen necessity is not itself a canonical food concept. */

@@ -50,8 +50,12 @@ describe('V3C.26 ongoing SERP monitoring foundation', () => {
     ];
 
     expect(auditSerpMonitoring(SERP_MONITORING_TARGETS, snapshots)).toEqual([]);
-    expect(getLatestSerpSnapshot(target.targetId, snapshots)).toBe(snapshots[0]);
-    expect(getSerpTargetStatus(target.targetId, snapshots).availability).toBe('measured');
+    expect(getLatestSerpSnapshot(target.targetId, snapshots)).toBe(
+      snapshots[0],
+    );
+    expect(getSerpTargetStatus(target.targetId, snapshots).availability).toBe(
+      'measured',
+    );
   });
 
   it('rejects synthetic-looking invalid values and unknown target references', () => {
@@ -77,12 +81,20 @@ describe('V3C.26 ongoing SERP monitoring foundation', () => {
     ];
 
     const issues = auditSerpMonitoring(SERP_MONITORING_TARGETS, snapshots);
-    expect(issues).toContain('Snapshot references unknown SEO target: unknown-target.');
-    expect(issues).toContain('Snapshot date must be ISO calendar format: unknown-target.');
+    expect(issues).toContain(
+      'Snapshot references unknown SEO target: unknown-target.',
+    );
+    expect(issues).toContain(
+      'Snapshot date must be ISO calendar format: unknown-target.',
+    );
     expect(issues).toContain('Measurement query is missing: unknown-target.');
-    expect(issues).toContain('Position must be greater than zero: unknown-target.');
+    expect(issues).toContain(
+      'Position must be greater than zero: unknown-target.',
+    );
     expect(issues).toContain('Impressions cannot be negative: unknown-target.');
     expect(issues).toContain('Clicks cannot be negative: unknown-target.');
-    expect(issues).toContain('Average CTR must be between 0 and 1: unknown-target.');
+    expect(issues).toContain(
+      'Average CTR must be between 0 and 1: unknown-target.',
+    );
   });
 });

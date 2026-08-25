@@ -23,7 +23,9 @@ describe('V3C.19 article and question content', () => {
       'article-dates-palm-evidence-boundaries',
       'article-honey-evidence-boundaries',
     ]) {
-      const record = ARTICLE_CONTENT_RECORDS.find((candidate) => candidate.id === id);
+      const record = ARTICLE_CONTENT_RECORDS.find(
+        (candidate) => candidate.id === id,
+      );
       expect(record?.evidenceState).toBe('supported');
       expect(record?.claimStrength).toBe('supported');
       expect(record?.researchDossierIds.length).toBeGreaterThan(0);
@@ -36,15 +38,21 @@ describe('V3C.19 article and question content', () => {
       (record) => record.id === 'question-what-does-barley-evidence-support',
     );
     const dates = ARTICLE_CONTENT_RECORDS.find(
-      (record) => record.id === 'question-do-palm-references-always-mean-edible-dates',
+      (record) =>
+        record.id === 'question-do-palm-references-always-mean-edible-dates',
     );
     const honey = ARTICLE_CONTENT_RECORDS.find(
-      (record) => record.id === 'question-does-biblical-honey-always-mean-bee-honey',
+      (record) =>
+        record.id === 'question-does-biblical-honey-always-mean-bee-honey',
     );
 
     expect(barley?.answerContent).toContain('do not by themselves establish');
-    expect(dates?.answerContent).toContain('not automatically edible-date references');
-    expect(honey?.answerContent).toContain('does not resolve bee honey versus syrup');
+    expect(dates?.answerContent).toContain(
+      'not automatically edible-date references',
+    );
+    expect(honey?.answerContent).toContain(
+      'does not resolve bee honey versus syrup',
+    );
   });
 
   it('keeps unresolved question answers explicitly limited', () => {
@@ -59,11 +67,13 @@ describe('V3C.19 article and question content', () => {
   });
 
   it('creates data-level internal relationships without inventing a parallel link system', () => {
-    const recordsById = new Set(ARTICLE_CONTENT_RECORDS.map((record) => record.id));
+    const recordsById = new Set(
+      ARTICLE_CONTENT_RECORDS.map((record) => record.id),
+    );
     expect(
-      ARTICLE_CONTENT_RECORDS
-        .filter((record) => record.id !== 'article-biblical-food-evidence-labels')
-        .some((record) => record.relatedContentIds.length > 0),
+      ARTICLE_CONTENT_RECORDS.filter(
+        (record) => record.id !== 'article-biblical-food-evidence-labels',
+      ).some((record) => record.relatedContentIds.length > 0),
     ).toBe(true);
 
     for (const record of ARTICLE_CONTENT_RECORDS) {
@@ -109,7 +119,9 @@ describe('V3C.19 article and question content', () => {
       publicationStatus: 'public',
       publicationEligible: true,
     };
-    expect(auditArticleContent([invalid]).issues.map((issue) => issue.code)).toEqual(
+    expect(
+      auditArticleContent([invalid]).issues.map((issue) => issue.code),
+    ).toEqual(
       expect.arrayContaining([
         'self-related-content-reference',
         'invalid-lifecycle',
