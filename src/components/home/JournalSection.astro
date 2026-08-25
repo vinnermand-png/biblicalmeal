@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import EditorialImage from '../common/EditorialImage.astro';
+
+type ArticleEntry = CollectionEntry<'articles'>;
+type RecipeEntry = CollectionEntry<'recipes'>;
+interface Props { articles: ArticleEntry[]; recipe: RecipeEntry; }
+const { articles, recipe } = Astro.props;
+---
+
+<section class="bm-journal" aria-labelledby="bm-journal-title">
+  <div class="container-site">
+    <div class="bm-journal__intro">
+      <div><p class="bm-eyebrow">From the Journal</p><h2 id="bm-journal-title">Stories, research, and inspiration.</h2></div>
+      <a href="/articles/">View all articles <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="bm-journal__grid">
+      {articles.map((article) => (
+        <a class="bm-journal-card" href={`/articles/${article.id}/`}>
+          <EditorialImage id={article.data.art === 'mediterranean' ? 'journal-mediterranean-landscape' : article.id === 'how-we-research' ? 'journal-research-manuscript' : 'journal-ancient-table'} fallbackArt={article.data.art ?? 'still-life'} ratio="16 / 10" alt={article.data.title} />
+          <div class="bm-journal-card__shade"></div>
+          <div class="bm-journal-card__copy"><span>{article.data.category}</span><h3>{article.data.title}</h3><b>Read article <span aria-hidden="true">→</span></b></div>
+        </a>
+      ))}
+      <a class="bm-journal-card" href={`/recipes/${recipe.id}/`}>
+        <EditorialImage id="journal-meal-preparation" fallbackArt="stew" ratio="16 / 10" alt="Lentil stew and ingredients prepared on a rustic table" />
+        <div class="bm-journal-card__shade"></div>
+        <div class="bm-journal-card__copy"><span>From the kitchen</span><h3>{recipe.data.title}</h3><b>Read recipe <span aria-hidden="true">→</span></b></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bm-journal { padding-block: 106px; background: #efe7d8; color: #292018; }
+  .bm-journal__intro { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid rgba(91,72,46,.16); }
+  .bm-journal__intro .bm-eyebrow { margin: 0 0 10px; color: #8f7b54; }
+  .bm-journal__intro h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.7rem, 4.5vw, 4.2rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; }
+  .bm-journal__intro > a { flex: 0 0 auto; color: #5b4c30; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+  .bm-journal__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .bm-journal-card { position: relative; height: 275px; overflow: hidden; border: 1px solid rgba(91,72,46,.15); background: #2a2119; }
+  .bm-journal-card :global(img) { width: 100%; height: 100%; object-fit: cover; filter: saturate(.76) contrast(1.04) brightness(.72); transition: transform 550ms ease; }
+  .bm-journal-card:hover :global(img) { transform: scale(1.025); }
+  .bm-journal-card__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,13,7,.04), rgba(9,13,7,.86)); }
+  .bm-journal-card__copy { position: absolute; right: 18px; bottom: 18px; left: 18px; color: #f3ebdd; }
+  .bm-journal-card__copy > span { color: #c7ab72; font-family: var(--font-sans); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .bm-journal-card__copy h3 { margin: 7px 0 10px; font-family: var(--font-display); font-size: 25px; font-weight: 400; line-height: 1.05; }
+  .bm-journal-card__copy b { display: inline-flex; gap: 9px; color: #c7ab72; font-family: var(--font-sans); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  @media (max-width: 800px) { .bm-journal { padding-block: 84px; } .bm-journal__intro { display: block; } .bm-journal__intro > a { display: inline-block; margin-top: 16px; } .bm-journal__grid { grid-template-columns: 1fr; } .bm-journal-card { height: 260px; } }
+</style>
