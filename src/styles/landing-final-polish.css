@@ -1,0 +1,264 @@
+/* BiblicalMeal landing — final visual QA layer. */
+
+.page-home #foods,
+.page-home #regions,
+.page-home #recipe,
+.page-home #newsletter {
+  color: var(--color-ink);
+}
+
+/* Featured Foods: editorial mosaic, larger imagery, readable copy. */
+.page-home #foods > .container-site > .mt-14.grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  align-items: stretch;
+}
+
+.page-home #foods .ingredient-card {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  border-color: color-mix(in srgb, var(--color-line) 88%, var(--color-gold));
+  background: var(--color-surface);
+  box-shadow: 0 14px 34px rgb(41 32 24 / 0.065);
+}
+
+.page-home #foods .ingredient-card:nth-child(1) {
+  grid-column: span 5;
+}
+
+.page-home #foods .ingredient-card:nth-child(2) {
+  grid-column: span 3;
+}
+
+.page-home #foods .ingredient-card:nth-child(3) {
+  grid-column: span 4;
+}
+
+.page-home #foods .ingredient-card:nth-child(4) {
+  grid-column: span 4;
+}
+
+.page-home #foods .ingredient-card:nth-child(5) {
+  grid-column: span 3;
+}
+
+.page-home #foods .ingredient-card:nth-child(6) {
+  grid-column: span 5;
+}
+
+.page-home #foods .ingredient-card__art {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.page-home #foods .ingredient-card:nth-child(1) .ingredient-card__art,
+.page-home #foods .ingredient-card:nth-child(6) .ingredient-card__art {
+  aspect-ratio: 16 / 10;
+}
+
+.page-home #foods .ingredient-card .space-y-3 {
+  flex: 1;
+  padding: clamp(1rem, 1.4vw, 1.35rem);
+}
+
+.page-home #foods .ingredient-card h3 {
+  color: var(--color-ink);
+  font-size: clamp(1.15rem, 1rem + 0.32vw, 1.55rem);
+  line-height: 1.05;
+}
+
+.page-home #foods .ingredient-card:nth-child(1) h3,
+.page-home #foods .ingredient-card:nth-child(6) h3 {
+  font-size: clamp(1.45rem, 1.25rem + 0.45vw, 1.95rem);
+}
+
+.page-home #foods .ingredient-card p {
+  color: var(--color-ink-muted);
+  font-size: clamp(0.84rem, 0.8rem + 0.08vw, 0.95rem);
+  line-height: 1.58;
+}
+
+.page-home #foods .ingredient-card:hover {
+  border-color: color-mix(in srgb, var(--color-terracotta) 28%, var(--color-line));
+  box-shadow: 0 20px 44px rgb(41 32 24 / 0.1);
+}
+
+.page-home #foods .ingredient-card .text-terracotta {
+  color: var(--color-terracotta-dark);
+}
+
+/* Strong contrast and calmer hierarchy around section headers. */
+.page-home #foods .text-eyebrow,
+.page-home #regions .text-eyebrow,
+.page-home #recipe .text-eyebrow {
+  color: var(--color-olive-dark);
+}
+
+.page-home #foods .text-body,
+.page-home #regions .text-body,
+.page-home #recipe .text-body,
+.page-home #newsletter .text-body {
+  color: var(--color-ink-muted);
+}
+
+/* Biblical World: real editorial photography + asymmetric magazine grid. */
+.page-home #regions > .container-site {
+  max-width: 92rem;
+}
+
+.page-home #regions .grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+}
+
+.page-home #regions .region-card {
+  grid-column: span 6;
+  min-height: 100%;
+  background: var(--color-surface);
+}
+
+.page-home #regions .region-card:nth-child(1),
+.page-home #regions .region-card:nth-child(4) {
+  grid-column: span 7;
+}
+
+.page-home #regions .region-card:nth-child(2),
+.page-home #regions .region-card:nth-child(3) {
+  grid-column: span 5;
+}
+
+.page-home #regions .region-card__art {
+  aspect-ratio: 16 / 10;
+}
+
+.page-home #regions .region-card:nth-child(1) .region-card__art,
+.page-home #regions .region-card:nth-child(4) .region-card__art {
+  aspect-ratio: 16 / 9;
+}
+
+.page-home #regions .region-card h3 {
+  color: var(--color-ink);
+  font-size: clamp(1.65rem, 1.35rem + 0.45vw, 2.2rem);
+  line-height: 1;
+}
+
+.page-home #regions .region-card .text-body {
+  max-width: 52ch;
+  color: var(--color-ink-muted);
+}
+
+.page-home #regions .region-card__photo-note {
+  opacity: 0.95;
+}
+
+.page-home #regions .region-card__horizon {
+  height: 45%;
+}
+
+/* Scripture block remains deliberately dark; keep every text node readable. */
+.page-home #scripture {
+  color: var(--color-cream);
+}
+
+.page-home #scripture .text-body-lg,
+.page-home #scripture .text-cream-muted {
+  color: var(--color-cream-muted);
+}
+
+/* Cookbook section: clearer contrast between book object and editorial copy. */
+.page-home .cookbook-feature {
+  color: var(--color-ink);
+}
+
+.page-home .cookbook-feature .text-body-lg,
+.page-home .cookbook-feature li p {
+  color: var(--color-ink-muted);
+}
+
+/* Newsletter close: stronger field and readable form area. */
+.page-home #newsletter .newsletter-world__panel {
+  background: color-mix(in srgb, var(--color-surface) 92%, white);
+  border-color: color-mix(in srgb, var(--color-line) 84%, var(--color-gold));
+}
+
+.page-home #newsletter input {
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border-color: var(--color-line);
+}
+
+.page-home #newsletter input::placeholder {
+  color: var(--color-ink-muted);
+  opacity: 0.9;
+}
+
+.page-home #newsletter input:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1099px) {
+  .page-home #foods > .container-site > .mt-14.grid,
+  .page-home #regions .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .page-home #foods .ingredient-card,
+  .page-home #foods .ingredient-card:nth-child(n),
+  .page-home #regions .region-card,
+  .page-home #regions .region-card:nth-child(n) {
+    grid-column: span 3;
+  }
+
+  .page-home #foods .ingredient-card:nth-child(1),
+  .page-home #foods .ingredient-card:nth-child(6),
+  .page-home #regions .region-card:nth-child(1),
+  .page-home #regions .region-card:nth-child(4) {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-home #foods > .container-site > .mt-14.grid,
+  .page-home #regions .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-home #foods .ingredient-card,
+  .page-home #foods .ingredient-card:nth-child(n),
+  .page-home #regions .region-card,
+  .page-home #regions .region-card:nth-child(n) {
+    grid-column: auto;
+  }
+
+  .page-home #foods .ingredient-card__art,
+  .page-home #foods .ingredient-card:nth-child(1) .ingredient-card__art,
+  .page-home #foods .ingredient-card:nth-child(6) .ingredient-card__art,
+  .page-home #regions .region-card__art,
+  .page-home #regions .region-card:nth-child(1) .region-card__art,
+  .page-home #regions .region-card:nth-child(4) .region-card__art {
+    aspect-ratio: 4 / 3;
+  }
+
+  .page-home #foods .ingredient-card h3,
+  .page-home #foods .ingredient-card:nth-child(1) h3,
+  .page-home #foods .ingredient-card:nth-child(6) h3 {
+    font-size: 1.35rem;
+  }
+
+  .page-home #regions .region-card h3 {
+    font-size: 1.7rem;
+  }
+
+  .page-home #regions .region-card__photo-note {
+    font-size: 0.58rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-home #foods .ingredient-card,
+  .page-home #regions .region-card {
+    transition: none;
+  }
+}
