@@ -1,5 +1,5 @@
 ---
-import { getVisibleIngredients } from '../lib/queries';
+import { getVisibleIngredients, getVisibleRecipes } from '../lib/queries';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
@@ -8,6 +8,7 @@ import IngredientCard from '../components/common/IngredientCard.astro';
 import RegionCard from '../components/common/RegionCard.astro';
 import Hero from '../components/home/Hero.astro';
 import ConceptFlow from '../components/home/ConceptFlow.astro';
+import FeaturedRecipe from '../components/home/FeaturedRecipe.astro';
 import CookbookTeaser from '../components/home/CookbookTeaser.astro';
 import NewsletterSection from '../components/home/NewsletterSection.astro';
 import '../styles/landing-polish.css';
@@ -16,9 +17,16 @@ import '../styles/landing-final-polish.css';
 const HOME_DESCRIPTION =
   'Explore the foods of the Bible — ingredients, recipes, history, and culinary traditions of the ancient world, brought thoughtfully to the modern table.';
 
-const featuredIngredients = (await getVisibleIngredients())
+const [ingredients, recipes] = await Promise.all([
+  getVisibleIngredients(),
+  getVisibleRecipes(),
+]);
+
+const featuredIngredients = ingredients
   .filter((entry) => entry.data.featured)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const featuredRecipe = recipes[0];
 
 const regions = [
   {
@@ -64,24 +72,16 @@ const regions = [
           title="Ingredients of the Ancient Table"
           description="A first look at the foods we are profiling — each one approached through Scripture, history, evidence, and cooking."
         />
-        <div
-          class="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-5"
-        >
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-5">
           {featuredIngredients.map((entry) => (
             <IngredientCard entry={entry} />
           ))}
         </div>
         <div class="mt-10 flex flex-wrap justify-center gap-3">
-          <a
-            href="/ingredients/"
-            class="inline-flex items-center justify-center border border-line bg-surface px-6 py-3 font-sans text-caption font-semibold tracking-wide text-ink uppercase transition-colors hover:border-terracotta hover:text-terracotta-dark"
-          >
+          <a href="/ingredients/" class="inline-flex items-center justify-center border border-line bg-surface px-6 py-3 font-sans text-caption font-semibold tracking-wide text-ink uppercase transition-colors hover:border-terracotta hover:text-terracotta-dark">
             Browse all ingredients <span class="ml-2" aria-hidden="true">→</span>
           </a>
-          <a
-            href="/foods/figs/"
-            class="inline-flex items-center justify-center bg-olive-dark px-6 py-3 font-sans text-caption font-semibold tracking-wide text-cream uppercase transition-colors hover:bg-olive-mid"
-          >
+          <a href="/foods/figs/" class="inline-flex items-center justify-center bg-olive-dark px-6 py-3 font-sans text-caption font-semibold tracking-wide text-cream uppercase transition-colors hover:bg-olive-mid">
             View biblical foods <span class="ml-2" aria-hidden="true">→</span>
           </a>
         </div>
@@ -89,6 +89,8 @@ const regions = [
     </section>
 
     <ConceptFlow />
+
+    {featuredRecipe && <FeaturedRecipe recipe={featuredRecipe} />}
 
     <section class="scroll-mt-24 bg-background" id="regions">
       <div class="container-site py-20 md:py-24 lg:py-28">
