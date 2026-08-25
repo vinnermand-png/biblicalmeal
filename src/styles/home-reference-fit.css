@@ -1,0 +1,357 @@
+/* Reference-fit pass: preserves the current homepage structure and only tightens proportions to match the approved reference. */
+.bm-reset-home {
+  --home-container: 1180px;
+  --home-gutter: clamp(20px, 4.5vw, 68px);
+}
+
+.bm-reset-home .bm-home-container {
+  width: min(100%, var(--home-container));
+  padding-inline: var(--home-gutter);
+}
+
+/* Header: compact, light and architectural. */
+.bm-reset-home .bm-home-header {
+  background: rgba(247, 244, 237, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.bm-reset-home .bm-home-header__inner {
+  min-height: 66px;
+}
+
+.bm-reset-home .bm-home-nav {
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+.bm-reset-home .bm-home-nav a,
+.bm-reset-home .bm-home-search {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+/* Hero: match the reference's compact cinematic band. */
+.bm-reset-home .bm-hero {
+  min-height: clamp(390px, 30vw, 430px);
+}
+
+.bm-reset-home .bm-hero__content {
+  padding-block: clamp(108px, 9vw, 126px) clamp(44px, 5vw, 58px);
+}
+
+.bm-reset-home .bm-hero h1 {
+  max-width: 780px;
+  font-size: clamp(56px, 5vw, 68px);
+  line-height: 0.98;
+}
+
+.bm-reset-home .bm-hero__divider {
+  width: 165px;
+  margin-top: 18px;
+  margin-bottom: 16px;
+}
+
+.bm-reset-home .bm-hero__lead {
+  max-width: 600px;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.bm-reset-home .bm-hero__actions {
+  margin-top: 22px;
+  gap: 10px;
+}
+
+.bm-reset-home .bm-btn {
+  min-height: 42px;
+  padding-inline: 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  letter-spacing: 0.11em;
+}
+
+/* Five-value strip: lower, tighter, with equal vertical cadence. */
+.bm-reset-home .bm-pillars__grid {
+  min-height: 178px;
+}
+
+.bm-reset-home .bm-pillars article {
+  padding: 26px 20px 24px;
+}
+
+.bm-reset-home .bm-pillar-icon {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 11px;
+}
+
+.bm-reset-home .bm-pillars article h2 {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.bm-reset-home .bm-pillars article p {
+  max-width: 180px;
+  margin-top: 7px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Exploration: compact editorial cards like the reference. */
+.bm-reset-home .bm-world-section {
+  padding-block: 52px 60px;
+}
+
+.bm-reset-home .bm-section-head {
+  margin-bottom: 22px;
+}
+
+.bm-reset-home .bm-section-head h2 {
+  max-width: 540px;
+  font-size: clamp(30px, 3.2vw, 40px);
+  line-height: 1.08;
+}
+
+.bm-reset-home .bm-section-head > a {
+  font-size: 10px;
+}
+
+.bm-reset-home .bm-world-grid {
+  gap: 14px;
+}
+
+.bm-reset-home .bm-world-card {
+  height: 292px;
+  border-radius: 9px;
+}
+
+.bm-reset-home .bm-world-card__copy {
+  inset-inline: 17px;
+  bottom: 16px;
+}
+
+.bm-reset-home .bm-world-card__copy > span {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.bm-reset-home .bm-world-card__copy h3 {
+  margin-top: 5px;
+  font-size: clamp(20px, 1.8vw, 24px);
+}
+
+.bm-reset-home .bm-world-card__copy p {
+  max-width: 205px;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.bm-reset-home .bm-world-card__copy b {
+  font-size: 10px;
+}
+
+/* Featured article / Scripture: shorter, cleaner, equal-height row. */
+.bm-reset-home .bm-featured {
+  padding-block: 0 58px;
+}
+
+.bm-reset-home .bm-featured__grid {
+  gap: 14px;
+}
+
+.bm-reset-home .bm-featured-article,
+.bm-reset-home .bm-scripture-card {
+  min-height: 248px;
+}
+
+.bm-reset-home .bm-featured-article__media {
+  border-radius: 9px 0 0 9px;
+}
+
+.bm-reset-home .bm-featured-article__copy {
+  padding: 26px 28px;
+}
+
+.bm-reset-home .bm-featured-article__copy h2 {
+  max-width: 470px;
+  font-size: clamp(28px, 2.7vw, 36px);
+  line-height: 1.06;
+}
+
+.bm-reset-home .bm-featured-article__copy > p:not(.bm-eyebrow) {
+  max-width: 450px;
+  margin-top: 11px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.bm-reset-home .bm-featured-article__copy > a {
+  margin-top: 16px;
+  font-size: 10px;
+}
+
+.bm-reset-home .bm-scripture-card {
+  padding: 28px 30px;
+  border-radius: 9px;
+}
+
+.bm-reset-home .bm-scripture-card blockquote {
+  max-width: 300px;
+  margin-top: 11px;
+  font-size: clamp(25px, 2.45vw, 32px);
+  line-height: 1.15;
+}
+
+.bm-reset-home .bm-scripture-card cite {
+  margin-top: 14px;
+  font-size: 10px;
+}
+
+.bm-reset-home .bm-scripture-card__branch {
+  margin-top: 16px;
+  font-size: 20px;
+}
+
+/* Cookbook: one compact horizontal banner. */
+.bm-reset-home .bm-cookbook-banner {
+  padding-block: 0 58px;
+}
+
+.bm-reset-home .bm-cookbook-banner__grid {
+  gap: 14px;
+}
+
+.bm-reset-home .bm-book-placeholder,
+.bm-reset-home .bm-cookbook-banner__image {
+  min-height: 248px;
+  border-radius: 9px;
+}
+
+.bm-reset-home .bm-cookbook-banner__copy {
+  padding: 28px 30px;
+  border-radius: 9px;
+}
+
+.bm-reset-home .bm-cookbook-banner__copy h2 {
+  font-size: clamp(28px, 3vw, 38px);
+}
+
+.bm-reset-home .bm-cookbook-banner__copy > p:not(.bm-eyebrow) {
+  max-width: 420px;
+  margin-top: 11px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.bm-reset-home .bm-cookbook-banner__copy .bm-btn {
+  margin-top: 17px;
+}
+
+/* Footer: keep it compact like the reference. */
+.bm-reset-home .bm-home-footer__grid {
+  padding-block: 42px 36px;
+  gap: 22px 26px;
+}
+
+.bm-reset-home .bm-home-footer__grid p,
+.bm-reset-home .bm-home-footer__grid a {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.bm-reset-home .bm-home-footer__grid h2 {
+  margin-bottom: 10px;
+  font-size: 10px;
+}
+
+.bm-reset-home .bm-home-footer__grid nav a {
+  margin-top: 5px;
+}
+
+.bm-reset-home .bm-footer-brand {
+  font-size: 17px !important;
+}
+
+.bm-reset-home .bm-footer-subscribe input,
+.bm-reset-home .bm-footer-subscribe button {
+  height: 42px;
+  min-height: 42px;
+}
+
+.bm-reset-home .bm-home-footer__bottom {
+  min-height: 52px;
+  font-size: 10px;
+}
+
+/* Tablet */
+@media (max-width: 980px) {
+  .bm-reset-home .bm-hero {
+    min-height: 470px;
+  }
+
+  .bm-reset-home .bm-hero h1 {
+    font-size: clamp(48px, 6.5vw, 60px);
+  }
+
+  .bm-reset-home .bm-world-card {
+    height: 300px;
+  }
+
+  .bm-reset-home .bm-featured-article,
+  .bm-reset-home .bm-scripture-card {
+    min-height: 270px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  .bm-reset-home .bm-hero {
+    min-height: 570px;
+  }
+
+  .bm-reset-home .bm-hero__content {
+    padding-block: 112px 48px;
+  }
+
+  .bm-reset-home .bm-hero h1 {
+    font-size: clamp(40px, 11vw, 52px);
+  }
+
+  .bm-reset-home .bm-hero__lead {
+    font-size: 15px;
+  }
+
+  .bm-reset-home .bm-pillars article {
+    padding: 24px 18px 22px;
+  }
+
+  .bm-reset-home .bm-world-section,
+  .bm-reset-home .bm-featured {
+    padding-block: 52px;
+  }
+
+  .bm-reset-home .bm-world-card {
+    height: 300px;
+  }
+
+  .bm-reset-home .bm-featured-article,
+  .bm-reset-home .bm-scripture-card,
+  .bm-reset-home .bm-book-placeholder,
+  .bm-reset-home .bm-cookbook-banner__image {
+    min-height: 0;
+  }
+
+  .bm-reset-home .bm-featured-article__media {
+    border-radius: 9px 9px 0 0;
+  }
+
+  .bm-reset-home .bm-featured-article__copy,
+  .bm-reset-home .bm-scripture-card,
+  .bm-reset-home .bm-cookbook-banner__copy {
+    padding: 24px;
+  }
+
+  .bm-reset-home .bm-cookbook-banner {
+    padding-bottom: 52px;
+  }
+}
