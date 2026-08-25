@@ -7,30 +7,26 @@ import Button from '../common/Button.astro';
   id="cookbook"
 >
   <div class="cookbook-feature__wash" aria-hidden="true"></div>
+  <div class="cookbook-feature__branch cookbook-feature__branch--left" aria-hidden="true"></div>
+  <div class="cookbook-feature__branch cookbook-feature__branch--right" aria-hidden="true"></div>
   <div class="relative container-site section-space">
     <div class="grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
       <div class="reveal order-last lg:order-first lg:col-span-6">
         <div class="cookbook-object mx-auto max-w-sm">
           <div class="cookbook-object__shadow" aria-hidden="true"></div>
           <div
-            class="cookbook-object__cover relative aspect-[3/4] overflow-hidden rounded-sm p-8 sm:p-10"
+            class="cookbook-object__cover relative aspect-[8/10] overflow-hidden rounded-sm p-8 sm:p-10"
           >
             <div class="cookbook-object__spine" aria-hidden="true"></div>
             <div class="cookbook-object__paper" aria-hidden="true"></div>
-            <div
-              class="relative flex h-full flex-col justify-between text-center"
-            >
-              <p
-                class="text-eyebrow font-semibold tracking-eyebrow text-gold/90 uppercase"
-              >
+            <div class="relative flex h-full flex-col justify-between text-center">
+              <p class="text-eyebrow font-semibold tracking-eyebrow text-gold/90 uppercase">
                 A BiblicalMeal Cookbook
               </p>
               <div class="space-y-5">
-                <h3 class="font-display text-h1 text-cream">
-                  Biblical Meals
-                </h3><div class="mx-auto h-px w-16 bg-gold/70"></div><p
-                  class="font-display text-h3 text-cream-muted italic"
-                >
+                <h3 class="font-display text-h1 text-cream">Biblical Meals</h3>
+                <div class="mx-auto h-px w-16 bg-gold/70"></div>
+                <p class="font-display text-h3 text-cream-muted italic">
                   Recipes Inspired by the Foods of the Bible
                 </p>
               </div>
@@ -42,46 +38,37 @@ import Button from '../common/Button.astro';
         </div>
       </div>
       <div class="reveal space-y-7 lg:col-span-6" style="--reveal-delay:120ms">
-        <p
-          class="flex items-center gap-3 text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
-        >
-          <span class="h-px w-9 bg-terracotta"></span>The Cookbook
+        <p class="flex items-center gap-3 text-eyebrow font-semibold tracking-eyebrow text-gold uppercase">
+          <span class="h-px w-9 bg-gold/70"></span>The Cookbook
         </p>
         <div class="space-y-5">
-          <h2 class="font-display text-h2 text-ink">
+          <h2 class="font-display text-h2 text-cream">
             Biblical Meals<span class="text-terracotta">.</span>
-          </h2><span
-            class="inline-flex w-fit items-center rounded-full border border-terracotta/35 bg-terracotta/8 px-3 py-1 text-caption font-medium tracking-wide text-terracotta-dark"
-            >In development</span
-          >
+          </h2>
+          <span class="inline-flex w-fit items-center border border-gold/25 bg-cream/5 px-3 py-1 text-caption font-medium tracking-wide text-gold/90">
+            In development
+          </span>
         </div>
-        <p class="max-w-xl text-body-lg text-ink-muted">
+        <p class="max-w-xl text-body-lg leading-relaxed text-cream/72">
           We are gathering our recipes inspired by the foods of the Bible into a
           single digital cookbook — ingredient stories, kitchen-tested dishes,
           and menus for the table.
         </p>
-        <ul
-          class="grid gap-4 border-y border-line py-6 text-body text-ink-muted sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3"
-        >
+        <ul class="grid gap-4 border-y border-cream/10 py-6 text-body text-cream/70 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
           <li class="space-y-1">
-            <span class="font-display text-h3 text-terracotta">01</span><p>
-              Recipes inspired by biblical ingredients
-            </p>
+            <span class="font-display text-h3 text-gold">01</span>
+            <p>Recipes inspired by biblical ingredients</p>
           </li>
           <li class="space-y-1">
-            <span class="font-display text-h3 text-terracotta">02</span><p>
-              Short histories behind every dish
-            </p>
+            <span class="font-display text-h3 text-gold">02</span>
+            <p>Short histories behind every dish</p>
           </li>
           <li class="space-y-1">
-            <span class="font-display text-h3 text-terracotta">03</span><p>
-              Menus for gathering and celebration
-            </p>
+            <span class="font-display text-h3 text-gold">03</span>
+            <p>Menus for gathering and celebration</p>
           </li>
         </ul>
-        <Button href="/#newsletter" variant="secondary"
-          >Notify me at launch</Button
-        >
+        <Button href="/#newsletter" size="lg">Notify me at launch</Button>
       </div>
     </div>
   </div>
@@ -89,77 +76,64 @@ import Button from '../common/Button.astro';
 
 <style>
   .cookbook-feature {
-    background: linear-gradient(
-      180deg,
-      var(--color-background-alt),
-      var(--color-background)
-    );
+    background:
+      radial-gradient(circle at 8% 20%, rgb(92 107 60 / 0.22), transparent 26%),
+      radial-gradient(circle at 92% 76%, rgb(201 162 75 / 0.09), transparent 25%),
+      linear-gradient(135deg, #172011, #202d16 48%, #182010);
     contain: paint;
   }
   .cookbook-feature__wash {
     position: absolute;
-    right: -12rem;
-    top: 20%;
-    width: 32rem;
-    height: 32rem;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(92 107 60 / 0.09), transparent 70%);
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 252 245 / 0.02), transparent);
     pointer-events: none;
   }
+  .cookbook-feature__branch {
+    position: absolute;
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid rgb(201 162 75 / 0.13);
+    border-radius: 52% 48% 55% 45%;
+    filter: blur(0.2px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .cookbook-feature__branch--left { left: -11rem; bottom: -9rem; transform: rotate(28deg); }
+  .cookbook-feature__branch--right { right: -10rem; top: -10rem; transform: rotate(-35deg); }
   .cookbook-object {
     position: relative;
     isolation: isolate;
     padding: 0.5rem 1.25rem 1.25rem 0.5rem;
-    transform: rotate(-2.5deg);
+    transform: rotate(-3deg);
   }
   .cookbook-object__shadow {
     position: absolute;
     z-index: -1;
-    inset: 1.6rem 1.25rem 0.75rem 1.75rem;
-    transform: rotate(3.5deg);
+    inset: 1.8rem 1.2rem 0.6rem 1.8rem;
+    transform: rotate(4deg);
     border-radius: 0.65rem;
-    background: rgb(41 32 24 / 0.08);
-    box-shadow: 0 18px 36px rgb(41 32 24 / 0.16);
+    background: rgb(0 0 0 / 0.42);
+    box-shadow: 0 28px 60px rgb(0 0 0 / 0.38);
   }
   .cookbook-object__cover {
-    border: 1px solid rgb(255 252 245 / 0.13);
-    background: linear-gradient(
-      145deg,
-      #4c5a31,
-      var(--color-olive-dark) 52%,
-      #29331d
-    );
-    box-shadow:
-      inset 0 0 0 1px rgb(255 252 245 / 0.04),
-      18px 22px 45px rgb(41 32 24 / 0.2);
+    border: 1px solid rgb(255 252 245 / 0.12);
+    background: linear-gradient(145deg, #4d5a31, #303d21 54%, #1d2917);
+    box-shadow: inset 0 0 0 1px rgb(255 252 245 / 0.035), 20px 24px 55px rgb(0 0 0 / 0.26);
   }
   .cookbook-object__cover::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(
-        circle at 75% 18%,
-        rgb(201 162 75 / 0.12),
-        transparent 28%
-      ),
-      repeating-linear-gradient(
-        125deg,
-        transparent 0 7px,
-        rgb(255 252 245 / 0.025) 7px 8px
-      );
+      radial-gradient(circle at 72% 18%, rgb(201 162 75 / 0.13), transparent 28%),
+      repeating-linear-gradient(125deg, transparent 0 7px, rgb(255 252 245 / 0.022) 7px 8px);
     pointer-events: none;
   }
   .cookbook-object__spine {
     position: absolute;
     inset: 0 auto 0 0;
     width: 1.15rem;
-    background: linear-gradient(
-      90deg,
-      rgb(0 0 0 / 0.3),
-      rgb(255 252 245 / 0.08),
-      transparent
-    );
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.38), rgb(255 252 245 / 0.08), transparent);
   }
   .cookbook-object__paper {
     position: absolute;
@@ -168,8 +142,6 @@ import Button from '../common/Button.astro';
     pointer-events: none;
   }
   @media (max-width: 640px) {
-    .cookbook-object {
-      transform: rotate(-1.5deg);
-    }
+    .cookbook-object { transform: rotate(-1.5deg); }
   }
 </style>
