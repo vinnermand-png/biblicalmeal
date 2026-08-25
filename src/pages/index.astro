@@ -1,25 +1,61 @@
 ---
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import IngredientStorySection from '../components/home/IngredientStorySection.astro';
+import FeaturedFoodsSection from '../components/home/FeaturedFoodsSection.astro';
+import ScripturePauseSection from '../components/home/ScripturePauseSection.astro';
+import TableJourneySection from '../components/home/TableJourneySection.astro';
+import FeaturedRecipeSection from '../components/home/FeaturedRecipeSection.astro';
+import RegionsSection from '../components/home/RegionsSection.astro';
+import CookbookSection from '../components/home/CookbookSection.astro';
+import JournalSection from '../components/home/JournalSection.astro';
+import ManifestoNewsletterSection from '../components/home/ManifestoNewsletterSection.astro';
 
 const HOME_DESCRIPTION =
-  'Explore the foods of the Bible through ingredients, recipes, regions, history, and the culinary traditions of the ancient world.';
+  'Explore the foods, ingredients, recipes, history, places, and culinary traditions of the biblical world through Scripture, research, evidence, and the modern table.';
+
+const ingredients = await getCollection('ingredients');
+const recipes = await getCollection('recipes');
+const articles = await getCollection('articles');
+
+const featuredIngredientIds = ['figs', 'olives', 'barley', 'lentils', 'honey', 'dates'];
+const featuredIngredients = featuredIngredientIds
+  .map((id) => ingredients.find((entry) => entry.id === id))
+  .filter((entry): entry is CollectionEntry<'ingredients'> => Boolean(entry));
+
+const featuredRecipe = recipes.find((entry) => entry.id === 'lentil-stew') ?? recipes.find((entry) => entry.data.featured) ?? recipes[0];
+const journalArticleIds = ['what-did-jesus-eat', 'how-we-research'];
+const journalArticles = journalArticleIds
+  .map((id) => articles.find((entry) => entry.id === id))
+  .filter((entry): entry is CollectionEntry<'articles'> => Boolean(entry));
+
+if (!featuredRecipe) {
+  throw new Error('BiblicalMeal homepage requires at least one published recipe.');
+}
 ---
 
 <BaseLayout title={undefined} description={HOME_DESCRIPTION}>
   <Header />
 
-  <main id="main" class="home-page">
-    <!-- Fresh landing page canvas. New sections will be built here from scratch. -->
+  <main id="main" class="bm-homepage">
+    <HeroSection />
+    <IngredientStorySection />
+    <FeaturedFoodsSection items={featuredIngredients} />
+    <ScripturePauseSection />
+    <TableJourneySection />
+    <FeaturedRecipeSection recipe={featuredRecipe} />
+    <RegionsSection />
+    <CookbookSection />
+    <JournalSection articles={journalArticles} recipe={featuredRecipe} />
+    <ManifestoNewsletterSection />
   </main>
 
   <SiteFooter />
 </BaseLayout>
 
 <style>
-  .home-page {
-    min-height: 1px;
-    background: #f2ecdf;
-  }
+  .bm-homepage { background: #f3eee4; color: #1b1915; }
 </style>
