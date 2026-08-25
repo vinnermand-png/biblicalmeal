@@ -4,198 +4,134 @@ import EditorialImage from '../common/EditorialImage.astro';
 ---
 
 <section class="hero-home relative isolate overflow-hidden">
-  <div class="hero-home__wash hero-home__wash--terracotta" aria-hidden="true">
+  <div class="hero-home__image-bg" aria-hidden="true">
+    <EditorialImage
+      id="journal-ancient-table"
+      fallbackArt="still-life"
+      ratio="16 / 9"
+      decorative
+      loading="eager"
+    />
   </div>
-  <div class="hero-home__wash hero-home__wash--olive" aria-hidden="true"></div>
   <div class="hero-home__grain" aria-hidden="true"></div>
 
-  <div
-    class="relative container-site grid items-center gap-14 py-16 sm:py-20 md:py-24 lg:min-h-[46rem] lg:grid-cols-12 lg:gap-12 lg:py-28"
-  >
-    <div class="relative z-10 space-y-8 lg:col-span-6 lg:space-y-9">
-      <p
-        class="reveal flex items-center gap-3 text-eyebrow font-semibold tracking-eyebrow text-olive-dark uppercase"
-      >
-        <span class="h-px w-10 bg-terracotta" aria-hidden="true"></span>
+  <div class="relative z-10 container-site grid items-end gap-10 py-10 sm:py-14 lg:min-h-[48rem] lg:grid-cols-12 lg:gap-12 lg:py-16">
+    <div class="hero-home__copy lg:col-span-6">
+      <p class="reveal flex items-center gap-3 font-sans text-eyebrow font-semibold tracking-eyebrow text-cream/82 uppercase">
+        <span class="h-px w-10 bg-gold" aria-hidden="true"></span>
         Food · History · Scripture
       </p>
-      <div class="space-y-6">
-        <h1
-          class="reveal max-w-3xl font-display text-display text-ink"
-          style="--reveal-delay: 80ms"
-        >
-          Discover the Foods of the Bible<span class="text-terracotta">.</span>
-        </h1>
-        <p
-          class="reveal max-w-xl text-body-lg text-ink-muted"
-          style="--reveal-delay: 160ms"
-        >
-          BiblicalMeal explores the ingredients, meals, and culinary traditions
-          of the biblical world — and brings them to your modern table with
-          recipes inspired by Scripture.
-        </p>
-      </div>
-      <div class="reveal flex flex-wrap gap-4" style="--reveal-delay: 240ms">
+      <h1 class="reveal mt-5 max-w-3xl font-display text-display text-cream" style="--reveal-delay:80ms">
+        Discover the Foods of the Bible<span class="text-gold">.</span>
+      </h1>
+      <p class="reveal mt-6 max-w-xl text-body-lg text-cream/84" style="--reveal-delay:160ms">
+        Real food. Real history. Real sources. Explore the ingredients, meals, and stories of the biblical world — brought thoughtfully to the modern table.
+      </p>
+      <div class="reveal mt-8 flex flex-wrap gap-3" style="--reveal-delay:240ms">
         <Button href="/ingredients/" size="lg">Explore Biblical Foods</Button>
-        <Button href="/recipes/" variant="secondary" size="lg"
-          >Explore Recipes</Button
-        >
+        <Button href="/recipes/" variant="secondary" size="lg">Browse Recipes</Button>
       </div>
-      <div
-        class="reveal flex items-center gap-3 text-caption text-ink-muted/80"
-        style="--reveal-delay: 320ms"
-      >
-        <span class="h-px w-8 bg-line" aria-hidden="true"></span>
-        <p>A food publication rooted in history — written for your kitchen.</p>
-      </div>
+      <p class="reveal mt-5 max-w-md font-sans text-caption tracking-wide text-cream/68" style="--reveal-delay:320ms">
+        Scripture-led research, historical context, and recipes for a modern kitchen.
+      </p>
     </div>
 
-    <div class="reveal relative lg:col-span-6" style="--reveal-delay: 200ms">
-      <div class="hero-art relative mx-auto max-w-2xl">
-        <div class="hero-art__offset" aria-hidden="true"></div>
-        <div class="hero-art__halo" aria-hidden="true"></div>
-        <EditorialImage
-          id="journal-ancient-table"
-          fallbackArt="still-life"
-          ratio="4 / 5"
-          alt="A quiet Mediterranean table with bread, figs, olives, clay and linen"
-          loading="eager"
-          class="hero-art__image"
-        />
-        <div class="hero-art__label hidden sm:flex" aria-hidden="true">
-          <span>Ancient ingredients</span>
-          <span class="h-1 w-1 rounded-full bg-gold"></span>
-          <span>Modern table</span>
-        </div>
+    <div class="hero-home__side relative lg:col-span-6">
+      <div class="hero-home__note">
+        <p class="font-display text-h3 italic text-cream">“Man does not live by bread alone…”</p>
+        <p class="mt-2 font-sans text-caption tracking-wide text-cream/72">Matthew 4:4</p>
       </div>
-      <p class="mt-4 text-right text-caption tracking-wide text-ink-muted/70">
-        Editorial still life for BiblicalMeal
-      </p>
+      <div class="hero-home__caption" aria-hidden="true">
+        <span>Ancient table</span><span class="h-1 w-1 rounded-full bg-gold"></span><span>Modern kitchen</span>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .hero-home {
-    background: linear-gradient(
-      120deg,
-      color-mix(in srgb, var(--color-background) 88%, white) 0%,
-      var(--color-background) 54%,
-      color-mix(
-          in srgb,
-          var(--color-background-alt) 52%,
-          var(--color-background)
-        )
-        100%
-    );
-    contain: paint;
+    min-height: 48rem;
+    background: #3b342c;
   }
-  .hero-home__wash {
+  .hero-home__image-bg {
     position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-home__image-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.78) contrast(1.02);
+  }
+  .hero-home::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgb(32 28 24 / 0.8) 0%, rgb(32 28 24 / 0.63) 36%, rgb(32 28 24 / 0.2) 70%, rgb(32 28 24 / 0.42) 100%),
+      linear-gradient(180deg, rgb(32 28 24 / 0.1), rgb(32 28 24 / 0.38));
     pointer-events: none;
-    border-radius: 999px;
-  }
-  .hero-home__wash--terracotta {
-    top: -13rem;
-    right: -12rem;
-    width: 34rem;
-    height: 34rem;
-    background: radial-gradient(
-      circle,
-      rgb(169 80 45 / 0.13) 0 24%,
-      rgb(169 80 45 / 0.06) 44%,
-      transparent 68%
-    );
-  }
-  .hero-home__wash--olive {
-    bottom: -17rem;
-    left: -15rem;
-    width: 36rem;
-    height: 36rem;
-    background: radial-gradient(
-      circle,
-      rgb(92 107 60 / 0.11) 0 22%,
-      rgb(92 107 60 / 0.05) 42%,
-      transparent 68%
-    );
   }
   .hero-home__grain {
     position: absolute;
     inset: 0;
-    opacity: 0.16;
-    background-image: radial-gradient(
-      rgb(41 32 24 / 0.13) 0.45px,
-      transparent 0.6px
-    );
-    background-size: 9px 9px;
+    z-index: 2;
+    opacity: 0.1;
+    background-image: radial-gradient(rgb(255 252 245 / 0.55) 0.4px, transparent 0.6px);
+    background-size: 8px 8px;
+    mix-blend-mode: soft-light;
     pointer-events: none;
   }
-  .hero-art {
-    isolation: isolate;
+  .hero-home__copy,
+  .hero-home__side {
+    position: relative;
+    z-index: 3;
   }
-  .hero-art__offset {
+  .hero-home__note {
+    max-width: 21rem;
+    margin-left: auto;
+    padding: 1.35rem 1.4rem 1.15rem;
+    border: 1px solid rgb(255 252 245 / 0.18);
+    border-radius: 0.9rem;
+    background: rgb(41 32 24 / 0.38);
+    backdrop-filter: blur(10px);
+  }
+  .hero-home__caption {
     position: absolute;
-    z-index: -1;
-    inset: 1rem -1rem -1rem 1rem;
-    border: 1px solid var(--color-line);
-    border-radius: 1.15rem;
-    background: var(--color-surface);
-    transform: rotate(-2.5deg);
-  }
-  .hero-art__halo {
-    position: absolute;
-    z-index: -2;
-    inset: 10% -8%;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgb(201 162 75 / 0.14),
-      transparent 68%
-    );
-  }
-  .hero-art__image {
-    overflow: hidden;
-    border: 1px solid var(--color-line);
-    border-radius: 1rem;
-    box-shadow: 0 22px 50px rgb(41 32 24 / 0.11);
-    background: var(--color-surface);
-  }
-  .hero-art__image :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 800ms ease;
-  }
-  .hero-art__label {
-    position: absolute;
-    right: -1.25rem;
-    bottom: 1.5rem;
+    right: 0;
+    bottom: 0;
+    display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    border: 1px solid rgb(255 252 245 / 0.2);
     border-radius: 999px;
-    background: rgb(65 77 43 / 0.94);
-    padding: 0.7rem 1rem;
+    background: rgb(41 32 24 / 0.68);
+    padding: 0.65rem 0.95rem;
     color: var(--color-cream);
-    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    box-shadow: 0 12px 30px rgb(41 32 24 / 0.16);
   }
-  @media (max-width: 640px) {
-    .hero-art__offset {
-      inset: 0.65rem -0.45rem -0.65rem 0.45rem;
+  @media (max-width: 767px) {
+    .hero-home {
+      min-height: 42rem;
     }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-art {
-      transition: transform var(--bm-motion-editorial) ease;
+    .hero-home::after {
+      background: linear-gradient(180deg, rgb(32 28 24 / 0.56) 0%, rgb(32 28 24 / 0.45) 40%, rgb(32 28 24 / 0.76) 100%);
     }
-    .hero-art:hover {
-      transform: translateY(-3px);
+    .hero-home__image-bg :global(img) {
+      object-position: 58% center;
     }
-    .hero-art:hover .hero-art__image :global(img) {
-      transform: scale(1.025);
+    .hero-home__note {
+      margin-top: 2rem;
+      margin-right: auto;
+    }
+    .hero-home__caption {
+      position: static;
+      margin-top: 0.75rem;
     }
   }
 </style>
