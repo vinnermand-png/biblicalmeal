@@ -4,9 +4,7 @@ import { INGREDIENT_ART, INGREDIENT_PREMIUM_IMAGE_IDS } from '../../lib/visuals'
 import EditorialImage from '../common/EditorialImage.astro';
 
 type IngredientEntry = CollectionEntry<'ingredients'>;
-interface Props {
-  items: IngredientEntry[];
-}
+interface Props { items: IngredientEntry[]; }
 const { items } = Astro.props;
 ---
 
@@ -43,9 +41,10 @@ const { items } = Astro.props;
             />
             <div class="bm-food-panel__shade"></div>
             <div class="bm-food-panel__copy">
-              <span>{String(index + 1).padStart(2, '0')}</span>
+              <span class="bm-food-panel__index">{String(index + 1).padStart(2, '0')}</span>
+              <span class="bm-food-panel__type">{isFeature ? 'Collected specimen' : isWide ? 'Archive entry' : 'Ancient table'}</span>
               <h3>{entry.data.name}</h3>
-              <p>{entry.data.description}</p>
+              {isFeature || isWide ? <p>{entry.data.description}</p> : null}
               <b>Explore ingredient <span aria-hidden="true">→</span></b>
             </div>
           </a>
@@ -68,10 +67,7 @@ const { items } = Astro.props;
     gap: 48px;
     margin-bottom: 38px;
   }
-  .bm-featured-foods__intro .bm-eyebrow {
-    margin: 0 0 10px;
-    color: #c7ab72;
-  }
+  .bm-featured-foods__intro .bm-eyebrow { margin: 0 0 10px; color: #c7ab72; }
   .bm-featured-foods__intro h2 {
     max-width: 760px;
     margin: 0;
@@ -81,12 +77,7 @@ const { items } = Astro.props;
     line-height: 0.98;
     letter-spacing: -0.04em;
   }
-  .bm-featured-foods__intro > p {
-    margin: 0;
-    color: rgba(243, 235, 221, 0.62);
-    font-size: 16px;
-    line-height: 1.75;
-  }
+  .bm-featured-foods__intro > p { margin: 0; color: rgba(243,235,221,0.62); font-size: 16px; line-height: 1.75; }
   .bm-foods-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -98,7 +89,7 @@ const { items } = Astro.props;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    border: 1px solid rgba(199, 171, 114, 0.18);
+    border: 1px solid rgba(199,171,114,0.18);
     background: #28361f;
   }
   .bm-food-panel :global(img) {
@@ -110,111 +101,45 @@ const { items } = Astro.props;
     filter: saturate(0.78) contrast(1.03) brightness(0.74);
     transition: transform 700ms ease;
   }
-  .bm-food-panel:hover :global(img) {
-    transform: scale(1.03);
-  }
-  .bm-food-panel--feature {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .bm-food-panel--wide {
-    grid-column: 1 / -1;
-  }
+  .bm-food-panel:hover :global(img) { transform: scale(1.03); }
+  .bm-food-panel--feature { grid-column: span 2; grid-row: span 2; }
+  .bm-food-panel--wide { grid-column: 1 / -1; }
   .bm-food-panel__shade {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(10, 15, 8, 0.02), rgba(10, 15, 8, 0.78) 88%),
-      linear-gradient(90deg, rgba(10, 15, 8, 0.18), transparent 52%);
+      linear-gradient(180deg, rgba(10,15,8,0.02), rgba(10,15,8,0.8) 88%),
+      linear-gradient(90deg, rgba(10,15,8,0.2), transparent 52%);
   }
-  .bm-food-panel__copy {
-    position: absolute;
-    right: 22px;
-    bottom: 22px;
-    left: 22px;
-    z-index: 2;
-  }
-  .bm-food-panel__copy > span {
-    color: #c7ab72;
+  .bm-food-panel__copy { position: absolute; right: 22px; bottom: 22px; left: 22px; z-index: 2; }
+  .bm-food-panel__index { color: #c7ab72; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; }
+  .bm-food-panel__type {
+    margin-left: 12px;
+    color: rgba(243,235,221,0.44);
     font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-  }
-  .bm-food-panel h3 {
-    max-width: 32rem;
-    margin: 7px 0 6px;
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 2.8vw, 3rem);
-    font-weight: 400;
-    line-height: 0.98;
-  }
-  .bm-food-panel--feature h3 {
-    font-size: clamp(2.6rem, 4vw, 4rem);
-  }
-  .bm-food-panel p {
-    max-width: 38rem;
-    margin: 0;
-    color: rgba(243, 235, 221, 0.72);
-    font-size: 14px;
-    line-height: 1.6;
-  }
-  .bm-food-panel b {
-    display: inline-flex;
-    gap: 10px;
-    margin-top: 12px;
-    color: #c7ab72;
-    font-family: var(--font-sans);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .bm-food-panel--wide .bm-food-panel__copy {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 18px;
-  }
-  .bm-food-panel--wide p {
-    max-width: 34rem;
-  }
+  .bm-food-panel h3 { max-width: 32rem; margin: 7px 0 6px; font-family: var(--font-display); font-size: clamp(1.8rem,2.8vw,3rem); font-weight: 400; line-height: 0.98; }
+  .bm-food-panel--feature h3 { max-width: 36rem; font-size: clamp(2.8rem,4.6vw,4.6rem); }
+  .bm-food-panel p { max-width: 38rem; margin: 0; color: rgba(243,235,221,0.72); font-size: 15px; line-height: 1.65; }
+  .bm-food-panel b { display: inline-flex; gap: 10px; margin-top: 12px; color: #c7ab72; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .bm-food-panel--wide .bm-food-panel__copy { display: grid; grid-template-columns: auto auto minmax(0,1fr) auto; align-items: end; gap: 18px; }
+  .bm-food-panel--wide p { max-width: 32rem; }
   @media (max-width: 900px) {
-    .bm-featured-foods__intro {
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-    .bm-foods-grid {
-      grid-template-rows: repeat(2, 230px) 170px;
-    }
-    .bm-food-panel--feature {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-    .bm-food-panel--wide .bm-food-panel__copy {
-      display: block;
-    }
+    .bm-featured-foods__intro { grid-template-columns: 1fr; gap: 18px; }
+    .bm-foods-grid { grid-template-rows: repeat(2,230px) 170px; }
+    .bm-food-panel--feature { grid-column: span 2; grid-row: span 2; }
+    .bm-food-panel--wide .bm-food-panel__copy { display: block; }
   }
   @media (max-width: 620px) {
-    .bm-featured-foods {
-      padding-block: 76px;
-    }
-    .bm-foods-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(6, 230px);
-    }
-    .bm-food-panel--feature,
-    .bm-food-panel--wide {
-      grid-column: auto;
-      grid-row: auto;
-    }
-    .bm-food-panel--feature h3 {
-      font-size: 2.45rem;
-    }
-    .bm-food-panel__copy {
-      right: 18px;
-      bottom: 18px;
-      left: 18px;
-    }
+    .bm-featured-foods { padding-block: 76px; }
+    .bm-foods-grid { grid-template-columns: 1fr; grid-template-rows: repeat(6,230px); }
+    .bm-food-panel--feature,.bm-food-panel--wide { grid-column: auto; grid-row: auto; }
+    .bm-food-panel--feature h3 { font-size: 2.55rem; }
+    .bm-food-panel__copy { right:18px; bottom:18px; left:18px; }
+    .bm-food-panel--wide .bm-food-panel__copy { display:block; }
   }
 </style>
