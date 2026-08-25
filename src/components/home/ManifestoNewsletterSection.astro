@@ -1,0 +1,30 @@
+<section class="bm-manifesto" aria-labelledby="bm-manifesto-title">
+  <div class="container-site bm-manifesto__grid">
+    <div>
+      <p class="bm-eyebrow">The ancient table</p>
+      <h2 id="bm-manifesto-title">The ancient table<br />is still here.</h2>
+    </div>
+    <div class="bm-manifesto__copy">
+      <p>In the ingredients we cook with.<br />In the stories we remember.<br />And in the tables we share.</p>
+      <div class="bm-manifesto__newsletter">
+        <p class="bm-manifesto__label">The BiblicalMeal Letter</p>
+        <p>Stories, ingredients, and meals from the ancient table.</p>
+        <a class="bm-btn bm-btn--terracotta" href="#newsletter">Join the table <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bm-manifesto { position: relative; overflow: hidden; min-height: 380px; padding-block: 102px; background: #14200f; color: #f3ebdd; }
+  .bm-manifesto::after { content: ''; position: absolute; right: -110px; bottom: -220px; width: 430px; height: 430px; border: 1px solid rgba(199,171,114,.1); border-radius: 50%; box-shadow: 0 0 0 50px rgba(199,171,114,.025), 0 0 0 100px rgba(199,171,114,.016); pointer-events: none; }
+  .bm-manifesto__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
+  .bm-manifesto .bm-eyebrow { margin: 0 0 14px; color: #c7ab72; }
+  .bm-manifesto h2 { margin: 0; font-family: var(--font-display); font-size: clamp(3.4rem, 5.6vw, 5.4rem); font-weight: 400; line-height: .94; letter-spacing: -.045em; }
+  .bm-manifesto__copy > p { margin: 0; color: rgba(243,235,221,.7); font-family: var(--font-display); font-size: 24px; line-height: 1.45; }
+  .bm-manifesto__newsletter { margin-top: 34px; max-width: 430px; padding-top: 20px; border-top: 1px solid rgba(199,171,114,.2); }
+  .bm-manifesto__label { margin: 0 0 7px; color: #c7ab72; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .bm-manifesto__newsletter > p:not(.bm-manifesto__label) { margin: 0; color: rgba(243,235,221,.58); font-size: 14px; line-height: 1.6; }
+  .bm-manifesto__newsletter .bm-btn { margin-top: 18px; }
+  @media (max-width: 800px) { .bm-manifesto { padding-block: 78px; } .bm-manifesto__grid { grid-template-columns: 1fr; gap: 44px; } }
+</style>
