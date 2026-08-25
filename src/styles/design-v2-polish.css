@@ -1,0 +1,269 @@
+/* BiblicalMeal Design System 2.0 — visual polish layer */
+
+/* Public pages should feel like one editorial publication, not a set of templates. */
+.page-home,
+.page-ingredients,
+.page-recipes,
+.page-article-detail,
+.page-editorial-method {
+  --bm-page-rhythm: clamp(5rem, 10vw, 9rem);
+}
+
+/* HOME — stronger magazine scale and calmer section transitions. */
+.page-home > section:not(.section-dark),
+.page-home > article {
+  scroll-margin-top: 6rem;
+}
+
+.page-home .container-site {
+  max-width: 88rem;
+}
+
+.page-home #foods > .container-site,
+.page-home #regions > .container-site {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+.page-home #foods .grid {
+  column-gap: clamp(1.5rem, 2.8vw, 3rem);
+  row-gap: clamp(2.5rem, 4vw, 4rem);
+}
+
+.page-home #regions .grid {
+  max-width: 84rem;
+  margin-inline: auto;
+}
+
+.page-home .reveal {
+  will-change: transform, opacity;
+}
+
+/* INGREDIENTS — broader collection rhythm and a stronger feature spread. */
+.page-ingredients .content-listing {
+  max-width: 88rem;
+}
+
+.page-ingredients .content-listing__grid {
+  column-gap: clamp(1.5rem, 2.5vw, 2.75rem);
+  row-gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.page-ingredients .ingredient-card {
+  min-height: 100%;
+}
+
+.page-ingredients .ingredient-card__art {
+  min-height: 17rem;
+}
+
+.page-ingredients .ingredient-feature {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+}
+
+.page-ingredients .ingredient-feature__copy {
+  max-width: 38rem;
+}
+
+.page-ingredients .ingredient-feature__media {
+  min-height: 30rem;
+}
+
+.page-ingredients .ingredient-feature__media img,
+.page-ingredients .ingredient-feature__media svg {
+  min-height: 30rem;
+  object-fit: cover;
+}
+
+.page-ingredients .content-listing__closing-note {
+  max-width: 60rem;
+  margin: 3.5rem auto 0;
+  text-align: center;
+}
+
+/* RECIPES — featured lead followed by quieter catalogue rows. */
+.page-recipes .content-listing {
+  max-width: 88rem;
+}
+
+.page-recipes .content-listing__intro {
+  max-width: 66rem;
+}
+
+.page-recipes .content-listing__grid {
+  column-gap: clamp(1.5rem, 2.8vw, 3rem);
+  row-gap: clamp(2.5rem, 4.5vw, 4rem);
+}
+
+.page-recipes .content-listing__grid > li:not(:first-child) {
+  align-self: stretch;
+}
+
+.page-recipes .recipe-card,
+.page-recipes .editorial-card {
+  height: 100%;
+}
+
+/* RECIPE DETAIL — give the cooking page a more deliberate magazine spread. */
+.page-recipe-detail .container-site {
+  max-width: 88rem;
+}
+
+.page-recipe-detail article {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+.page-recipe-detail article > .grid {
+  column-gap: clamp(3rem, 7vw, 7rem);
+}
+
+.page-recipe-detail .surface-panel {
+  border-color: color-mix(in srgb, var(--color-olive) 22%, var(--color-line));
+  background: color-mix(in srgb, var(--color-background-alt) 72%, var(--color-surface));
+}
+
+.page-recipe-detail #recipe-method ol > li {
+  padding-bottom: 0.25rem;
+}
+
+/* ARTICLE DETAIL — stronger editorial reading width and section rhythm. */
+.page-article-detail article {
+  padding-block: clamp(5rem, 9vw, 9rem);
+}
+
+.page-article-detail article > div {
+  max-width: 76ch;
+}
+
+.page-article-detail .prose-bm {
+  font-size: clamp(1.06rem, 1rem + 0.18vw, 1.18rem);
+  line-height: 1.86;
+}
+
+.page-article-detail .prose-bm h2,
+.page-article-detail .prose-bm h3 {
+  scroll-margin-top: 7rem;
+}
+
+.page-article-detail .prose-bm blockquote {
+  margin-block: 3rem;
+  border-left: 2px solid var(--color-terracotta);
+  padding-left: clamp(1.25rem, 3vw, 2rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+
+/* TRUST / METHOD — replace the feeling of a documentation page with a publication page. */
+.page-editorial-method {
+  background:
+    radial-gradient(circle at 88% 12%, rgb(201 162 75 / 0.08), transparent 26rem),
+    var(--color-background);
+}
+
+.page-editorial-method > section:first-child {
+  padding-top: clamp(5rem, 10vw, 9rem);
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+}
+
+.page-editorial-method > section:nth-child(2) > div {
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  padding-block: 1.75rem;
+}
+
+.page-editorial-method > section:nth-child(2) .grid > div {
+  min-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.page-editorial-method > section:nth-child(3) {
+  background: color-mix(in srgb, var(--color-surface) 82%, var(--color-background-alt));
+  border-block: 1px solid var(--color-line);
+}
+
+.page-editorial-method > section:nth-child(3) > div,
+.page-editorial-method > section:nth-child(4) > div,
+.page-editorial-method > section:nth-child(5) > div {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+.page-editorial-method > section:nth-child(3) .grid article {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: var(--color-background);
+}
+
+.page-editorial-method > section:nth-child(4) article {
+  max-width: 70rem;
+  padding-block: 0.85rem;
+}
+
+/* SOURCES — broad editorial archive instead of a compact technical list. */
+.page-sources .container-site {
+  max-width: 88rem;
+}
+
+.page-sources main > section {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+/* COOKBOOK SHOWROOM — keep the book dominant. */
+.cookbook-showroom__inner {
+  align-items: center;
+}
+
+.cookbook-showroom__cover-link {
+  display: block;
+  transition: transform var(--bm-motion-editorial) ease, filter var(--bm-motion-editorial) ease;
+}
+
+.cookbook-showroom__cover-link:hover {
+  transform: translateY(-6px) rotate(-0.35deg);
+}
+
+/* BOOK READER — calm chrome, more immersive reading area. */
+.book-reader {
+  background:
+    radial-gradient(circle at 50% 8%, rgb(201 162 75 / 0.11), transparent 32rem),
+    var(--color-background);
+}
+
+.book-reader__controls {
+  padding-top: 1.25rem;
+}
+
+/* Small devices: preserve scale, reduce framing rather than collapsing identity. */
+@media (max-width: 899px) {
+  .page-ingredients .ingredient-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .page-ingredients .ingredient-feature__media,
+  .page-ingredients .ingredient-feature__media img,
+  .page-ingredients .ingredient-feature__media svg {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .page-home #foods > .container-site,
+  .page-home #regions > .container-site,
+  .page-ingredients .content-listing,
+  .page-recipes .content-listing,
+  .page-article-detail article {
+    padding-block: 4.25rem;
+  }
+
+  .page-editorial-method > section:first-child {
+    padding-top: 4.25rem;
+  }
+
+  .page-editorial-method > section:nth-child(3) > div,
+  .page-editorial-method > section:nth-child(4) > div,
+  .page-editorial-method > section:nth-child(5) > div {
+    padding-block: 4.25rem;
+  }
+}
