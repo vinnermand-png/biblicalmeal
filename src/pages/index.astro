@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
-import EditorialImage from '../components/common/EditorialImage.astro';
 
 const HOME_DESCRIPTION =
   'Explore the foods of the Bible through ingredients, recipes, regions, history, and the culinary traditions of the ancient world.';
@@ -12,134 +11,15 @@ const HOME_DESCRIPTION =
   <Header />
 
   <main id="main" class="home-page">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__image" aria-hidden="true">
-        <EditorialImage id="journal-ancient-table" fallbackArt="still-life" alt="Ancient-inspired table with bread, figs, olives, pottery and linen" loading="eager" ratio="16 / 10" class="hero__media" />
-      </div>
-      <div class="hero__veil" aria-hidden="true"></div>
-
-      <div class="container-site hero__shell">
-        <div class="hero__copy">
-          <p class="hero__eyebrow">The Ancient Table</p>
-          <h1 id="hero-title">The Bible tells<br />its story at the <em>table.</em></h1>
-          <div class="hero__ornament" aria-hidden="true"><span></span><b>✦</b><span></span></div>
-          <p class="hero__lead">Ingredients, meals, landscapes, and culinary traditions from the ancient world — explored through Scripture, history, evidence, and cooking.</p>
-          <div class="hero__actions">
-            <a href="/ingredients/" class="hero__primary">Explore the foods <span aria-hidden="true">→</span></a>
-            <a href="/editorial-method/" class="hero__secondary">Enter the biblical world</a>
-          </div>
-          <div class="hero__principles" aria-label="BiblicalMeal principles"><span>Rooted in Scripture</span><i aria-hidden="true"></i><span>Inspired by history</span><i aria-hidden="true"></i><span>Made for today</span></div>
-        </div>
-      </div>
-
-      <aside class="hero__scripture" aria-label="Scripture reflection">
-        <span class="hero__scripture-label">At the table</span>
-        <blockquote>“Man shall not live by bread alone.”</blockquote>
-        <cite>Matthew 4:4</cite>
-      </aside>
-    </section>
-
-    <section class="ingredient-story" aria-labelledby="ingredient-story-title">
-      <div class="container-site ingredient-story__shell">
-        <div class="ingredient-story__heading">
-          <p class="section-kicker">THE BIBLICAL TABLE</p>
-          <h2 id="ingredient-story-title">Every ingredient<br />carries a <em>story.</em></h2>
-        </div>
-
-        <div class="ingredient-story__content">
-          <div class="ingredient-story__copy">
-            <p>Food in the Bible was never only food. A fig carried the memory of harvest. Olive oil travelled from the press to the lamp. Barley fed ordinary households. Honey became a language of abundance.</p>
-            <a href="/ingredients/" class="text-link">Explore the ingredients <span aria-hidden="true">→</span></a>
-          </div>
-
-          <figure class="ingredient-story__image">
-            <EditorialImage id="ingredient-portrait-figs" fallbackArt="figs" alt="Fresh figs presented as a premium editorial ingredient study" ratio="2 / 1" class="ingredient-story__media" />
-          </figure>
-        </div>
-      </div>
-    </section>
+    <!-- Fresh landing page canvas. New sections will be built here from scratch. -->
   </main>
 
   <SiteFooter />
 </BaseLayout>
 
 <style>
-  .home-page { background: #f2ecdf; }
-  .hero { position: relative; isolation: isolate; min-height: min(50rem, calc(100svh - 4.5rem)); overflow: hidden; color: #f4eee0; background: #10170f; }
-  .hero__image, .hero__veil { position: absolute; inset: 0; }
-  .hero__image { z-index: -3; left: 38%; }
-  .hero__image :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.78) sepia(.12) contrast(1.04) brightness(.82); }
-  .hero__veil { z-index: -2; background: linear-gradient(90deg, #0b110b 0%, #0b110b 30%, rgba(11,17,11,.97) 40%, rgba(11,17,11,.68) 53%, rgba(11,17,11,.14) 73%, rgba(11,17,11,.04) 100%), linear-gradient(0deg, rgba(4,8,5,.45), transparent 42%); }
-  .hero__shell { position: relative; display: flex; align-items: center; min-height: min(50rem, calc(100svh - 4.5rem)); padding-top: clamp(3rem, 7vw, 6.5rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
-  .hero__copy { width: min(36rem, 52%); }
-  .hero__eyebrow, .hero__scripture-label, .section-kicker { margin: 0 0 1.25rem; color: #c9a76a; font-family: var(--font-sans, Arial, sans-serif); font-size: .63rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; }
-  .hero h1 { margin: 0; font-family: var(--font-display, Georgia, serif); font-size: clamp(3.9rem, 6.4vw, 6.8rem); font-weight: 400; line-height: .94; letter-spacing: -.035em; color: #f3eddf; }
-  .hero h1 em, .ingredient-story h2 em { color: #c69a56; font-style: normal; }
-  .hero__ornament { display: flex; align-items: center; gap: .55rem; width: 11rem; margin: 1.7rem 0 1.65rem; color: #a77b3d; }
-  .hero__ornament span { height: 1px; flex: 1; background: currentColor; opacity: .72; } .hero__ornament b { font-size: .9rem; font-weight: 400; }
-  .hero__lead { max-width: 32rem; margin: 0; color: rgba(244,238,224,.72); font-size: clamp(.92rem, 1.1vw, 1.02rem); line-height: 1.9; }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2rem; }
-  .hero__primary, .hero__secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.4rem; font-family: var(--font-sans, Arial, sans-serif); font-size: .61rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
-  .hero__primary { gap: 1.7rem; color: #1c170f; background: #c49a57; } .hero__secondary { color: #efe6d5; border: 1px solid rgba(240,228,204,.32); }
-  .hero__primary:hover, .hero__secondary:hover { transform: translateY(-2px); } .hero__primary:hover { background: #d1aa68; } .hero__secondary:hover { border-color: rgba(240,228,204,.72); }
-  .hero__principles { display: flex; align-items: center; flex-wrap: wrap; gap: .85rem; margin-top: 2rem; color: #b89458; font-family: var(--font-sans, Arial, sans-serif); font-size: .57rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  .hero__principles i { width: .24rem; height: .24rem; border-radius: 50%; background: #8f6b39; }
-  .hero__scripture { position: absolute; z-index: 2; right: clamp(1.5rem, 7vw, 9rem); bottom: clamp(1.5rem, 8vw, 5.5rem); width: min(18rem, 26vw); padding: 1.35rem 1.45rem; border: 1px solid rgba(199,158,88,.28); background: rgba(13,22,13,.74); backdrop-filter: blur(8px); }
-  .hero__scripture-label { display: block; margin-bottom: .75rem; font-size: .55rem; } .hero__scripture blockquote { margin: 0 0 .9rem; font-family: var(--font-display, Georgia, serif); font-size: 1.1rem; font-style: italic; line-height: 1.45; color: #f2eadb; } .hero__scripture cite { color: #b89250; font-family: var(--font-sans, Arial, sans-serif); font-size: .56rem; font-style: normal; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-
-  .ingredient-story { position: relative; overflow: hidden; height: 21.25rem; background: #f2ecdf; color: #24231e; }
-  .ingredient-story__shell { position: relative; display: grid; grid-template-columns: 38% 1fr; column-gap: clamp(4rem, 8vw, 9rem); align-items: center; height: 100%; }
-  .ingredient-story__heading { align-self: start; padding-top: 3rem; }
-  .section-kicker { color: #7c6b46; margin-bottom: .8rem; font-size: .54rem; }
-  .ingredient-story h2 { margin: 0; max-width: 8ch; font-family: var(--font-display, Georgia, serif); font-size: clamp(2.6rem, 4vw, 4.1rem); font-weight: 400; line-height: .98; letter-spacing: -.045em; }
-  .ingredient-story__content { display: contents; }
-  .ingredient-story__copy { grid-column: 1; align-self: end; width: min(22rem, 100%); padding-bottom: 2.65rem; }
-  .ingredient-story__copy p { margin: 0; color: #59564d; font-family: var(--font-display, Georgia, serif); font-size: clamp(.92rem, 1.05vw, 1.05rem); line-height: 1.62; }
-  .text-link { display: inline-flex; gap: 1.15rem; margin-top: 1.25rem; padding-bottom: .35rem; border-bottom: 1px solid rgba(122,105,72,.58); color: #4a463d; font-family: var(--font-sans, Arial, sans-serif); font-size: .52rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
-  .ingredient-story__image { grid-column: 2; grid-row: 1; align-self: center; justify-self: end; width: min(32.5rem, 100%); margin: 0; }
-  .ingredient-story__image :global(img) { display: block; width: 100%; aspect-ratio: 2 / 1; height: 15.625rem; object-fit: cover; filter: saturate(.9) contrast(1.02); }
-
-  @media (max-width: 980px) {
-    .hero { min-height: auto; }
-    .hero__image { left: 20%; }
-    .hero__copy { width: min(38rem, 62%); }
-    .hero__scripture { width: min(17rem, 32vw); right: 2rem; }
-    .ingredient-story { height: auto; padding: 3.25rem 0; }
-    .ingredient-story__shell { grid-template-columns: minmax(15rem, .9fr) minmax(20rem, 1.1fr); gap: 3rem; }
-    .ingredient-story__heading { padding-top: 0; align-self: center; }
-    .ingredient-story__copy { padding-bottom: 0; align-self: end; }
-    .ingredient-story__image :global(img) { height: auto; min-height: 13rem; }
+  .home-page {
+    min-height: 1px;
+    background: #f2ecdf;
   }
-
-  @media (max-width: 760px) {
-    .hero__image { left: 0; }
-    .hero__veil { background: linear-gradient(180deg, rgba(7,12,7,.2) 0%, rgba(7,12,7,.6) 36%, #0b110b 72%), linear-gradient(90deg, rgba(7,12,7,.78), rgba(7,12,7,.12)); }
-    .hero__shell { align-items: flex-end; min-height: 43rem; padding-top: 18rem; }
-    .hero__copy { width: 100%; }
-    .hero h1 { font-size: clamp(3.25rem, 13vw, 5.5rem); }
-    .hero__lead { max-width: 34rem; }
-    .hero__scripture { position: static; width: auto; margin: 0 1rem 1rem; background: rgba(13,22,13,.86); }
-    .ingredient-story { height: auto; padding: 4.5rem 0 3.5rem; }
-    .ingredient-story__shell { display: flex; flex-direction: column; align-items: stretch; gap: 2.5rem; }
-    .ingredient-story__heading { padding: 0; }
-    .ingredient-story h2 { max-width: 10ch; font-size: clamp(2.85rem, 11vw, 4.3rem); }
-    .ingredient-story__copy { width: min(34rem, 100%); padding: 0; order: 2; }
-    .ingredient-story__image { width: 100%; order: 1; }
-    .ingredient-story__image :global(img) { width: 100%; height: auto; min-height: 0; }
-  }
-
-  @media (max-width: 520px) {
-    .hero__shell { min-height: 42rem; padding-top: 15rem; padding-bottom: 2.25rem; }
-    .hero__eyebrow { margin-bottom: 1rem; }
-    .hero h1 { font-size: clamp(3rem, 15vw, 4.7rem); line-height: .96; }
-    .hero__lead { font-size: .92rem; line-height: 1.75; }
-    .hero__actions { display: grid; grid-template-columns: 1fr; }
-    .hero__primary, .hero__secondary { width: 100%; min-height: 3.45rem; }
-    .hero__principles { gap: .55rem; line-height: 1.8; }
-    .ingredient-story { padding: 3.5rem 0 3rem; }
-    .ingredient-story h2 { font-size: clamp(2.75rem, 12vw, 3.7rem); }
-    .ingredient-story__copy p { font-size: .98rem; line-height: 1.68; }
-  }
-
-  @media (prefers-reduced-motion: reduce) { .hero__primary, .hero__secondary { transition: none; } }
 </style>
