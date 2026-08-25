@@ -6,6 +6,7 @@ import '@fontsource-variable/fraunces/wght-italic.css';
 import '../styles/global.css';
 import '../styles/design-v2.css';
 import '../styles/design-v2-polish.css';
+import '../styles/design-v2-content.css';
 import { SITE } from '../config';
 import { ANALYTICS } from '../lib/analytics';
 import { resolveSocialMetadata } from '../lib/social-metadata';
@@ -51,16 +52,6 @@ const websiteSchema = {
   inLanguage: 'en',
 };
 
-/**
- * V3C.38: Analytics is only enabled when:
- * 1. A valid GA4 measurement ID is configured (ANALYTICS.enabled)
- * 2. Not a noindex or technical fallback page
- * 3. User has consented to analytics (checked client-side)
- *
- * The server-side check ensures we don't even emit the script tag
- * unless analytics is configured. The client-side consent check
- * happens in the inline script before calling gtag.
- */
 const analyticsConfigured = ANALYTICS.enabled && !noindex && !technicalFallback;
 ---
 
@@ -77,35 +68,15 @@ const analyticsConfigured = ANALYTICS.enabled && !noindex && !technicalFallback;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f7f2e9" />
     {!technicalFallback && <link rel="canonical" href={canonicalURL} />}
-    {
-      (noindex || technicalFallback) && (
-        <meta name="robots" content="noindex, follow" />
-      )
-    }
+    {(noindex || technicalFallback) && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-
-    {
-      analyticsConfigured && ANALYTICS.measurementId && (
-        <script
-          is:inline
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
-        />
-      )
-    }
-    {
-      analyticsConfigured && ANALYTICS.measurementId && (
-        <script
-          is:inline
-          set:html={`window.dataLayer = window.dataLayer || [];
+    {analyticsConfigured && ANALYTICS.measurementId && (
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`} />
+    )}
+    {analyticsConfigured && ANALYTICS.measurementId && (
+      <script is:inline set:html={`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
-
-/**
- * V3C.38: Analytics respects consent.
- * gtag is only called if the user has explicitly consented.
- * Consent is checked from localStorage (bm-consent).
- */
 function checkConsentAndTrack(){
   try{
     const consent = JSON.parse(localStorage.getItem('bm-consent') || '{}');
@@ -113,131 +84,58 @@ function checkConsentAndTrack(){
       gtag('js', new Date());
       gtag('config', ${JSON.stringify(ANALYTICS.measurementId)});
     }
-  }catch(e){
-    // Consent check failed - do not track
-  }
+  }catch(e){}
 }
-
-// Only track if consent is already given
-checkConsentAndTrack();`}
-        />
-      )
-    }
-
-    {
-      !technicalFallback && (
-        <>
-          {SEARCH_ENGINE_VERIFICATION.google && (
-            <meta
-              name="google-site-verification"
-              content={SEARCH_ENGINE_VERIFICATION.google}
-            />
-          )}
-          {SEARCH_ENGINE_VERIFICATION.bing && (
-            <meta
-              name="msvalidate.01"
-              content={SEARCH_ENGINE_VERIFICATION.bing}
-            />
-          )}
-
-          <meta property="og:type" content={social.type} />
-          <meta property="og:site_name" content={SITE.name} />
-          <meta property="og:title" content={social.title} />
-          <meta property="og:description" content={social.description} />
-          <meta property="og:url" content={social.canonicalURL} />
-          <meta property="og:image" content={social.imageURL} />
-          <meta property="og:image:alt" content={social.imageAlt} />
-          <meta property="og:locale" content="en_US" />
-
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" content={social.title} />
-          <meta name="twitter:description" content={social.description} />
-          <meta name="twitter:image" content={social.imageURL} />
-          <meta name="twitter:image:alt" content={social.imageAlt} />
-        </>
-      )
-    }
-
-    {
-      !technicalFallback && (
-        <script
-          is:inline
-          type="application/ld+json"
-          set:html={JSON.stringify(websiteSchema)}
-        />
-      )
-    }
-    {
-      !technicalFallback &&
-        jsonLd.map((schema) => (
-          <script
-            is:inline
-            type="application/ld+json"
-            set:html={JSON.stringify(schema)}
-          />
-        ))
-    }
+checkConsentAndTrack();`} />
+    )}
+    {!technicalFallback && (
+      <>
+        {SEARCH_ENGINE_VERIFICATION.google && <meta name="google-site-verification" content={SEARCH_ENGINE_VERIFICATION.google} />}
+        {SEARCH_ENGINE_VERIFICATION.bing && <meta name="msvalidate.01" content={SEARCH_ENGINE_VERIFICATION.bing} />}
+        <meta property="og:type" content={social.type} />
+        <meta property="og:site_name" content={SITE.name} />
+        <meta property="og:title" content={social.title} />
+        <meta property="og:description" content={social.description} />
+        <meta property="og:url" content={social.canonicalURL} />
+        <meta property="og:image" content={social.imageURL} />
+        <meta property="og:image:alt" content={social.imageAlt} />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={social.title} />
+        <meta name="twitter:description" content={social.description} />
+        <meta name="twitter:image" content={social.imageURL} />
+        <meta name="twitter:image:alt" content={social.imageAlt} />
+      </>
+    )}
+    {!technicalFallback && <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />}
+    {!technicalFallback && jsonLd.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
   </head>
   <body>
-    <svg
-      aria-hidden="true"
-      focusable="false"
-      class="pointer-events-none fixed h-0 w-0 overflow-hidden"
-    >
+    <svg aria-hidden="true" focusable="false" class="pointer-events-none fixed h-0 w-0 overflow-hidden">
       <filter id="bm-grain">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.8"
-          numOctaves="2"
-          stitchTiles="stitch"></feTurbulence>
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0.7 0"
-        ></feColorMatrix>
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0.7 0"></feColorMatrix>
       </filter>
     </svg>
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-caption focus:text-cream"
-    >
-      Skip to content
-    </a>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-caption focus:text-cream">Skip to content</a>
     <slot />
     <script src="../scripts/book-reader-polish.ts"></script>
     <script is:inline>
       const revealEls = Array.from(document.querySelectorAll('.reveal'));
-      const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)',
-      ).matches;
-
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReducedMotion || !('IntersectionObserver' in window)) {
         for (const el of revealEls) el.classList.add('revealed');
       } else {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                observer.unobserve(entry.target);
-              }
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
             }
-          },
-          { threshold: 0.12, rootMargin: '0px 0px -40px' },
-        );
+          }
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
         for (const el of revealEls) observer.observe(el);
       }
-
-      /**
-       * V3C.38: Listen for consent changes and update analytics tracking.
-       * If consent is granted, reload page to apply tracking.
-       * The initial script already checks consent on page load.
-       */
-      window.addEventListener('storage', (event) => {
-        if (event.key === 'bm-consent') {
-          // Refresh consent state on page - the checkConsentAndTrack
-          // function will be re-evaluated on next page load
-        }
-      });
     </script>
     <ConsentBanner client:load />
   </body>
