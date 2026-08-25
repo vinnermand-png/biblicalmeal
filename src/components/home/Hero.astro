@@ -1,6 +1,6 @@
 ---
 import Button from '../common/Button.astro';
-import FoodIllustration from '../common/FoodIllustration.astro';
+import EditorialImage from '../common/EditorialImage.astro';
 ---
 
 <section class="hero-home relative isolate overflow-hidden">
@@ -54,9 +54,13 @@ import FoodIllustration from '../common/FoodIllustration.astro';
       <div class="hero-art relative mx-auto max-w-2xl">
         <div class="hero-art__offset" aria-hidden="true"></div>
         <div class="hero-art__halo" aria-hidden="true"></div>
-        <FoodIllustration
-          kind="still-life"
-          class="hero-art__image relative aspect-[4/3] sm:aspect-[5/6] lg:aspect-[4/5]"
+        <EditorialImage
+          id="journal-ancient-table"
+          fallbackArt="still-life"
+          ratio="4 / 5"
+          alt="A quiet Mediterranean table with bread, figs, olives, clay and linen"
+          loading="eager"
+          class="hero-art__image"
         />
         <div class="hero-art__label hidden sm:flex" aria-hidden="true">
           <span>Ancient ingredients</span>
@@ -65,7 +69,7 @@ import FoodIllustration from '../common/FoodIllustration.astro';
         </div>
       </div>
       <p class="mt-4 text-right text-caption tracking-wide text-ink-muted/70">
-        Original illustration for BiblicalMeal
+        Editorial still life for BiblicalMeal
       </p>
     </div>
   </div>
@@ -156,6 +160,12 @@ import FoodIllustration from '../common/FoodIllustration.astro';
     box-shadow: 0 22px 50px rgb(41 32 24 / 0.11);
     background: var(--color-surface);
   }
+  .hero-art__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 800ms ease;
+  }
   .hero-art__label {
     position: absolute;
     right: -1.25rem;
@@ -183,6 +193,9 @@ import FoodIllustration from '../common/FoodIllustration.astro';
     }
     .hero-art:hover {
       transform: translateY(-3px);
+    }
+    .hero-art:hover .hero-art__image :global(img) {
+      transform: scale(1.025);
     }
   }
 </style>
