@@ -23,25 +23,29 @@ const featuredIngredients = (await getVisibleIngredients())
 const regions = [
   {
     name: 'Ancient Israel',
-    description: 'The heartland of the biblical story — hills, harvests, orchards, and everyday tables.',
+    description:
+      'The heartland of the biblical story — hills, harvests, orchards, and everyday tables.',
     art: 'israel',
     imageId: 'journal-mediterranean-landscape',
   },
   {
     name: 'Galilee',
-    description: 'Lake country shaped by fishing communities, fertile plains, and tables shaped by water and harvest.',
+    description:
+      'Lake country shaped by fishing communities, fertile plains, and tables shaped by water and harvest.',
     art: 'galilee',
     imageId: 'journal-ancient-table',
   },
   {
     name: 'Judea',
-    description: 'The highlands around Jerusalem, with terraced fields, cultivated land, and an enduring food culture.',
+    description:
+      'The highlands around Jerusalem, with terraced fields, cultivated land, and an enduring food culture.',
     art: 'judea',
     imageId: 'journal-meal-preparation',
   },
   {
     name: 'Mediterranean World',
-    description: 'The wider sea-facing world of trade routes that moved foods, ideas, and culinary traditions.',
+    description:
+      'The wider sea-facing world of trade routes that moved foods, ideas, and culinary traditions.',
     art: 'mediterranean',
     imageId: 'journal-research-manuscript',
   },
@@ -60,14 +64,24 @@ const regions = [
           title="Ingredients of the Ancient Table"
           description="A first look at the foods we are profiling — each one approached through Scripture, history, evidence, and cooking."
         />
-        <div class="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-5">
-          {featuredIngredients.map((entry) => <IngredientCard entry={entry} />)}
+        <div
+          class="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-5"
+        >
+          {featuredIngredients.map((entry) => (
+            <IngredientCard entry={entry} />
+          ))}
         </div>
         <div class="mt-10 flex flex-wrap justify-center gap-3">
-          <a href="/ingredients/" class="inline-flex items-center justify-center border border-line bg-surface px-6 py-3 font-sans text-caption font-semibold tracking-wide text-ink uppercase transition-colors hover:border-terracotta hover:text-terracotta-dark">
+          <a
+            href="/ingredients/"
+            class="inline-flex items-center justify-center border border-line bg-surface px-6 py-3 font-sans text-caption font-semibold tracking-wide text-ink uppercase transition-colors hover:border-terracotta hover:text-terracotta-dark"
+          >
             Browse all ingredients <span class="ml-2" aria-hidden="true">→</span>
           </a>
-          <a href="/foods/figs/" class="inline-flex items-center justify-center bg-olive-dark px-6 py-3 font-sans text-caption font-semibold tracking-wide text-cream uppercase transition-colors hover:bg-olive-mid">
+          <a
+            href="/foods/figs/"
+            class="inline-flex items-center justify-center bg-olive-dark px-6 py-3 font-sans text-caption font-semibold tracking-wide text-cream uppercase transition-colors hover:bg-olive-mid"
+          >
             View biblical foods <span class="ml-2" aria-hidden="true">→</span>
           </a>
         </div>
