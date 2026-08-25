@@ -1,0 +1,435 @@
+/*
+ * BiblicalMeal Design System 2.0
+ * Visual refinement pass based on the rendered public site.
+ * Keeps the existing identity and content architecture intact while
+ * improving scale, editorial composition, and responsive rhythm.
+ */
+
+:root {
+  --bm-page-max: 88rem;
+  --bm-content-max: 72ch;
+  --bm-section-space: clamp(5.5rem, 9vw, 9rem);
+  --bm-section-space-compact: clamp(4rem, 7vw, 6rem);
+  --bm-card-radius: 0.9rem;
+  --bm-panel-radius: 1.15rem;
+  --bm-media-radius: 0.9rem;
+  --bm-card-shadow: 0 1px 2px rgb(41 32 24 / 0.04), 0 8px 24px rgb(41 32 24 / 0.035);
+  --bm-card-shadow-hover: 0 16px 42px rgb(41 32 24 / 0.12);
+}
+
+.container-site {
+  max-width: var(--bm-page-max);
+}
+
+/* Shared editorial proportions */
+.content-hero__grid {
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-block: clamp(4.5rem, 8vw, 8rem);
+  gap: clamp(3rem, 7vw, 7rem);
+}
+
+.content-hero__copy {
+  max-width: 50rem;
+}
+
+.content-hero__copy h1 {
+  max-width: 15ch;
+}
+
+.content-hero__copy > .text-body-lg {
+  max-width: 40rem;
+}
+
+.content-hero__art {
+  max-width: 32rem;
+  width: 100%;
+  justify-self: end;
+  border-radius: 1rem;
+  box-shadow: 0 18px 48px rgb(41 32 24 / 0.12);
+}
+
+.content-hero--listing .content-hero__grid {
+  max-width: 84rem;
+  text-align: left;
+}
+
+.content-hero--listing .content-hero__copy {
+  align-items: flex-start;
+}
+
+.content-hero--listing .content-hero__copy nav {
+  text-align: left;
+}
+
+.content-hero--listing:not(:has(.content-hero__art)) .content-hero__grid {
+  max-width: 72rem;
+}
+
+.content-hero--listing:not(:has(.content-hero__art)) .content-hero__copy {
+  align-items: center;
+  text-align: center;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.content-hero--listing:not(:has(.content-hero__art)) .content-hero__copy h1 {
+  max-width: 18ch;
+}
+
+/* Listing pages: wider canvas, less "centered template" feeling */
+.content-listing {
+  max-width: 84rem;
+  margin-inline: auto;
+}
+
+.content-listing__intro {
+  max-width: 60rem;
+  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
+  padding-bottom: 1.75rem;
+}
+
+.content-listing__intro > p:first-child {
+  max-width: 38rem;
+}
+
+.content-listing__grid {
+  column-gap: clamp(1.5rem, 2.4vw, 2.5rem);
+  row-gap: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+.content-listing__grid > li:nth-child(3n + 2),
+.content-listing__grid--after-feature > li:nth-child(3n + 2) {
+  margin-top: 0;
+}
+
+/* Recipe listing becomes a curated journal, not a plain catalogue. */
+.content-listing__grid:has(.editorial-card) > li:first-child {
+  grid-column: span 2;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child .editorial-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.88fr);
+  min-height: 28rem;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child {
+  height: 100%;
+  border-right: 1px solid var(--color-line);
+  border-bottom: 0;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child svg,
+.content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child img {
+  height: 100%;
+  min-height: 28rem;
+  object-fit: cover;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:last-child {
+  padding: clamp(2rem, 4vw, 3.25rem);
+  justify-content: center;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child h3 {
+  font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+  line-height: 1.08;
+}
+
+.content-listing__grid:has(.editorial-card) > li:first-child p.line-clamp-2 {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.editorial-card {
+  border-radius: 0.9rem;
+  box-shadow: var(--bm-card-shadow);
+}
+
+.editorial-card:hover {
+  box-shadow: var(--bm-card-shadow-hover);
+}
+
+.editorial-card > div:first-child {
+  background: var(--color-background-alt);
+}
+
+/* Ingredient cards: calmer and more substantial */
+.ingredient-card {
+  border-radius: 0.9rem;
+  box-shadow: var(--bm-card-shadow);
+}
+
+.ingredient-card__art {
+  min-height: 15rem;
+}
+
+.ingredient-card__art > div,
+.ingredient-card__art > svg,
+.ingredient-card__art > img {
+  min-height: 15rem;
+}
+
+.ingredient-card > div:last-child {
+  padding: clamp(1.35rem, 2.3vw, 1.9rem);
+}
+
+.ingredient-card h3 {
+  font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+}
+
+.ingredient-feature {
+  max-width: 82rem;
+  margin-inline: auto;
+  gap: clamp(3rem, 7vw, 7rem);
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.ingredient-feature__copy h2 {
+  font-size: clamp(2.2rem, 4.5vw, 4.3rem);
+  line-height: 0.98;
+}
+
+.ingredient-feature__media {
+  border-radius: 1rem;
+  box-shadow: 0 18px 48px rgb(41 32 24 / 0.1);
+}
+
+/* Journal stays the model editorial page, but uses more of the viewport. */
+.journal {
+  max-width: 84rem;
+}
+
+.journal-feature {
+  border-radius: 1rem;
+  box-shadow: 0 12px 36px rgb(41 32 24 / 0.07);
+}
+
+.journal-feature__copy {
+  padding: clamp(2rem, 5vw, 4.5rem);
+}
+
+.journal-feature__copy h2 {
+  max-width: 9ch;
+  font-size: clamp(2.5rem, 4.6vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.journal-context {
+  margin-top: clamp(5rem, 10vw, 9rem);
+}
+
+.journal-context__media {
+  border-radius: 0.9rem;
+}
+
+/* Article reading: more magazine-like, less documentation-like. */
+.prose-bm {
+  max-width: 72ch;
+}
+
+.page-article-detail article,
+.prose-bm {
+  font-size: clamp(1.03rem, 1rem + 0.12vw, 1.12rem);
+  line-height: 1.82;
+}
+
+/* Trust / methodology pages benefit from stronger editorial scale. */
+.page-editorial-method {
+  --bm-trust-max: 80rem;
+}
+
+.page-editorial-method > section {
+  max-width: var(--bm-trust-max);
+}
+
+.page-editorial-method > section:first-child h1 {
+  max-width: 12ch;
+}
+
+.page-editorial-method > section:nth-child(2) {
+  padding-top: 0;
+}
+
+.page-editorial-method > section:nth-child(2) > div {
+  max-width: 80rem;
+}
+
+.page-editorial-method > section:nth-child(3) > div,
+.page-editorial-method > section:nth-child(4) > div,
+.page-editorial-method > section:nth-child(5) > div {
+  max-width: 80rem;
+}
+
+/* Cookbook showroom: make the book the hero at desktop. */
+.cookbook-showroom {
+  min-height: min(78vh, 900px);
+  padding-block: clamp(3rem, 6vw, 6rem);
+}
+
+.cookbook-showroom__inner {
+  max-width: 78rem;
+  gap: clamp(4rem, 8vw, 8rem);
+}
+
+.cookbook-showroom__cover {
+  width: min(52vw, 460px);
+  border-radius: 0.7rem;
+  box-shadow:
+    0 10px 24px rgb(41 32 24 / 0.08),
+    0 24px 64px rgb(41 32 24 / 0.12);
+}
+
+.cookbook-showroom__info {
+  max-width: 34rem;
+}
+
+.cookbook-showroom__info-title {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.04;
+}
+
+.cookbook-showroom__info-desc {
+  max-width: 32rem;
+  font-size: 1.05rem;
+}
+
+/* Chapter pages: more book-like scale and stronger opener. */
+.cookbook-chapter-cover,
+.chapter-cover {
+  max-width: 88rem;
+}
+
+/* Reader: the book must dominate desktop instead of floating as a tiny object. */
+.book-reader {
+  min-height: calc(100vh - 7rem);
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 3vw, 3rem) clamp(2rem, 4vw, 4rem);
+}
+
+.book-reader__cover-frame {
+  width: min(70vw, 460px);
+}
+
+.book-reader__pages {
+  width: 100%;
+}
+
+.book-reader__spread {
+  width: min(94vw, 110rem);
+  margin-inline: auto;
+  gap: clamp(0.5rem, 1.2vw, 1.25rem);
+}
+
+.book-reader__slot .book-page {
+  width: min(44vw, 660px);
+  max-width: 660px;
+  aspect-ratio: 8 / 10;
+}
+
+.book-reader__controls {
+  width: min(94vw, 110rem);
+  margin-inline: auto;
+}
+
+/* Better focus and subtle hover behavior without turning the site into SaaS UI. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 1100px) {
+  .container-site {
+    padding-inline: 3rem;
+  }
+
+  .content-listing__grid:has(.editorial-card) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1099px) {
+  .content-listing__grid:has(.editorial-card) > li:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .content-listing__grid:has(.editorial-card) > li:first-child .editorial-card {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr);
+  }
+}
+
+@media (max-width: 899px) {
+  .content-hero__art {
+    justify-self: stretch;
+    max-width: none;
+  }
+
+  .content-listing__grid:has(.editorial-card) > li:first-child .editorial-card {
+    display: flex;
+  }
+
+  .content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child {
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child svg,
+  .content-listing__grid:has(.editorial-card) > li:first-child .editorial-card > div:first-child img {
+    min-height: 0;
+    height: auto;
+  }
+
+  .book-reader__spread {
+    width: min(96vw, 54rem);
+  }
+
+  .book-reader__slot .book-page {
+    width: min(46vw, 500px);
+  }
+}
+
+@media (max-width: 639px) {
+  .content-hero__grid {
+    padding-block: 3.5rem;
+  }
+
+  .content-hero__copy h1 {
+    max-width: 100%;
+  }
+
+  .content-listing {
+    padding-inline: 1.25rem;
+  }
+
+  .ingredient-feature__copy h2,
+  .journal-feature__copy h2 {
+    max-width: 100%;
+  }
+
+  .cookbook-showroom {
+    min-height: auto;
+  }
+
+  .cookbook-showroom__cover {
+    width: min(82vw, 360px);
+  }
+
+  .book-reader {
+    padding-inline: 0.75rem;
+  }
+
+  .book-reader__cover-frame {
+    width: min(78vw, 360px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-card,
+  .ingredient-card,
+  .cookbook-showroom__cover-link {
+    transition: none !important;
+  }
+}
