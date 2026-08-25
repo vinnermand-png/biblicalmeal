@@ -11,6 +11,44 @@
   color: var(--subpage-ink);
 }
 
+.bm-subpage-surface .site-header {
+  position: sticky;
+  top: 0;
+  background: rgba(245, 242, 234, 0.96);
+  border-bottom-color: var(--subpage-line);
+  backdrop-filter: blur(12px);
+}
+
+.bm-subpage-surface .site-header__inner,
+.bm-subpage-surface .site-header__nav {
+  min-height: 68px;
+}
+
+.bm-subpage-surface .site-header__brand {
+  color: var(--subpage-ink);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.bm-subpage-surface .site-header__link {
+  color: #5f5a50;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+}
+
+.bm-subpage-surface .site-header__cta {
+  min-height: 2.4rem;
+  border-color: var(--subpage-line);
+  background: transparent;
+  color: var(--subpage-olive);
+}
+
+.bm-subpage-surface .site-header__cta:hover {
+  border-color: var(--subpage-olive);
+  background: var(--subpage-olive);
+  color: #f7f4ed;
+}
+
 .bm-subpage-surface .container-site,
 .bm-subpage-surface .content-hero__grid {
   width: min(100%, 1180px);
@@ -72,10 +110,29 @@
 .bm-subpage-surface .ingredient-feature,
 .bm-subpage-surface .recipe-feature,
 .bm-subpage-surface .content-surface,
-.bm-subpage-surface .editorial-surface {
+.bm-subpage-surface .editorial-surface,
+.bm-subpage-surface .surface-panel {
   border: 1px solid var(--subpage-line);
   border-radius: 10px;
   background: var(--subpage-surface);
+  box-shadow: none;
+}
+
+.bm-subpage-surface .surface-panel {
+  color: var(--subpage-ink);
+}
+
+.bm-subpage-surface .surface-panel h2,
+.bm-subpage-surface .surface-panel h3 {
+  color: var(--subpage-ink);
+}
+
+.bm-subpage-surface .surface-panel ul {
+  border-color: var(--subpage-line);
+}
+
+.bm-subpage-surface .surface-panel li + li {
+  border-color: var(--subpage-line);
 }
 
 .bm-subpage-surface a[class*='bg-terracotta'],
@@ -119,9 +176,25 @@
   color: var(--subpage-muted);
 }
 
-.bm-subpage-surface .card,
-.bm-subpage-surface [class*='card'] {
+.bm-subpage-surface footer {
+  background: var(--subpage-bg);
+  color: var(--subpage-ink);
+  border-top: 1px solid var(--subpage-line);
+}
+
+.bm-subpage-surface footer .text-cream,
+.bm-subpage-surface footer .text-cream-muted,
+.bm-subpage-surface footer .text-gold {
+  color: var(--subpage-muted);
+}
+
+.bm-subpage-surface footer .border-line-dark,
+.bm-subpage-surface footer [class*='border-line-dark'] {
   border-color: var(--subpage-line);
+}
+
+.bm-subpage-surface footer a:hover {
+  color: var(--subpage-ink);
 }
 
 .bm-subpage-surface :focus-visible {
