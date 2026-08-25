@@ -4,16 +4,20 @@ import { INGREDIENT_ART, INGREDIENT_PREMIUM_IMAGE_IDS } from '../../lib/visuals'
 import EditorialImage from '../common/EditorialImage.astro';
 
 type IngredientEntry = CollectionEntry<'ingredients'>;
-interface Props { items: IngredientEntry[]; }
+interface Props {
+  items: IngredientEntry[];
+}
 const { items } = Astro.props;
 ---
 
 <section class="bm-featured-foods" aria-labelledby="bm-featured-foods-title">
   <div class="container-site">
     <div class="bm-featured-foods__intro">
-      <p class="bm-eyebrow">Featured foods</p>
-      <h2 id="bm-featured-foods-title">Ingredients of the ancient table.</h2>
-      <p>Collectible foods, explored through Scripture, history, evidence, and the ways they still reach the table today.</p>
+      <div>
+        <p class="bm-eyebrow">Featured foods</p>
+        <h2 id="bm-featured-foods-title">A living archive of the ancient table.</h2>
+      </div>
+      <p>Collectible foods explored through Scripture, history, evidence, and the ways they still reach the table today.</p>
     </div>
 
     <div class="bm-foods-grid">
@@ -21,15 +25,28 @@ const { items } = Astro.props;
         const premium = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
         const art = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
         const href = ['figs', 'dates'].includes(entry.id) ? `/foods/${entry.id}/` : `/ingredients/${entry.id}/`;
+        const isFeature = index === 0;
+        const isWide = index === 5;
         return (
-          <a class:list={['bm-food-panel', index === 0 ? 'bm-food-panel--feature' : '', index === 5 ? 'bm-food-panel--wide' : '']} href={href}>
-            <EditorialImage id={premium} fallbackArt={art} ratio="4 / 3" alt={`${entry.data.name} ingredient portrait`} />
+          <a
+            class:list={[
+              'bm-food-panel',
+              { 'bm-food-panel--feature': isFeature, 'bm-food-panel--wide': isWide },
+            ]}
+            href={href}
+          >
+            <EditorialImage
+              id={premium}
+              fallbackArt={art}
+              ratio="4 / 3"
+              alt={`${entry.data.name} ingredient portrait`}
+            />
             <div class="bm-food-panel__shade"></div>
             <div class="bm-food-panel__copy">
               <span>{String(index + 1).padStart(2, '0')}</span>
               <h3>{entry.data.name}</h3>
               <p>{entry.data.description}</p>
-              <b>Explore <span aria-hidden="true">→</span></b>
+              <b>Explore ingredient <span aria-hidden="true">→</span></b>
             </div>
           </a>
         );
@@ -39,23 +56,165 @@ const { items } = Astro.props;
 </section>
 
 <style>
-  .bm-featured-foods { padding-block: 118px; background: #14200f; color: #f3ebdd; }
-  .bm-featured-foods__intro { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 32px; }
-  .bm-featured-foods__intro .bm-eyebrow { margin: 0 0 8px; color: #c7ab72; }
-  .bm-featured-foods__intro h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.7rem, 4.4vw, 4.2rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; }
-  .bm-featured-foods__intro > p { max-width: 350px; margin: 0; color: rgba(243,235,221,.58); font-size: 15px; line-height: 1.7; }
-  .bm-foods-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: 330px 150px; gap: 12px; }
-  .bm-food-panel { position: relative; min-width: 0; overflow: hidden; border: 1px solid rgba(199,171,114,.18); background: #28361f; }
-  .bm-food-panel :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.78) contrast(1.03) brightness(.72); transition: transform 550ms ease; }
-  .bm-food-panel:hover :global(img) { transform: scale(1.025); }
-  .bm-food-panel--feature { grid-column: span 2; grid-row: span 2; }
-  .bm-food-panel--wide { grid-column: span 2; }
-  .bm-food-panel__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,15,8,.03), rgba(10,15,8,.72) 82%); }
-  .bm-food-panel__copy { position: absolute; inset: auto 20px 20px; z-index: 2; }
-  .bm-food-panel__copy > span { color: #c7ab72; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .18em; }
-  .bm-food-panel h3 { margin: 6px 0 4px; font-family: var(--font-display); font-size: clamp(1.6rem, 2.2vw, 2.45rem); font-weight: 400; }
-  .bm-food-panel p { max-width: 34rem; margin: 0; color: rgba(243,235,221,.72); font-size: 13px; line-height: 1.55; }
-  .bm-food-panel b { display: inline-flex; gap: 10px; margin-top: 10px; color: #c7ab72; font-family: var(--font-sans); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-  @media (max-width: 900px) { .bm-featured-foods { padding-block: 90px; } .bm-featured-foods__intro { display: block; } .bm-featured-foods__intro > p { margin-top: 14px; } .bm-foods-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 180px); } .bm-food-panel--feature { grid-column: span 2; grid-row: span 1; } .bm-food-panel--wide { grid-column: span 2; } }
-  @media (max-width: 620px) { .bm-featured-foods { padding-block: 72px; } .bm-foods-grid { grid-template-columns: 1fr; grid-template-rows: repeat(6, 200px); } .bm-food-panel--feature, .bm-food-panel--wide { grid-column: auto; grid-row: auto; } }
+  .bm-featured-foods {
+    padding-block: clamp(92px, 9vw, 132px);
+    background: #14200f;
+    color: #f3ebdd;
+  }
+  .bm-featured-foods__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);
+    align-items: end;
+    gap: 48px;
+    margin-bottom: 38px;
+  }
+  .bm-featured-foods__intro .bm-eyebrow {
+    margin: 0 0 10px;
+    color: #c7ab72;
+  }
+  .bm-featured-foods__intro h2 {
+    max-width: 760px;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 4.9vw, 4.8rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+  .bm-featured-foods__intro > p {
+    margin: 0;
+    color: rgba(243, 235, 221, 0.62);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+  .bm-foods-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(210px, 1fr)) 180px;
+    gap: 14px;
+  }
+  .bm-food-panel {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(199, 171, 114, 0.18);
+    background: #28361f;
+  }
+  .bm-food-panel :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.78) contrast(1.03) brightness(0.74);
+    transition: transform 700ms ease;
+  }
+  .bm-food-panel:hover :global(img) {
+    transform: scale(1.03);
+  }
+  .bm-food-panel--feature {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bm-food-panel--wide {
+    grid-column: 1 / -1;
+  }
+  .bm-food-panel__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10, 15, 8, 0.02), rgba(10, 15, 8, 0.78) 88%),
+      linear-gradient(90deg, rgba(10, 15, 8, 0.18), transparent 52%);
+  }
+  .bm-food-panel__copy {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
+    z-index: 2;
+  }
+  .bm-food-panel__copy > span {
+    color: #c7ab72;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+  .bm-food-panel h3 {
+    max-width: 32rem;
+    margin: 7px 0 6px;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2.8vw, 3rem);
+    font-weight: 400;
+    line-height: 0.98;
+  }
+  .bm-food-panel--feature h3 {
+    font-size: clamp(2.6rem, 4vw, 4rem);
+  }
+  .bm-food-panel p {
+    max-width: 38rem;
+    margin: 0;
+    color: rgba(243, 235, 221, 0.72);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .bm-food-panel b {
+    display: inline-flex;
+    gap: 10px;
+    margin-top: 12px;
+    color: #c7ab72;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .bm-food-panel--wide .bm-food-panel__copy {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 18px;
+  }
+  .bm-food-panel--wide p {
+    max-width: 34rem;
+  }
+  @media (max-width: 900px) {
+    .bm-featured-foods__intro {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .bm-foods-grid {
+      grid-template-rows: repeat(2, 230px) 170px;
+    }
+    .bm-food-panel--feature {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .bm-food-panel--wide .bm-food-panel__copy {
+      display: block;
+    }
+  }
+  @media (max-width: 620px) {
+    .bm-featured-foods {
+      padding-block: 76px;
+    }
+    .bm-foods-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(6, 230px);
+    }
+    .bm-food-panel--feature,
+    .bm-food-panel--wide {
+      grid-column: auto;
+      grid-row: auto;
+    }
+    .bm-food-panel--feature h3 {
+      font-size: 2.45rem;
+    }
+    .bm-food-panel__copy {
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+    }
+  }
 </style>
