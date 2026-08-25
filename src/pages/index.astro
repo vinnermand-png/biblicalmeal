@@ -27,101 +27,49 @@ const featuredRecipe = (await getCollection('recipes')).find(
   (entry) => entry.data.featured,
 );
 
-// Regional framing: aspirational editorial scope, not historical claims.
 const regions: Array<{ name: string; description: string; art: ArtKind }> = [
-  {
-    name: 'Ancient Israel',
-    description:
-      'The heartland of the biblical story — its hills, harvests, and everyday meals.',
-    art: 'israel',
-  },
-  {
-    name: 'Galilee',
-    description:
-      'The lake country famous for fishing communities and fertile plains.',
-    art: 'galilee',
-  },
-  {
-    name: 'Judea',
-    description:
-      'The highlands around Jerusalem, with their orchards and terraced fields.',
-    art: 'judea',
-  },
-  {
-    name: 'Mediterranean World',
-    description:
-      'The wider sea-facing world of trade routes that moved foods and ideas.',
-    art: 'mediterranean',
-  },
+  { name: 'Ancient Israel', description: 'The heartland of the biblical story — its hills, harvests, and everyday meals.', art: 'israel' },
+  { name: 'Galilee', description: 'The lake country famous for fishing communities and fertile plains.', art: 'galilee' },
+  { name: 'Judea', description: 'The highlands around Jerusalem, with their orchards and terraced fields.', art: 'judea' },
+  { name: 'Mediterranean World', description: 'The wider sea-facing world of trade routes that moved foods and ideas.', art: 'mediterranean' },
 ];
 ---
 
 <BaseLayout title={undefined} description={HOME_DESCRIPTION}>
   <Header />
-  <main id="main">
+  <main id="main" class="page-home">
     <Hero />
 
     <section class="scroll-mt-24" id="foods">
       <div class="container-site py-20 md:py-28">
-        <SectionHeader
-          eyebrow="Ingredients of the Ancient Table"
-          title="Featured Foods"
-          description="A first look at the staples we are profiling — each one researched, cited, and told through Scripture, history, and cooking."
-        />
+        <SectionHeader eyebrow="Ingredients of the Ancient Table" title="Featured Foods" description="A first look at the staples we are profiling — each one researched, cited, and told through Scripture, history, and cooking." />
         <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {featuredIngredients.map((entry) => <IngredientCard entry={entry} />)}
         </div>
         <p class="reveal mt-10 text-center text-caption text-ink-muted/80">
-          Ingredient profiles are in active research — full histories and
-          citations publish as they are verified.
+          Ingredient profiles are in active research — full histories and citations publish as they are verified.
         </p>
-        <div
-          class="mt-12 flex flex-wrap justify-center gap-3"
-          aria-label="First published food profiles"
-        >
-          <a
-            href="/foods/figs/"
-            class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
-            >Explore Figs in the Bible <span aria-hidden="true">→</span></a
-          >
-          <a
-            href="/foods/dates/"
-            class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
-            >Explore Dates in the Bible <span aria-hidden="true">→</span></a
-          >
+        <div class="mt-12 flex flex-wrap justify-center gap-3" aria-label="First published food profiles">
+          <a href="/foods/figs/" class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark">Explore Figs in the Bible <span aria-hidden="true">→</span></a>
+          <a href="/foods/dates/" class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark">Explore Dates in the Bible <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
 
     <ConceptFlow />
-
     {featuredRecipe && <FeaturedRecipe recipe={featuredRecipe} />}
-
     <EditorialQuote />
 
     <section class="scroll-mt-24 bg-background-alt" id="regions">
       <div class="container-site py-20 md:py-28">
-        <SectionHeader
-          eyebrow="Culinary Geography"
-          title="Explore the Biblical World"
-          description="The regions whose tables shaped this project — each to be explored through its own stories, ingredients, and traditions."
-        />
+        <SectionHeader eyebrow="Culinary Geography" title="Explore the Biblical World" description="The regions whose tables shaped this project — each to be explored through its own stories, ingredients, and traditions." />
         <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-8">
-          {
-            regions.map((region) => (
-              <RegionCard
-                name={region.name}
-                description={region.description}
-                art={region.art}
-              />
-            ))
-          }
+          {regions.map((region) => <RegionCard name={region.name} description={region.description} art={region.art} />)}
         </div>
       </div>
     </section>
 
     <CookbookTeaser />
-
     <NewsletterSection />
   </main>
   <SiteFooter />
