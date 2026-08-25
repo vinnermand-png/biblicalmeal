@@ -1,0 +1,65 @@
+<section class="bm-home-hero" aria-labelledby="bm-home-hero-title">
+  <div class="bm-home-hero__media" aria-hidden="true">
+    <EditorialImage
+      id="journal-ancient-table"
+      fallbackArt="still-life"
+      ratio="16 / 10"
+      alt=""
+      decorative
+      loading="eager"
+      fit="cover"
+    />
+  </div>
+  <div class="bm-home-hero__overlay" aria-hidden="true"></div>
+
+  <div class="container-site bm-home-hero__inner">
+    <div class="bm-home-hero__copy">
+      <p class="bm-eyebrow">The Ancient Table</p>
+      <h1 id="bm-home-hero-title">The Bible tells<br />its story<br />at the <em>table.</em></h1>
+      <div class="bm-rule" aria-hidden="true"><span></span><b>✦</b><span></span></div>
+      <p class="bm-home-hero__lead">Ingredients, meals, landscapes, and culinary traditions from the ancient world — explored through Scripture, history, evidence, and the kitchen.</p>
+      <div class="bm-home-hero__actions">
+        <a class="bm-btn bm-btn--gold" href="/ingredients/">Explore the foods <span aria-hidden="true">→</span></a>
+        <a class="bm-btn bm-btn--ghost" href="/editorial-method/">Enter the biblical world</a>
+      </div>
+      <p class="bm-home-hero__principles">Rooted in Scripture <span>•</span> Inspired by history <span>•</span> Made for today</p>
+    </div>
+
+    <aside class="bm-home-hero__quote" aria-label="Scripture reflection">
+      <p>At the table</p>
+      <blockquote>“Man shall not live by bread alone.”</blockquote>
+      <cite>Matthew 4:4</cite>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .bm-home-hero { position: relative; min-height: 850px; overflow: hidden; isolation: isolate; background: #0f170d; color: #f3ebdd; }
+  .bm-home-hero__media { position: absolute; inset: 0 0 0 34%; z-index: -3; }
+  .bm-home-hero__media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.8) sepia(.08) contrast(1.05) brightness(.78); }
+  .bm-home-hero__overlay { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, #0f170d 0%, #0f170d 28%, rgba(15,23,13,.98) 38%, rgba(15,23,13,.7) 52%, rgba(15,23,13,.1) 74%, rgba(15,23,13,.04) 100%), linear-gradient(0deg, rgba(8,12,7,.55), transparent 35%); }
+  .bm-home-hero__inner { position: relative; display: flex; min-height: 850px; align-items: center; justify-content: space-between; padding-top: 72px; padding-bottom: 60px; }
+  .bm-home-hero__copy { width: min(590px, 51%); }
+  .bm-eyebrow { margin: 0 0 18px; color: #c7a86c; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; }
+  .bm-home-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(4.4rem, 6.7vw, 6rem); font-weight: 400; line-height: .96; letter-spacing: -.042em; }
+  .bm-home-hero h1 em { color: #c39a56; font-style: normal; }
+  .bm-rule { display: flex; align-items: center; gap: 10px; width: 250px; margin: 24px 0 22px; color: #b89653; }
+  .bm-rule span { flex: 1; height: 1px; background: currentColor; opacity: .55; }
+  .bm-rule b { font-weight: 400; font-size: 12px; }
+  .bm-home-hero__lead { max-width: 520px; margin: 0; color: rgba(243,235,221,.72); font-size: 17px; line-height: 1.78; }
+  .bm-home-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .bm-btn { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 18px; padding: 0 22px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease; }
+  .bm-btn:hover { transform: translateY(-2px); }
+  .bm-btn--gold { color: #1b1915; background: #b89653; }
+  .bm-btn--gold:hover { background: #c7ab72; }
+  .bm-btn--ghost { color: #f3ebdd; border: 1px solid rgba(243,235,221,.28); }
+  .bm-btn--ghost:hover { border-color: rgba(243,235,221,.7); }
+  .bm-home-hero__principles { margin: 24px 0 0; color: #b89653; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .bm-home-hero__principles span { margin-inline: 9px; color: #846a3f; }
+  .bm-home-hero__quote { width: 240px; align-self: flex-end; margin: 0 38px 78px 20px; padding: 22px 22px 20px; border: 1px solid rgba(184,150,83,.28); background: rgba(20,31,15,.76); backdrop-filter: blur(4px); }
+  .bm-home-hero__quote p { margin: 0 0 12px; color: #c7a86c; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .bm-home-hero__quote blockquote { margin: 0 0 15px; font-family: var(--font-display); font-size: 20px; font-style: italic; line-height: 1.35; }
+  .bm-home-hero__quote cite { color: #b89653; font-family: var(--font-sans); font-size: 10px; font-style: normal; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  @media (max-width: 1023px) { .bm-home-hero { min-height: 720px; } .bm-home-hero__inner { min-height: 720px; } .bm-home-hero__copy { width: min(560px, 64%); } .bm-home-hero h1 { font-size: clamp(3.5rem, 8vw, 5rem); } .bm-home-hero__quote { width: 205px; margin-right: 12px; } }
+  @media (max-width: 760px) { .bm-home-hero { min-height: auto; } .bm-home-hero__media { inset: 0; } .bm-home-hero__overlay { background: linear-gradient(180deg, rgba(15,23,13,.14) 0%, rgba(15,23,13,.44) 34%, #0f170d 73%), linear-gradient(90deg, rgba(15,23,13,.82), rgba(15,23,13,.18)); } .bm-home-hero__inner { min-height: 760px; align-items: flex-end; padding-top: 150px; padding-bottom: 28px; } .bm-home-hero__copy { width: 100%; } .bm-home-hero h1 { font-size: clamp(3.1rem, 14vw, 4.8rem); } .bm-home-hero__lead { font-size: 15px; line-height: 1.7; } .bm-home-hero__actions { display: grid; grid-template-columns: 1fr; } .bm-btn { width: 100%; } .bm-home-hero__quote { width: auto; margin: 22px 0 0; } }
+</style>
