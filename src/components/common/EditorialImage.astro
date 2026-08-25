@@ -6,6 +6,7 @@ import {
 } from '../../lib/editorial-images';
 import type { ArtKind } from '../../lib/visuals';
 import FoodIllustration from './FoodIllustration.astro';
+import SubpagePlaceholder from './SubpagePlaceholder.astro';
 
 interface Props {
   id?: string;
@@ -34,6 +35,7 @@ const useGenerated = asset?.status === 'generated';
 const imageAlt = decorative ? '' : getEditorialImageAlt(asset, alt);
 const fetchPriority = loading === 'eager' ? 'high' : 'auto';
 const imageFitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
+const isSubpage = Astro.url.pathname !== '/';
 ---
 
 <div
@@ -41,7 +43,9 @@ const imageFitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
   style={ratio ? `aspect-ratio:${ratio}` : undefined}
 >
   {
-    useGenerated && asset ? (
+    isSubpage ? (
+      <SubpagePlaceholder />
+    ) : useGenerated && asset ? (
       <img
         src={asset.publicPath}
         alt={imageAlt}
