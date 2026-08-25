@@ -1,9 +1,10 @@
 /**
- * Central registry for the BiblicalMeal original illustration system.
+ * Central registry for the BiblicalMeal original illustration system and
+ * optional premium ingredient image assets.
  *
- * Every visual on the site is rendered through `FoodIllustration` using a
- * `kind` from this file. When licensed photography becomes available, a kind
- * can be swapped for an image entry here without touching any component.
+ * Every visual on the site keeps a semantic `ArtKind` fallback. When a
+ * premium ingredient asset exists, the ingredient card can use it without
+ * changing the ingredient data model or component architecture.
  */
 
 export const ART_KINDS = [
@@ -85,7 +86,7 @@ export const ART_REGISTRY: Record<ArtKind, ArtDefinition> = {
   },
 };
 
-/** Homepage ingredient slugs mapped to their art kinds. */
+/** Homepage ingredient slugs mapped to their illustration fallbacks. */
 export const INGREDIENT_ART: Record<string, ArtKind> = {
   figs: 'figs',
   olives: 'olives',
@@ -93,4 +94,20 @@ export const INGREDIENT_ART: Record<string, ArtKind> = {
   dates: 'dates',
   honey: 'honey',
   barley: 'barley',
+};
+
+/**
+ * Optional premium ingredient image IDs.
+ *
+ * These IDs intentionally remain asset-only references. Until a finished
+ * image is added to the editorial image registry, the component falls back
+ * to the existing semantic illustration above.
+ */
+export const INGREDIENT_PREMIUM_IMAGE_IDS: Record<string, string> = {
+  figs: 'ingredient-portrait-figs',
+  olives: 'ingredient-portrait-olives',
+  barley: 'ingredient-portrait-barley',
+  lentils: 'ingredient-portrait-lentils',
+  honey: 'ingredient-portrait-honey',
+  pomegranates: 'ingredient-portrait-pomegranates',
 };
