@@ -18,27 +18,216 @@ import FoodIllustration from '../common/FoodIllustration.astro';
       <span class="bm-ingredient-story__botanical" aria-hidden="true">
         <FoodIllustration kind="olives" ratio="1 / 1" />
       </span>
-      <figcaption>Rooted in Scripture &amp; history</figcaption>
+      <span class="bm-ingredient-story__stamp" aria-hidden="true">
+        <span>Rooted in</span>
+        <strong>Scripture<br />&amp; history</strong>
+      </span>
+      <figcaption>Ingredient archive · olive</figcaption>
     </figure>
   </div>
 </section>
 
 <style>
-  .bm-ingredient-story { position: relative; overflow: hidden; padding-block: 96px; background: #f3eee4; color: #1b1915; }
-  .bm-ingredient-story::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 86% 16%, rgba(184,150,83,.06), transparent 22rem); }
-  .bm-ingredient-story__grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(48px, 7vw, 110px); align-items: center; min-height: 440px; }
-  .bm-ingredient-story__copy { max-width: 470px; }
-  .bm-eyebrow--light { color: #8f7b54; }
-  .bm-ingredient-story h2 { margin: 0; font-family: var(--font-display); font-size: clamp(3.1rem, 5.2vw, 4.6rem); font-weight: 400; line-height: .98; letter-spacing: -.045em; }
-  .bm-rule--warm { margin: 20px 0 18px; color: #ad8a4c; }
-  .bm-ingredient-story__copy > p:not(.bm-eyebrow) { margin: 0; max-width: 410px; color: #645f55; font-size: 16px; line-height: 1.75; }
-  .bm-text-link { display: inline-flex; gap: 14px; margin-top: 24px; padding-bottom: 5px; border-bottom: 1px solid rgba(91,72,46,.42); color: #574b36; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  .bm-ingredient-story__media { position: relative; width: 100%; max-width: 720px; margin: 0 0 0 auto; }
-  .bm-ingredient-story__media :global(img) { width: 100%; height: auto; min-height: 360px; object-fit: cover; border: 1px solid rgba(91,72,46,.18); box-shadow: 0 18px 42px rgba(52,39,29,.12); filter: saturate(.88) contrast(1.02); }
-  .bm-ingredient-story__media::after { content: ''; position: absolute; left: -12px; bottom: -12px; width: 96px; height: 96px; border: 1px solid rgba(184,150,83,.35); transform: rotate(45deg); pointer-events: none; }
-  .bm-ingredient-story__botanical { position: absolute; left: -52px; bottom: 12px; width: 118px; height: 118px; opacity: .72; transform: rotate(-12deg); }
-  .bm-ingredient-story__botanical :global(svg) { width: 100%; height: 100%; }
-  .bm-ingredient-story__media figcaption { margin-top: 12px; color: #8a7b63; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  @media (max-width: 900px) { .bm-ingredient-story { padding-block: 72px; } .bm-ingredient-story__grid { gap: 48px; } .bm-ingredient-story__botanical { left: -26px; width: 90px; height: 90px; } }
-  @media (max-width: 700px) { .bm-ingredient-story { padding-block: 68px; } .bm-ingredient-story__grid { grid-template-columns: 1fr; min-height: auto; gap: 34px; } .bm-ingredient-story__copy { max-width: 32rem; } .bm-ingredient-story h2 { font-size: clamp(2.8rem, 11vw, 4rem); } .bm-ingredient-story__media { max-width: none; } .bm-ingredient-story__media :global(img) { min-height: 0; } .bm-ingredient-story__botanical { left: -14px; bottom: 12px; width: 78px; height: 78px; } }
+  .bm-ingredient-story {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(86px, 9vw, 126px);
+    background: #f3eee4;
+    color: #1b1915;
+  }
+  .bm-ingredient-story::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 88% 16%, rgba(184, 150, 83, 0.07), transparent 22rem),
+      linear-gradient(90deg, transparent 0 72%, rgba(91, 72, 46, 0.018) 100%);
+  }
+  .bm-ingredient-story__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: clamp(52px, 8vw, 122px);
+    align-items: center;
+    min-height: 500px;
+  }
+  .bm-ingredient-story__copy {
+    max-width: 470px;
+    padding-left: clamp(0px, 2vw, 28px);
+  }
+  .bm-eyebrow--light {
+    color: #8f7b54;
+  }
+  .bm-ingredient-story h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 5.5vw, 5.2rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+  }
+  .bm-rule--warm {
+    width: 210px;
+    margin: 22px 0 18px;
+    color: #ad8a4c;
+  }
+  .bm-ingredient-story__copy > p:not(.bm-eyebrow) {
+    max-width: 420px;
+    margin: 0;
+    color: #645f55;
+    font-size: 17px;
+    line-height: 1.78;
+  }
+  .bm-text-link {
+    display: inline-flex;
+    gap: 14px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(91, 72, 46, 0.42);
+    color: #574b36;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .bm-ingredient-story__media {
+    position: relative;
+    width: min(100%, 760px);
+    margin: 0 0 0 auto;
+    padding-bottom: 26px;
+  }
+  .bm-ingredient-story__media > :global(div) {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+  }
+  .bm-ingredient-story__media > :global(div) :global(img) {
+    width: 100%;
+    min-height: 430px;
+    border: 1px solid rgba(91, 72, 46, 0.18);
+    box-shadow: 0 22px 44px rgba(52, 39, 29, 0.12);
+    filter: saturate(0.88) contrast(1.02);
+    object-fit: cover;
+  }
+  .bm-ingredient-story__media::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: -6px;
+    bottom: 0;
+    height: 22px;
+    border-top: 1px solid rgba(184, 150, 83, 0.26);
+    border-bottom: 1px solid rgba(184, 150, 83, 0.1);
+  }
+  .bm-ingredient-story__botanical {
+    position: absolute;
+    left: -64px;
+    bottom: 12px;
+    z-index: 3;
+    width: 128px;
+    height: 128px;
+    opacity: 0.75;
+    transform: rotate(-12deg);
+  }
+  .bm-ingredient-story__botanical :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .bm-ingredient-story__stamp {
+    position: absolute;
+    right: -24px;
+    top: 14px;
+    z-index: 3;
+    display: grid;
+    width: 112px;
+    aspect-ratio: 1;
+    place-items: center;
+    padding: 14px;
+    border: 1px solid rgba(184, 150, 83, 0.46);
+    border-radius: 50%;
+    background: rgba(243, 238, 228, 0.9);
+    color: #8f7b54;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(52, 39, 29, 0.08);
+  }
+  .bm-ingredient-story__stamp span {
+    font-family: var(--font-sans);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+  .bm-ingredient-story__stamp strong {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.02;
+  }
+  .bm-ingredient-story__media figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    color: #8a7b63;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    .bm-ingredient-story__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 46px;
+    }
+    .bm-ingredient-story__botanical {
+      left: -34px;
+      width: 100px;
+      height: 100px;
+    }
+    .bm-ingredient-story__stamp {
+      right: -10px;
+      width: 94px;
+    }
+  }
+  @media (max-width: 700px) {
+    .bm-ingredient-story {
+      padding-block: 72px;
+    }
+    .bm-ingredient-story__grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      min-height: auto;
+    }
+    .bm-ingredient-story__copy {
+      max-width: 34rem;
+      padding-left: 0;
+    }
+    .bm-ingredient-story h2 {
+      font-size: clamp(3rem, 11vw, 4.25rem);
+    }
+    .bm-ingredient-story__media {
+      padding-bottom: 32px;
+    }
+    .bm-ingredient-story__media > :global(div) :global(img) {
+      min-height: 0;
+    }
+    .bm-ingredient-story__botanical {
+      left: -14px;
+      bottom: 8px;
+      width: 82px;
+      height: 82px;
+    }
+    .bm-ingredient-story__stamp {
+      right: 6px;
+      top: 8px;
+      width: 86px;
+    }
+    .bm-ingredient-story__media figcaption {
+      right: 0;
+      bottom: 8px;
+    }
+  }
 </style>
