@@ -25,8 +25,35 @@
 }
 
 .page-home #foods .grid {
-  column-gap: clamp(1.5rem, 2.8vw, 3rem);
-  row-gap: clamp(2.5rem, 4vw, 4rem);
+  column-gap: clamp(1rem, 1.8vw, 1.6rem);
+  row-gap: clamp(2rem, 3vw, 3rem);
+}
+
+.page-home #foods .grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 1100px) {
+  .page-home #foods .grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .page-home #foods .ingredient-card__art {
+    min-height: 0;
+  }
+
+  .page-home #foods .ingredient-card .space-y-3 {
+    padding: 1.15rem 1.1rem 1.35rem;
+  }
+
+  .page-home #foods .ingredient-card h3 {
+    font-size: clamp(1.15rem, 1rem + 0.22vw, 1.4rem);
+  }
+
+  .page-home #foods .ingredient-card p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
 }
 
 .page-home #regions .grid {
