@@ -134,6 +134,7 @@ const { items } = Astro.props;
   .bm-food-panel--wide .bm-food-panel__copy { display: grid; grid-template-columns: auto auto minmax(0,1fr) auto; align-items: end; gap: 18px; }
   .bm-food-panel--wide p { max-width: 32rem; }
 
+  .bm-food-panel--dates { min-height: 330px; }
   .bm-food-panel--dates > .bm-food-panel__image {
     position: absolute;
     inset: 0;
@@ -143,26 +144,31 @@ const { items } = Astro.props;
     z-index: 0;
   }
   .bm-food-panel--dates .bm-food-panel__image :global(img) {
-    object-position: 72% center;
-    filter: saturate(0.9) contrast(1.04) brightness(0.9);
+    object-position: 65% center;
+    filter: saturate(0.98) contrast(1.02) brightness(1.04);
   }
   .bm-food-panel--dates .bm-food-panel__shade {
     z-index: 1;
-    background: linear-gradient(90deg, rgba(7,20,12,0.82) 0%, rgba(7,20,12,0.5) 35%, rgba(7,20,12,0.14) 66%, rgba(7,20,12,0.01) 100%);
+    background: linear-gradient(90deg, rgba(7,19,11,0.96) 0%, rgba(7,19,11,0.88) 28%, rgba(7,19,11,0.55) 52%, rgba(7,19,11,0.15) 75%, rgba(7,19,11,0.05) 100%);
   }
   .bm-food-panel--dates .bm-food-panel__copy {
     z-index: 2;
     display: block;
-    max-width: 620px;
+    width: min(40%, 34rem);
+    max-width: 34rem;
+    right: auto;
   }
   .bm-food-panel--dates .bm-food-panel__index { font-size: 12px; }
   .bm-food-panel--dates h3 { margin-top: 8px; font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
+  .bm-food-panel--dates p { max-width: 32rem; font-size: 16px; line-height: 1.55; }
 
   @media (max-width: 900px) {
     .bm-featured-foods__intro { grid-template-columns: 1fr; gap: 18px; }
     .bm-foods-grid { grid-template-rows: repeat(2,230px) 170px; }
     .bm-food-panel--feature { grid-column: span 2; grid-row: span 2; }
     .bm-food-panel--wide .bm-food-panel__copy { display: block; }
+    .bm-food-panel--dates { min-height: 320px; }
+    .bm-food-panel--dates .bm-food-panel__copy { width: 45%; }
   }
   @media (max-width: 620px) {
     .bm-featured-foods { padding-block: 76px; }
@@ -171,7 +177,9 @@ const { items } = Astro.props;
     .bm-food-panel--feature h3 { font-size: 2.55rem; }
     .bm-food-panel__copy { right:18px; bottom:18px; left:18px; }
     .bm-food-panel--wide .bm-food-panel__copy { display:block; }
-    .bm-food-panel--dates .bm-food-panel__image :global(img) { object-position: 70% center; }
-    .bm-food-panel--dates .bm-food-panel__copy { max-width: 100%; }
+    .bm-food-panel--dates { min-height: 300px; }
+    .bm-food-panel--dates .bm-food-panel__image :global(img) { object-position: 65% center; }
+    .bm-food-panel--dates .bm-food-panel__copy { width: 68%; max-width: none; }
+    .bm-food-panel--dates h3 { font-size: 2.9rem; }
   }
 </style>
