@@ -1,14 +1,19 @@
 ---
 import MobileMenu from '../islands/MobileMenu.tsx';
-import BrandLogo from './BrandLogo.astro';
-import { NAV_LINKS } from '../../config';
+import { NAV_LINKS, SITE } from '../../config';
 
 const isHome = Astro.url.pathname === '/';
 ---
 
 <header class:list={['site-header', { 'site-header--home': isHome }]}>
   <div class="site-header__inner container-site">
-    <BrandLogo variant={isHome ? 'light' : 'dark'} />
+    <a
+      href="/"
+      class="site-header__brand"
+      aria-label={`${SITE.name} — home`}
+    >
+      BiblicalMeal<span>.</span>
+    </a>
 
     <nav class="site-header__nav" aria-label="Main navigation">
       {
@@ -53,6 +58,19 @@ const isHome = Astro.url.pathname === '/';
     min-height: 5.5rem;
     gap: 2rem;
   }
+
+  .site-header__brand {
+    flex: 0 0 auto;
+    color: #202117;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 1.16rem;
+    font-weight: 600;
+    letter-spacing: -.035em;
+    line-height: 1;
+  }
+
+  .site-header--home .site-header__brand { color: #f4eee0; }
+  .site-header__brand span { color: #c49a57; }
 
   .site-header__nav {
     display: none;
@@ -142,6 +160,7 @@ const isHome = Astro.url.pathname === '/';
 
   @media (max-width: 640px) {
     .site-header__inner { min-height: 4.25rem; }
+    .site-header__brand { font-size: 1.05rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
