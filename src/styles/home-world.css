@@ -12,7 +12,7 @@
 .bm-homepage .bm-eyebrow {
   margin: 0 0 10px;
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -20,13 +20,13 @@
 
 .bm-homepage .bm-btn {
   display: inline-flex;
-  min-height: 48px;
+  min-height: 50px;
   align-items: center;
   justify-content: center;
   gap: 16px;
   padding: 0 22px;
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -46,12 +46,136 @@
   align-items: center;
   gap: 12px;
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: .15em;
   text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
-  .bm-homepage .bm-btn { width: 100%; }
+/* Final editorial rhythm: raise readability without flattening the composition. */
+.bm-homepage .bm-home-hero__lead { font-size: 18px; line-height: 1.8; }
+.bm-homepage .bm-home-hero__principles { font-size: 11px; }
+.bm-homepage .bm-home-hero__quote { width: 270px; padding: 24px 24px 22px; }
+.bm-homepage .bm-home-hero__quote blockquote { font-size: 23px; line-height: 1.36; }
+
+.bm-homepage .bm-ingredient-story__grid { min-height: 540px; }
+.bm-homepage .bm-ingredient-story__copy > p:not(.bm-eyebrow) { font-size: 18px; line-height: 1.82; }
+.bm-homepage .bm-ingredient-story__media > :global(div) :global(img) { min-height: 450px; }
+
+.bm-homepage .bm-foods-grid {
+  grid-template-rows: minmax(230px, 1fr) minmax(230px, 1fr) minmax(320px, auto);
+}
+.bm-homepage .bm-food-panel h3 { font-size: clamp(2rem, 2.9vw, 3.15rem); }
+.bm-homepage .bm-food-panel--feature h3 { font-size: clamp(3.1rem, 4.8vw, 4.9rem); }
+.bm-homepage .bm-food-panel p { font-size: 16px; line-height: 1.65; }
+.bm-homepage .bm-food-panel__index { font-size: 12px; }
+.bm-homepage .bm-food-panel__type { font-size: 11px; }
+.bm-homepage .bm-food-panel b { font-size: 11px; }
+
+/* Dates is the collection's special wide archive specimen. */
+.bm-homepage .bm-food-panel--dates {
+  min-height: 330px;
+  background: #0b1b0e;
+}
+.bm-homepage .bm-food-panel--dates > .bm-food-panel__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto !important;
+  z-index: 0;
+}
+.bm-homepage .bm-food-panel--dates .bm-food-panel__image :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+  filter: saturate(.98) contrast(1.03) brightness(1.05) !important;
+}
+.bm-homepage .bm-food-panel--dates .bm-food-panel__shade {
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(5,18,10,.96) 0%, rgba(5,18,10,.86) 26%, rgba(5,18,10,.54) 50%, rgba(5,18,10,.15) 74%, rgba(5,18,10,.04) 100%) !important;
+}
+.bm-homepage .bm-food-panel--dates .bm-food-panel__copy {
+  z-index: 2;
+  display: block;
+  width: min(40%, 34rem);
+  max-width: 34rem;
+  right: auto;
+}
+.bm-homepage .bm-food-panel--dates h3 { font-size: clamp(2.8rem, 4.4vw, 4.5rem); }
+.bm-homepage .bm-food-panel--dates p { max-width: 30rem; font-size: 16px; line-height: 1.55; }
+
+.bm-homepage .bm-scripture-pause { height: 380px; }
+.bm-homepage .bm-scripture-pause > :global(div img) { filter: saturate(.62) sepia(.12) brightness(.7); }
+.bm-homepage .bm-scripture-pause__shade { background: linear-gradient(90deg, rgba(9,13,7,.82), rgba(9,13,7,.34), rgba(9,13,7,.74)); }
+.bm-homepage .bm-scripture-pause h2 { font-size: clamp(2.4rem, 4.2vw, 3.8rem); line-height: 1.1; }
+.bm-homepage .bm-scripture-pause span { font-size: 11px; }
+
+.bm-homepage .bm-table-journey__intro > p:last-child { font-size: 18px; line-height: 1.82; }
+.bm-homepage .bm-table-journey__steps { margin-top: 10px; }
+.bm-homepage .bm-table-journey__steps > li > span { font-size: 46px; }
+.bm-homepage .bm-table-journey__label { font-size: 12px; }
+.bm-homepage .bm-table-journey__steps h3 { font-size: 30px; }
+.bm-homepage .bm-table-journey__steps div > p:last-child { font-size: 17px; line-height: 1.78; }
+
+.bm-homepage .bm-featured-recipe h2 { font-size: clamp(4.3rem, 6.2vw, 6.5rem); }
+.bm-homepage .bm-featured-recipe__description { font-size: 18px; line-height: 1.8; }
+.bm-homepage .bm-featured-recipe__meta span { font-size: 12px; }
+
+.bm-homepage .bm-regions { padding-block: 114px; }
+.bm-homepage .bm-regions__intro > p { font-size: 17px; }
+.bm-homepage .bm-region { height: 320px; }
+.bm-homepage .bm-region__index { font-size: 11px; }
+.bm-homepage .bm-region__copy h3 { font-size: 31px; }
+.bm-homepage .bm-region__copy p { font-size: 15px; line-height: 1.6; }
+.bm-homepage .bm-region__copy b { font-size: 11px; }
+
+.bm-homepage .bm-cookbook__grid { min-height: 650px; }
+.bm-homepage .bm-cookbook__visual { min-height: 650px; }
+.bm-homepage .bm-book { width: min(430px, 78%); }
+.bm-homepage .bm-cookbook h2 { font-size: clamp(4.4rem, 6.5vw, 6.9rem); }
+.bm-homepage .bm-cookbook__lead { font-size: 18px; line-height: 1.8; }
+.bm-homepage .bm-cookbook__points h3 { font-size: 12px; }
+
+.bm-homepage .bm-journal__intro h2 { font-size: clamp(3.2rem, 5vw, 5rem); }
+.bm-homepage .bm-journal-card--feature .bm-journal-card__copy h3 { font-size: clamp(2.6rem, 4.3vw, 4.3rem); }
+.bm-homepage .bm-journal-card__copy > span { font-size: 11px; }
+.bm-homepage .bm-journal-card__copy p { font-size: 16px; line-height: 1.7; }
+.bm-homepage .bm-journal-card__copy b { font-size: 11px; }
+
+.bm-homepage .bm-manifesto { min-height: 460px; }
+.bm-homepage .bm-manifesto h2 { font-size: clamp(4.5rem, 7.2vw, 7.2rem); }
+.bm-homepage .bm-manifesto__copy > p { font-size: clamp(1.6rem, 2.2vw, 2.1rem); }
+.bm-homepage .bm-manifesto__newsletter > p:not(.bm-manifesto__label) { font-size: 15px; }
+
+@media (max-width: 900px) {
+  .bm-homepage .bm-foods-grid { grid-template-rows: minmax(230px, 1fr) minmax(230px, 1fr) minmax(320px, auto); }
+  .bm-homepage .bm-food-panel--dates { min-height: 320px; }
+  .bm-homepage .bm-food-panel--dates .bm-food-panel__copy { width: 45%; }
+  .bm-homepage .bm-cookbook__grid,
+  .bm-homepage .bm-cookbook__visual { min-height: 560px; }
+  .bm-homepage .bm-book { width: min(380px, 72%); }
+}
+
+@media (max-width: 620px) {
+  .bm-homepage .bm-home-hero__quote { width: auto; }
+  .bm-homepage .bm-foods-grid { grid-template-rows: repeat(5, 230px) minmax(300px, auto); }
+  .bm-homepage .bm-food-panel--dates { min-height: 300px; }
+  .bm-homepage .bm-food-panel--dates .bm-food-panel__image :global(img) { object-position: 65% center; }
+  .bm-homepage .bm-food-panel--dates .bm-food-panel__copy { width: 68%; max-width: none; }
+  .bm-homepage .bm-food-panel--dates h3 { font-size: 2.9rem; }
+  .bm-homepage .bm-scripture-pause { height: 320px; }
+  .bm-homepage .bm-table-journey__intro > p:last-child { font-size: 16px; }
+  .bm-homepage .bm-featured-recipe__description { font-size: 16px; }
+  .bm-homepage .bm-regions { padding-block: 78px; }
+  .bm-homepage .bm-region { height: 320px; }
+  .bm-homepage .bm-cookbook__visual { min-height: 480px; }
+  .bm-homepage .bm-book { width: min(320px, 84%); }
+  .bm-homepage .bm-manifesto { min-height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-homepage .bm-btn,
+  .bm-homepage img { transition: none !important; }
 }
