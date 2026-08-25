@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
+import EditorialImage from '../components/common/EditorialImage.astro';
 
 const HOME_DESCRIPTION =
   'Explore the foods of the Bible — ingredients, recipes, history, and culinary traditions of the ancient world, brought thoughtfully to the modern table.';
@@ -9,73 +10,459 @@ const HOME_DESCRIPTION =
 
 <BaseLayout title={undefined} description={HOME_DESCRIPTION}>
   <Header />
+
   <main id="main" class="home-reset">
-    <section class="home-reset__canvas" aria-label="BiblicalMeal">
-      <div class="container-site home-reset__inner">
-        <p class="home-reset__eyebrow">BiblicalMeal</p>
-        <h1>A new table is being prepared.</h1>
-        <p>
-          The landing page is being rebuilt from the ground up around one new visual direction.
-        </p>
+    <section class="home-hero" aria-labelledby="home-hero-title">
+      <div class="home-hero__texture" aria-hidden="true"></div>
+
+      <div class="container-site home-hero__shell">
+        <div class="home-hero__copy">
+          <div class="home-hero__kicker-row">
+            <span class="home-hero__rule" aria-hidden="true"></span>
+            <p class="home-hero__eyebrow">The Ancient Table</p>
+          </div>
+
+          <h1 id="home-hero-title">
+            Discover the
+            <span>foods of the</span>
+            <em>Bible.</em>
+          </h1>
+
+          <p class="home-hero__intro">
+            Food holds real history, real cultures, and real stories. Explore the ingredients,
+            meals, and traditions of the biblical world — thoughtfully brought to life for the
+            modern table.
+          </p>
+
+          <div class="home-hero__actions">
+            <a class="home-hero__primary" href="/ingredients/">
+              <span>Explore the foods</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="home-hero__secondary" href="/recipes/">Browse recipes</a>
+          </div>
+
+          <p class="home-hero__note">Rooted in Scripture. Informed by history. Made for today.</p>
+        </div>
+
+        <div class="home-hero__visual-wrap">
+          <div class="home-hero__visual-frame">
+            <EditorialImage
+              id="journal-ancient-table"
+              fallbackArt="still-life"
+              alt="Bread, figs, olives and a clay vessel on an ancient-inspired table"
+              loading="eager"
+              ratio="4 / 5"
+              class="home-hero__visual"
+            />
+          </div>
+
+          <aside class="home-hero__scripture" aria-label="Scripture reflection">
+            <span class="home-hero__scripture-label">Scripture & table</span>
+            <blockquote>“Man shall not live by bread alone.”</blockquote>
+            <cite>Matthew 4:4</cite>
+          </aside>
+
+          <span class="home-hero__vertical-mark" aria-hidden="true">BiblicalMeal · Ancient Foods</span>
+        </div>
+      </div>
+
+      <div class="container-site home-hero__footer" aria-label="BiblicalMeal focus areas">
+        <span>Scripture</span>
+        <span>History</span>
+        <span>Ingredients</span>
+        <span>Recipes</span>
       </div>
     </section>
   </main>
+
   <SiteFooter />
 </BaseLayout>
 
 <style>
   .home-reset {
-    min-height: 100vh;
-    background: var(--color-background, #f5f0e6);
+    background: #f4efe5;
   }
 
-  .home-reset__canvas {
+  .home-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: calc(100svh - 5rem);
+    color: #27241f;
+    background:
+      radial-gradient(circle at 14% 22%, rgba(196, 150, 92, 0.12), transparent 28rem),
+      radial-gradient(circle at 88% 84%, rgba(84, 69, 38, 0.1), transparent 28rem),
+      #f4efe5;
+  }
+
+  .home-hero__texture {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    opacity: 0.42;
+    background-image:
+      linear-gradient(rgba(77, 60, 39, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(77, 60, 39, 0.022) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+  }
+
+  .home-hero__shell {
+    display: grid;
+    grid-template-columns: minmax(0, 0.98fr) minmax(31rem, 1.02fr);
+    align-items: stretch;
+    gap: clamp(2rem, 5vw, 7rem);
+    min-height: clamp(44rem, calc(100svh - 5rem), 58rem);
+    padding-top: clamp(2rem, 4vw, 4.5rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+  }
+
+  .home-hero__copy {
+    align-self: center;
+    max-width: 43rem;
+    padding: clamp(2rem, 5vw, 5rem) 0;
+  }
+
+  .home-hero__kicker-row {
     display: flex;
-    min-height: min(72vh, 760px);
     align-items: center;
-    padding: 7rem 0 5rem;
+    gap: 0.8rem;
+    margin-bottom: 1.45rem;
   }
 
-  .home-reset__inner {
-    max-width: 46rem;
+  .home-hero__rule {
+    width: 2.25rem;
+    height: 1px;
+    background: #b56b3e;
   }
 
-  .home-reset__eyebrow {
-    margin: 0 0 1.25rem;
-    font-size: 0.68rem;
+  .home-hero__eyebrow,
+  .home-hero__scripture-label {
+    margin: 0;
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+    color: #9c5a35;
+  }
+
+  .home-hero h1 {
+    max-width: 10.5ch;
+    margin: 0;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(4rem, 7vw, 7.8rem);
+    font-weight: 400;
+    line-height: 0.89;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+    color: #2c2924;
+  }
+
+  .home-hero h1 span,
+  .home-hero h1 em {
+    display: block;
+  }
+
+  .home-hero h1 em {
+    font-style: italic;
+    color: #8f4c2e;
+  }
+
+  .home-hero__intro {
+    max-width: 35rem;
+    margin: clamp(1.8rem, 3vw, 2.75rem) 0 0;
+    font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+    line-height: 1.85;
+    color: #706a60;
+  }
+
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.15rem;
+    margin-top: 2rem;
+  }
+
+  .home-hero__primary,
+  .home-hero__secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  }
+
+  .home-hero__primary {
+    gap: 1.75rem;
+    padding: 0 1.45rem 0 1.65rem;
+    color: #fffaf1;
+    background: #a95730;
+    box-shadow: 0 18px 35px rgba(117, 58, 29, 0.18);
+  }
+
+  .home-hero__secondary {
+    padding: 0 0.25rem;
+    color: #5d594f;
+    border-bottom: 1px solid rgba(93, 89, 79, 0.25);
+  }
+
+  .home-hero__primary:hover,
+  .home-hero__secondary:hover {
+    transform: translateY(-2px);
+  }
+
+  .home-hero__primary:hover {
+    background: #8f4526;
+  }
+
+  .home-hero__secondary:hover {
+    border-color: #8f4526;
+  }
+
+  .home-hero__note {
+    margin: 1.2rem 0 0;
+    font-size: 0.73rem;
+    letter-spacing: 0.035em;
+    color: #918b80;
+  }
+
+  .home-hero__visual-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: clamp(0.75rem, 2vw, 1.5rem) 0;
+  }
+
+  .home-hero__visual-frame {
+    width: min(100%, 48rem);
+    margin-left: auto;
+    overflow: hidden;
+    background: #2c3322;
+    box-shadow: 0 28px 70px rgba(55, 42, 24, 0.16);
+  }
+
+  .home-hero__visual {
+    height: 100%;
+  }
+
+  .home-hero__visual :global(img) {
+    filter: saturate(0.86) sepia(0.08) contrast(1.03);
+    transform: scale(1.01);
+  }
+
+  .home-hero__scripture {
+    position: absolute;
+    right: clamp(1rem, 4vw, 3.5rem);
+    bottom: clamp(2rem, 7vw, 6rem);
+    z-index: 2;
+    width: min(20rem, calc(100% - 2rem));
+    padding: 1.45rem 1.55rem 1.35rem;
+    color: #f3ecdc;
+    background: rgba(35, 45, 27, 0.94);
+    box-shadow: 0 20px 50px rgba(15, 19, 12, 0.28);
+    backdrop-filter: blur(12px);
+  }
+
+  .home-hero__scripture-label {
+    color: #caa35e;
+  }
+
+  .home-hero__scripture blockquote {
+    margin: 0.9rem 0 1rem;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .home-hero__scripture cite {
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: 0.6rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #c99d54;
+  }
+
+  .home-hero__vertical-mark {
+    position: absolute;
+    right: -1.65rem;
+    top: 8%;
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: 0.56rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-terracotta, #a85d38);
+    writing-mode: vertical-rl;
+    color: rgba(243, 236, 220, 0.72);
   }
 
-  .home-reset h1 {
-    max-width: 12ch;
-    margin: 0;
-    font-family: var(--font-display, Georgia, serif);
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 400;
-    line-height: 0.94;
-    letter-spacing: -0.045em;
-    color: var(--color-ink, #27241f);
+  .home-hero__footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(74, 64, 49, 0.14);
   }
 
-  .home-reset__inner > p:last-child {
-    max-width: 34rem;
-    margin: 2rem 0 0;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--color-ink-muted, #746e65);
+  .home-hero__footer span {
+    position: relative;
+    padding: 1rem 0;
+    font-family: var(--font-sans, Arial, sans-serif);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #8b8376;
+  }
+
+  .home-hero__footer span + span {
+    border-left: 1px solid rgba(74, 64, 49, 0.1);
+  }
+
+  @media (max-width: 1100px) {
+    .home-hero__shell {
+      grid-template-columns: minmax(0, 0.95fr) minmax(26rem, 1.05fr);
+      gap: 3rem;
+    }
+
+    .home-hero h1 {
+      font-size: clamp(3.8rem, 8vw, 6.4rem);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .home-hero__shell {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      gap: 0;
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    .home-hero__copy {
+      order: 2;
+      max-width: 46rem;
+      padding: 2.75rem 0 1rem;
+    }
+
+    .home-hero__visual-wrap {
+      order: 1;
+      padding: 0;
+    }
+
+    .home-hero__visual-frame {
+      width: 100%;
+      max-width: none;
+    }
+
+    .home-hero__visual {
+      aspect-ratio: 16 / 10 !important;
+    }
+
+    .home-hero__scripture {
+      bottom: 1.25rem;
+      right: 1.25rem;
+    }
+
+    .home-hero__vertical-mark {
+      display: none;
+    }
+
+    .home-hero__footer {
+      margin-top: 0.5rem;
+    }
   }
 
   @media (max-width: 640px) {
-    .home-reset__canvas {
-      min-height: 64vh;
-      padding: 6rem 0 4rem;
+    .home-hero {
+      min-height: auto;
     }
 
-    .home-reset__inner > p:last-child {
-      font-size: 0.98rem;
+    .home-hero__shell {
+      padding-top: 0.75rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .home-hero__visual {
+      aspect-ratio: 5 / 4 !important;
+    }
+
+    .home-hero__scripture {
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      width: auto;
+      padding: 1.15rem 1.2rem 1.1rem;
+    }
+
+    .home-hero__scripture blockquote {
+      margin: 0.65rem 0 0.75rem;
+      font-size: 0.96rem;
+    }
+
+    .home-hero__copy {
+      padding-top: 2.2rem;
+    }
+
+    .home-hero h1 {
+      max-width: 9.5ch;
+      font-size: clamp(3.25rem, 17vw, 4.9rem);
+      line-height: 0.9;
+    }
+
+    .home-hero__intro {
+      margin-top: 1.5rem;
+      line-height: 1.72;
+    }
+
+    .home-hero__actions {
+      align-items: stretch;
+      gap: 0.75rem;
+      margin-top: 1.6rem;
+    }
+
+    .home-hero__primary {
+      flex: 1 1 100%;
+      min-height: 3.5rem;
+    }
+
+    .home-hero__secondary {
+      justify-content: flex-start;
+      min-height: 2.5rem;
+    }
+
+    .home-hero__footer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-hero__footer span:nth-child(3) {
+      border-left: 0;
+      border-top: 1px solid rgba(74, 64, 49, 0.1);
+    }
+
+    .home-hero__footer span:nth-child(4) {
+      border-top: 1px solid rgba(74, 64, 49, 0.1);
+    }
+
+    .home-hero__footer span {
+      padding: 0.9rem 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__primary,
+    .home-hero__secondary {
+      transition: none;
     }
   }
 </style>
