@@ -16,6 +16,7 @@ import EditorialQuote from '../components/home/EditorialQuote.astro';
 import CookbookTeaser from '../components/home/CookbookTeaser.astro';
 import NewsletterSection from '../components/home/NewsletterSection.astro';
 import '../styles/landing-polish.css';
+import '../styles/landing-final-polish.css';
 
 const HOME_DESCRIPTION =
   'Explore the foods of the Bible — ingredients, recipes, history, and culinary traditions of the ancient world, brought to your modern table.';
@@ -28,11 +29,40 @@ const featuredRecipe = (await getCollection('recipes')).find(
   (entry) => entry.data.featured,
 );
 
-const regions: Array<{ name: string; description: string; art: ArtKind }> = [
-  { name: 'Ancient Israel', description: 'The heartland of the biblical story — its hills, harvests, and everyday meals.', art: 'israel' },
-  { name: 'Galilee', description: 'The lake country famous for fishing communities and fertile plains.', art: 'galilee' },
-  { name: 'Judea', description: 'The highlands around Jerusalem, with their orchards and terraced fields.', art: 'judea' },
-  { name: 'Mediterranean World', description: 'The wider sea-facing world of trade routes that moved foods and ideas.', art: 'mediterranean' },
+const regions: Array<{
+  name: string;
+  description: string;
+  art: ArtKind;
+  imageId: string;
+}> = [
+  {
+    name: 'Ancient Israel',
+    description:
+      'The heartland of the biblical story — hills, harvests, orchards, and everyday meals.',
+    art: 'israel',
+    imageId: 'journal-mediterranean-landscape',
+  },
+  {
+    name: 'Galilee',
+    description:
+      'The lake country of fishing communities, fertile plains, and tables shaped by water and harvest.',
+    art: 'galilee',
+    imageId: 'journal-ancient-table',
+  },
+  {
+    name: 'Judea',
+    description:
+      'The highlands around Jerusalem, with terraced fields, cultivated land, and an enduring food culture.',
+    art: 'judea',
+    imageId: 'journal-meal-preparation',
+  },
+  {
+    name: 'Mediterranean World',
+    description:
+      'The wider sea-facing world of trade routes that moved foods, ideas, and culinary traditions.',
+    art: 'mediterranean',
+    imageId: 'journal-research-manuscript',
+  },
 ];
 ---
 
@@ -43,16 +73,31 @@ const regions: Array<{ name: string; description: string; art: ArtKind }> = [
 
     <section class="scroll-mt-24" id="foods">
       <div class="container-site py-20 md:py-28">
-        <SectionHeader eyebrow="Ingredients of the Ancient Table" title="Featured Foods" description="A first look at the staples we are profiling — each one researched, cited, and told through Scripture, history, and cooking." />
+        <SectionHeader
+          eyebrow="Ingredients of the Ancient Table"
+          title="Featured Foods"
+          description="A first look at the staples we are profiling — each one researched, cited, and told through Scripture, history, and cooking."
+        />
         <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {featuredIngredients.map((entry) => <IngredientCard entry={entry} />)}
         </div>
         <p class="reveal mt-10 text-center text-caption text-ink-muted/80">
           Ingredient profiles are in active research — full histories and citations publish as they are verified.
         </p>
-        <div class="mt-12 flex flex-wrap justify-center gap-3" aria-label="First published food profiles">
-          <a href="/foods/figs/" class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark">Explore Figs in the Bible <span aria-hidden="true">→</span></a>
-          <a href="/foods/dates/" class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark">Explore Dates in the Bible <span aria-hidden="true">→</span></a>
+        <div
+          class="mt-12 flex flex-wrap justify-center gap-3"
+          aria-label="First published food profiles"
+        >
+          <a
+            href="/foods/figs/"
+            class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
+            >Explore Figs in the Bible <span aria-hidden="true">→</span></a
+          >
+          <a
+            href="/foods/dates/"
+            class="rounded-full border border-line bg-surface px-5 py-2.5 text-caption font-semibold text-ink transition-colors hover:border-terracotta hover:text-terracotta-dark"
+            >Explore Dates in the Bible <span aria-hidden="true">→</span></a
+          >
         </div>
       </div>
     </section>
@@ -63,10 +108,26 @@ const regions: Array<{ name: string; description: string; art: ArtKind }> = [
 
     <section class="scroll-mt-24 bg-background-alt" id="regions">
       <div class="container-site py-20 md:py-28">
-        <SectionHeader eyebrow="Culinary Geography" title="Explore the Biblical World" description="The regions whose tables shaped this project — each to be explored through its own stories, ingredients, and traditions." />
-        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-8">
-          {regions.map((region) => <RegionCard name={region.name} description={region.description} art={region.art} />)}
+        <SectionHeader
+          eyebrow="Culinary Geography"
+          title="Explore the Biblical World"
+          description="A visual tour through the landscapes, tables, materials, and foodways that frame the BiblicalMeal project."
+        />
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-7">
+          {
+            regions.map((region) => (
+              <RegionCard
+                name={region.name}
+                description={region.description}
+                art={region.art}
+                imageId={region.imageId}
+              />
+            ))
+          }
         </div>
+        <p class="mx-auto mt-7 max-w-2xl text-center text-caption leading-relaxed text-ink-muted/80">
+          The photographs are editorial atmosphere for the regions, not documentary claims about a specific historical scene.
+        </p>
       </div>
     </section>
 
