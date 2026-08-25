@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
 import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import EditorialImage from '../components/common/EditorialImage.astro';
 import {
   EDITORIAL_TRANSPARENCY,
   getTransparencySnapshot,
@@ -26,125 +27,107 @@ const schema = {
 >
   <Header />
   <main id="main" class="page-editorial-method">
-    <section class="container-site max-w-4xl section-space">
+    <section class="container-site max-w-5xl section-space">
       <Breadcrumbs items={[{ label: 'Editorial Method' }]} />
-      <p
-        class="mt-8 font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
-      >
-        Trust & transparency
-      </p>
-      <h1 class="mt-4 font-display text-display text-ink">
-        {EDITORIAL_TRANSPARENCY.title}
-      </h1>
-      <p class="mt-6 max-w-3xl text-body-lg text-ink-muted">
-        {EDITORIAL_TRANSPARENCY.summary}
-      </p>
+      <div class="editorial-method__intro">
+        <div>
+          <p class="mt-8 font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">
+            Trust & transparency
+          </p>
+          <h1 class="mt-4 font-display text-display text-ink">
+            {EDITORIAL_TRANSPARENCY.title}
+          </h1>
+          <p class="mt-6 max-w-3xl text-body-lg text-ink-muted">
+            {EDITORIAL_TRANSPARENCY.summary}
+          </p>
+        </div>
+        <div class="editorial-method__image media-frame">
+          <EditorialImage
+            id="journal-research-manuscript"
+            fallbackArt="still-life"
+            ratio="4 / 3"
+            alt="Historical-looking research papers, grains and handmade ceramic objects arranged on warm stone"
+            loading="eager"
+          />
+        </div>
+      </div>
     </section>
 
     <section class="container-site max-w-4xl pb-16">
       <div class="grid gap-4 sm:grid-cols-3">
         <div class="rounded-card border-border border bg-surface p-6">
-          <p class="font-display text-h2 text-ink">{snapshot.sourceCount}</p><p
-            class="mt-2 text-caption text-ink-muted"
-          >
-            canonical source records
-          </p>
+          <p class="font-display text-h2 text-ink">{snapshot.sourceCount}</p>
+          <p class="mt-2 text-caption text-ink-muted">canonical source records</p>
         </div>
         <div class="rounded-card border-border border bg-surface p-6">
-          <p class="font-display text-h2 text-ink">
-            {snapshot.authorityCount}
-          </p><p class="mt-2 text-caption text-ink-muted">
-            authority classifications
-          </p>
+          <p class="font-display text-h2 text-ink">{snapshot.authorityCount}</p>
+          <p class="mt-2 text-caption text-ink-muted">authority classifications</p>
         </div>
         <div class="rounded-card border-border border bg-surface p-6">
-          <p class="font-display text-h2 text-ink">
-            {snapshot.citationCount}
-          </p><p class="mt-2 text-caption text-ink-muted">
-            traceable citation links
-          </p>
+          <p class="font-display text-h2 text-ink">{snapshot.citationCount}</p>
+          <p class="mt-2 text-caption text-ink-muted">traceable citation links</p>
         </div>
       </div>
       <p class="mt-4 text-caption text-ink-muted">
-        The numbers above describe the current registry, not a claim that every
-        historical question has been solved. Current authority-audit issues: {
-          snapshot.auditIssueCount
-        }.
+        The numbers above describe the current registry, not a claim that every historical question has been solved. Current authority-audit issues: {snapshot.auditIssueCount}.
       </p>
     </section>
 
     <section class="border-border border-y bg-surface">
       <div class="container-site max-w-4xl section-space">
-        <p
-          class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
-        >
+        <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">
           Evidence labels
         </p>
         <h2 class="mt-3 font-display text-h2 text-ink">
           What the evidence language means
         </h2>
         <div class="mt-8 grid gap-4 sm:grid-cols-2">
-          {
-            Object.entries(EDITORIAL_TRANSPARENCY.evidenceLabels).map(
-              ([label, meaning]) => (
-                <article class="rounded-card border-border border bg-cream p-5">
-                  <h3 class="font-display text-h3 text-ink">{label}</h3>
-                  <p class="mt-2 text-body text-ink-muted">{meaning}</p>
-                </article>
-              ),
-            )
-          }
+          {Object.entries(EDITORIAL_TRANSPARENCY.evidenceLabels).map(
+            ([label, meaning]) => (
+              <article class="rounded-card border-border border bg-cream p-5">
+                <h3 class="font-display text-h3 text-ink">{label}</h3>
+                <p class="mt-2 text-body text-ink-muted">{meaning}</p>
+              </article>
+            ),
+          )}
         </div>
       </div>
     </section>
 
     <section class="container-site max-w-4xl section-space">
-      <p
-        class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
-      >
+      <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">
         Editorial rules
       </p>
       <h2 class="mt-3 font-display text-h2 text-ink">
         How we keep evidence and interpretation separate
       </h2>
       <div class="mt-8 space-y-6">
-        {
-          EDITORIAL_TRANSPARENCY.methodologyRules.map((rule) => (
-            <article class="border-l-2 border-terracotta px-5 py-1">
-              <p class="font-sans text-caption font-semibold tracking-wide text-terracotta-dark uppercase">
-                {rule.domain}
-              </p>
-              <p class="mt-2 text-body text-ink-muted">{rule.rule}</p>
-            </article>
-          ))
-        }
+        {EDITORIAL_TRANSPARENCY.methodologyRules.map((rule) => (
+          <article class="border-l-2 border-terracotta px-5 py-1">
+            <p class="font-sans text-caption font-semibold tracking-wide text-terracotta-dark uppercase">
+              {rule.domain}
+            </p>
+            <p class="mt-2 text-body text-ink-muted">{rule.rule}</p>
+          </article>
+        ))}
       </div>
     </section>
 
     <section class="container-site max-w-4xl pb-16">
       <div class="rounded-card border-border border bg-ink p-8 text-cream">
-        <p
-          class="font-sans text-eyebrow font-semibold tracking-eyebrow text-gold uppercase"
-        >
+        <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-gold uppercase">
           Non-negotiables
         </p>
         <ul class="mt-5 space-y-3 text-body text-cream/80">
-          {
-            EDITORIAL_TRANSPARENCY.nonNegotiables.map((item) => (
-              <li>— {item}</li>
-            ))
-          }
+          {EDITORIAL_TRANSPARENCY.nonNegotiables.map((item) => <li>— {item}</li>)}
         </ul>
         <p class="mt-6 text-caption text-cream/70">
-          When evidence is incomplete, uncertainty is part of the publication
-          standard rather than a gap to hide.
+          When evidence is incomplete, uncertainty is part of the publication standard rather than a gap to hide.
         </p>
       </div>
       <p class="mt-8 text-body text-ink-muted">
-        For the current canonical source registry and source notes, see <a
-          class="font-semibold text-terracotta-dark underline"
-          href="/sources/">Sources & research records</a
-        >.
+        For the current canonical source registry and source notes, see
+        <a class="font-semibold text-terracotta-dark underline" href="/sources/">Sources & research records</a>.
       </p>
     </section>
   </main>
