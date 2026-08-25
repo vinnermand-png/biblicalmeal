@@ -1,0 +1,21 @@
+<section class="bm-scripture-pause" aria-labelledby="bm-scripture-pause-title">
+  <EditorialImage id="journal-mediterranean-landscape" fallbackArt="mediterranean" ratio="21 / 9" alt="Warm Mediterranean landscape with terraced land and olive trees" decorative />
+  <div class="bm-scripture-pause__shade" aria-hidden="true"></div>
+  <div class="bm-scripture-pause__content">
+    <p class="bm-eyebrow">Scripture at the table</p>
+    <h2 id="bm-scripture-pause-title">“A land of wheat and barley,<br />and vines and fig trees and pomegranates…”</h2>
+    <span>Deuteronomy 8:8</span>
+  </div>
+</section>
+
+<style>
+  .bm-scripture-pause { position: relative; height: 350px; overflow: hidden; isolation: isolate; color: #f3ebdd; background: #1a2215; }
+  .bm-scripture-pause > :global(div) { position: absolute; inset: 0; }
+  .bm-scripture-pause > :global(div img) { width: 100%; height: 100%; object-fit: cover; filter: saturate(.58) sepia(.15) brightness(.62); }
+  .bm-scripture-pause__shade { background: linear-gradient(90deg, rgba(9,13,7,.75), rgba(9,13,7,.34), rgba(9,13,7,.68)); }
+  .bm-scripture-pause__content { position: relative; z-index: 2; display: flex; height: 100%; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; }
+  .bm-scripture-pause .bm-eyebrow { margin: 0 0 14px; color: #c7ab72; }
+  .bm-scripture-pause h2 { margin: 0; max-width: 900px; font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 400; line-height: 1.12; letter-spacing: -.025em; }
+  .bm-scripture-pause span { margin-top: 20px; color: #c7ab72; font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  @media (max-width: 700px) { .bm-scripture-pause { height: 300px; } .bm-scripture-pause h2 { font-size: 1.8rem; } }
+</style>
