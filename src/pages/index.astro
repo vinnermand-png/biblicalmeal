@@ -1,119 +1,81 @@
 ---
-import { getVisibleIngredients, getVisibleRecipes } from '../lib/queries';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/common/Header.astro';
 import SiteFooter from '../components/common/SiteFooter.astro';
-import SectionHeader from '../components/common/SectionHeader.astro';
-import IngredientCard from '../components/common/IngredientCard.astro';
-import RegionCard from '../components/common/RegionCard.astro';
-import Hero from '../components/home/Hero.astro';
-import ConceptFlow from '../components/home/ConceptFlow.astro';
-import FeaturedRecipe from '../components/home/FeaturedRecipe.astro';
-import CookbookTeaser from '../components/home/CookbookTeaser.astro';
-import NewsletterSection from '../components/home/NewsletterSection.astro';
-import '../styles/landing-polish.css';
-import '../styles/landing-final-polish.css';
 
 const HOME_DESCRIPTION =
   'Explore the foods of the Bible — ingredients, recipes, history, and culinary traditions of the ancient world, brought thoughtfully to the modern table.';
-
-const [ingredients, recipes] = await Promise.all([
-  getVisibleIngredients(),
-  getVisibleRecipes(),
-]);
-
-const featuredIngredients = ingredients
-  .filter((entry) => entry.data.featured)
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
-
-const featuredRecipe = recipes[0];
-
-const regions = [
-  {
-    name: 'Ancient Israel',
-    description:
-      'The heartland of the biblical story — hills, harvests, orchards, and everyday tables.',
-    art: 'israel',
-    imageId: 'journal-mediterranean-landscape',
-  },
-  {
-    name: 'Galilee',
-    description:
-      'Lake country shaped by fishing communities, fertile plains, and tables shaped by water and harvest.',
-    art: 'galilee',
-    imageId: 'journal-ancient-table',
-  },
-  {
-    name: 'Judea',
-    description:
-      'The highlands around Jerusalem, with terraced fields, cultivated land, and an enduring food culture.',
-    art: 'judea',
-    imageId: 'journal-meal-preparation',
-  },
-  {
-    name: 'Mediterranean World',
-    description:
-      'The wider sea-facing world of trade routes that moved foods, ideas, and culinary traditions.',
-    art: 'mediterranean',
-    imageId: 'journal-research-manuscript',
-  },
-];
 ---
 
 <BaseLayout title={undefined} description={HOME_DESCRIPTION}>
   <Header />
-  <main id="main" class="page-home">
-    <Hero />
-
-    <section class="scroll-mt-24" id="foods">
-      <div class="container-site py-20 md:py-24 lg:py-28">
-        <SectionHeader
-          eyebrow="Featured Foods"
-          title="Ingredients of the Ancient Table"
-          description="A first look at the foods we are profiling — each one approached through Scripture, history, evidence, and cooking."
-        />
-        <div class="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-5">
-          {featuredIngredients.map((entry) => (
-            <IngredientCard entry={entry} />
-          ))}
-        </div>
-        <div class="mt-10 flex flex-wrap justify-center gap-3">
-          <a href="/ingredients/" class="inline-flex items-center justify-center border border-line bg-surface px-6 py-3 font-sans text-caption font-semibold tracking-wide text-ink uppercase transition-colors hover:border-terracotta hover:text-terracotta-dark">
-            Browse all ingredients <span class="ml-2" aria-hidden="true">→</span>
-          </a>
-          <a href="/foods/figs/" class="inline-flex items-center justify-center bg-olive-dark px-6 py-3 font-sans text-caption font-semibold tracking-wide text-cream uppercase transition-colors hover:bg-olive-mid">
-            View biblical foods <span class="ml-2" aria-hidden="true">→</span>
-          </a>
-        </div>
+  <main id="main" class="home-reset">
+    <section class="home-reset__canvas" aria-label="BiblicalMeal">
+      <div class="container-site home-reset__inner">
+        <p class="home-reset__eyebrow">BiblicalMeal</p>
+        <h1>A new table is being prepared.</h1>
+        <p>
+          The landing page is being rebuilt from the ground up around one new visual direction.
+        </p>
       </div>
     </section>
-
-    <ConceptFlow />
-
-    {featuredRecipe && <FeaturedRecipe recipe={featuredRecipe} />}
-
-    <section class="scroll-mt-24 bg-background" id="regions">
-      <div class="container-site py-20 md:py-24 lg:py-28">
-        <SectionHeader
-          eyebrow="Explore the Biblical World"
-          title="Places shape what is eaten."
-          description="Discover the lands, their foods, and the stories that connect the table to place."
-        />
-        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-          {regions.map((region) => (
-            <RegionCard
-              name={region.name}
-              description={region.description}
-              art={region.art}
-              imageId={region.imageId}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <CookbookTeaser />
-    <NewsletterSection />
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style>
+  .home-reset {
+    min-height: 100vh;
+    background: var(--color-background, #f5f0e6);
+  }
+
+  .home-reset__canvas {
+    display: flex;
+    min-height: min(72vh, 760px);
+    align-items: center;
+    padding: 7rem 0 5rem;
+  }
+
+  .home-reset__inner {
+    max-width: 46rem;
+  }
+
+  .home-reset__eyebrow {
+    margin: 0 0 1.25rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-terracotta, #a85d38);
+  }
+
+  .home-reset h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    color: var(--color-ink, #27241f);
+  }
+
+  .home-reset__inner > p:last-child {
+    max-width: 34rem;
+    margin: 2rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-ink-muted, #746e65);
+  }
+
+  @media (max-width: 640px) {
+    .home-reset__canvas {
+      min-height: 64vh;
+      padding: 6rem 0 4rem;
+    }
+
+    .home-reset__inner > p:last-child {
+      font-size: 0.98rem;
+    }
+  }
+</style>
