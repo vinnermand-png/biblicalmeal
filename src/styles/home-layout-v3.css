@@ -1,0 +1,189 @@
+/* Home landing v3 — section two must follow the approved editorial reference exactly. */
+.home-page .ingredient-story {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4.25rem, 7vw, 6.5rem) 0 clamp(4rem, 7vw, 6rem) !important;
+  background:
+    radial-gradient(circle at 10% 30%, rgb(178 141 76 / .055), transparent 18rem),
+    linear-gradient(180deg, #f6f0e4 0%, #efe8da 100%);
+}
+
+.home-page .ingredient-story::before {
+  width: min(58rem, 74vw) !important;
+  opacity: .28 !important;
+}
+
+.home-page .ingredient-story::after {
+  content: '';
+  position: absolute;
+  width: 32rem;
+  height: 32rem;
+  right: -17rem;
+  top: -14rem;
+  border: 1px solid rgb(156 122 68 / .12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4rem rgb(156 122 68 / .025), 0 0 0 8rem rgb(156 122 68 / .018);
+  pointer-events: none;
+}
+
+.home-page .ingredient-story .ingredient-story__shell {
+  position: relative;
+  z-index: 1;
+  max-width: 74rem;
+}
+
+/* The reference is a compact editorial spread, not a giant headline section. */
+.home-page .ingredient-story .ingredient-story__intro {
+  width: 100%;
+  margin: 0 0 clamp(2.75rem, 4vw, 4rem) !important;
+}
+
+.home-page .ingredient-story .section-kicker {
+  margin-bottom: .85rem !important;
+  color: #7f6a43 !important;
+  font-size: .56rem !important;
+  letter-spacing: .22em !important;
+}
+
+.home-page .ingredient-story h2 {
+  max-width: 9.5ch !important;
+  font-size: clamp(2.55rem, 4.35vw, 4.25rem) !important;
+  line-height: .98 !important;
+  letter-spacing: -.045em !important;
+}
+
+.home-page .ingredient-story h2 em {
+  color: #2d2b25 !important;
+  font-style: normal !important;
+}
+
+.home-page .ingredient-story__content {
+  position: relative;
+  grid-template-columns: minmax(17rem, .72fr) minmax(26rem, 1.08fr) !important;
+  gap: clamp(3rem, 8vw, 8rem) !important;
+  align-items: center !important;
+}
+
+.home-page .ingredient-story__copy {
+  position: relative;
+  max-width: 24rem !important;
+  padding-left: 0 !important;
+}
+
+.home-page .ingredient-story__copy::before {
+  content: '✦';
+  display: block;
+  margin-bottom: 1.1rem;
+  color: #aa8952;
+  font-size: .8rem;
+  letter-spacing: .8rem;
+}
+
+.home-page .ingredient-story__lead {
+  margin: 0 0 1.15rem !important;
+  font-family: var(--font-display, Georgia, serif) !important;
+  font-size: clamp(1.1rem, 1.5vw, 1.45rem) !important;
+  line-height: 1.48 !important;
+  letter-spacing: -.015em !important;
+}
+
+.home-page .ingredient-story__copy > p:not(.ingredient-story__lead) {
+  max-width: 23rem !important;
+  font-size: .83rem !important;
+  line-height: 1.8 !important;
+}
+
+.home-page .ingredient-story .text-link {
+  margin-top: 1.7rem !important;
+  gap: 1rem !important;
+  padding-bottom: .35rem !important;
+  color: #5b4c30 !important;
+  font-size: .56rem !important;
+}
+
+/* Wide landscape image, matching the approved reference. */
+.home-page .ingredient-story__image {
+  width: 100%;
+  max-width: 40rem !important;
+  justify-self: end !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.home-page .ingredient-story__image :global(img) {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  object-position: center 42% !important;
+  border: 1px solid rgb(98 77 44 / .22);
+  box-shadow: 0 20px 45px rgb(44 34 19 / .12);
+  filter: saturate(.78) contrast(1.02) brightness(.92) !important;
+}
+
+.home-page .ingredient-story__image::after {
+  content: '' !important;
+  inset: auto auto -1rem -1rem !important;
+  width: 10rem !important;
+  height: 10rem !important;
+  z-index: -1 !important;
+  border: 1px solid rgb(156 122 68 / .28) !important;
+  transform: rotate(45deg);
+  box-shadow: none !important;
+}
+
+.home-page .ingredient-story figcaption {
+  display: none !important;
+}
+
+/* The four-step block belongs to the later Scripture section in the reference, not here. */
+.home-page .ingredient-story__principles {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .home-page .ingredient-story__content {
+    grid-template-columns: minmax(15rem, .72fr) minmax(21rem, 1.05fr) !important;
+    gap: 2.5rem !important;
+  }
+
+  .home-page .ingredient-story__image {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-page .ingredient-story {
+    padding: 4.5rem 0 4rem !important;
+  }
+
+  .home-page .ingredient-story .ingredient-story__intro {
+    margin-bottom: 2.2rem !important;
+  }
+
+  .home-page .ingredient-story h2 {
+    font-size: clamp(2.45rem, 11vw, 3.7rem) !important;
+  }
+
+  .home-page .ingredient-story__content {
+    grid-template-columns: 1fr !important;
+    gap: 2.4rem !important;
+  }
+
+  .home-page .ingredient-story__copy {
+    max-width: 31rem !important;
+  }
+
+  .home-page .ingredient-story__copy > p:not(.ingredient-story__lead) {
+    max-width: 31rem !important;
+  }
+
+  .home-page .ingredient-story__image {
+    justify-self: stretch !important;
+  }
+
+  .home-page .ingredient-story__image :global(img) {
+    aspect-ratio: 4 / 3 !important;
+  }
+}
