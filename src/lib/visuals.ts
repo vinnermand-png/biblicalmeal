@@ -108,7 +108,7 @@ export const INGREDIENT_PREMIUM_IMAGE_IDS: Record<string, string> = {
   olives: 'ingredient-portrait-olives',
   barley: 'ingredient-portrait-barley',
   lentils: 'ingredient-portrait-lentils',
-  dates: 'ingredients-dates-still-life',
+  dates: 'ingredient-portrait-dates',
   honey: 'ingredient-portrait-honey',
   pomegranates: 'ingredient-portrait-pomegranates',
 };
