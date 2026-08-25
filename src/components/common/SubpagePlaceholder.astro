@@ -1,0 +1,10 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'EDITORIAL IMAGE' } = Astro.props;
+---
+
+<div class="bm-subpage-placeholder" aria-label={label} role="img">
+  <span>{label}</span>
+</div>
