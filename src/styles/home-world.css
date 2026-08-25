@@ -1,0 +1,57 @@
+.bm-homepage {
+  --bm-parchment: #f3eee4;
+  --bm-paper: #e8dfcf;
+  --bm-ink: #1b1915;
+  --bm-olive-deep: #14200f;
+  --bm-cream: #f3ebdd;
+  --bm-gold: #b89653;
+  --bm-gold-pale: #c7ab72;
+  --bm-terracotta: #a84f2c;
+}
+
+.bm-homepage .bm-eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.bm-homepage .bm-btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 22px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.bm-homepage .bm-btn:hover { transform: translateY(-2px); }
+.bm-homepage .bm-btn--gold { color: #1b1915; background: var(--bm-gold); }
+.bm-homepage .bm-btn--gold:hover { background: var(--bm-gold-pale); }
+.bm-homepage .bm-btn--ghost { color: var(--bm-cream); border: 1px solid rgba(243,235,221,.28); }
+.bm-homepage .bm-btn--ghost:hover { border-color: rgba(243,235,221,.7); }
+.bm-homepage .bm-btn--terracotta { color: #fff3e1; background: var(--bm-terracotta); }
+.bm-homepage .bm-btn--terracotta:hover { background: #8f4328; }
+
+.bm-homepage .bm-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .bm-homepage .bm-btn { width: 100%; }
+}
