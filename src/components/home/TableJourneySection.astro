@@ -1,0 +1,32 @@
+<section class="bm-table-journey" aria-labelledby="bm-table-journey-title">
+  <div class="container-site">
+    <div class="bm-table-journey__intro">
+      <p class="bm-eyebrow">The Biblical Table</p>
+      <h2 id="bm-table-journey-title">From Scripture to your table.</h2>
+      <p>We move carefully from text to context, evidence, ingredient, and modern kitchen — without turning uncertainty into certainty.</p>
+    </div>
+
+    <ol class="bm-table-journey__steps">
+      <li><span>01</span><div><h3>Scripture</h3><p>Where food first appears in the story and how the passage speaks in context.</p></div></li>
+      <li><span>02</span><div><h3>History</h3><p>The people, places, trade, agriculture, and traditions behind the text.</p></div></li>
+      <li><span>03</span><div><h3>Evidence</h3><p>Where archaeology, material culture, texts, and research meet.</p></div></li>
+      <li><span>04</span><div><h3>The modern table</h3><p>How ancient foods can still be explored carefully in a contemporary kitchen.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .bm-table-journey { padding-block: 106px; background: #e8dfcf; color: #2a2119; }
+  .bm-table-journey__intro { max-width: 760px; margin: 0 auto 62px; text-align: center; }
+  .bm-table-journey__intro .bm-eyebrow { margin: 0 0 10px; color: #8f7b54; }
+  .bm-table-journey__intro h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.8rem, 4.5vw, 4.4rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; }
+  .bm-table-journey__intro > p { max-width: 620px; margin: 18px auto 0; color: #71685b; font-size: 15px; line-height: 1.75; }
+  .bm-table-journey__steps { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; padding: 0; list-style: none; }
+  .bm-table-journey__steps li { min-width: 0; padding: 0 24px; border-left: 1px solid rgba(91,72,46,.2); }
+  .bm-table-journey__steps li:first-child { padding-left: 0; border-left: 0; }
+  .bm-table-journey__steps span { display: block; margin-bottom: 16px; color: #aa834a; font-family: var(--font-display); font-size: 30px; line-height: 1; }
+  .bm-table-journey__steps h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: 22px; font-weight: 400; }
+  .bm-table-journey__steps p { margin: 0; color: #71685b; font-size: 14px; line-height: 1.7; }
+  @media (max-width: 900px) { .bm-table-journey { padding-block: 82px; } .bm-table-journey__steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; } .bm-table-journey__steps li:nth-child(3) { padding-left: 0; border-left: 0; } }
+  @media (max-width: 560px) { .bm-table-journey { padding-block: 68px; } .bm-table-journey__intro { margin-bottom: 42px; text-align: left; } .bm-table-journey__steps { grid-template-columns: 1fr; } .bm-table-journey__steps li, .bm-table-journey__steps li:nth-child(3) { padding: 0 0 24px; border-left: 0; border-bottom: 1px solid rgba(91,72,46,.2); } .bm-table-journey__steps li:last-child { border-bottom: 0; padding-bottom: 0; } }
+</style>
