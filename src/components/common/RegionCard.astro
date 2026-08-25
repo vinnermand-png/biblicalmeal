@@ -13,9 +13,7 @@ interface Props {
 const { name, description, art, imageId } = Astro.props;
 ---
 
-<article
-  class="region-card reveal group relative overflow-hidden border border-line bg-surface"
->
+<article class="region-card reveal group relative overflow-hidden border border-line bg-surface">
   <div class="region-card__art relative overflow-hidden">
     {imageId ? (
       <EditorialImage
@@ -29,32 +27,27 @@ const { name, description, art, imageId } = Astro.props;
       <FoodIllustration kind={art} ratio="16 / 10" />
     )}
     <div class="region-card__horizon" aria-hidden="true"></div>
-    <div class="region-card__photo-note" aria-hidden="true">
-      Editorial atmosphere
-    </div>
   </div>
 
   <div class="relative space-y-4 p-6 sm:p-7">
-    <p
-      class="text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase"
-    >
+    <p class="text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">
       Culinary geography
     </p>
     <div class="flex items-start justify-between gap-4">
       <h3 class="font-display text-h3 text-ink">{name}</h3>
-      <span class="mt-3 h-px w-10 shrink-0 bg-gold/70"></span>
+      <span class="mt-3 h-px w-8 shrink-0 bg-gold/70"></span>
     </div>
     <p class="text-body leading-relaxed text-ink-muted">{description}</p>
-    <p class="pt-1 text-caption text-ink-muted/80">
-      Regional guide in development
-    </p>
+    <span class="inline-flex items-center gap-2 pt-1 font-sans text-caption font-semibold tracking-wide text-terracotta uppercase">
+      Explore <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </span>
   </div>
 </article>
 
 <style>
   .region-card {
-    border-radius: 0.9rem;
-    box-shadow: var(--bm-card-shadow);
+    border-radius: 0.45rem;
+    box-shadow: 0 10px 26px rgb(41 32 24 / 0.045);
     transition:
       transform var(--bm-motion-standard) ease,
       box-shadow var(--bm-motion-standard) ease,
@@ -75,6 +68,7 @@ const { name, description, art, imageId } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: saturate(0.88) sepia(0.04);
     transition: transform 700ms ease;
   }
   .region-card__horizon {
@@ -82,34 +76,15 @@ const { name, description, art, imageId } = Astro.props;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 35%;
-    background: linear-gradient(180deg, transparent, rgb(28 24 18 / 0.28));
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgb(28 24 18 / 0.18));
     pointer-events: none;
-  }
-  .region-card__photo-note {
-    position: absolute;
-    right: 0.9rem;
-    bottom: 0.85rem;
-    padding: 0.35rem 0.55rem;
-    border: 1px solid rgb(255 252 245 / 0.35);
-    border-radius: 999px;
-    background: rgb(41 32 24 / 0.56);
-    color: var(--color-cream);
-    font-size: 0.64rem;
-    line-height: 1;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    backdrop-filter: blur(5px);
   }
   @media (prefers-reduced-motion: no-preference) {
     .region-card:hover {
       transform: translateY(-4px);
-      box-shadow: var(--bm-card-shadow-hover);
-      border-color: color-mix(
-        in srgb,
-        var(--color-terracotta) 30%,
-        var(--color-line)
-      );
+      box-shadow: 0 20px 38px rgb(41 32 24 / 0.09);
+      border-color: color-mix(in srgb, var(--color-terracotta) 24%, var(--color-line));
     }
     .region-card:hover .region-card__photo :global(img) {
       transform: scale(1.025);
