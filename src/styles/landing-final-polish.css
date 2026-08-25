@@ -1,368 +1,101 @@
-/* BiblicalMeal landing — editorial reference implementation. */
+/* BiblicalMeal landing — premium editorial publication pass. */
 
-/* Home header sits over the hero, matching the magazine-style reference. */
 body:has(.page-home) > header {
   position: absolute;
   inset: 0 0 auto;
   z-index: 60;
   border-bottom-color: transparent;
-  background: linear-gradient(180deg, rgb(255 252 245 / 0.22), transparent);
-  backdrop-filter: blur(1px);
+  background: linear-gradient(180deg, rgb(255 252 245 / .32), transparent);
+  backdrop-filter: blur(2px);
 }
-
 body:has(.page-home) > header a,
-body:has(.page-home) > header nav a {
-  color: var(--color-ink);
+body:has(.page-home) > header nav a { color: var(--color-ink); }
+body:has(.page-home) > header nav > a:last-child { color: var(--color-cream); }
+
+.page-home { --home-max: 92rem; color: var(--color-ink); background: var(--color-background); }
+.page-home .container-site { max-width: var(--home-max); }
+
+/* HERO — publication cover rather than a normal website banner. */
+.page-home .hero-home { min-height: clamp(44rem, 54vw, 58rem); }
+.page-home .hero-home .container-site { align-items:center; padding-top:7.5rem; padding-bottom:5rem; }
+.page-home .hero-home__copy { padding-left:clamp(0rem, 1.5vw, 1.5rem); }
+.page-home .hero-home__title { text-wrap:balance; }
+.page-home .hero-home__intro { max-width:29rem; }
+.page-home .hero-home__actions a { min-width:10.5rem; }
+.page-home .hero-home__note { max-width:21rem; margin-right:clamp(1rem, 4vw, 5rem); }
+
+/* Section rhythm. Make the page breathe like a publication. */
+.page-home #foods > .container-site,
+.page-home #regions > .container-site { padding-top:clamp(6.5rem, 9vw, 10rem); padding-bottom:clamp(6.5rem, 9vw, 10rem); }
+.page-home .section-header { margin-inline:auto; text-align:center; }
+.page-home .section-header__eyebrow { color:var(--color-terracotta-dark); }
+.page-home .section-header__title { font-size:clamp(2.4rem, 3.7vw, 4.2rem); line-height:.98; letter-spacing:-.035em; }
+.page-home .section-header__description { max-width:39rem; margin-inline:auto; }
+
+/* FEATURED FOODS — larger image-first collectible objects. */
+.page-home #foods { position:relative; overflow:hidden; background:linear-gradient(180deg,#f8f3e9 0%,var(--color-background) 100%); }
+.page-home #foods::before { content:''; position:absolute; width:38rem; height:38rem; top:-25rem; left:-20rem; border:1px solid rgb(169 87 45 / .07); border-radius:50%; box-shadow:0 0 0 4rem rgb(169 87 45 / .025),0 0 0 8rem rgb(169 87 45 / .018); pointer-events:none; }
+.page-home #foods > .container-site { position:relative; }
+.page-home #foods > .container-site > .mt-12.grid { margin-top:3.5rem; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; align-items:stretch; }
+.page-home #foods .ingredient-card { display:flex; min-width:0; min-height:100%; flex-direction:column; overflow:hidden; border:1px solid rgb(117 98 70 / .16); border-radius:.25rem; background:rgb(255 253 248 / .72); box-shadow:0 18px 45px rgb(41 32 24 / .055); }
+.page-home #foods .ingredient-card__art { position:relative; aspect-ratio:1 / 1.12; overflow:hidden; background:#f5eee1; }
+.page-home #foods .ingredient-card__art img { width:100%; height:100%; object-fit:cover; object-position:center; filter:saturate(.92) contrast(.98) brightness(1.02); transition:transform 700ms cubic-bezier(.2,.75,.25,1),filter 700ms ease; }
+.page-home #foods .ingredient-card .space-y-3 { display:flex; flex:1; flex-direction:column; padding:1.15rem 1rem 1.2rem; }
+.page-home #foods .ingredient-card h3 { font-size:1.25rem; line-height:1; }
+.page-home #foods .ingredient-card p { flex:1; min-height:3.6rem; font-size:.78rem; line-height:1.5; }
+.page-home #foods .ingredient-card:hover { transform:translateY(-5px); border-color:rgb(169 87 45 / .25); box-shadow:0 24px 50px rgb(41 32 24 / .11); }
+.page-home #foods .ingredient-card:hover .ingredient-card__art img { transform:scale(1.045); filter:saturate(1) contrast(1.02); }
+.page-home #foods > .container-site > .mt-10 { margin-top:2.5rem; }
+
+/* Approach — turn the existing split into a true editorial spread. */
+.page-home #story { border-top:1px solid var(--color-line); border-bottom:1px solid var(--color-line); }
+.page-home #story > * { max-width:none; }
+
+/* BIBLICAL WORLD — image-led, quieter card chrome. */
+.page-home #regions { background:#f5f0e7; }
+.page-home #regions .grid { margin-top:3.5rem; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
+.page-home #regions .region-card { overflow:hidden; border-radius:.2rem; border:1px solid rgb(117 98 70 / .15); background:#fffdf8; box-shadow:0 16px 40px rgb(41 32 24 / .05); }
+.page-home #regions .region-card__art { aspect-ratio:16 / 9; }
+.page-home #regions .region-card__art img { filter:saturate(.86) contrast(.96); transition:transform 700ms cubic-bezier(.2,.75,.25,1); }
+.page-home #regions .region-card:hover .region-card__art img { transform:scale(1.045); }
+.page-home #regions .region-card h3 { font-size:1.45rem; line-height:1.02; }
+.page-home #regions .region-card .text-body { font-size:.88rem; line-height:1.55; }
+.page-home #regions .region-card .pt-1 { display:none; }
+
+/* COOKBOOK — strong dark product intermission. */
+.page-home .cookbook-feature { position:relative; min-height:38rem; color:var(--color-cream); background:radial-gradient(circle at 14% 50%,rgb(201 162 75 / .1),transparent 30%),radial-gradient(circle at 90% 40%,rgb(107 126 74 / .1),transparent 24%),linear-gradient(120deg,#172011 0%,#202a18 48%,#111a0d 100%); }
+.page-home .cookbook-feature .container-site { max-width:88rem; }
+.page-home .cookbook-feature .text-ink,.page-home .cookbook-feature .text-ink-muted,.page-home .cookbook-feature li p { color:var(--color-cream-muted); }
+.page-home .cookbook-feature h2,.page-home .cookbook-feature .text-h2 { color:var(--color-cream); font-size:clamp(3rem,5vw,5.5rem); line-height:.95; }
+.page-home .cookbook-feature .text-eyebrow { color:var(--color-gold); }
+.page-home .cookbook-feature .border-line,.page-home .cookbook-feature ul { border-color:rgb(255 252 245 / .14); }
+.page-home .cookbook-feature .cookbook-object { max-width:30rem; transform:rotate(-3deg); filter:drop-shadow(0 28px 35px rgb(0 0 0 / .28)); }
+.page-home .cookbook-feature .cookbook-object__shadow { background:rgb(0 0 0 / .32); box-shadow:0 25px 70px rgb(0 0 0 / .32); }
+
+/* NEWSLETTER — quiet final editorial band. */
+.page-home #newsletter { border-top:1px solid var(--color-line); border-bottom:1px solid var(--color-line); background:linear-gradient(90deg,#f7f1e7,#fbf7f0); }
+.page-home #newsletter .container-site { max-width:78rem; }
+.page-home #newsletter .newsletter-world__panel { max-width:none; padding-block:clamp(4.5rem,7vw,7rem); border:0; border-radius:0; background:transparent; box-shadow:none; }
+.page-home #newsletter .newsletter-world__panel::before { display:none; }
+.page-home #newsletter .newsletter-world__panel h2 { font-size:clamp(2.4rem,4vw,4rem); line-height:.95; }
+.page-home #newsletter input { min-height:3.5rem; border-radius:0; }
+
+.page-home + footer { margin-top:0; }
+
+@media (max-width:1100px) {
+  .page-home #foods > .container-site > .mt-12.grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.25rem; }
+  .page-home #regions .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; }
+  .page-home #foods .ingredient-card__art { aspect-ratio:1 / .9; }
 }
-
-body:has(.page-home) > header nav > a:last-child {
-  color: var(--color-cream);
+@media (max-width:767px) {
+  body:has(.page-home) > header { background:rgb(248 242 231 / .92); backdrop-filter:blur(12px); }
+  .page-home .hero-home { min-height:46rem; }
+  .page-home .hero-home .container-site { padding-top:7rem; }
+  .page-home .hero-home__note { margin-right:auto; }
+  .page-home #foods > .container-site > .mt-12.grid,.page-home #regions .grid { grid-template-columns:1fr; }
+  .page-home #foods .ingredient-card__art { aspect-ratio:4 / 3; }
+  .page-home #foods .ingredient-card p { min-height:0; }
+  .page-home .cookbook-feature { min-height:auto; }
+  .page-home .cookbook-feature .cookbook-object { max-width:21rem; transform:rotate(-2deg); }
 }
-
-.page-home {
-  --home-max: 92rem;
-  color: var(--color-ink);
-  background: var(--color-background);
-}
-
-/* Hero: soft left canvas, warm photography, restrained typography. */
-.page-home .hero-home {
-  min-height: 46rem;
-}
-
-.page-home .hero-home .container-site {
-  max-width: var(--home-max);
-}
-
-.page-home .hero-home h1 {
-  max-width: 8ch;
-  font-size: clamp(3.65rem, 6.5vw, 6.75rem);
-  line-height: 0.9;
-  letter-spacing: -0.055em;
-}
-
-.page-home .hero-home .text-body-lg {
-  max-width: 34rem;
-  font-size: clamp(1rem, 0.95rem + 0.18vw, 1.18rem);
-  line-height: 1.65;
-}
-
-/* Featured Foods: clean ingredient photography, inspired by the approved reference. */
-.page-home #foods {
-  background: var(--color-background);
-}
-
-.page-home #foods > .container-site {
-  max-width: var(--home-max);
-}
-
-.page-home #foods .section-header {
-  max-width: 48rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.page-home #foods .section-header__eyebrow {
-  color: var(--color-terracotta-dark);
-}
-
-.page-home #foods .section-header__title {
-  font-size: clamp(2.2rem, 3.3vw, 3.7rem);
-  line-height: 1;
-}
-
-.page-home #foods > .container-site > .mt-12.grid {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: clamp(0.85rem, 1.15vw, 1.2rem);
-  align-items: start;
-}
-
-.page-home #foods .ingredient-card,
-.page-home #foods .ingredient-card:nth-child(n) {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  grid-column: auto;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--color-line) 88%, var(--color-gold));
-  border-radius: 0.5rem;
-  background: var(--color-surface);
-  box-shadow: 0 9px 22px rgb(41 32 24 / 0.028);
-}
-
-/* The photo should read like a clean ingredient specimen, not a busy lifestyle crop. */
-.page-home #foods .ingredient-card__art {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 88%, var(--color-gold));
-  background:
-    radial-gradient(circle at 50% 43%, rgb(255 252 245 / 0.98), rgb(248 242 231 / 0.92) 64%, rgb(232 222 203 / 0.78) 100%);
-  isolation: isolate;
-}
-
-.page-home #foods .ingredient-card__art::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at center, transparent 48%, rgb(248 242 231 / 0.12) 74%, rgb(248 242 231 / 0.72) 100%),
-    linear-gradient(180deg, rgb(255 252 245 / 0.06), rgb(248 242 231 / 0.12));
-  mix-blend-mode: screen;
-}
-
-.page-home #foods .ingredient-card__art :global(img) {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  filter: saturate(0.78) contrast(0.93) brightness(1.08);
-  mix-blend-mode: multiply;
-  transform: scale(1.015);
-  transition: transform 500ms ease, filter 500ms ease;
-}
-
-/* Keep the food itself visually clean — no wash, veil, or badge over the photography. */
-.page-home #foods .ingredient-card__wash,
-.page-home #foods .ingredient-card__veil,
-.page-home #foods .ingredient-card > .absolute.top-4.left-4 {
-  display: none;
-}
-
-.page-home #foods .ingredient-card .space-y-3 {
-  flex: 1;
-  padding: 1.05rem 1rem 1.15rem;
-}
-
-.page-home #foods .ingredient-card .flex.items-start.justify-between {
-  align-items: center;
-}
-
-.page-home #foods .ingredient-card h3 {
-  color: var(--color-ink);
-  font-size: clamp(1.05rem, 0.95rem + 0.18vw, 1.32rem);
-  line-height: 1;
-}
-
-.page-home #foods .ingredient-card h3 + span {
-  flex: none;
-  width: 2rem;
-  background: color-mix(in srgb, var(--color-gold) 72%, var(--color-line));
-}
-
-.page-home #foods .ingredient-card p {
-  min-height: 3.45rem;
-  color: var(--color-ink-muted);
-  font-size: 0.77rem;
-  line-height: 1.48;
-}
-
-.page-home #foods .ingredient-card .text-terracotta {
-  color: var(--color-terracotta-dark);
-}
-
-.page-home #foods .ingredient-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--color-terracotta) 20%, var(--color-line));
-  box-shadow: 0 14px 28px rgb(41 32 24 / 0.055);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .page-home #foods .ingredient-card {
-    transition:
-      transform var(--bm-motion-standard) ease,
-      box-shadow var(--bm-motion-standard) ease,
-      border-color var(--bm-motion-standard) ease;
-  }
-
-  .page-home #foods .ingredient-card:hover .ingredient-card__art :global(img) {
-    transform: scale(1.025);
-    filter: saturate(0.82) contrast(0.95) brightness(1.08);
-  }
-}
-
-/* Approach split is provided by ConceptFlow. */
-.page-home #story {
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-}
-
-/* Biblical World: four photo-led editorial cards. */
-.page-home #regions > .container-site {
-  max-width: var(--home-max);
-}
-
-.page-home #regions .section-header {
-  max-width: 46rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.page-home #regions .section-header__eyebrow {
-  color: var(--color-terracotta-dark);
-}
-
-.page-home #regions .section-header__title {
-  font-size: clamp(2.1rem, 3.1vw, 3.5rem);
-  line-height: 1;
-}
-
-.page-home #regions .grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.9rem, 1.2vw, 1.25rem);
-}
-
-.page-home #regions .region-card,
-.page-home #regions .region-card:nth-child(n) {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  grid-column: auto;
-  border-radius: 0.6rem;
-  border-color: color-mix(in srgb, var(--color-line) 90%, var(--color-gold));
-  background: var(--color-surface);
-  box-shadow: 0 10px 26px rgb(41 32 24 / 0.045);
-}
-
-.page-home #regions .region-card__art,
-.page-home #regions .region-card:nth-child(n) .region-card__art {
-  aspect-ratio: 16 / 10;
-}
-
-.page-home #regions .region-card h3 {
-  font-size: clamp(1.25rem, 1.05rem + 0.32vw, 1.65rem);
-  line-height: 1.02;
-}
-
-.page-home #regions .region-card .text-body {
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.page-home #regions .region-card .pt-1 {
-  display: none;
-}
-
-/* Cookbook: full-bleed deep olive product moment. */
-.page-home .cookbook-feature {
-  color: var(--color-cream);
-  background:
-    radial-gradient(circle at 16% 50%, rgb(201 162 75 / 0.07), transparent 26%),
-    linear-gradient(130deg, #1e2718 0%, #202918 55%, #172012 100%);
-}
-
-.page-home .cookbook-feature .cookbook-feature__wash {
-  opacity: 0.35;
-}
-
-.page-home .cookbook-feature .text-ink,
-.page-home .cookbook-feature .text-ink-muted,
-.page-home .cookbook-feature li p {
-  color: var(--color-cream-muted);
-}
-
-.page-home .cookbook-feature h2,
-.page-home .cookbook-feature .text-h2 {
-  color: var(--color-cream);
-}
-
-.page-home .cookbook-feature .text-eyebrow {
-  color: var(--color-gold);
-}
-
-.page-home .cookbook-feature .border-line,
-.page-home .cookbook-feature ul {
-  border-color: rgb(255 252 245 / 0.14);
-}
-
-.page-home .cookbook-feature .cookbook-object {
-  max-width: 28rem;
-}
-
-.page-home .cookbook-feature .cookbook-object__shadow {
-  background: rgb(0 0 0 / 0.26);
-  box-shadow: 0 22px 55px rgb(0 0 0 / 0.26);
-}
-
-/* Newsletter: simple cream editorial band rather than a card inside a card. */
-.page-home #newsletter {
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-  background: var(--color-background);
-}
-
-.page-home #newsletter .container-site {
-  max-width: 74rem;
-}
-
-.page-home #newsletter .newsletter-world__panel {
-  max-width: none;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.page-home #newsletter .newsletter-world__panel::before {
-  display: none;
-}
-
-.page-home #newsletter .newsletter-world__panel h2 {
-  font-size: clamp(2rem, 3vw, 3.2rem);
-  line-height: 1;
-}
-
-.page-home #newsletter input {
-  min-height: 3.2rem;
-  border-radius: 0;
-}
-
-/* Give the footer the same restrained publication feel. */
-.page-home + footer {
-  margin-top: 0;
-}
-
-@media (max-width: 1100px) {
-  .page-home #foods > .container-site > .mt-12.grid,
-  .page-home #regions .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .page-home #regions .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 767px) {
-  body:has(.page-home) > header {
-    background: rgb(248 242 231 / 0.88);
-    backdrop-filter: blur(10px);
-  }
-
-  .page-home .hero-home h1 {
-    max-width: 10ch;
-    font-size: clamp(3rem, 13vw, 4.7rem);
-  }
-
-  .page-home #foods > .container-site > .mt-12.grid,
-  .page-home #regions .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .page-home #foods .ingredient-card p {
-    min-height: 0;
-  }
-
-  .page-home .cookbook-feature .cookbook-object {
-    max-width: 20rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-home #foods .ingredient-card,
-  .page-home #regions .region-card {
-    transition: none;
-  }
-}
+@media (prefers-reduced-motion:reduce) { .page-home #foods .ingredient-card,.page-home #regions .region-card,.page-home #foods .ingredient-card__art img,.page-home #regions .region-card__art img { transition:none; } }
