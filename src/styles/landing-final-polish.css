@@ -47,7 +47,7 @@ body:has(.page-home) > header nav > a:last-child {
   line-height: 1.65;
 }
 
-/* Featured Foods: clean editorial ingredient photography. */
+/* Featured Foods: clean ingredient photography, inspired by the approved reference. */
 .page-home #foods {
   background: var(--color-background);
 }
@@ -84,17 +84,32 @@ body:has(.page-home) > header nav > a:last-child {
   flex-direction: column;
   grid-column: auto;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--color-line) 90%, var(--color-gold));
-  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--color-line) 88%, var(--color-gold));
+  border-radius: 0.5rem;
   background: var(--color-surface);
-  box-shadow: 0 10px 24px rgb(41 32 24 / 0.035);
+  box-shadow: 0 9px 22px rgb(41 32 24 / 0.028);
 }
 
+/* The photo should read like a clean ingredient specimen, not a busy lifestyle crop. */
 .page-home #foods .ingredient-card__art {
-  aspect-ratio: 1 / 0.94;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 90%, var(--color-gold));
-  background: var(--color-background-alt);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 88%, var(--color-gold));
+  background:
+    radial-gradient(circle at 50% 43%, rgb(255 252 245 / 0.98), rgb(248 242 231 / 0.92) 64%, rgb(232 222 203 / 0.78) 100%);
+  isolation: isolate;
+}
+
+.page-home #foods .ingredient-card__art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 48%, rgb(248 242 231 / 0.12) 74%, rgb(248 242 231 / 0.72) 100%),
+    linear-gradient(180deg, rgb(255 252 245 / 0.06), rgb(248 242 231 / 0.12));
+  mix-blend-mode: screen;
 }
 
 .page-home #foods .ingredient-card__art :global(img) {
@@ -103,8 +118,10 @@ body:has(.page-home) > header nav > a:last-child {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(0.94) contrast(1.01);
-  transition: transform 500ms ease;
+  filter: saturate(0.78) contrast(0.93) brightness(1.08);
+  mix-blend-mode: multiply;
+  transform: scale(1.015);
+  transition: transform 500ms ease, filter 500ms ease;
 }
 
 /* Keep the food itself visually clean — no wash, veil, or badge over the photography. */
@@ -116,13 +133,23 @@ body:has(.page-home) > header nav > a:last-child {
 
 .page-home #foods .ingredient-card .space-y-3 {
   flex: 1;
-  padding: 1rem 0.95rem 1.1rem;
+  padding: 1.05rem 1rem 1.15rem;
+}
+
+.page-home #foods .ingredient-card .flex.items-start.justify-between {
+  align-items: center;
 }
 
 .page-home #foods .ingredient-card h3 {
   color: var(--color-ink);
   font-size: clamp(1.05rem, 0.95rem + 0.18vw, 1.32rem);
   line-height: 1;
+}
+
+.page-home #foods .ingredient-card h3 + span {
+  flex: none;
+  width: 2rem;
+  background: color-mix(in srgb, var(--color-gold) 72%, var(--color-line));
 }
 
 .page-home #foods .ingredient-card p {
@@ -137,9 +164,9 @@ body:has(.page-home) > header nav > a:last-child {
 }
 
 .page-home #foods .ingredient-card:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--color-terracotta) 22%, var(--color-line));
-  box-shadow: 0 16px 30px rgb(41 32 24 / 0.07);
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--color-terracotta) 20%, var(--color-line));
+  box-shadow: 0 14px 28px rgb(41 32 24 / 0.055);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -151,7 +178,8 @@ body:has(.page-home) > header nav > a:last-child {
   }
 
   .page-home #foods .ingredient-card:hover .ingredient-card__art :global(img) {
-    transform: scale(1.015);
+    transform: scale(1.025);
+    filter: saturate(0.82) contrast(0.95) brightness(1.08);
   }
 }
 
