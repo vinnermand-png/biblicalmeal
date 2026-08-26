@@ -4,16 +4,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/common/Header.astro';
 import SiteFooter from '../../components/common/SiteFooter.astro';
 import RecipeCard from '../../components/common/RecipeCard.astro';
+import EditorialImage from '../../components/common/EditorialImage.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import type { ArtKind } from '../../lib/visuals';
+
 const recipes = await getVisibleRecipes();
+const featuredRecipe = recipes.find((entry) => entry.data.featured) ?? recipes[0];
+const archiveRecipes = featuredRecipe
+  ? recipes.filter((entry) => entry.id !== featuredRecipe.id)
+  : recipes;
+const featuredMeta = featuredRecipe
+  ? [
+      featuredRecipe.data.prepMinutes != null && `Prep ${featuredRecipe.data.prepMinutes} min`,
+      featuredRecipe.data.cookMinutes != null && `Cook ${featuredRecipe.data.cookMinutes} min`,
+      featuredRecipe.data.servings != null && `Serves ${featuredRecipe.data.servings}`,
+    ].filter(Boolean)
+  : [];
 ---
 
 <BaseLayout
   title="Recipes"
   description="Modern kitchen recipes inspired by the ingredients of the ancient biblical world — clearly labelled as inspired creations or historically researched reconstructions."
 >
-  <Header /><main id="main" class="page-recipes">
+  <Header />
+  <main id="main" class="page-recipes">
     <section class="recipes-hero" aria-labelledby="recipes-hero-title">
       <div class="recipes-hero__inner container-site">
         <Breadcrumbs items={[{ label: 'Recipes' }]} />
@@ -21,31 +36,66 @@ const recipes = await getVisibleRecipes();
         <h1 id="recipes-hero-title" class="recipes-hero__title">Recipes</h1>
         <div class="recipes-hero__rule" aria-hidden="true"></div>
         <p class="recipes-hero__lead">
-          Every BiblicalMeal recipe states exactly what it is: a modern creation
-          inspired by biblical-world ingredients, a researched reconstruction,
-          or work built from cited historical sources.
+          Every BiblicalMeal recipe is a modern creation, a researched
+          reconstruction, or a recipe built from cited historical sources.
         </p>
       </div>
     </section>
+
+    {
+      recipes.length > 0 && featuredRecipe ? (
+        <section class="recipes-featured container-site section-space" aria-labelledby="featured-title">
+          <div class="recipes-featured__heading">
+            <div>
+              <p class="section-kicker">Featured recipe</p>
+              <h2 id="featured-title" class="recipes-featured__title font-display">A recipe from the ancient table</h2>
+            </div>
+            <p class="recipes-featured__intro">
+              Begin with one recipe and follow its ingredients, sources and historical context into the wider BiblicalMeal collection.
+            </p>
+          </div>
+
+          <article class="featured-recipe">
+            <div class="featured-recipe__media">
+              <EditorialImage
+                id="journal-meal-preparation"
+                fallbackArt={(featuredRecipe.data.art ?? 'stew') as ArtKind}
+                ratio="4 / 3"
+                alt={`A restrained still life for ${featuredRecipe.data.title}`}
+              />
+            </div>
+            <div class="featured-recipe__body">
+              <p class="featured-recipe__eyebrow">From the kitchen</p>
+              <h3 class="featured-recipe__title font-display">{featuredRecipe.data.title}</h3>
+              <p class="featured-recipe__description">{featuredRecipe.data.description}</p>
+              <p class="featured-recipe__note">{featuredRecipe.data.inspiredNote}</p>
+              {featuredMeta.length > 0 && (
+                <p class="featured-recipe__meta">{featuredMeta.join(' · ')}</p>
+              )}
+              <a href={`/recipes/${featuredRecipe.id}/`} class="featured-recipe__link">
+                View recipe <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        </section>
+      ) : null
+    }
+
     {
       recipes.length > 0 ? (
-        <section
-          class="recipes-archive container-site section-space"
-          aria-label="Recipe collection"
-        >
-          <div class="recipes-archive__intro">
-            <p class="recipes-archive__statement font-display text-ink">
-              A modern kitchen in conversation with an ancient food world.
-            </p>
-            <p class="recipes-archive__support text-ink-muted">
-              Each recipe keeps its historical relationship visible, so
-              reconstruction and inspiration are never visually presented as the
-              same thing.
+        <section class="recipes-archive container-site" aria-labelledby="collection-title">
+          <div class="recipes-archive__header">
+            <div>
+              <p class="section-kicker">Explore the collection</p>
+              <h2 id="collection-title" class="recipes-archive__title font-display">Recipes for the modern table</h2>
+            </div>
+            <p class="recipes-archive__support">
+              Each recipe keeps its relationship to scripture, history and modern adaptation visible.
             </p>
           </div>
           <div class="recipes-archive__divider" aria-hidden="true" />
           <ul class="recipes-archive__grid">
-            {recipes.map((entry) => (
+            {archiveRecipes.map((entry) => (
               <li>
                 <RecipeCard entry={entry} />
               </li>
@@ -58,24 +108,37 @@ const recipes = await getVisibleRecipes();
         </div>
       )
     }
-  </main><SiteFooter /></BaseLayout
->
+
+    <section class="recipes-note container-site section-space" aria-labelledby="recipes-note-title">
+      <div class="recipes-note__inner">
+        <p class="section-kicker">A note on our recipes</p>
+        <h2 id="recipes-note-title" class="recipes-note__title font-display">Honest about what belongs to the past — and what belongs to the modern kitchen.</h2>
+        <p class="recipes-note__copy">
+          BiblicalMeal does not present inspiration as reconstruction. Historical context stays visible, while every recipe remains practical for cooking today.
+        </p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
 
 <style>
-  /* Editorial masthead hero — cookbook chapter opener */
-  .recipes-hero {
+  .page-recipes {
     background: var(--color-background);
+  }
+
+  .recipes-hero {
     border-bottom: 1px solid var(--color-line);
-    padding-block: clamp(3rem, 5vw, 4.5rem);
+    padding-block: clamp(3rem, 5vw, 4.75rem);
   }
 
   .recipes-hero__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     max-width: 44rem;
     margin-inline: auto;
+    text-align: center;
   }
 
   .recipes-hero__inner :global(nav) {
@@ -83,108 +146,247 @@ const recipes = await getVisibleRecipes();
     text-align: left;
   }
 
-  .recipes-hero__eyebrow {
-    margin: clamp(1.5rem, 3vw, 1.875rem) 0 0.75rem;
+  .recipes-hero__eyebrow,
+  .section-kicker,
+  .featured-recipe__eyebrow {
+    margin: 0;
     color: var(--color-olive-dark);
     font-family: var(--font-sans);
-    font-size: 0.6875rem;
-    font-weight: 600;
+    font-size: 0.625rem;
+    font-weight: 700;
     letter-spacing: 0.16em;
-    text-transform: uppercase;
     line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .recipes-hero__eyebrow {
+    margin-top: clamp(1.5rem, 3vw, 2rem);
   }
 
   .recipes-hero__title {
-    margin: 0;
+    margin: 0.75rem 0 0;
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 1.75rem + 3vw, 4.25rem);
+    font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
     font-weight: 400;
     line-height: 0.98;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
   }
 
   .recipes-hero__rule {
     width: 3.5rem;
     height: 1px;
-    margin: clamp(1.375rem, 2.5vw, 1.75rem) 0;
+    margin: clamp(1.25rem, 2.5vw, 1.75rem) 0;
     background: var(--color-gold);
     opacity: 0.55;
   }
 
   .recipes-hero__lead {
-    margin: 0;
-    max-width: 39rem;
-    color: var(--color-ink-muted);
-    font-size: clamp(0.9375rem, 0.875rem + 0.2vw, 1.125rem);
-    line-height: 1.72;
-  }
-
-  @media (max-width: 639px) {
-    .recipes-hero {
-      padding-block: clamp(2rem, 6vw, 2.75rem);
-    }
-    .recipes-hero__eyebrow {
-      margin-top: 1.25rem;
-    }
-  }
-
-  .recipes-archive {
-    max-width: 88rem;
-  }
-
-  .recipes-archive__intro {
-    display: grid;
-    grid-template-columns: 0.42fr 0.58fr;
-    gap: clamp(2rem, 5vw, 5rem);
-    align-items: baseline;
-    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
-  }
-
-  .recipes-archive__statement {
-    margin: 0;
-    color: var(--color-ink);
-    font-size: clamp(1.65rem, 1.25rem + 1.6vw, 2.35rem);
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-  }
-
-  .recipes-archive__support {
+    max-width: 40rem;
     margin: 0;
     color: var(--color-ink-muted);
     font-size: clamp(0.9375rem, 0.875rem + 0.2vw, 1.0625rem);
     line-height: 1.72;
   }
 
+  .recipes-featured,
+  .recipes-archive,
+  .recipes-note {
+    max-width: 88rem;
+  }
+
+  .recipes-featured__heading,
+  .recipes-archive__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
+    gap: clamp(2rem, 6vw, 7rem);
+    align-items: end;
+    margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+  }
+
+  .recipes-featured__title,
+  .recipes-archive__title {
+    margin: 0.7rem 0 0;
+    color: var(--color-ink);
+    font-size: clamp(2rem, 1.55rem + 1.7vw, 3.25rem);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+
+  .recipes-featured__intro,
+  .recipes-archive__support {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.72;
+  }
+
+  .featured-recipe {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, 0.88fr);
+    min-height: 30rem;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-surface);
+  }
+
+  .featured-recipe__media {
+    min-height: 100%;
+    border-right: 1px solid var(--color-line);
+  }
+
+  .featured-recipe__media :global(img) {
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.9) contrast(0.98);
+  }
+
+  .featured-recipe__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 5rem);
+  }
+
+  .featured-recipe__title {
+    margin: 0.75rem 0 1rem;
+    color: var(--color-ink);
+    font-size: clamp(2.4rem, 2rem + 1.8vw, 4rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .featured-recipe__description {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .featured-recipe__note {
+    max-width: 34rem;
+    margin: 1.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.68;
+  }
+
+  .featured-recipe__meta {
+    margin: 1.5rem 0 0;
+    color: var(--color-olive-dark);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .featured-recipe__link {
+    margin-top: 2rem;
+    color: var(--color-terracotta-dark);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .featured-recipe__link span {
+    display: inline-block;
+    margin-left: 0.35rem;
+    transition: transform 180ms ease;
+  }
+
+  .featured-recipe__link:hover span {
+    transform: translateX(3px);
+  }
+
+  .recipes-archive {
+    padding-bottom: clamp(4rem, 8vw, 8rem);
+  }
+
   .recipes-archive__divider {
     height: 1px;
-    background: var(--color-line);
     margin-bottom: clamp(2rem, 4vw, 3rem);
+    background: var(--color-line);
   }
 
   .recipes-archive__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.25rem, 2vw, 1.75rem);
+    gap: clamp(1rem, 2vw, 1.75rem);
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
+  .recipes-note {
+    padding-top: 0;
+  }
+
+  .recipes-note__inner {
+    max-width: 58rem;
+    padding: clamp(2.5rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .recipes-note__title {
+    max-width: 44rem;
+    margin: 0.75rem 0 1.25rem;
+    color: var(--color-ink);
+    font-size: clamp(1.75rem, 1.35rem + 1.4vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .recipes-note__copy {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--color-ink-muted);
+    line-height: 1.72;
+  }
+
   @media (max-width: 1023px) {
+    .featured-recipe {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-recipe__media {
+      min-height: 22rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--color-line);
+    }
+
     .recipes-archive__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 639px) {
-    .recipes-archive__intro {
+  @media (max-width: 719px) {
+    .recipes-featured__heading,
+    .recipes-archive__header {
       grid-template-columns: 1fr;
       gap: 1rem;
     }
+
+    .featured-recipe__media {
+      min-height: 18rem;
+    }
+
+    .featured-recipe__body {
+      padding: 2rem;
+    }
+
     .recipes-archive__grid {
       grid-template-columns: 1fr;
-      gap: 1.25rem;
     }
   }
 </style>
