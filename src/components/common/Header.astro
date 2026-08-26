@@ -2,6 +2,46 @@
 import '../../styles/header-unification.css';
 import MobileMenu from '../islands/MobileMenu.tsx';
 import { MAIN_NAV_LINKS, SITE } from '../../config';
+
+const navGroups = [
+  {
+    label: 'Explore',
+    href: '/ingredients/',
+    items: [
+      { label: 'Ingredients', href: '/ingredients/' },
+      { label: 'Recipes', href: '/recipes/' },
+      { label: 'Regions', href: '/foods/' },
+    ],
+  },
+  {
+    label: 'Journal',
+    href: '/articles/',
+    items: [
+      { label: 'Articles', href: '/articles/' },
+      { label: 'Research', href: '/sources/' },
+    ],
+  },
+  { label: 'Scripture', href: '/sources/' },
+  {
+    label: 'Cookbook',
+    href: '/cookbook/',
+    items: [
+      { label: 'Cookbook', href: '/cookbook/' },
+      { label: 'Chapters', href: '/cookbook/chapters/' },
+      { label: 'Recipes', href: '/cookbook/' },
+    ],
+  },
+  {
+    label: 'About',
+    href: '/editorial-method/',
+    items: [
+      { label: 'About BiblicalMeal', href: '/editorial-method/' },
+      { label: 'Editorial Method', href: '/editorial-method/' },
+      { label: 'Sources', href: '/sources/' },
+      { label: 'Contact', href: '/contact/' },
+    ],
+  },
+];
 ---
 
 <header class="bm-home-header">
@@ -10,9 +50,22 @@ import { MAIN_NAV_LINKS, SITE } from '../../config';
       <span class="bm-home-brand__mark" aria-hidden="true">❧</span>
       <span>BIBLICALMEAL</span>
     </a>
+
     <nav class="bm-home-nav" aria-label="Main navigation">
-      {MAIN_NAV_LINKS.map((link) => <a href={link.href}>{link.label}</a>)}
+      {navGroups.map((group) =>
+        group.items ? (
+          <details class="bm-nav-group">
+            <summary>{group.label}<span aria-hidden="true">⌄</span></summary>
+            <div class="bm-nav-menu">
+              {group.items.map((item) => <a href={item.href}>{item.label}</a>)}
+            </div>
+          </details>
+        ) : (
+          <a href={group.href}>{group.label}</a>
+        ),
+      )}
     </nav>
+
     <div class="bm-home-actions">
       <button class="bm-home-search" type="button" aria-label="Search">
         <svg viewBox="0 0 24 24" aria-hidden="true"
