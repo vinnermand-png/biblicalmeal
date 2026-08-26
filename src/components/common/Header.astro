@@ -1,16 +1,9 @@
 ---
 import MobileMenu from '../islands/MobileMenu.tsx';
 import { MAIN_NAV_LINKS, SITE } from '../../config';
-
-const isHomepage = Astro.url.pathname === '/';
 ---
 
-<header
-  class:list={[
-    'bm-home-header',
-    isHomepage ? 'bm-home-header--home' : 'bm-home-header--subpage',
-  ]}
->
+<header class="bm-home-header">
   <div class="bm-home-container bm-home-header__inner">
     <a href="/" class="bm-home-brand" aria-label={`${SITE.name} home`}>
       <span class="bm-home-brand__mark" aria-hidden="true">❧</span>
