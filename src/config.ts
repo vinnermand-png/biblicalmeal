@@ -18,3 +18,13 @@ export const NAV_LINKS = [
   { label: 'Ingredients', href: '/ingredients/' },
   { label: 'Articles', href: '/articles/' },
 ] as const;
+
+export const MAIN_NAV_LINKS = [
+  { label: 'Ingredients', href: '/ingredients/' },
+  { label: 'Recipes', href: '/recipes/' },
+  { label: 'Journal', href: '/articles/' },
+  { label: 'Regions', href: '/foods/' },
+  { label: 'Scripture', href: '/sources/' },
+  { label: 'Cookbook', href: '/cookbook/' },
+  { label: 'About', href: '/editorial-method/' },
+] as const;

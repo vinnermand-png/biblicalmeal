@@ -1,20 +1,25 @@
 ---
+import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { draftsPreview } from '../../lib/content';
-import { getRelated, getVisibleIngredients } from '../../lib/queries';
-import { getEditorialImage } from '../../lib/editorial-images';
+import { draftsPreview, statusChip } from '../../lib/content';
+import { formatScriptureRefs } from '../../lib/scripture';
+import {
+  getRelated,
+  getVisibleIngredients,
+  getVisibleRecipes,
+} from '../../lib/queries';
 import { INGREDIENT_ART } from '../../lib/visuals';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/common/Header.astro';
 import SiteFooter from '../../components/common/SiteFooter.astro';
-import ContentHero from '../../components/common/ContentHero.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 import Chip from '../../components/common/Chip.astro';
-import ScriptureBlock from '../../components/common/ScriptureBlock.astro';
+import IngredientCard from '../../components/common/IngredientCard.astro';
+import EditorialImage from '../../components/common/EditorialImage.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
-import RelatedSection from '../../components/common/RelatedSection.astro';
 
 type Entry = CollectionEntry<'ingredients'>;
+type RecipeEntry = CollectionEntry<'recipes'>;
 
 export async function getStaticPaths() {
   const ingredients = await getVisibleIngredients();
@@ -29,17 +34,90 @@ interface Props {
 }
 
 const { entry }: Props = Astro.props;
-const { name, description, scriptureRefs, scriptureNote, history, modern } =
-  entry.data;
+const { Content } = await render(entry);
+const {
+  name,
+  description,
+  category,
+  scriptureRefs,
+  scriptureNote,
+  history,
+  modern,
+} = entry.data;
 const related = await getRelated({ collection: 'ingredients', id: entry.id });
+const allRecipes = await getVisibleRecipes();
 const art = entry.data.art ?? INGREDIENT_ART[entry.id] ?? 'still-life';
 const editorialImageId = `ingredients-${entry.id}-still-life`;
-const editorialImage = getEditorialImage(editorialImageId);
-const heroEditorialImageId = editorialImage?.pageUsage.includes('/ingredients/')
-  ? editorialImageId
-  : undefined;
-const hasResearch = Boolean(history || modern);
 const isDevPreview = draftsPreview() && entry.data.status !== 'published';
+const status = statusChip(entry.data.status);
+
+const recipeFallbacks: Record<string, string> = {
+  barley: 'barley-bread',
+  dates: 'honey-cakes',
+  figs: 'honey-cakes',
+  honey: 'honey-cakes',
+  lentils: 'lentil-stew',
+  olives: 'olive-oil-flatbread',
+};
+const kitchenRecipe: RecipeEntry | undefined =
+  related.recipes[0] ??
+  allRecipes.find((recipe) => recipe.id === recipeFallbacks[entry.id]);
+const recipeMeta = kitchenRecipe
+  ? ([
+      kitchenRecipe.data.recipeType === 'reconstructed'
+        ? 'Historically informed'
+        : 'Biblical-inspired',
+      kitchenRecipe.data.prepMinutes != null
+        ? `Prep ${kitchenRecipe.data.prepMinutes} min`
+        : undefined,
+      kitchenRecipe.data.cookMinutes != null
+        ? `Cook ${kitchenRecipe.data.cookMinutes} min`
+        : undefined,
+    ].filter(Boolean) as string[])
+  : [];
+
+const categoryLabel = category[0].toUpperCase() + category.slice(1);
+const glanceStatus =
+  entry.data.status === 'published' ? 'Published profile' : 'Research active';
+const scriptureLabel =
+  scriptureRefs.length > 1 ? 'Multiple references' : 'Single reference';
+const formattedRefs = formatScriptureRefs(scriptureRefs);
+
+const scriptureMoments: Record<string, { quote: string; citation: string }> = {
+  barley: {
+    quote:
+      'A land of wheat, and barley, and vines, and fig trees, and pomegranates.',
+    citation: 'Deuteronomy 8:8',
+  },
+  dates: {
+    quote:
+      'And they came to Elim, where were twelve wells of water, and threescore and ten palm trees.',
+    citation: 'Exodus 15:27',
+  },
+  figs: {
+    quote:
+      'A land of wheat, and barley, and vines, and fig trees, and pomegranates.',
+    citation: 'Deuteronomy 8:8',
+  },
+  honey: {
+    quote: 'A land flowing with milk and honey.',
+    citation: 'Exodus 3:8',
+  },
+  lentils: {
+    quote:
+      'And Jacob sod pottage: and Esau came from the field, and he was faint.',
+    citation: 'Genesis 25:29',
+  },
+  olives: {
+    quote:
+      'A land of wheat, and barley, and vines, and fig trees, and pomegranates; a land of oil olive, and honey.',
+    citation: 'Deuteronomy 8:8',
+  },
+};
+const scriptureMoment = scriptureMoments[entry.id] ?? {
+  quote: scriptureNote ?? description,
+  citation: formattedRefs[0] ?? 'Scripture reference',
+};
 
 const breadcrumbs = [
   { label: 'Ingredients', href: '/ingredients/' },
@@ -49,71 +127,915 @@ const breadcrumbs = [
 
 <BaseLayout title={name} description={description}>
   <Header />
-  <main id="main">
-    <ContentHero
-      eyebrow="Ingredient"
-      title={name}
-      lead={description}
-      art={art}
-      editorialImageId={heroEditorialImageId}
-    >
-      <Breadcrumbs slot="breadcrumbs" items={breadcrumbs} />
-      <div slot="meta" class="mt-6 flex flex-wrap items-center gap-3">
-        {isDevPreview && <Chip variant="dev" />}
-        <p
-          class="font-sans text-caption font-medium tracking-wide text-ink-muted uppercase"
-        >
-          {entry.data.category}
-        </p>
-      </div>
-    </ContentHero>
-
-    <article class="container-site py-16 sm:py-20">
-      <div class="mx-auto max-w-3xl space-y-14">
-        {
-          scriptureRefs.length > 0 && (
-            <ScriptureBlock refs={scriptureRefs} note={scriptureNote} />
-          )
-        }
-
-        {
-          history && (
-            <section aria-labelledby="ingredient-history">
-              <h2 id="ingredient-history" class="font-display text-h2 text-ink">
-                Historical context
-              </h2>
-              <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                {history}
-              </p>
-            </section>
-          )
-        }
-
-        {
-          modern && (
-            <section aria-labelledby="ingredient-modern">
-              <h2 id="ingredient-modern" class="font-display text-h2 text-ink">
-                In the modern kitchen
-              </h2>
-              <p class="mt-4 max-w-prose text-body-lg text-ink-muted">
-                {modern}
-              </p>
-            </section>
-          )
-        }
-
-        {
-          !hasResearch && scriptureRefs.length === 0 && (
-            <EmptyState
-              showDevChip={isDevPreview}
-              message={`The full profile of ${name} — its biblical references, history, and modern use — is being researched now. It will publish here once every claim has been verified against sources.`}
+  <main id="main" class="ingredient-detail-page">
+    <section class="ingredient-detail-hero" aria-labelledby="ingredient-title">
+      <div class="ingredient-detail-container">
+        <Breadcrumbs items={breadcrumbs} />
+        <div class="ingredient-detail-hero__grid">
+          <div class="ingredient-detail-hero__copy">
+            <p class="ingredient-detail-eyebrow">Ingredient</p>
+            <h1 id="ingredient-title">{name}</h1>
+            <p class="ingredient-detail-hero__lead">{description}</p>
+            <div class="ingredient-detail-hero__meta">
+              {isDevPreview && <Chip variant="dev" />}
+              <span>{categoryLabel}</span>
+              <span aria-hidden="true">·</span>
+              <span>Classification</span>
+              {status && <Chip variant={status} />}
+            </div>
+          </div>
+          <div class="ingredient-detail-hero__media group media-frame">
+            <EditorialImage
+              id={editorialImageId}
+              fallbackArt={art}
+              ratio="4 / 3"
+              alt={`${name} in a restrained editorial still life`}
+              loading="eager"
+              allowGeneratedOnSubpage
             />
-          )
-        }
+          </div>
+        </div>
       </div>
+    </section>
+
+    <section
+      class="ingredient-glance ingredient-detail-container"
+      aria-labelledby="glance-title"
+    >
+      <p id="glance-title" class="ingredient-detail-eyebrow">At a glance</p>
+      <dl class="ingredient-glance__grid">
+        <div>
+          <dt>Type</dt>
+          <dd>{categoryLabel}</dd>
+        </div>
+        <div>
+          <dt>Ancient world</dt>
+          <dd>Near East</dd>
+        </div>
+        <div>
+          <dt>Scripture</dt>
+          <dd>{scriptureLabel}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>{glanceStatus}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section
+      class="ingredient-scripture ingredient-detail-container"
+      aria-labelledby="scripture-title"
+    >
+      <div class="ingredient-section-heading">
+        <p class="ingredient-detail-eyebrow">In Scripture</p>
+        <h2 id="scripture-title">{name} throughout the biblical world</h2>
+        {scriptureNote && <p>{scriptureNote}</p>}
+      </div>
+      {
+        formattedRefs.length > 0 ? (
+          <ol class="ingredient-scripture__list">
+            {formattedRefs.map((reference, index) => (
+              <li>
+                <span class="ingredient-scripture__number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3>{reference}</h3>
+                  <p>KJV reference in the BiblicalMeal research record.</p>
+                </div>
+                <span class="ingredient-scripture__arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <EmptyState
+            message={`Scripture references for ${name} are still being researched.`}
+          />
+        )
+      }
+    </section>
+
+    <section
+      class="ingredient-ancient-world"
+      aria-labelledby="ancient-world-title"
+    >
+      <div class="ingredient-detail-container ingredient-ancient-world__grid">
+        <div class="ingredient-ancient-world__media group media-frame">
+          <EditorialImage
+            id={editorialImageId}
+            fallbackArt={art}
+            ratio="3 / 2"
+            alt={`${name} editorial archive image`}
+            allowGeneratedOnSubpage
+          />
+        </div>
+        <div class="ingredient-ancient-world__copy">
+          <p class="ingredient-detail-eyebrow">The Ancient World</p>
+          <h2 id="ancient-world-title">Historical context</h2>
+          {
+            history ? (
+              <p>{history}</p>
+            ) : (
+              <p>
+                The historical context of {name} remains in active research and
+                will publish as evidence is verified.
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <article
+      class="ingredient-story ingredient-detail-container"
+      aria-labelledby="story-title"
+    >
+      <div class="ingredient-story__heading">
+        <p class="ingredient-detail-eyebrow">The Story of the Ingredient</p>
+        <h2 id="story-title">A closer reading of {name}.</h2>
+      </div>
+      <div class="ingredient-story__body prose-bm">
+        <Content />
+      </div>
+      {
+        modern && (
+          <aside class="ingredient-story__modern">
+            <p class="ingredient-detail-eyebrow">The Modern Kitchen</p>
+            <p>{modern}</p>
+          </aside>
+        )
+      }
     </article>
 
-    <RelatedSection related={related} />
+    <section
+      class="ingredient-scripture-moment"
+      aria-labelledby="scripture-moment-title"
+    >
+      <div
+        class="ingredient-detail-container ingredient-scripture-moment__inner"
+      >
+        <p class="ingredient-detail-eyebrow">Featured Scripture Moment</p>
+        <blockquote id="scripture-moment-title">
+          “{scriptureMoment.quote}”
+        </blockquote>
+        <cite>{scriptureMoment.citation}</cite>
+      </div>
+    </section>
+
+    <section class="ingredient-kitchen" aria-labelledby="kitchen-title">
+      <div class="ingredient-detail-container">
+        <div
+          class="ingredient-section-heading ingredient-section-heading--dark"
+        >
+          <p class="ingredient-detail-eyebrow">From the Kitchen</p>
+          <h2 id="kitchen-title">Cook with {name}</h2>
+          <p>
+            A modern kitchen expression of the same pantry, clearly framed as
+            inspiration or historical reconstruction.
+          </p>
+        </div>
+        {
+          kitchenRecipe ? (
+            <a
+              class="ingredient-kitchen__feature group"
+              href={`/recipes/${kitchenRecipe.id}/`}
+            >
+              <div class="ingredient-kitchen__media media-frame">
+                <EditorialImage
+                  id="journal-meal-preparation"
+                  fallbackArt={kitchenRecipe.data.art ?? 'stew'}
+                  ratio="16 / 10"
+                  alt={`${kitchenRecipe.data.title} editorial kitchen still life`}
+                  allowGeneratedOnSubpage
+                />
+              </div>
+              <div class="ingredient-kitchen__copy">
+                <p class="ingredient-detail-eyebrow">Featured recipe</p>
+                <h3>{kitchenRecipe.data.title}</h3>
+                <p>{kitchenRecipe.data.description}</p>
+                {recipeMeta.length > 0 && (
+                  <span class="ingredient-kitchen__meta">
+                    {recipeMeta.join(' · ')}
+                  </span>
+                )}
+                <span class="ingredient-detail-link">
+                  Read the recipe <span aria-hidden="true">→</span>
+                </span>
+              </div>
+            </a>
+          ) : (
+            <div class="ingredient-kitchen__empty">
+              <p class="ingredient-detail-eyebrow">
+                Kitchen profile in progress
+              </p>
+              <h3>A recipe for {name} is being developed.</h3>
+              <a class="ingredient-detail-link" href="/recipes/">
+                Browse the recipe journal <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <section
+      class="ingredient-related ingredient-detail-container"
+      aria-labelledby="related-title"
+    >
+      <div class="ingredient-section-heading">
+        <p class="ingredient-detail-eyebrow">Explore the Pantry</p>
+        <h2 id="related-title">More ingredients from the ancient table</h2>
+      </div>
+      {
+        related.ingredients.length > 0 ? (
+          <ul class="ingredient-related__grid">
+            {related.ingredients.map((item) => (
+              <li>
+                <IngredientCard entry={item} allowGeneratedOnSubpage />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState message="More pantry profiles will appear here as the collection grows." />
+        )
+      }
+    </section>
+
+    <p class="ingredient-detail-disclosure ingredient-detail-container">
+      Ingredient profiles are in active research — full histories and citations
+      publish as they are verified.
+    </p>
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style is="global">
+  .ingredient-detail-page {
+    --ingredient-page: #f5f2ea;
+    --ingredient-paper: #ece8df;
+    --ingredient-ink: #2f2b25;
+    --ingredient-muted: #70695e;
+    --ingredient-olive: #5e6048;
+    --ingredient-gold: #a88f61;
+    --ingredient-line: #d8d0c2;
+    background: var(--ingredient-page);
+    color: var(--ingredient-ink);
+  }
+
+  .ingredient-detail-container {
+    width: min(100%, 1180px);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4.7vw, 68px);
+  }
+
+  .ingredient-detail-eyebrow {
+    margin: 0 0 15px;
+    color: var(--ingredient-olive);
+    font: 700 11px/1.4 var(--font-sans);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-detail-page h1,
+  .ingredient-detail-page h2,
+  .ingredient-detail-page h3 {
+    color: var(--ingredient-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .ingredient-detail-page p {
+    color: var(--ingredient-muted);
+  }
+
+  .ingredient-detail-hero {
+    padding-block: 33px clamp(78px, 10vw, 138px);
+    border-bottom: 1px solid var(--ingredient-line);
+    background: var(--ingredient-page);
+  }
+
+  .ingredient-detail-hero > .ingredient-detail-container > nav {
+    margin-bottom: clamp(58px, 8vw, 108px);
+  }
+
+  .ingredient-detail-hero nav ol {
+    color: var(--ingredient-muted);
+    font: 500 11px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+  }
+
+  .ingredient-detail-hero nav a:hover {
+    color: var(--ingredient-olive);
+  }
+
+  .ingredient-detail-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(370px, 1.14fr);
+    gap: clamp(42px, 8vw, 112px);
+    align-items: center;
+  }
+
+  .ingredient-detail-hero__copy {
+    max-width: 31rem;
+  }
+
+  .ingredient-detail-hero h1 {
+    max-width: 8ch;
+    margin: 0;
+    font-size: clamp(64px, 8vw, 112px);
+    line-height: 0.88;
+  }
+
+  .ingredient-detail-hero__lead {
+    max-width: 28rem;
+    margin: 28px 0 0;
+    font: 400 17px/1.72 var(--font-sans);
+  }
+
+  .ingredient-detail-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    color: var(--ingredient-muted);
+    font: 600 10px/1.3 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-detail-hero__meta .inline-flex {
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 9px;
+  }
+
+  .ingredient-detail-hero__media,
+  .ingredient-ancient-world__media,
+  .ingredient-kitchen__media {
+    overflow: hidden;
+    border-color: var(--ingredient-line);
+    border-radius: 6px;
+    background: var(--ingredient-paper);
+    box-shadow: 0 18px 42px rgb(46 42 34 / 0.09);
+  }
+
+  .ingredient-detail-hero__media > div,
+  .ingredient-ancient-world__media > div,
+  .ingredient-kitchen__media > div {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .ingredient-detail-hero__media img,
+  .ingredient-ancient-world__media img,
+  .ingredient-kitchen__media img {
+    filter: saturate(0.88) contrast(1.02);
+  }
+
+  .ingredient-glance {
+    padding-block: 0;
+  }
+
+  .ingredient-glance > .ingredient-detail-eyebrow {
+    margin: 0;
+    padding-top: 26px;
+  }
+
+  .ingredient-glance__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 18px;
+    border-top: 1px solid var(--ingredient-line);
+    border-bottom: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-glance__grid > div {
+    min-height: 112px;
+    padding: 24px 22px 21px;
+    border-right: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-glance__grid > div:first-child {
+    padding-left: 0;
+  }
+
+  .ingredient-glance__grid > div:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .ingredient-glance dt {
+    color: var(--ingredient-muted);
+    font: 700 10px/1.4 var(--font-sans);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-glance dd {
+    margin: 10px 0 0;
+    color: var(--ingredient-ink);
+    font: 400 20px/1.15 var(--font-display);
+  }
+
+  .ingredient-scripture,
+  .ingredient-story,
+  .ingredient-related {
+    padding-top: clamp(92px, 12vw, 164px);
+    padding-bottom: clamp(92px, 12vw, 164px);
+  }
+
+  .ingredient-section-heading {
+    max-width: 48rem;
+    margin-bottom: 47px;
+  }
+
+  .ingredient-section-heading h2,
+  .ingredient-story__heading h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(42px, 5vw, 70px);
+    line-height: 0.98;
+  }
+
+  .ingredient-section-heading > p:last-child {
+    max-width: 38rem;
+    margin: 23px 0 0;
+    font: 400 16px/1.75 var(--font-sans);
+  }
+
+  .ingredient-scripture__list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ingredient-line);
+    list-style: none;
+  }
+
+  .ingredient-scripture__list li {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 26px;
+    gap: 24px;
+    align-items: center;
+    min-height: 98px;
+    padding: 19px 0;
+    border-bottom: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-scripture__number {
+    color: var(--ingredient-gold);
+    font: 600 11px/1 var(--font-sans);
+    letter-spacing: 0.12em;
+  }
+
+  .ingredient-scripture__list h3 {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.1;
+  }
+
+  .ingredient-scripture__list p {
+    margin: 6px 0 0;
+    font: 400 12px/1.5 var(--font-sans);
+  }
+
+  .ingredient-scripture__arrow {
+    color: var(--ingredient-olive);
+    font: 400 21px/1 var(--font-sans);
+    transition: transform 180ms ease;
+  }
+
+  .ingredient-scripture__list li:hover .ingredient-scripture__arrow {
+    transform: translate(3px, -3px);
+  }
+
+  .ingredient-ancient-world {
+    padding-block: clamp(78px, 10vw, 138px);
+    background: var(--ingredient-paper);
+    border-block: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-ancient-world__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    gap: clamp(42px, 8vw, 108px);
+    align-items: center;
+  }
+
+  .ingredient-ancient-world__copy {
+    max-width: 31rem;
+  }
+
+  .ingredient-ancient-world__copy h2 {
+    margin: 0;
+    font-size: clamp(42px, 5vw, 66px);
+    line-height: 0.98;
+  }
+
+  .ingredient-ancient-world__copy > p:last-child {
+    margin: 25px 0 0;
+    font: 400 17px/1.8 var(--font-sans);
+  }
+
+  .ingredient-story__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(280px, 1.12fr);
+    gap: clamp(40px, 8vw, 112px);
+    align-items: end;
+    margin-bottom: 70px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-story__heading h2 {
+    max-width: 11ch;
+  }
+
+  .ingredient-story__body {
+    max-width: 47rem;
+    margin-left: auto;
+    margin-right: clamp(0px, 7vw, 100px);
+    color: var(--ingredient-muted);
+  }
+
+  .ingredient-story__body :is(h2, h3) {
+    margin-top: 2.25em;
+    color: var(--ingredient-ink);
+  }
+
+  .ingredient-story__body h2:first-child,
+  .ingredient-story__body h3:first-child {
+    margin-top: 0;
+  }
+
+  .ingredient-story__body p,
+  .ingredient-story__body li {
+    color: var(--ingredient-muted);
+  }
+
+  .ingredient-story__body blockquote {
+    margin-block: 2.8rem;
+    border-left-color: var(--ingredient-gold);
+    background: linear-gradient(90deg, rgb(168 143 97 / 0.1), transparent);
+  }
+
+  .ingredient-story__modern {
+    max-width: 47rem;
+    margin: 70px 0 0 auto;
+    padding-top: 25px;
+    border-top: 1px solid var(--ingredient-line);
+  }
+
+  .ingredient-story__modern p:last-child {
+    margin: 0;
+    color: var(--ingredient-ink);
+    font: 400 21px/1.55 var(--font-display);
+  }
+
+  .ingredient-scripture-moment {
+    padding-block: clamp(88px, 12vw, 160px);
+    background: var(--ingredient-olive);
+    color: #f4eee0;
+  }
+
+  .ingredient-scripture-moment__inner {
+    max-width: 1000px;
+    text-align: center;
+  }
+
+  .ingredient-scripture-moment .ingredient-detail-eyebrow {
+    color: #d6bd8d;
+  }
+
+  .ingredient-scripture-moment blockquote {
+    max-width: 850px;
+    margin: 31px auto 0;
+    color: #f5f0e6;
+    font: 400 clamp(34px, 5vw, 66px)/1.05 var(--font-display);
+    letter-spacing: -0.035em;
+  }
+
+  .ingredient-scripture-moment cite {
+    display: block;
+    margin-top: 30px;
+    color: #d6bd8d;
+    font: 700 11px/1.4 var(--font-sans);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  .ingredient-kitchen {
+    padding-block: clamp(92px, 12vw, 156px);
+    background: #262821;
+    color: #f4eee0;
+  }
+
+  .ingredient-section-heading--dark h2,
+  .ingredient-section-heading--dark > p:last-child {
+    color: #f4eee0;
+  }
+
+  .ingredient-section-heading--dark .ingredient-detail-eyebrow {
+    color: #d6bd8d;
+  }
+
+  .ingredient-section-heading--dark > p:last-child {
+    max-width: 33rem;
+    color: rgb(244 238 224 / 0.7);
+  }
+
+  .ingredient-kitchen__feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(290px, 0.9fr);
+    gap: clamp(38px, 7vw, 96px);
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid rgb(244 238 224 / 0.2);
+    color: #f4eee0;
+  }
+
+  .ingredient-kitchen__media {
+    border-color: rgb(244 238 224 / 0.2);
+    box-shadow: 0 18px 42px rgb(0 0 0 / 0.18);
+  }
+
+  .ingredient-kitchen__copy {
+    max-width: 29rem;
+  }
+
+  .ingredient-kitchen__copy .ingredient-detail-eyebrow,
+  .ingredient-kitchen__copy h3 {
+    color: #d6bd8d;
+  }
+
+  .ingredient-kitchen__copy h3 {
+    margin: 0;
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: 0.94;
+  }
+
+  .ingredient-kitchen__copy > p:not(.ingredient-detail-eyebrow) {
+    margin: 23px 0 0;
+    color: rgb(244 238 224 / 0.72);
+    font: 400 16px/1.72 var(--font-sans);
+  }
+
+  .ingredient-kitchen__meta {
+    display: block;
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid rgb(244 238 224 / 0.2);
+    color: rgb(244 238 224 / 0.7);
+    font: 700 10px/1.4 var(--font-sans);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 27px;
+    color: #f4eee0;
+    font: 700 10px/1 var(--font-sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-detail-link span {
+    color: #d6bd8d;
+    font-size: 18px;
+    font-weight: 400;
+    transition: transform 180ms ease;
+  }
+
+  .group:hover .ingredient-detail-link span {
+    transform: translateX(4px);
+  }
+
+  .ingredient-kitchen__empty {
+    padding: 39px 0 8px;
+    border-top: 1px solid rgb(244 238 224 / 0.2);
+  }
+
+  .ingredient-kitchen__empty h3 {
+    max-width: 25rem;
+    margin: 0;
+    color: #f4eee0;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1;
+  }
+
+  .ingredient-kitchen__empty .ingredient-detail-link {
+    margin-top: 28px;
+  }
+
+  .ingredient-related {
+    padding-bottom: clamp(76px, 10vw, 126px);
+  }
+
+  .ingredient-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.3vw, 28px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ingredient-related .ingredient-card {
+    height: 100%;
+    border-color: var(--ingredient-line);
+    border-radius: 6px;
+    background: var(--ingredient-paper);
+    box-shadow: none;
+  }
+
+  .ingredient-related .ingredient-card__art {
+    min-height: 230px;
+    background: #e4ded3;
+  }
+
+  .ingredient-related .ingredient-card > div:last-child {
+    padding: 21px 23px 25px;
+  }
+
+  .ingredient-related .ingredient-card h3 {
+    font-size: 31px;
+  }
+
+  .ingredient-related .ingredient-card p {
+    min-height: 0;
+    font-size: 13px;
+  }
+
+  .ingredient-detail-disclosure {
+    max-width: 44rem;
+    margin-bottom: clamp(76px, 10vw, 130px);
+    padding-top: 19px;
+    border-top: 1px solid var(--ingredient-line);
+    color: rgb(112 105 94 / 0.8);
+    font: 400 12px/1.65 var(--font-sans);
+    text-align: center;
+  }
+
+  @media (max-width: 899px) {
+    .ingredient-detail-hero__grid,
+    .ingredient-ancient-world__grid,
+    .ingredient-kitchen__feature {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredient-detail-hero__copy,
+    .ingredient-ancient-world__copy,
+    .ingredient-kitchen__copy {
+      max-width: 40rem;
+    }
+
+    .ingredient-kitchen__feature {
+      gap: 35px;
+    }
+
+    .ingredient-story__heading {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ingredient-story__body,
+    .ingredient-story__modern {
+      margin-right: 0;
+    }
+
+    .ingredient-related__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639px) {
+    .ingredient-detail-hero {
+      padding-top: 27px;
+      padding-bottom: 72px;
+    }
+
+    .ingredient-detail-hero > .ingredient-detail-container > nav {
+      margin-bottom: 62px;
+    }
+
+    .ingredient-detail-hero h1 {
+      max-width: 7ch;
+      font-size: clamp(62px, 20vw, 88px);
+    }
+
+    .ingredient-detail-hero__lead {
+      margin-top: 23px;
+      font-size: 16px;
+    }
+
+    .ingredient-detail-hero__media {
+      border-radius: 5px;
+    }
+
+    .ingredient-glance__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ingredient-glance__grid > div,
+    .ingredient-glance__grid > div:first-child,
+    .ingredient-glance__grid > div:last-child {
+      min-height: 105px;
+      padding: 20px 16px;
+      border-right: 1px solid var(--ingredient-line);
+      border-bottom: 1px solid var(--ingredient-line);
+    }
+
+    .ingredient-glance__grid > div:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .ingredient-glance__grid > div:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .ingredient-glance dd {
+      font-size: 18px;
+    }
+
+    .ingredient-scripture,
+    .ingredient-story,
+    .ingredient-related {
+      padding-top: 82px;
+      padding-bottom: 82px;
+    }
+
+    .ingredient-section-heading,
+    .ingredient-story__heading {
+      margin-bottom: 35px;
+    }
+
+    .ingredient-section-heading h2,
+    .ingredient-story__heading h2 {
+      font-size: 43px;
+    }
+
+    .ingredient-scripture__list li {
+      grid-template-columns: 38px minmax(0, 1fr) 20px;
+      gap: 13px;
+      min-height: 87px;
+    }
+
+    .ingredient-scripture__list h3 {
+      font-size: 22px;
+    }
+
+    .ingredient-scripture__list p {
+      font-size: 11px;
+    }
+
+    .ingredient-ancient-world {
+      padding-block: 70px;
+    }
+
+    .ingredient-ancient-world__copy h2 {
+      font-size: 45px;
+    }
+
+    .ingredient-story__modern p:last-child {
+      font-size: 19px;
+    }
+
+    .ingredient-scripture-moment {
+      padding-block: 88px;
+    }
+
+    .ingredient-scripture-moment blockquote {
+      font-size: 39px;
+    }
+
+    .ingredient-kitchen {
+      padding-block: 83px;
+    }
+
+    .ingredient-kitchen__copy h3 {
+      font-size: 48px;
+    }
+
+    .ingredient-related__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredient-related .ingredient-card__art {
+      min-height: 245px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ingredient-scripture__arrow,
+    .ingredient-detail-link span {
+      transition: none;
+    }
+  }
+</style>

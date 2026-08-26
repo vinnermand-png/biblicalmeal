@@ -1,0 +1,380 @@
+/* Shared public-page layer. Values mirror the homepage's bm-* system. */
+.bm-subpage-surface {
+  --page: #f5f2ea;
+  --paper: #ece8df;
+  --muted: #70695e;
+  --olive: #5e6048;
+  --gold: #a88f61;
+  --line: #d8d0c2;
+  --dark: #262821;
+  background: var(--page);
+  color: #2f2b25;
+}
+
+.bm-subpage-surface main {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+  background: var(--page);
+}
+
+.bm-home-container {
+  width: min(100%, 1320px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+
+/* One shared header geometry; only the context class changes the surface treatment. */
+.bm-home-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  color: #2f2b25;
+  background: rgb(245 242 234 / 0.96);
+  border-bottom: 1px solid rgb(216 208 194 / 0.75);
+}
+
+/* Homepage variant: must match specificity of .bm-reset-home .bm-home-header overrides
+   in home-final-polish.css / home-reference-fit.css. Load order wins tie. */
+.bm-reset-home .bm-home-header--home,
+.bm-home-header--home {
+  position: absolute;
+  inset: 0 0 auto;
+  border-bottom-color: rgb(240 228 204 / 0.08);
+  background: linear-gradient(180deg, rgb(4 9 5 / 0.42), transparent);
+  backdrop-filter: none;
+  color: #f4eee0;
+}
+
+.bm-reset-home .bm-home-header--home .bm-home-brand,
+.bm-home-header--home .bm-home-brand {
+  color: #f4eee0;
+}
+
+.bm-reset-home .bm-home-header--home .bm-home-nav a,
+.bm-reset-home .bm-home-header--home .bm-home-search,
+.bm-home-header--home .bm-home-nav a,
+.bm-home-header--home .bm-home-search {
+  color: rgb(244 238 224 / 0.62);
+}
+
+.bm-reset-home .bm-home-header--home .bm-home-nav a:hover,
+.bm-reset-home .bm-home-header--home .bm-home-search:hover,
+.bm-home-header--home .bm-home-nav a:hover,
+.bm-home-header--home .bm-home-search:hover {
+  color: #f5eddf;
+}
+
+.bm-reset-home .bm-home-header--home .bm-home-search,
+.bm-home-header--home .bm-home-search {
+  background: transparent;
+}
+
+.bm-home-header--subpage {
+  backdrop-filter: blur(12px);
+}
+
+.bm-home-header__inner {
+  width: min(100%, 1180px);
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-inline: clamp(20px, 4.5vw, 68px);
+}
+
+.bm-home-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: inherit;
+  font: 700 14px/1 var(--font-display);
+  letter-spacing: 0.11em;
+}
+
+.bm-home-brand__mark {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.bm-home-nav {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(17px, 2vw, 28px);
+}
+
+.bm-home-nav a,
+.bm-home-search {
+  color: #5f594f;
+  font: 600 11px/1 var(--font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bm-home-nav a:hover {
+  color: #2f2b25;
+}
+
+.bm-home-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bm-home-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bm-home-search svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.bm-home-mobile {
+  display: none;
+}
+
+.bm-subpage-surface h1,
+.bm-subpage-surface h2,
+.bm-subpage-surface h3,
+.bm-subpage-surface h4 {
+  color: #2f2b25;
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+.bm-subpage-surface p,
+.bm-subpage-surface li,
+.bm-subpage-surface td,
+.bm-subpage-surface th {
+  color: var(--muted);
+}
+
+.bm-subpage-surface .container-site,
+.bm-subpage-surface .content-hero__grid {
+  width: min(100%, 1320px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+
+.bm-subpage-surface .content-hero {
+  border-bottom: 1px solid var(--line);
+  background: var(--page);
+}
+
+.bm-subpage-surface .content-hero__wash {
+  display: none;
+}
+
+.bm-subpage-surface .surface-card,
+.bm-subpage-surface .surface-panel,
+.bm-subpage-surface .content-surface,
+.bm-subpage-surface .editorial-surface,
+.bm-subpage-surface .editorial-card,
+.bm-subpage-surface .ingredient-card,
+.bm-subpage-surface .recipe-card,
+.bm-subpage-surface .ingredient-feature,
+.bm-subpage-surface .journal-feature {
+  border-color: var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.bm-subpage-surface a[class*='bg-terracotta'],
+.bm-subpage-surface a[class*='bg-olive'],
+.bm-subpage-surface button[class*='bg-terracotta'],
+.bm-subpage-surface button[class*='bg-olive'] {
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.bm-subpage-surface .bm-home-footer {
+  margin-top: 0;
+  border-top: 1px solid var(--line);
+  background: var(--page);
+  color: #2f2b25;
+}
+
+.bm-home-footer__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr 0.9fr 0.9fr 1.25fr;
+  gap: 34px;
+  padding-block: 66px 54px;
+}
+
+.bm-footer-brand {
+  color: #2f2b25;
+  font: 700 15px/1 var(--font-display);
+  letter-spacing: 0.1em;
+}
+
+.bm-footer-brand span {
+  color: var(--gold);
+}
+
+.bm-home-footer__grid > div > p {
+  max-width: 260px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.bm-home-footer nav,
+.bm-footer-subscribe {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.bm-home-footer nav h2,
+.bm-footer-subscribe h2 {
+  margin: 0 0 4px;
+  color: #625b50;
+  font: 700 10px/1 var(--font-sans);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.bm-home-footer nav a {
+  color: #696257;
+  font-size: 14px;
+}
+
+.bm-home-footer nav a:hover {
+  color: #2f2b25;
+}
+
+.bm-footer-subscribe p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.bm-footer-subscribe form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.bm-footer-subscribe input {
+  min-width: 0;
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #faf7f1;
+  color: #2f2b25;
+  font: 14px/1 var(--font-sans);
+}
+
+.bm-footer-subscribe label {
+  min-width: 0;
+}
+
+.bm-footer-subscribe button {
+  flex: 0 0 auto;
+  height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--olive);
+  border-radius: 3px;
+  background: var(--olive);
+  color: #fff;
+  font: 700 10px/1 var(--font-sans);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.bm-home-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 64px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.bm-home-footer__bottom > div {
+  display: flex;
+  gap: 14px;
+}
+
+.bm-home-footer__bottom a,
+.bm-home-footer__bottom button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: 700 11px/1 var(--font-sans);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 1100px) {
+  .bm-home-nav {
+    gap: 16px;
+  }
+  .bm-home-nav a {
+    font-size: 10px;
+  }
+  .bm-home-footer__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .bm-footer-subscribe {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 800px) {
+  .bm-home-nav,
+  .bm-home-search {
+    display: none;
+  }
+  .bm-home-mobile {
+    display: block;
+  }
+}
+
+@media (max-width: 720px) {
+  .bm-home-header__inner {
+    min-height: 64px;
+    padding-inline: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .bm-home-footer__grid {
+    grid-template-columns: 1fr;
+    padding-block: 54px 44px;
+  }
+  .bm-footer-subscribe {
+    grid-column: auto;
+  }
+  .bm-footer-subscribe form {
+    grid-template-columns: 1fr;
+  }
+  .bm-home-footer__bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 20px;
+  }
+}

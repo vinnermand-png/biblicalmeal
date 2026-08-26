@@ -3,7 +3,6 @@ import { getVisibleIngredients } from '../../lib/queries';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/common/Header.astro';
 import SiteFooter from '../../components/common/SiteFooter.astro';
-import ContentHero from '../../components/common/ContentHero.astro';
 import IngredientCard from '../../components/common/IngredientCard.astro';
 import EditorialImage from '../../components/common/EditorialImage.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
@@ -11,7 +10,9 @@ import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 
 const ingredients = await getVisibleIngredients();
 const featuredIngredient = ingredients.find((entry) => entry.id === 'figs');
-const collectionIngredients = ingredients.filter((entry) => entry.id !== featuredIngredient?.id);
+const collectionIngredients = ingredients.filter(
+  (entry) => entry.id !== featuredIngredient?.id,
+);
 const leadIngredients = collectionIngredients.slice(0, 3);
 const trailingIngredients = collectionIngredients.slice(3);
 ---
@@ -22,67 +23,600 @@ const trailingIngredients = collectionIngredients.slice(3);
 >
   <Header />
   <main id="main" class="page-ingredients">
-    <ContentHero
-      variant="listing"
-      eyebrow="The Pantry"
-      title="Ingredients of the Ancient Table"
-      lead="The staples of the biblical world, profiled one by one — what scripture says, what history knows, and how they are cooked with today."
-      art="figs"
-      editorialImageId="ingredients-figs-still-life"
+    <section
+      class="ingredients-editorial-hero"
+      aria-labelledby="ingredients-title"
     >
-      <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Ingredients' }]} />
-    </ContentHero>
-
-    {ingredients.length > 0 ? (
-      <section class="content-listing container-site section-space" aria-label="Ingredient profiles">
-        <div class="content-listing__intro">
-          <p class="font-display text-h3 text-ink">A pantry of individual stories.</p>
-          <p class="mt-3 text-body text-ink-muted">
-            Every ingredient is treated as a collectible editorial profile, with its own route through scripture, evidence, history, and the modern table.
-          </p>
+      <div class="ingredients-page-container">
+        <Breadcrumbs items={[{ label: 'Ingredients' }]} />
+        <div class="ingredients-editorial-hero__grid">
+          <div class="ingredients-editorial-hero__copy">
+            <p class="ingredients-eyebrow">The Pantry</p>
+            <h1 id="ingredients-title">Ingredients of the Ancient Table</h1>
+            <p class="ingredients-editorial-hero__lead">
+              The staples of the biblical world, profiled one by one — what
+              scripture says, what history knows, and how they are used today.
+            </p>
+          </div>
+          <div class="ingredients-editorial-hero__media group media-frame">
+            <EditorialImage
+              id="ingredients-figs-still-life"
+              fallbackArt="figs"
+              ratio="4 / 3"
+              alt="Fresh figs arranged on aged limestone with linen and a handmade clay bowl"
+              loading="eager"
+              allowGeneratedOnSubpage
+            />
+          </div>
         </div>
-
-        {leadIngredients.length > 0 && (
-          <ul class="content-listing__grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {leadIngredients.map((entry) => <li><IngredientCard entry={entry} /></li>)}
-          </ul>
-        )}
-
-        {featuredIngredient && (
-          <article class="ingredient-feature reveal">
-            <div class="ingredient-feature__copy">
-              <p class="font-sans text-eyebrow font-semibold tracking-eyebrow text-terracotta-dark uppercase">From the pantry</p>
-              <p class="mt-4 font-display text-h2 text-ink">Featured ingredient</p>
-              <h2 class="mt-3 font-display text-display text-ink">{featuredIngredient.data.name}</h2>
-              <p class="mt-5 max-w-xl text-body-lg text-ink-muted">{featuredIngredient.data.description}</p>
-              <p class="mt-6 max-w-xl text-body text-ink-muted">
-                A slower editorial pause inside the collection — the ingredient remains part of the same research-led pantry, while its material world is allowed to take up more space.
-              </p>
-              <a href={`/ingredients/${featuredIngredient.id}/`} class="ingredient-feature__link mt-8 inline-flex font-sans text-caption font-semibold tracking-wide text-terracotta-dark">
-                Read the ingredient profile <span aria-hidden="true">→</span>
-              </a>
-            </div>
-            <div class="ingredient-feature__media group media-frame">
-              <EditorialImage id="ingredients-figs-still-life" fallbackArt={featuredIngredient.data.art ?? 'figs'} ratio="3 / 2" alt="Figs in a restrained editorial still life" />
-            </div>
-          </article>
-        )}
-
-        {trailingIngredients.length > 0 && (
-          <ul class="content-listing__grid content-listing__grid--after-feature grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {trailingIngredients.map((entry) => <li><IngredientCard entry={entry} /></li>)}
-          </ul>
-        )}
-
-        <p class="content-listing__closing-note text-caption text-ink-muted/80">
-          Ingredient profiles are in active research — full histories and citations publish as they are verified.
-        </p>
-      </section>
-    ) : (
-      <div class="container-site section-space">
-        <EmptyState message="Our ingredient profiles are still in research. Each one publishes only after its history and citations have been verified — check back soon for the first completed profiles." />
       </div>
-    )}
+    </section>
+
+    {
+      ingredients.length > 0 ? (
+        <>
+          <section
+            class="ingredients-collection-opening ingredients-page-container"
+            aria-labelledby="collection-title"
+          >
+            <div>
+              <p class="ingredients-eyebrow">The Collection</p>
+              <h2 id="collection-title">A pantry of individual stories.</h2>
+            </div>
+            <p>
+              Every ingredient is treated as a collected editorial profile, with
+              its own route through scripture, evidence, history, and the modern
+              table.
+            </p>
+          </section>
+
+          <section
+            class="ingredient-collection ingredients-page-container"
+            aria-labelledby="archive-title"
+          >
+            <div class="ingredient-collection__heading">
+              <p class="ingredients-eyebrow">The Archive</p>
+              <h2 id="archive-title">Collected from the pantry.</h2>
+            </div>
+
+            {leadIngredients.length > 0 && (
+              <ul
+                class="ingredient-collection__lead"
+                aria-label="Ingredient profiles"
+              >
+                {leadIngredients.map((entry) => (
+                  <li>
+                    <IngredientCard entry={entry} allowGeneratedOnSubpage />
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {featuredIngredient && (
+              <article
+                class="ingredient-feature-spread reveal"
+                aria-labelledby="featured-ingredient-title"
+              >
+                <div class="ingredient-feature-spread__media group media-frame">
+                  <EditorialImage
+                    id="ingredients-figs-still-life"
+                    fallbackArt={featuredIngredient.data.art ?? 'figs'}
+                    ratio="3 / 2"
+                    alt="Figs in a restrained editorial still life"
+                    allowGeneratedOnSubpage
+                  />
+                </div>
+                <div class="ingredient-feature-spread__copy">
+                  <p class="ingredients-eyebrow">From the Pantry</p>
+                  <p class="ingredient-feature-spread__label">
+                    Featured ingredient
+                  </p>
+                  <h2 id="featured-ingredient-title">
+                    {featuredIngredient.data.name}
+                  </h2>
+                  <p class="ingredient-feature-spread__description">
+                    {featuredIngredient.data.description}
+                  </p>
+                  <p class="ingredient-feature-spread__context">
+                    A slower editorial pause inside the collection — the
+                    ingredient remains part of the same research-led pantry,
+                    while its material world is allowed to take up more space.
+                  </p>
+                  <a
+                    href={`/ingredients/${featuredIngredient.id}/`}
+                    class="ingredients-text-link"
+                  >
+                    Read the ingredient profile{' '}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            )}
+
+            {trailingIngredients.length > 0 && (
+              <ul
+                class="ingredient-collection__trailing"
+                aria-label="More ingredient profiles"
+              >
+                {trailingIngredients.map((entry) => (
+                  <li>
+                    <IngredientCard entry={entry} allowGeneratedOnSubpage />
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <p class="ingredients-research-note">
+              Ingredient profiles are in active research — full histories and
+              citations publish as they are verified.
+            </p>
+          </section>
+        </>
+      ) : (
+        <div class="ingredients-page-container ingredients-empty-state">
+          <EmptyState message="Our ingredient profiles are still in research. Each one publishes only after its history and citations have been verified — check back soon for the first completed profiles." />
+        </div>
+      )
+    }
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style is:global>
+  .page-ingredients {
+    --ingredients-page: #f5f2ea;
+    --ingredients-paper: #ece8df;
+    --ingredients-ink: #2f2b25;
+    --ingredients-muted: #70695e;
+    --ingredients-olive: #5e6048;
+    --ingredients-gold: #a88f61;
+    --ingredients-line: #d8d0c2;
+    background: var(--ingredients-page);
+    color: var(--ingredients-ink);
+  }
+
+  .ingredients-page-container {
+    width: min(100%, 1180px);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4.7vw, 68px);
+  }
+
+  .ingredients-editorial-hero {
+    padding-block: 34px clamp(76px, 9vw, 128px);
+    border-bottom: 1px solid var(--ingredients-line);
+    background: var(--ingredients-page);
+  }
+
+  .ingredients-editorial-hero > .ingredients-page-container > nav {
+    margin-bottom: clamp(58px, 8vw, 104px);
+  }
+
+  .page-ingredients .ingredients-editorial-hero nav ol {
+    color: var(--ingredients-muted);
+    font: 500 11px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+  }
+
+  .page-ingredients .ingredients-editorial-hero nav a:hover {
+    color: var(--ingredients-olive);
+  }
+
+  .ingredients-editorial-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+    gap: clamp(42px, 8vw, 112px);
+    align-items: center;
+  }
+
+  .ingredients-editorial-hero__copy {
+    max-width: 31rem;
+  }
+
+  .ingredients-eyebrow {
+    margin: 0 0 16px;
+    color: var(--ingredients-olive);
+    font: 700 11px/1.4 var(--font-sans);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .ingredients-editorial-hero h1 {
+    max-width: 9ch;
+    margin: 0;
+    color: var(--ingredients-ink);
+    font: 400 clamp(50px, 6vw, 78px)/0.98 var(--font-display);
+    letter-spacing: -0.035em;
+  }
+
+  .ingredients-editorial-hero__lead {
+    max-width: 29rem;
+    margin: 28px 0 0;
+    color: var(--ingredients-muted);
+    font: 400 17px/1.72 var(--font-sans);
+  }
+
+  .ingredients-editorial-hero__media {
+    width: 100%;
+    border-radius: 8px;
+    background: var(--ingredients-paper);
+    box-shadow: 0 18px 42px rgb(46 42 34 / 0.09);
+  }
+
+  .ingredients-editorial-hero__media > div {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .ingredients-editorial-hero__media img {
+    filter: saturate(0.86) contrast(1.02);
+  }
+
+  .ingredients-collection-opening {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+    gap: clamp(40px, 10vw, 160px);
+    align-items: end;
+    padding-block: clamp(70px, 9vw, 118px) clamp(54px, 7vw, 86px);
+  }
+
+  .ingredients-collection-opening > div {
+    padding-top: 24px;
+    border-top: 1px solid var(--ingredients-line);
+  }
+
+  .ingredients-collection-opening h2,
+  .ingredient-collection__heading h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: var(--ingredients-ink);
+    font: 400 clamp(35px, 4.5vw, 57px)/1.02 var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  .ingredients-collection-opening > p {
+    max-width: 27rem;
+    margin: 0 0 2px;
+    color: var(--ingredients-muted);
+    font: 400 15px/1.75 var(--font-sans);
+  }
+
+  .ingredient-collection {
+    padding-bottom: clamp(78px, 10vw, 132px);
+  }
+
+  .ingredient-collection__heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 38px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ingredients-line);
+  }
+
+  .ingredient-collection__heading .ingredients-eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .ingredient-collection__heading h2 {
+    max-width: none;
+    font-size: clamp(30px, 3.4vw, 44px);
+  }
+
+  .ingredient-collection__lead,
+  .ingredient-collection__trailing {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.2vw, 28px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ingredient-collection__lead > li,
+  .ingredient-collection__trailing > li {
+    min-width: 0;
+  }
+
+  .ingredient-collection__lead > li:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .ingredient-collection__lead > li:nth-child(3) .ingredient-card {
+    display: grid;
+    grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+  }
+
+  .ingredient-collection__lead > li:nth-child(3) .ingredient-card__art {
+    height: 100%;
+    min-height: 238px;
+    border-right: 1px solid var(--ingredients-line);
+    border-bottom: 0;
+  }
+
+  .ingredient-collection__lead
+    > li:nth-child(3)
+    .ingredient-card
+    > div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px clamp(26px, 4vw, 54px);
+  }
+
+  .ingredient-collection__lead > li:nth-child(3) .ingredient-card p {
+    max-width: 31rem;
+  }
+
+  .ingredient-collection__trailing {
+    margin-top: clamp(18px, 3vw, 34px);
+  }
+
+  .ingredient-card {
+    height: 100%;
+    border: 1px solid var(--ingredients-line);
+    border-radius: 6px;
+    background: var(--ingredients-paper);
+    box-shadow: none;
+  }
+
+  .ingredient-card__art {
+    min-height: 245px;
+    border-bottom-color: var(--ingredients-line);
+    background: #e4ded3;
+  }
+
+  .ingredient-card__art img {
+    padding: 0;
+    object-fit: cover;
+  }
+
+  .ingredient-card > div:last-child {
+    padding: 23px 25px 27px;
+  }
+
+  .ingredient-card h3 {
+    margin: 0;
+    color: var(--ingredients-ink);
+    font: 400 clamp(27px, 3vw, 38px)/1 var(--font-display);
+    letter-spacing: -0.025em;
+  }
+
+  .ingredient-card p {
+    min-height: 0;
+    margin: 13px 0 0;
+    color: var(--ingredients-muted);
+    font: 400 14px/1.65 var(--font-sans);
+  }
+
+  .ingredient-card > div:last-child > span:last-child {
+    margin-top: 21px;
+    padding-top: 14px;
+    border-top: 1px solid rgb(216 208 194 / 0.76);
+    color: var(--ingredients-olive);
+    font: 700 10px/1 var(--font-sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-feature-spread {
+    display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(290px, 0.84fr);
+    gap: clamp(38px, 7vw, 96px);
+    align-items: center;
+    margin-block: clamp(76px, 10vw, 142px);
+    padding-block: clamp(44px, 7vw, 86px);
+    border-top: 1px solid var(--ingredients-line);
+    border-bottom: 1px solid var(--ingredients-line);
+  }
+
+  .ingredient-feature-spread__media {
+    border-radius: 6px;
+    background: var(--ingredients-paper);
+    box-shadow: 0 18px 42px rgb(46 42 34 / 0.1);
+  }
+
+  .ingredient-feature-spread__media > div {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .ingredient-feature-spread__copy {
+    max-width: 29rem;
+  }
+
+  .ingredient-feature-spread__copy .ingredients-eyebrow {
+    margin-bottom: 16px;
+    color: var(--ingredients-gold);
+  }
+
+  .ingredient-feature-spread__label {
+    margin: 0 0 7px;
+    color: var(--ingredients-muted);
+    font: 600 11px/1.4 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ingredient-feature-spread h2 {
+    margin: 0;
+    color: var(--ingredients-ink);
+    font: 400 clamp(48px, 6vw, 78px)/0.92 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+
+  .ingredient-feature-spread__description {
+    margin: 24px 0 0;
+    color: var(--ingredients-ink);
+    font: 400 20px/1.45 var(--font-display);
+  }
+
+  .ingredient-feature-spread__context {
+    max-width: 26rem;
+    margin: 18px 0 0;
+    color: var(--ingredients-muted);
+    font: 400 14px/1.7 var(--font-sans);
+  }
+
+  .ingredients-text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 27px;
+    color: var(--ingredients-olive);
+    font: 700 10px/1 var(--font-sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ingredients-text-link span {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 0.7;
+    transition: transform 180ms ease;
+  }
+
+  .ingredients-text-link:hover {
+    color: var(--ingredients-ink);
+  }
+
+  .ingredients-text-link:hover span {
+    transform: translateX(4px);
+  }
+
+  .ingredients-research-note {
+    max-width: 44rem;
+    margin: clamp(55px, 8vw, 92px) auto 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--ingredients-line);
+    color: rgb(112 105 94 / 0.8);
+    font: 400 12px/1.65 var(--font-sans);
+    text-align: center;
+  }
+
+  .ingredients-empty-state {
+    padding-block: 80px 130px;
+  }
+
+  @media (max-width: 899px) {
+    .ingredients-editorial-hero__grid,
+    .ingredients-collection-opening,
+    .ingredient-feature-spread {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredients-editorial-hero__copy {
+      max-width: 38rem;
+    }
+
+    .ingredients-editorial-hero__media {
+      max-width: 42rem;
+    }
+
+    .ingredients-collection-opening {
+      gap: 28px;
+    }
+
+    .ingredient-feature-spread__copy {
+      max-width: 40rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .ingredients-editorial-hero {
+      padding-top: 27px;
+      padding-bottom: 70px;
+    }
+
+    .ingredients-editorial-hero > .ingredients-page-container > nav {
+      margin-bottom: 62px;
+    }
+
+    .ingredients-editorial-hero h1 {
+      max-width: 10ch;
+      font-size: clamp(46px, 14vw, 64px);
+    }
+
+    .ingredients-editorial-hero__lead {
+      margin-top: 22px;
+      font-size: 16px;
+    }
+
+    .ingredients-editorial-hero__media {
+      border-radius: 5px;
+    }
+
+    .ingredients-collection-opening {
+      padding-block: 65px 62px;
+    }
+
+    .ingredients-collection-opening h2 {
+      font-size: 42px;
+    }
+
+    .ingredient-collection {
+      padding-bottom: 82px;
+    }
+
+    .ingredient-collection__heading {
+      display: block;
+      margin-bottom: 26px;
+    }
+
+    .ingredient-collection__heading h2 {
+      font-size: 35px;
+    }
+
+    .ingredient-collection__lead,
+    .ingredient-collection__trailing {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .ingredient-collection__lead > li:nth-child(3) {
+      grid-column: auto;
+    }
+
+    .ingredient-collection__lead > li:nth-child(3) .ingredient-card {
+      display: block;
+    }
+
+    .ingredient-collection__lead > li:nth-child(3) .ingredient-card__art {
+      height: auto;
+      min-height: 245px;
+      border-right: 0;
+      border-bottom: 1px solid var(--ingredients-line);
+    }
+
+    .ingredient-collection__lead
+      > li:nth-child(3)
+      .ingredient-card
+      > div:last-child {
+      padding: 23px 25px 27px;
+    }
+
+    .ingredient-feature-spread {
+      gap: 31px;
+      margin-block: 74px;
+      padding-block: 42px 46px;
+    }
+
+    .ingredient-feature-spread h2 {
+      font-size: 60px;
+    }
+
+    .ingredient-feature-spread__description {
+      font-size: 19px;
+    }
+
+    .ingredients-research-note {
+      margin-top: 62px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ingredients-text-link span {
+      transition: none;
+    }
+  }
+</style>

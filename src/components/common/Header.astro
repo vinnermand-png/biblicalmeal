@@ -1,172 +1,35 @@
 ---
 import MobileMenu from '../islands/MobileMenu.tsx';
-import { NAV_LINKS, SITE } from '../../config';
+import { MAIN_NAV_LINKS, SITE } from '../../config';
 
-const isHome = Astro.url.pathname === '/';
+const isHomepage = Astro.url.pathname === '/';
 ---
 
-<header class:list={['site-header', { 'site-header--home': isHome }]}>
-  <div class="site-header__inner container-site">
-    <a
-      href="/"
-      class="site-header__brand"
-      aria-label={`${SITE.name} — home`}
-    >
-      BiblicalMeal<span>.</span>
+<header
+  class:list={[
+    'bm-home-header',
+    isHomepage ? 'bm-home-header--home' : 'bm-home-header--subpage',
+  ]}
+>
+  <div class="bm-home-container bm-home-header__inner">
+    <a href="/" class="bm-home-brand" aria-label={`${SITE.name} home`}>
+      <span class="bm-home-brand__mark" aria-hidden="true">❧</span>
+      <span>BIBLICALMEAL</span>
     </a>
-
-    <nav class="site-header__nav" aria-label="Main navigation">
-      {
-        NAV_LINKS.map((link) => (
-          <a href={link.href} class="site-header__link">
-            {link.label}
-          </a>
-        ))
-      }
-      <a href="/#newsletter" class="site-header__cta">
-        <span>Explore the table</span>
-        <b aria-hidden="true">→</b>
-      </a>
+    <nav class="bm-home-nav" aria-label="Main navigation">
+      {MAIN_NAV_LINKS.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
-
-    <MobileMenu client:load links={NAV_LINKS} dark={isHome} />
+    <div class="bm-home-actions">
+      <button class="bm-home-search" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"
+          ><circle cx="10.7" cy="10.7" r="6.4"></circle><path d="m16 16 5 5"
+          ></path></svg
+        >
+        <span>Search</span>
+      </button>
+      <div class="bm-home-mobile">
+        <MobileMenu client:load links={MAIN_NAV_LINKS} />
+      </div>
+    </div>
   </div>
 </header>
-
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    border-bottom: 1px solid rgba(56, 42, 26, .11);
-    background: rgba(247, 242, 233, .9);
-    backdrop-filter: blur(18px);
-  }
-
-  .site-header--home {
-    position: absolute;
-    inset: 0 0 auto;
-    border-bottom-color: rgba(240, 228, 204, .08);
-    background: linear-gradient(180deg, rgba(4, 9, 5, .42), transparent);
-    backdrop-filter: none;
-  }
-
-  .site-header__inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 5.5rem;
-    gap: 2rem;
-  }
-
-  .site-header__brand {
-    flex: 0 0 auto;
-    color: #202117;
-    font-family: var(--font-display, Georgia, serif);
-    font-size: 1.16rem;
-    font-weight: 600;
-    letter-spacing: -.035em;
-    line-height: 1;
-  }
-
-  .site-header--home .site-header__brand { color: #f4eee0; }
-  .site-header__brand span { color: #c49a57; }
-
-  .site-header__nav {
-    display: none;
-    align-items: center;
-    gap: clamp(1.35rem, 2.3vw, 2.55rem);
-  }
-
-  .site-header__link {
-    position: relative;
-    padding: .65rem 0;
-    color: rgba(49, 44, 35, .68);
-    font-family: var(--font-sans, Arial, sans-serif);
-    font-size: .56rem;
-    font-weight: 700;
-    letter-spacing: .2em;
-    line-height: 1;
-    text-transform: uppercase;
-    transition: color .22s ease;
-  }
-
-  .site-header--home .site-header__link { color: rgba(244, 238, 224, .62); }
-
-  .site-header__link::after {
-    position: absolute;
-    right: 0;
-    bottom: .1rem;
-    left: 0;
-    height: 1px;
-    content: '';
-    background: #c49a57;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform .24s ease;
-  }
-
-  .site-header__link:hover { color: #1d1d16; }
-  .site-header--home .site-header__link:hover { color: #f5eddf; }
-  .site-header__link:hover::after { transform: scaleX(1); transform-origin: left; }
-
-  .site-header__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.35rem;
-    min-height: 2.7rem;
-    padding: 0 .9rem 0 1.05rem;
-    border: 1px solid rgba(196, 154, 87, .42);
-    background: rgba(196, 154, 87, .1);
-    color: #5c4120;
-    font-family: var(--font-sans, Arial, sans-serif);
-    font-size: .53rem;
-    font-weight: 700;
-    letter-spacing: .17em;
-    text-transform: uppercase;
-    transition: transform .22s ease, background .22s ease, border-color .22s ease;
-  }
-
-  .site-header--home .site-header__cta {
-    border-color: rgba(225, 195, 137, .42);
-    background: rgba(196, 154, 87, .16);
-    color: #f4e6c9;
-  }
-
-  .site-header__cta b {
-    font-size: .9rem;
-    font-weight: 400;
-    transition: transform .22s ease;
-  }
-
-  .site-header__cta:hover {
-    border-color: #c49a57;
-    background: #c49a57;
-    color: #17140d;
-    transform: translateY(-1px);
-  }
-
-  .site-header__cta:hover b { transform: translateX(3px); }
-
-  @media (min-width: 1024px) {
-    .site-header__inner { min-height: 6rem; }
-    .site-header__nav { display: flex; }
-  }
-
-  @media (max-width: 1023px) {
-    .site-header__inner { min-height: 4.75rem; }
-  }
-
-  @media (max-width: 640px) {
-    .site-header__inner { min-height: 4.25rem; }
-    .site-header__brand { font-size: 1.05rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .site-header__link,
-    .site-header__link::after,
-    .site-header__cta,
-    .site-header__cta b { transition: none; }
-  }
-</style>

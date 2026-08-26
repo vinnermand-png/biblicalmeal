@@ -1,119 +1,57 @@
 ---
-import { NAV_LINKS, SITE } from '../../config';
-
-const year = new Date().getFullYear();
-
-const exploreLinks = [
-  ...NAV_LINKS,
-  { label: 'The Cookbook', href: '/#cookbook' },
-];
-
-const legalLinks = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Cookie Policy', href: '/cookies' },
-];
-
-const socialLinks = [
-  { label: 'Instagram', href: '#' },
-  { label: 'YouTube', href: '#' },
-  { label: 'X (Twitter)', href: '#' },
-];
+import { SITE } from '../../config';
 ---
 
-<footer class="bg-ink text-cream">
-  <div class="container-site grid gap-12 py-16 md:grid-cols-12 md:py-20">
-    <div class="space-y-4 md:col-span-5">
-      <a href="/" class="font-display text-2xl font-semibold tracking-tight">
-        BiblicalMeal<span class="text-gold">.</span>
-      </a>
-      <p class="max-w-sm text-body text-cream-muted">
-        Discover the foods of the Bible — ingredients, recipes, history, and the
-        culinary traditions of the ancient world.
-      </p>
-      <ul class="flex gap-3 pt-2">
-        {
-          socialLinks.map((social) => (
-            <li>
-              <a
-                href={social.href}
-                aria-label={social.label}
-                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line-dark text-caption font-medium transition-colors hover:border-gold hover:text-gold"
-              >
-                {social.label.slice(0, 1)}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+<footer class="bm-home-footer">
+  <div class="bm-home-container bm-home-footer__grid">
+    <div>
+      <a href="/" class="bm-footer-brand">BIBLICALMEAL<span>.</span></a>
+      <p>Bringing the biblical world to the modern table.</p>
     </div>
-
-    <nav class="space-y-4 md:col-span-2" aria-label="Explore">
-      <h3
-        class="text-eyebrow font-semibold tracking-eyebrow text-gold uppercase"
-      >
-        Explore
-      </h3>
-      <ul class="space-y-2.5">
-        {
-          exploreLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="text-body text-cream-muted transition-colors hover:text-cream"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+    <nav aria-label="Explore">
+      <h2>Explore</h2>
+      <a href="/ingredients/">Ingredients</a>
+      <a href="/recipes/">Recipes</a>
+      <a href="/articles/">Journal</a>
+      <a href="/sources/">Scripture</a>
     </nav>
-
-    <nav class="space-y-4 md:col-span-2" aria-label="Legal">
-      <h3
-        class="text-eyebrow font-semibold tracking-eyebrow text-gold uppercase"
-      >
-        Legal
-      </h3>
-      <ul class="space-y-2.5">
-        {
-          legalLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="text-body text-cream-muted transition-colors hover:text-cream"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+    <nav aria-label="About">
+      <h2>About</h2>
+      <a href="/editorial-method/">About BiblicalMeal</a>
+      <a href="/editorial-method/">Our Mission</a>
+      <a href="/privacy">Contact</a>
     </nav>
-
-    <div class="space-y-4 md:col-span-3">
-      <h3
-        class="text-eyebrow font-semibold tracking-eyebrow text-gold uppercase"
-      >
-        About
-      </h3>
-      <p class="text-caption leading-relaxed text-cream-muted">
-        BiblicalMeal is an independent food publication exploring Scripture,
-        history, and cooking. Factual profiles are researched before
-        publication; items marked "In research" are works in progress.
-      </p>
+    <nav aria-label="Resources">
+      <h2>Resources</h2>
+      <a href="/sources/">Research</a>
+      <a href="/sources/">Glossary</a>
+      <a href="/editorial-method/">Team</a>
+      <a href="/faq/">FAQ</a>
+    </nav>
+    <div id="newsletter" class="bm-footer-subscribe">
+      <h2>Stay connected</h2>
+      <p>Subscribe for new articles, recipes and updates.</p>
+      <form>
+        <label>
+          <span class="sr-only">Email address</span>
+          <input
+            id="footer-email"
+            type="email"
+            placeholder="Email address"
+            autocomplete="email"
+          />
+        </label>
+        <button type="submit">Subscribe</button>
+      </form>
     </div>
   </div>
-
-  <div class="border-t border-line-dark">
-    <div
-      class="container-site flex flex-col items-center justify-between gap-3 py-6 sm:flex-row"
-    >
-      <p class="text-caption text-cream-muted">
-        © {year}
-        {SITE.name}. All rights reserved.
-      </p>
-      <p class="text-caption text-cream-muted">Site in active development.</p>
+  <div class="bm-home-container bm-home-footer__bottom">
+    <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
+    <div>
+      <button type="button" aria-label="Instagram">IG</button>
+      <button type="button" aria-label="Pinterest">P</button>
+      <button type="button" aria-label="YouTube">YT</button>
+      <button type="button" aria-label="Facebook">F</button>
     </div>
   </div>
 </footer>

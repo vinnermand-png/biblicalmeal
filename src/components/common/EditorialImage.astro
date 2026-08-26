@@ -17,6 +17,7 @@ interface Props {
   class?: string;
   loading?: 'eager' | 'lazy';
   fit?: 'cover' | 'contain';
+  allowGeneratedOnSubpage?: boolean;
 }
 
 const {
@@ -28,6 +29,7 @@ const {
   class: className = '',
   loading = 'lazy',
   fit = 'cover',
+  allowGeneratedOnSubpage = false,
 } = Astro.props;
 const asset = getEditorialImage(id);
 const dimensions = getEditorialImageDimensions(asset);
@@ -35,7 +37,7 @@ const useGenerated = asset?.status === 'generated';
 const imageAlt = decorative ? '' : getEditorialImageAlt(asset, alt);
 const fetchPriority = loading === 'eager' ? 'high' : 'auto';
 const imageFitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
-const isSubpage = Astro.url.pathname !== '/';
+const isSubpage = Astro.url.pathname !== '/' && !allowGeneratedOnSubpage;
 ---
 
 <div

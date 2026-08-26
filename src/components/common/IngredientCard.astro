@@ -13,8 +13,13 @@ type IngredientEntry = CollectionEntry<'ingredients'>;
 interface Props {
   entry: IngredientEntry;
   baseHref?: string;
+  allowGeneratedOnSubpage?: boolean;
 }
-const { entry, baseHref = '/ingredients' } = Astro.props;
+const {
+  entry,
+  baseHref = '/ingredients',
+  allowGeneratedOnSubpage = false,
+} = Astro.props;
 const publicFoodPath = ['figs', 'dates'].includes(entry.id)
   ? `/foods/${entry.id}/`
   : `${baseHref}/${entry.id}/`;
@@ -35,6 +40,7 @@ const premiumImageId = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
       ratio="1 / 1"
       fit="contain"
       alt={`${entry.data.name} ingredient portrait`}
+      allowGeneratedOnSubpage={allowGeneratedOnSubpage}
     />
     <span class="ingredient-card__wash" aria-hidden="true"></span>
     <span class="ingredient-card__veil" aria-hidden="true"></span>
@@ -49,7 +55,9 @@ const premiumImageId = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
   }
   <div class="space-y-3 p-5 sm:p-6">
     <h3 class="font-display text-h3 text-ink">{entry.data.name}</h3>
-    <p class="line-clamp-3 min-h-[3.5rem] text-body leading-relaxed text-ink-muted">
+    <p
+      class="line-clamp-3 min-h-[3.5rem] text-body leading-relaxed text-ink-muted"
+    >
       {entry.data.description}
     </p>
     <span
@@ -75,7 +83,7 @@ const premiumImageId = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
   .ingredient-card__art {
     min-height: 14rem;
     border-bottom: 1px solid var(--color-line);
-    background: linear-gradient(145deg, #fbf7ef, var(--color-background-alt));
+    background: var(--color-background-alt);
   }
   .ingredient-card__art :global(img) {
     object-fit: contain;
@@ -89,7 +97,11 @@ const premiumImageId = INGREDIENT_PREMIUM_IMAGE_IDS[entry.id];
     .ingredient-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 20px 38px rgb(41 32 24 / 0.1);
-      border-color: color-mix(in srgb, var(--color-terracotta) 26%, var(--color-line));
+      border-color: color-mix(
+        in srgb,
+        var(--color-terracotta) 26%,
+        var(--color-line)
+      );
     }
   }
 </style>

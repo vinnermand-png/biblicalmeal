@@ -13,9 +13,7 @@ import '../styles/home-final-polish.css';
 import '../styles/home-reference-fit.css';
 import '../styles/home-finish-pass.css';
 import '../styles/home-locked-final.css';
-import '../styles/subpages-unified.css';
-import '../styles/site-wide-cleanup.css';
-import '../styles/site-design-system.css';
+import '../styles/subpages-home-aligned.css';
 import { SITE } from '../config';
 import { ANALYTICS } from '../lib/analytics';
 import { resolveSocialMetadata } from '../lib/social-metadata';
@@ -45,7 +43,12 @@ const {
 
 const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const social = resolveSocialMetadata({ title, description, pathname: Astro.url.pathname, type: ogType });
+const social = resolveSocialMetadata({
+  title,
+  description,
+  pathname: Astro.url.pathname,
+  type: ogType,
+});
 const isHomepage = Astro.url.pathname === '/';
 
 const websiteSchema = {
@@ -64,21 +67,36 @@ const analyticsConfigured = ANALYTICS.enabled && !noindex && !technicalFallback;
 <html lang={SITE.locale}>
   <head>
     <meta charset="UTF-8" />
-    <script is:inline>document.documentElement.dataset.js = '';</script>
+    <script is:inline>
+      document.documentElement.dataset.js = '';
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f7f2e9" />
     {!technicalFallback && <link rel="canonical" href={canonicalURL} />}
-    {(noindex || technicalFallback) && <meta name="robots" content="noindex, follow" />}
+    {
+      (noindex || technicalFallback) && (
+        <meta name="robots" content="noindex, follow" />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    {analyticsConfigured && ANALYTICS.measurementId && (
-      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`} />
-    )}
-    {analyticsConfigured && ANALYTICS.measurementId && (
-      <script is:inline set:html={`window.dataLayer = window.dataLayer || [];
+    {
+      analyticsConfigured && ANALYTICS.measurementId && (
+        <script
+          is:inline
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.measurementId}`}
+        />
+      )
+    }
+    {
+      analyticsConfigured && ANALYTICS.measurementId && (
+        <script
+          is:inline
+          set:html={`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
 function checkConsentAndTrack(){
   try{
@@ -89,54 +107,105 @@ function checkConsentAndTrack(){
     }
   }catch(e){}
 }
-checkConsentAndTrack();`} />
-    )}
-    {!technicalFallback && (
-      <>
-        {SEARCH_ENGINE_VERIFICATION.google && <meta name="google-site-verification" content={SEARCH_ENGINE_VERIFICATION.google} />}
-        {SEARCH_ENGINE_VERIFICATION.bing && <meta name="msvalidate.01" content={SEARCH_ENGINE_VERIFICATION.bing} />}
-        <meta property="og:type" content={social.type} />
-        <meta property="og:site_name" content={SITE.name} />
-        <meta property="og:title" content={social.title} />
-        <meta property="og:description" content={social.description} />
-        <meta property="og:url" content={social.canonicalURL} />
-        <meta property="og:image" content={social.imageURL} />
-        <meta property="og:image:alt" content={social.imageAlt} />
-        <meta property="og:locale" content="en_US" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={social.title} />
-        <meta name="twitter:description" content={social.description} />
-        <meta name="twitter:image" content={social.imageURL} />
-        <meta name="twitter:image:alt" content={social.imageAlt} />
-      </>
-    )}
-    {!technicalFallback && <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />}
-    {!technicalFallback && jsonLd.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+checkConsentAndTrack();`}
+        />
+      )
+    }
+    {
+      !technicalFallback && (
+        <>
+          {SEARCH_ENGINE_VERIFICATION.google && (
+            <meta
+              name="google-site-verification"
+              content={SEARCH_ENGINE_VERIFICATION.google}
+            />
+          )}
+          {SEARCH_ENGINE_VERIFICATION.bing && (
+            <meta
+              name="msvalidate.01"
+              content={SEARCH_ENGINE_VERIFICATION.bing}
+            />
+          )}
+          <meta property="og:type" content={social.type} />
+          <meta property="og:site_name" content={SITE.name} />
+          <meta property="og:title" content={social.title} />
+          <meta property="og:description" content={social.description} />
+          <meta property="og:url" content={social.canonicalURL} />
+          <meta property="og:image" content={social.imageURL} />
+          <meta property="og:image:alt" content={social.imageAlt} />
+          <meta property="og:locale" content="en_US" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content={social.title} />
+          <meta name="twitter:description" content={social.description} />
+          <meta name="twitter:image" content={social.imageURL} />
+          <meta name="twitter:image:alt" content={social.imageAlt} />
+        </>
+      )
+    }
+    {
+      !technicalFallback && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(websiteSchema)}
+        />
+      )
+    }
+    {
+      !technicalFallback &&
+        jsonLd.map((schema) => (
+          <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify(schema)}
+          />
+        ))
+    }
   </head>
   <body class:list={[isHomepage ? '' : 'bm-subpage-surface']}>
-    <svg aria-hidden="true" focusable="false" class="pointer-events-none fixed h-0 w-0 overflow-hidden">
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      class="pointer-events-none fixed h-0 w-0 overflow-hidden"
+    >
       <filter id="bm-grain">
-        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence>
-        <feColorMatrix type="matrix" values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0 0.7 0"></feColorMatrix>
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.8"
+          numOctaves="2"
+          stitchTiles="stitch"></feTurbulence>
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0 0.10  0 0 0 0 0.7 0"
+        ></feColorMatrix>
       </filter>
     </svg>
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-caption focus:text-cream">Skip to content</a>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-caption focus:text-cream"
+      >Skip to content</a
+    >
     <slot />
     <script src="../scripts/book-reader-polish.ts"></script>
     <script is:inline>
       const revealEls = Array.from(document.querySelectorAll('.reveal'));
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
       if (prefersReducedMotion || !('IntersectionObserver' in window)) {
         for (const el of revealEls) el.classList.add('revealed');
       } else {
-        const observer = new IntersectionObserver((entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              observer.unobserve(entry.target);
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+              }
             }
-          }
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px' },
+        );
         for (const el of revealEls) observer.observe(el);
       }
     </script>

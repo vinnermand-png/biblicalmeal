@@ -1,17 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MobileMenu from '../components/islands/MobileMenu.tsx';
+import Header from '../components/common/Header.astro';
+import SiteFooter from '../components/common/SiteFooter.astro';
 import ImagePlaceholder from '../components/common/ImagePlaceholder.astro';
-
-const navLinks = [
-  { label: 'Ingredients', href: '/ingredients/' },
-  { label: 'Recipes', href: '/recipes/' },
-  { label: 'Journal', href: '/articles/' },
-  { label: 'Regions', href: '/foods/' },
-  { label: 'Scripture', href: '/sources/' },
-  { label: 'Cookbook', href: '/cookbook/' },
-  { label: 'About', href: '/editorial-method/' },
-] as const;
 
 const HOME_DESCRIPTION =
   'Explore biblical food through ingredients, recipes, Scripture, history, regions, research, and the modern table.';
@@ -19,24 +10,7 @@ const HOME_DESCRIPTION =
 
 <BaseLayout title={undefined} description={HOME_DESCRIPTION}>
   <div class="bm-reset-home">
-    <header class="bm-home-header">
-      <div class="bm-home-container bm-home-header__inner">
-        <a href="/" class="bm-home-brand" aria-label="BiblicalMeal home">
-          <span class="bm-home-brand__mark" aria-hidden="true">❧</span>
-          <span>BIBLICALMEAL</span>
-        </a>
-        <nav class="bm-home-nav" aria-label="Main navigation">
-          {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
-        </nav>
-        <div class="bm-home-actions">
-          <button class="bm-home-search" type="button" aria-label="Search">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.4"></circle><path d="m16 16 5 5"></path></svg>
-            <span>Search</span>
-          </button>
-          <div class="bm-home-mobile"><MobileMenu client:load links={navLinks} /></div>
-        </div>
-      </div>
-    </header>
+    <Header />
 
     <main id="main">
       <section class="bm-hero" aria-labelledby="hero-title">
@@ -52,34 +26,130 @@ const HOME_DESCRIPTION =
         <div class="bm-hero__overlay" aria-hidden="true"></div>
         <div class="bm-home-container bm-hero__content">
           <p class="bm-eyebrow bm-eyebrow--light">THE ANCIENT TABLE</p>
-          <h1 id="hero-title">Food. Culture. Scripture.<br /><em>The table of the Bible.</em></h1>
-          <div class="bm-hero__divider" aria-hidden="true"><span></span><b>✦</b><span></span></div>
-          <p class="bm-hero__lead">BiblicalMeal explores the foods, ingredients and food culture of the biblical world — from Scripture and history to the modern table.</p>
+          <h1 id="hero-title">
+            Food. Culture. Scripture.<br /><em>The table of the Bible.</em>
+          </h1>
+          <div class="bm-hero__divider" aria-hidden="true">
+            <span></span><b>✦</b><span></span>
+          </div>
+          <p class="bm-hero__lead">
+            BiblicalMeal explores the foods, ingredients and food culture of the
+            biblical world — from Scripture and history to the modern table.
+          </p>
           <div class="bm-hero__actions">
-            <a class="bm-btn bm-btn--solid" href="/ingredients/">Explore ingredients</a>
-            <a class="bm-btn bm-btn--outline" href="/recipes/">Browse recipes</a>
+            <a class="bm-btn bm-btn--solid" href="/ingredients/"
+              >Explore ingredients</a
+            >
+            <a class="bm-btn bm-btn--outline" href="/recipes/">Browse recipes</a
+            >
           </div>
         </div>
       </section>
 
       <section class="bm-pillars" aria-label="Five pillars of BiblicalMeal">
         <div class="bm-home-container bm-pillars__grid">
-          <article><span class="bm-pillar-icon" aria-hidden="true">⌘</span><h2>Scripture</h2><p>Discover the foods, meals and traditions mentioned in the Bible.</p></article>
-          <article><span class="bm-pillar-icon" aria-hidden="true">◫</span><h2>History</h2><p>Understand the historical context of ancient food and daily life.</p></article>
-          <article><span class="bm-pillar-icon" aria-hidden="true">◍</span><h2>Evidence</h2><p>Research, archaeology and ancient sources bring the past to life.</p></article>
-          <article><span class="bm-pillar-icon" aria-hidden="true">⌖</span><h2>Regions</h2><p>Explore the lands where people lived, farmed and shared meals.</p></article>
-          <article><span class="bm-pillar-icon" aria-hidden="true">◉</span><h2>The Modern Table</h2><p>Bring ancient wisdom to your kitchen with inspired recipes.</p></article>
+          <article>
+            <span class="bm-pillar-icon" aria-hidden="true">⌘</span><h2>
+              Scripture
+            </h2><p>
+              Discover the foods, meals and traditions mentioned in the Bible.
+            </p>
+          </article>
+          <article>
+            <span class="bm-pillar-icon" aria-hidden="true">◫</span><h2>
+              History
+            </h2><p>
+              Understand the historical context of ancient food and daily life.
+            </p>
+          </article>
+          <article>
+            <span class="bm-pillar-icon" aria-hidden="true">◍</span><h2>
+              Evidence
+            </h2><p>
+              Research, archaeology and ancient sources bring the past to life.
+            </p>
+          </article>
+          <article>
+            <span class="bm-pillar-icon" aria-hidden="true">⌖</span><h2>
+              Regions
+            </h2><p>
+              Explore the lands where people lived, farmed and shared meals.
+            </p>
+          </article>
+          <article>
+            <span class="bm-pillar-icon" aria-hidden="true">◉</span><h2>
+              The Modern Table
+            </h2><p>
+              Bring ancient wisdom to your kitchen with inspired recipes.
+            </p>
+          </article>
         </div>
       </section>
 
       <section class="bm-world-section" aria-labelledby="world-title">
         <div class="bm-home-container">
-          <div class="bm-section-head"><div><p class="bm-eyebrow">EXPLORE THE BIBLICAL WORLD THROUGH FOOD</p><h2 id="world-title">A world to taste, study and explore.</h2></div><a href="/ingredients/">View all <span aria-hidden="true">→</span></a></div>
+          <div class="bm-section-head">
+            <div>
+              <p class="bm-eyebrow">
+                EXPLORE THE BIBLICAL WORLD THROUGH FOOD
+              </p><h2 id="world-title">A world to taste, study and explore.</h2>
+            </div><a href="/ingredients/"
+              >View all <span aria-hidden="true">→</span></a
+            >
+          </div>
           <div class="bm-world-grid">
-            <a class="bm-world-card" href="/ingredients/"><ImagePlaceholder label="Editorial image" ratio="4 / 5" variant="dark" /><div class="bm-world-card__shade"></div><div class="bm-world-card__copy"><span>Ingredients</span><h3>The foods of the Bible</h3><p>Discover the ingredients and their significance.</p><b>01 <span aria-hidden="true">↗</span></b></div></a>
-            <a class="bm-world-card" href="/recipes/"><ImagePlaceholder label="Editorial image" ratio="4 / 5" variant="dark" /><div class="bm-world-card__shade"></div><div class="bm-world-card__copy"><span>Recipes</span><h3>Inspired by the ancient table</h3><p>Recipes built from biblical ingredients and traditions.</p><b>02 <span aria-hidden="true">↗</span></b></div></a>
-            <a class="bm-world-card" href="/foods/"><ImagePlaceholder label="Editorial image" ratio="4 / 5" variant="dark" /><div class="bm-world-card__shade"></div><div class="bm-world-card__copy"><span>Regions</span><h3>Where food culture took shape</h3><p>Places, landscapes and the people who shaped them.</p><b>03 <span aria-hidden="true">↗</span></b></div></a>
-            <a class="bm-world-card" href="/articles/"><ImagePlaceholder label="Editorial image" ratio="4 / 5" variant="dark" /><div class="bm-world-card__shade"></div><div class="bm-world-card__copy"><span>Journal</span><h3>Stories behind the table</h3><p>Articles and insights from history, faith and food.</p><b>04 <span aria-hidden="true">↗</span></b></div></a>
+            <a class="bm-world-card" href="/ingredients/"
+              ><ImagePlaceholder
+                label="Editorial image"
+                ratio="4 / 5"
+                variant="dark"
+              /><div class="bm-world-card__shade"></div><div
+                class="bm-world-card__copy"
+              >
+                <span>Ingredients</span><h3>The foods of the Bible</h3><p>
+                  Discover the ingredients and their significance.
+                </p><b>01 <span aria-hidden="true">↗</span></b>
+              </div></a
+            >
+            <a class="bm-world-card" href="/recipes/"
+              ><ImagePlaceholder
+                label="Editorial image"
+                ratio="4 / 5"
+                variant="dark"
+              /><div class="bm-world-card__shade"></div><div
+                class="bm-world-card__copy"
+              >
+                <span>Recipes</span><h3>Inspired by the ancient table</h3><p>
+                  Recipes built from biblical ingredients and traditions.
+                </p><b>02 <span aria-hidden="true">↗</span></b>
+              </div></a
+            >
+            <a class="bm-world-card" href="/foods/"
+              ><ImagePlaceholder
+                label="Editorial image"
+                ratio="4 / 5"
+                variant="dark"
+              /><div class="bm-world-card__shade"></div><div
+                class="bm-world-card__copy"
+              >
+                <span>Regions</span><h3>Where food culture took shape</h3><p>
+                  Places, landscapes and the people who shaped them.
+                </p><b>03 <span aria-hidden="true">↗</span></b>
+              </div></a
+            >
+            <a class="bm-world-card" href="/articles/"
+              ><ImagePlaceholder
+                label="Editorial image"
+                ratio="4 / 5"
+                variant="dark"
+              /><div class="bm-world-card__shade"></div><div
+                class="bm-world-card__copy"
+              >
+                <span>Journal</span><h3>Stories behind the table</h3><p>
+                  Articles and insights from history, faith and food.
+                </p><b>04 <span aria-hidden="true">↗</span></b>
+              </div></a
+            >
           </div>
         </div>
       </section>
@@ -87,191 +157,836 @@ const HOME_DESCRIPTION =
       <section class="bm-featured" aria-labelledby="featured-title">
         <div class="bm-home-container bm-featured__grid">
           <article class="bm-featured-article">
-            <div class="bm-featured-article__media"><ImagePlaceholder label="Editorial image" ratio="16 / 9" variant="dark" /></div>
-            <div class="bm-featured-article__copy"><p class="bm-eyebrow">FEATURED ARTICLE</p><h2 id="featured-title">Lentils in the Bible —<br />A Small Seed with a Big Story</h2><p>From ancient fields to everyday meals, lentils nourished generations and shaped stories in Scripture.</p><a href="/articles/">Read the article <span aria-hidden="true">→</span></a></div>
+            <div class="bm-featured-article__media">
+              <ImagePlaceholder
+                label="Editorial image"
+                ratio="16 / 9"
+                variant="dark"
+              />
+            </div>
+            <div class="bm-featured-article__copy">
+              <p class="bm-eyebrow">FEATURED ARTICLE</p><h2 id="featured-title">
+                Lentils in the Bible —<br />A Small Seed with a Big Story
+              </h2><p>
+                From ancient fields to everyday meals, lentils nourished
+                generations and shaped stories in Scripture.
+              </p><a href="/articles/"
+                >Read the article <span aria-hidden="true">→</span></a
+              >
+            </div>
           </article>
           <aside class="bm-scripture-card">
             <p class="bm-eyebrow">SCRIPTURE OF THE DAY</p>
-            <blockquote>“He brought forth also bread and wine, and his heart was joyful.”</blockquote>
+            <blockquote>
+              “He brought forth also bread and wine, and his heart was joyful.”
+            </blockquote>
             <cite>Psalm 104:15</cite>
             <div class="bm-scripture-card__branch" aria-hidden="true">⌁</div>
           </aside>
         </div>
       </section>
 
-      <section id="cookbook" class="bm-cookbook-banner" aria-labelledby="cookbook-title">
+      <section
+        id="cookbook"
+        class="bm-cookbook-banner"
+        aria-labelledby="cookbook-title"
+      >
         <div class="bm-home-container bm-cookbook-banner__grid">
-          <div class="bm-book-placeholder"><div><span>EDITORIAL OBJECT</span><strong>BIBLICAL<br />MEALS</strong><small>A future digital cookbook</small></div></div>
-          <div class="bm-cookbook-banner__copy"><p class="bm-eyebrow">COMING SOON</p><h2 id="cookbook-title">The BiblicalMeal Cookbook</h2><p>A digital cookbook that brings together Scripture, history, ingredients, recipes and stories in one culinary journey.</p><a class="bm-btn bm-btn--solid" href="/cookbook/">Learn more</a></div>
-          <div class="bm-cookbook-banner__image"><ImagePlaceholder label="Editorial image" ratio="4 / 3" variant="dark" /></div>
+          <div class="bm-book-placeholder">
+            <div>
+              <span>EDITORIAL OBJECT</span><strong>BIBLICAL<br />MEALS</strong
+              ><small>A future digital cookbook</small>
+            </div>
+          </div>
+          <div class="bm-cookbook-banner__copy">
+            <p class="bm-eyebrow">COMING SOON</p><h2 id="cookbook-title">
+              The BiblicalMeal Cookbook
+            </h2><p>
+              A digital cookbook that brings together Scripture, history,
+              ingredients, recipes and stories in one culinary journey.
+            </p><a class="bm-btn bm-btn--solid" href="/cookbook/">Learn more</a>
+          </div>
+          <div class="bm-cookbook-banner__image">
+            <ImagePlaceholder
+              label="Editorial image"
+              ratio="4 / 3"
+              variant="dark"
+            />
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="bm-home-footer">
-      <div class="bm-home-container bm-home-footer__grid">
-        <div><a href="/" class="bm-footer-brand">BIBLICALMEAL<span>.</span></a><p>Bringing the biblical world to the modern table.</p></div>
-        <nav aria-label="Explore"><h2>Explore</h2><a href="/ingredients/">Ingredients</a><a href="/recipes/">Recipes</a><a href="/articles/">Journal</a><a href="/sources/">Scripture</a></nav>
-        <nav aria-label="About"><h2>About</h2><a href="/editorial-method/">About BiblicalMeal</a><a href="/editorial-method/">Our Mission</a><a href="/privacy">Contact</a></nav>
-        <nav aria-label="Resources"><h2>Resources</h2><a href="/sources/">Research</a><a href="/sources/">Glossary</a><a href="/editorial-method/">Team</a><a href="/faq/">FAQ</a></nav>
-        <div id="newsletter" class="bm-footer-subscribe"><h2>Stay connected</h2><p>Subscribe for new articles, recipes and updates.</p><form><label class="sr-only" for="home-email">Email address</label><input id="home-email" type="email" placeholder="Email address" autocomplete="email" /><button type="submit">Subscribe</button></form></div>
-      </div>
-      <div class="bm-home-container bm-home-footer__bottom"><span>© 2026 BiblicalMeal. All rights reserved.</span><div><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="Pinterest">P</a><a href="#" aria-label="YouTube">YT</a><a href="#" aria-label="Facebook">F</a></div></div>
-    </footer>
+    <SiteFooter />
   </div>
 
   <style>
-    .bm-reset-home { --page:#f5f2ea; --paper:#ece8df; --ink:#2f2b25; --muted:#70695e; --olive:#5e6048; --gold:#a88f61; --line:#d8d0c2; --dark:#262821; --cream:#f4f0e7; background:var(--page); color:var(--ink); }
-    .bm-reset-home * { box-sizing:border-box; }
-    .bm-home-container { width:min(100%,1320px); margin-inline:auto; padding-inline:clamp(20px,5vw,72px); }
-    .bm-home-header { position:absolute; inset:0 0 auto; z-index:30; color:var(--ink); background:linear-gradient(180deg,rgb(247 244 237 / .96),rgb(247 244 237 / .86)); border-bottom:1px solid rgb(216 208 194 / .75); }
-    .bm-home-header__inner { min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
-    .bm-home-brand { display:inline-flex; align-items:center; gap:8px; white-space:nowrap; font:700 14px/1 var(--font-display); letter-spacing:.11em; }
-    .bm-home-brand__mark { color:var(--gold); font-size:18px; }
-    .bm-home-nav { display:flex; align-items:center; justify-content:center; gap:clamp(18px,2vw,31px); flex:1; }
-    .bm-home-nav a,.bm-home-search { font:600 11px/1 var(--font-sans); letter-spacing:.1em; text-transform:uppercase; color:#5f594f; }
-    .bm-home-nav a:hover { color:var(--ink); }
-    .bm-home-actions { display:flex; align-items:center; gap:12px; }
-    .bm-home-search { display:inline-flex; align-items:center; gap:8px; border:0; background:none; cursor:pointer; }
-    .bm-home-search svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; }
-    .bm-home-mobile { display:none; }
-    .bm-eyebrow { margin:0 0 12px; font:700 11px/1.4 var(--font-sans); letter-spacing:.17em; text-transform:uppercase; }
-    .bm-eyebrow--light { color:#ddd4c3; }
-    .bm-btn { display:inline-flex; min-height:46px; align-items:center; justify-content:center; padding:0 20px; border-radius:3px; font:700 11px/1 var(--font-sans); letter-spacing:.13em; text-transform:uppercase; transition:transform .2s ease,background .2s ease,border-color .2s ease,color .2s ease; }
-    .bm-btn:hover { transform:translateY(-2px); }
-    .bm-btn--solid { background:#5e6048; color:#f9f6ef; border:1px solid #5e6048; }
-    .bm-btn--solid:hover { background:#4d4f3a; border-color:#4d4f3a; }
-    .bm-btn--outline { background:rgb(245 242 234 / .1); color:#fff; border:1px solid rgb(255 255 255 / .55); }
-    .bm-btn--outline:hover { background:rgb(255 255 255 / .1); }
-
-    .bm-hero { position:relative; min-height:620px; display:grid; place-items:center; overflow:hidden; color:#f5f0e6; }
-    .bm-hero__image { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
-    .bm-hero__overlay { position:absolute; inset:0; background:linear-gradient(180deg,rgb(12 14 10 / .38),rgb(12 14 10 / .52) 55%,rgb(12 14 10 / .68)); }
-    .bm-hero__content { position:relative; z-index:2; padding-block:132px 66px; text-align:center; }
-    .bm-hero h1 { max-width:980px; margin:0 auto; font:400 clamp(42px,6vw,78px)/.98 var(--font-display); letter-spacing:-.035em; }
-    .bm-hero h1 em { color:#e7d6ae; font-style:italic; }
-    .bm-hero__divider { width:185px; display:flex; align-items:center; gap:10px; justify-content:center; margin:22px auto 18px; color:#d5bb86; }
-    .bm-hero__divider span { flex:1; height:1px; background:currentColor; opacity:.7; }
-    .bm-hero__divider b { font-size:14px; font-weight:400; }
-    .bm-hero__lead { max-width:690px; margin:0 auto; color:#eee7da; font-size:17px; line-height:1.75; }
-    .bm-hero__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:28px; }
-
-    .bm-pillars { background:var(--page); border-bottom:1px solid var(--line); }
-    .bm-pillars__grid { display:grid; grid-template-columns:repeat(5,1fr); min-height:286px; }
-    .bm-pillars article { padding:46px 22px 40px; text-align:center; border-right:1px solid var(--line); }
-    .bm-pillars article:first-child { border-left:1px solid var(--line); }
-    .bm-pillar-icon { display:inline-grid; place-items:center; width:34px; height:34px; margin-bottom:18px; color:var(--olive); font:400 22px/1 var(--font-display); }
-    .bm-pillars h2 { margin:0 0 10px; font:500 17px/1.1 var(--font-display); text-transform:uppercase; letter-spacing:.04em; }
-    .bm-pillars p { margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
-
-    .bm-world-section { padding-block:92px 100px; background:var(--page); }
-    .bm-section-head { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-bottom:34px; }
-    .bm-section-head h2 { max-width:780px; margin:0; font:400 clamp(34px,4.3vw,58px)/1 var(--font-display); letter-spacing:-.03em; }
-    .bm-section-head > a { flex:0 0 auto; color:#5b554b; font:700 11px/1 var(--font-sans); letter-spacing:.14em; text-transform:uppercase; padding-bottom:5px; border-bottom:1px solid #b6ad9f; }
-    .bm-world-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-    .bm-world-card { position:relative; min-width:0; overflow:hidden; border-radius:8px; min-height:382px; color:white; background:#46463d; }
-    .bm-world-card > .bm-image-placeholder { position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:0; }
-    .bm-world-card__shade { position:absolute; inset:0; background:linear-gradient(180deg,rgb(9 10 8 / .08) 24%,rgb(9 10 8 / .78)); }
-    .bm-world-card__copy { position:absolute; inset:auto 22px 22px; }
-    .bm-world-card__copy > span { font:700 10px/1 var(--font-sans); letter-spacing:.15em; text-transform:uppercase; color:#ded4c2; }
-    .bm-world-card__copy h3 { margin:8px 0 8px; font:400 30px/.98 var(--font-display); }
-    .bm-world-card__copy p { margin:0; max-width:250px; color:#ece6da; font-size:14px; line-height:1.55; }
-    .bm-world-card__copy b { position:absolute; right:0; bottom:0; display:grid; place-items:center; width:38px; height:38px; border:1px solid rgb(255 255 255 / .55); border-radius:50%; font:600 10px/1 var(--font-sans); }
-
-    .bm-featured { padding-block:0 100px; background:var(--page); }
-    .bm-featured__grid { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(270px,.72fr); gap:22px; align-items:stretch; }
-    .bm-featured-article { display:grid; grid-template-columns:1.08fr .92fr; min-height:350px; border:1px solid var(--line); background:#efebe2; border-radius:8px; overflow:hidden; }
-    .bm-featured-article__media { min-height:100%; }
-    .bm-featured-article__media > .bm-image-placeholder { width:100%; height:100%; border:0; border-radius:0; }
-    .bm-featured-article__copy { display:flex; flex-direction:column; justify-content:center; padding:44px 40px; }
-    .bm-featured-article__copy h2 { margin:0; font:400 clamp(30px,3.3vw,46px)/1 var(--font-display); letter-spacing:-.03em; }
-    .bm-featured-article__copy > p:not(.bm-eyebrow) { max-width:430px; margin:18px 0 0; color:var(--muted); font-size:15px; line-height:1.7; }
-    .bm-featured-article__copy a { margin-top:24px; width:max-content; color:#5e6048; font:700 11px/1 var(--font-sans); letter-spacing:.14em; text-transform:uppercase; }
-    .bm-scripture-card { position:relative; display:flex; flex-direction:column; justify-content:center; min-height:350px; padding:38px 34px; border:1px solid var(--line); border-radius:8px; background:#f1ede4; text-align:center; }
-    .bm-scripture-card .bm-eyebrow { color:var(--gold); }
-    .bm-scripture-card blockquote { margin:12px auto 0; max-width:320px; font:400 28px/1.3 var(--font-display); }
-    .bm-scripture-card cite { margin-top:18px; color:var(--muted); font:700 11px/1 var(--font-sans); letter-spacing:.16em; text-transform:uppercase; }
-    .bm-scripture-card__branch { position:absolute; right:20px; bottom:12px; color:#858266; font:400 42px/1 var(--font-display); transform:rotate(-10deg); }
-
-    .bm-cookbook-banner { padding-block:0 102px; background:var(--page); }
-    .bm-cookbook-banner__grid { min-height:330px; display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:0; overflow:hidden; border-radius:8px; background:#ddd5c7; }
-    .bm-book-placeholder { min-height:330px; display:grid; place-items:center; padding:30px; background:#d7cebe; }
-    .bm-book-placeholder > div { width:min(220px,78%); aspect-ratio:.74; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px; border:1px solid #a79576; background:linear-gradient(150deg,#42463a,#2f3229); box-shadow:18px 22px 28px rgb(38 34 25 / .18); transform:rotate(-4deg); color:#d7c29b; text-align:center; }
-    .bm-book-placeholder span,.bm-book-placeholder small { font:700 8px/1.3 var(--font-sans); letter-spacing:.17em; text-transform:uppercase; }
-    .bm-book-placeholder strong { font:400 31px/.95 var(--font-display); letter-spacing:.06em; }
-    .bm-cookbook-banner__copy { display:flex; flex-direction:column; justify-content:center; padding:44px 54px; background:#ede7da; }
-    .bm-cookbook-banner__copy h2 { margin:0; font:400 clamp(33px,4vw,58px)/.98 var(--font-display); letter-spacing:-.03em; }
-    .bm-cookbook-banner__copy > p:not(.bm-eyebrow) { max-width:510px; margin:18px 0 0; color:var(--muted); font-size:16px; line-height:1.75; }
-    .bm-cookbook-banner__copy .bm-btn { width:max-content; margin-top:24px; }
-    .bm-cookbook-banner__image > .bm-image-placeholder { height:100%; border:0; border-radius:0; }
-
-    .bm-home-footer { background:var(--page); border-top:1px solid var(--line); }
-    .bm-home-footer__grid { display:grid; grid-template-columns:1.35fr .9fr .9fr .9fr 1.25fr; gap:34px; padding-block:66px 54px; }
-    .bm-footer-brand { font:700 15px/1 var(--font-display); letter-spacing:.1em; }
-    .bm-footer-brand span { color:var(--gold); }
-    .bm-home-footer__grid > div > p { max-width:260px; margin:14px 0 0; color:var(--muted); font-size:14px; line-height:1.7; }
-    .bm-home-footer nav,.bm-footer-subscribe { display:flex; flex-direction:column; gap:9px; }
-    .bm-home-footer nav h2,.bm-footer-subscribe h2 { margin:0 0 4px; font:700 10px/1 var(--font-sans); letter-spacing:.15em; text-transform:uppercase; color:#625b50; }
-    .bm-home-footer nav a { color:#696257; font-size:14px; }
-    .bm-home-footer nav a:hover { color:var(--ink); }
-    .bm-footer-subscribe p { margin:0; color:var(--muted); font-size:13px; line-height:1.6; }
-    .bm-footer-subscribe form { display:flex; gap:8px; margin-top:7px; }
-    .bm-footer-subscribe input { min-width:0; width:100%; height:44px; padding:0 12px; border:1px solid var(--line); border-radius:3px; background:#faf7f1; color:var(--ink); font:14px/1 var(--font-sans); }
-    .bm-footer-subscribe button { flex:0 0 auto; height:44px; padding:0 13px; border:1px solid #5e6048; border-radius:3px; background:#5e6048; color:white; font:700 10px/1 var(--font-sans); letter-spacing:.09em; text-transform:uppercase; }
-    .bm-home-footer__bottom { display:flex; align-items:center; justify-content:space-between; gap:20px; padding-block:18px; border-top:1px solid var(--line); color:#847c6e; font-size:12px; }
-    .bm-home-footer__bottom div { display:flex; gap:9px; }
-    .bm-home-footer__bottom a { display:grid; place-items:center; width:28px; height:28px; border:1px solid var(--line); border-radius:50%; color:#6f675a; font:700 9px/1 var(--font-sans); }
-
-    @media (max-width:1100px) {
-      .bm-home-nav { gap:16px; }
-      .bm-home-nav a { font-size:10px; }
-      .bm-pillars__grid { grid-template-columns:repeat(3,1fr); }
-      .bm-pillars article:nth-child(4),.bm-pillars article:nth-child(5) { border-top:1px solid var(--line); }
-      .bm-world-grid { grid-template-columns:repeat(2,1fr); }
-      .bm-home-footer__grid { grid-template-columns:repeat(3,1fr); }
-      .bm-footer-subscribe { grid-column:span 3; }
+    .bm-reset-home {
+      --page: #f5f2ea;
+      --paper: #ece8df;
+      --ink: #2f2b25;
+      --muted: #70695e;
+      --olive: #5e6048;
+      --gold: #a88f61;
+      --line: #d8d0c2;
+      --dark: #262821;
+      --cream: #f4f0e7;
+      background: var(--page);
+      color: var(--ink);
     }
-    @media (max-width:800px) {
-      .bm-home-nav,.bm-home-search { display:none; }
-      .bm-home-mobile { display:block; }
-      .bm-home-header { position:absolute; }
-      .bm-hero { min-height:600px; }
-      .bm-hero__content { padding-top:130px; }
-      .bm-hero h1 { font-size:clamp(40px,9vw,60px); }
-      .bm-hero__lead { font-size:16px; }
-      .bm-pillars__grid { grid-template-columns:repeat(2,1fr); }
-      .bm-pillars article:nth-child(3) { border-left:1px solid var(--line); }
-      .bm-featured__grid { grid-template-columns:1fr; }
-      .bm-featured-article { grid-template-columns:1fr; }
-      .bm-featured-article__media { min-height:250px; }
-      .bm-cookbook-banner__grid { grid-template-columns:1fr; }
-      .bm-book-placeholder,.bm-cookbook-banner__image { min-height:280px; }
-      .bm-home-footer__grid { grid-template-columns:repeat(2,1fr); }
-      .bm-footer-subscribe { grid-column:auto; }
+    .bm-reset-home * {
+      box-sizing: border-box;
     }
-    @media (max-width:560px) {
-      .bm-home-container { padding-inline:20px; }
-      .bm-home-brand { font-size:13px; }
-      .bm-hero { min-height:640px; }
-      .bm-hero__content { padding-top:128px; }
-      .bm-hero h1 { font-size:42px; }
-      .bm-hero__actions { display:grid; grid-template-columns:1fr; }
-      .bm-btn { width:100%; }
-      .bm-pillars__grid { grid-template-columns:1fr; }
-      .bm-pillars article,.bm-pillars article:first-child { border-left:0; border-right:0; border-bottom:1px solid var(--line); }
-      .bm-world-section { padding-block:72px 78px; }
-      .bm-section-head { display:block; }
-      .bm-section-head > a { display:inline-block; margin-top:16px; }
-      .bm-world-grid { grid-template-columns:1fr; gap:12px; }
-      .bm-world-card { min-height:430px; }
-      .bm-featured { padding-bottom:74px; }
-      .bm-scripture-card { min-height:320px; }
-      .bm-cookbook-banner { padding-bottom:76px; }
-      .bm-cookbook-banner__copy { padding:36px 28px; }
-      .bm-home-footer__grid { grid-template-columns:1fr; padding-top:54px; }
-      .bm-footer-subscribe form { flex-direction:column; }
-      .bm-home-footer__bottom { align-items:flex-start; flex-direction:column; }
+    .bm-home-container {
+      width: min(100%, 1320px);
+      margin-inline: auto;
+      padding-inline: clamp(20px, 5vw, 72px);
     }
-    @media (prefers-reduced-motion: reduce) { .bm-btn { transition:none; } }
+    .bm-home-header {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 30;
+      color: var(--ink);
+      background: linear-gradient(
+        180deg,
+        rgb(247 244 237 / 0.96),
+        rgb(247 244 237 / 0.86)
+      );
+      border-bottom: 1px solid rgb(216 208 194 / 0.75);
+    }
+    .bm-home-header__inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .bm-home-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      font: 700 14px/1 var(--font-display);
+      letter-spacing: 0.11em;
+    }
+    .bm-home-brand__mark {
+      color: var(--gold);
+      font-size: 18px;
+    }
+    .bm-home-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 2vw, 31px);
+      flex: 1;
+    }
+    .bm-home-nav a,
+    .bm-home-search {
+      font: 600 11px/1 var(--font-sans);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5f594f;
+    }
+    .bm-home-nav a:hover {
+      color: var(--ink);
+    }
+    .bm-home-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bm-home-search {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+    .bm-home-search svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+    }
+    .bm-home-mobile {
+      display: none;
+    }
+    .bm-eyebrow {
+      margin: 0 0 12px;
+      font: 700 11px/1.4 var(--font-sans);
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+    .bm-eyebrow--light {
+      color: #ddd4c3;
+    }
+    .bm-btn {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border-radius: 3px;
+      font: 700 11px/1 var(--font-sans);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+    }
+    .bm-btn:hover {
+      transform: translateY(-2px);
+    }
+    .bm-btn--solid {
+      background: #5e6048;
+      color: #f9f6ef;
+      border: 1px solid #5e6048;
+    }
+    .bm-btn--solid:hover {
+      background: #4d4f3a;
+      border-color: #4d4f3a;
+    }
+    .bm-btn--outline {
+      background: rgb(245 242 234 / 0.1);
+      color: #fff;
+      border: 1px solid rgb(255 255 255 / 0.55);
+    }
+    .bm-btn--outline:hover {
+      background: rgb(255 255 255 / 0.1);
+    }
+
+    .bm-hero {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #f5f0e6;
+    }
+    .bm-hero__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .bm-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgb(12 14 10 / 0.38),
+        rgb(12 14 10 / 0.52) 55%,
+        rgb(12 14 10 / 0.68)
+      );
+    }
+    .bm-hero__content {
+      position: relative;
+      z-index: 2;
+      padding-block: 132px 66px;
+      text-align: center;
+    }
+    .bm-hero h1 {
+      max-width: 980px;
+      margin: 0 auto;
+      font: 400 clamp(42px, 6vw, 78px)/0.98 var(--font-display);
+      letter-spacing: -0.035em;
+    }
+    .bm-hero h1 em {
+      color: #e7d6ae;
+      font-style: italic;
+    }
+    .bm-hero__divider {
+      width: 185px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin: 22px auto 18px;
+      color: #d5bb86;
+    }
+    .bm-hero__divider span {
+      flex: 1;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.7;
+    }
+    .bm-hero__divider b {
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .bm-hero__lead {
+      max-width: 690px;
+      margin: 0 auto;
+      color: #eee7da;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+    .bm-hero__actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .bm-pillars {
+      background: var(--page);
+      border-bottom: 1px solid var(--line);
+    }
+    .bm-pillars__grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      min-height: 286px;
+    }
+    .bm-pillars article {
+      padding: 46px 22px 40px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+    .bm-pillars article:first-child {
+      border-left: 1px solid var(--line);
+    }
+    .bm-pillar-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 18px;
+      color: var(--olive);
+      font: 400 22px/1 var(--font-display);
+    }
+    .bm-pillars h2 {
+      margin: 0 0 10px;
+      font: 500 17px/1.1 var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .bm-pillars p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .bm-world-section {
+      padding-block: 92px 100px;
+      background: var(--page);
+    }
+    .bm-section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 34px;
+    }
+    .bm-section-head h2 {
+      max-width: 780px;
+      margin: 0;
+      font: 400 clamp(34px, 4.3vw, 58px)/1 var(--font-display);
+      letter-spacing: -0.03em;
+    }
+    .bm-section-head > a {
+      flex: 0 0 auto;
+      color: #5b554b;
+      font: 700 11px/1 var(--font-sans);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #b6ad9f;
+    }
+    .bm-world-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .bm-world-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      min-height: 382px;
+      color: white;
+      background: #46463d;
+    }
+    .bm-world-card > .bm-image-placeholder {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+    .bm-world-card__shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgb(9 10 8 / 0.08) 24%,
+        rgb(9 10 8 / 0.78)
+      );
+    }
+    .bm-world-card__copy {
+      position: absolute;
+      inset: auto 22px 22px;
+    }
+    .bm-world-card__copy > span {
+      font: 700 10px/1 var(--font-sans);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #ded4c2;
+    }
+    .bm-world-card__copy h3 {
+      margin: 8px 0 8px;
+      font: 400 30px/0.98 var(--font-display);
+    }
+    .bm-world-card__copy p {
+      margin: 0;
+      max-width: 250px;
+      color: #ece6da;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .bm-world-card__copy b {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgb(255 255 255 / 0.55);
+      border-radius: 50%;
+      font: 600 10px/1 var(--font-sans);
+    }
+
+    .bm-featured {
+      padding-block: 0 100px;
+      background: var(--page);
+    }
+    .bm-featured__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(270px, 0.72fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .bm-featured-article {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      min-height: 350px;
+      border: 1px solid var(--line);
+      background: #efebe2;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .bm-featured-article__media {
+      min-height: 100%;
+    }
+    .bm-featured-article__media > .bm-image-placeholder {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+    .bm-featured-article__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 44px 40px;
+    }
+    .bm-featured-article__copy h2 {
+      margin: 0;
+      font: 400 clamp(30px, 3.3vw, 46px)/1 var(--font-display);
+      letter-spacing: -0.03em;
+    }
+    .bm-featured-article__copy > p:not(.bm-eyebrow) {
+      max-width: 430px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .bm-featured-article__copy a {
+      margin-top: 24px;
+      width: max-content;
+      color: #5e6048;
+      font: 700 11px/1 var(--font-sans);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .bm-scripture-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 350px;
+      padding: 38px 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f1ede4;
+      text-align: center;
+    }
+    .bm-scripture-card .bm-eyebrow {
+      color: var(--gold);
+    }
+    .bm-scripture-card blockquote {
+      margin: 12px auto 0;
+      max-width: 320px;
+      font: 400 28px/1.3 var(--font-display);
+    }
+    .bm-scripture-card cite {
+      margin-top: 18px;
+      color: var(--muted);
+      font: 700 11px/1 var(--font-sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .bm-scripture-card__branch {
+      position: absolute;
+      right: 20px;
+      bottom: 12px;
+      color: #858266;
+      font: 400 42px/1 var(--font-display);
+      transform: rotate(-10deg);
+    }
+
+    .bm-cookbook-banner {
+      padding-block: 0 102px;
+      background: var(--page);
+    }
+    .bm-cookbook-banner__grid {
+      min-height: 330px;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr 1fr;
+      gap: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #ddd5c7;
+    }
+    .bm-book-placeholder {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background: #d7cebe;
+    }
+    .bm-book-placeholder > div {
+      width: min(220px, 78%);
+      aspect-ratio: 0.74;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px;
+      border: 1px solid #a79576;
+      background: linear-gradient(150deg, #42463a, #2f3229);
+      box-shadow: 18px 22px 28px rgb(38 34 25 / 0.18);
+      transform: rotate(-4deg);
+      color: #d7c29b;
+      text-align: center;
+    }
+    .bm-book-placeholder span,
+    .bm-book-placeholder small {
+      font: 700 8px/1.3 var(--font-sans);
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+    .bm-book-placeholder strong {
+      font: 400 31px/0.95 var(--font-display);
+      letter-spacing: 0.06em;
+    }
+    .bm-cookbook-banner__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 44px 54px;
+      background: #ede7da;
+    }
+    .bm-cookbook-banner__copy h2 {
+      margin: 0;
+      font: 400 clamp(33px, 4vw, 58px)/0.98 var(--font-display);
+      letter-spacing: -0.03em;
+    }
+    .bm-cookbook-banner__copy > p:not(.bm-eyebrow) {
+      max-width: 510px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    .bm-cookbook-banner__copy .bm-btn {
+      width: max-content;
+      margin-top: 24px;
+    }
+    .bm-cookbook-banner__image > .bm-image-placeholder {
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .bm-home-footer {
+      background: var(--page);
+      border-top: 1px solid var(--line);
+    }
+    .bm-home-footer__grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr 0.9fr 0.9fr 1.25fr;
+      gap: 34px;
+      padding-block: 66px 54px;
+    }
+    .bm-footer-brand {
+      font: 700 15px/1 var(--font-display);
+      letter-spacing: 0.1em;
+    }
+    .bm-footer-brand span {
+      color: var(--gold);
+    }
+    .bm-home-footer__grid > div > p {
+      max-width: 260px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .bm-home-footer nav,
+    .bm-footer-subscribe {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bm-home-footer nav h2,
+    .bm-footer-subscribe h2 {
+      margin: 0 0 4px;
+      font: 700 10px/1 var(--font-sans);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #625b50;
+    }
+    .bm-home-footer nav a {
+      color: #696257;
+      font-size: 14px;
+    }
+    .bm-home-footer nav a:hover {
+      color: var(--ink);
+    }
+    .bm-footer-subscribe p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .bm-footer-subscribe form {
+      display: flex;
+      gap: 8px;
+      margin-top: 7px;
+    }
+    .bm-footer-subscribe input {
+      min-width: 0;
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: #faf7f1;
+      color: var(--ink);
+      font: 14px/1 var(--font-sans);
+    }
+    .bm-footer-subscribe button {
+      flex: 0 0 auto;
+      height: 44px;
+      padding: 0 13px;
+      border: 1px solid #5e6048;
+      border-radius: 3px;
+      background: #5e6048;
+      color: white;
+      font: 700 10px/1 var(--font-sans);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .bm-home-footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: 18px;
+      border-top: 1px solid var(--line);
+      color: #847c6e;
+      font-size: 12px;
+    }
+    .bm-home-footer__bottom div {
+      display: flex;
+      gap: 9px;
+    }
+    .bm-home-footer__bottom a {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: #6f675a;
+      font: 700 9px/1 var(--font-sans);
+    }
+
+    @media (max-width: 1100px) {
+      .bm-home-nav {
+        gap: 16px;
+      }
+      .bm-home-nav a {
+        font-size: 10px;
+      }
+      .bm-pillars__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .bm-pillars article:nth-child(4),
+      .bm-pillars article:nth-child(5) {
+        border-top: 1px solid var(--line);
+      }
+      .bm-world-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .bm-home-footer__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .bm-footer-subscribe {
+        grid-column: span 3;
+      }
+    }
+    @media (max-width: 800px) {
+      .bm-home-nav,
+      .bm-home-search {
+        display: none;
+      }
+      .bm-home-mobile {
+        display: block;
+      }
+      .bm-home-header {
+        position: absolute;
+      }
+      .bm-hero {
+        min-height: 600px;
+      }
+      .bm-hero__content {
+        padding-top: 130px;
+      }
+      .bm-hero h1 {
+        font-size: clamp(40px, 9vw, 60px);
+      }
+      .bm-hero__lead {
+        font-size: 16px;
+      }
+      .bm-pillars__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .bm-pillars article:nth-child(3) {
+        border-left: 1px solid var(--line);
+      }
+      .bm-featured__grid {
+        grid-template-columns: 1fr;
+      }
+      .bm-featured-article {
+        grid-template-columns: 1fr;
+      }
+      .bm-featured-article__media {
+        min-height: 250px;
+      }
+      .bm-cookbook-banner__grid {
+        grid-template-columns: 1fr;
+      }
+      .bm-book-placeholder,
+      .bm-cookbook-banner__image {
+        min-height: 280px;
+      }
+      .bm-home-footer__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .bm-footer-subscribe {
+        grid-column: auto;
+      }
+    }
+    @media (max-width: 560px) {
+      .bm-home-container {
+        padding-inline: 20px;
+      }
+      .bm-home-brand {
+        font-size: 13px;
+      }
+      .bm-hero {
+        min-height: 640px;
+      }
+      .bm-hero__content {
+        padding-top: 128px;
+      }
+      .bm-hero h1 {
+        font-size: 42px;
+      }
+      .bm-hero__actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .bm-btn {
+        width: 100%;
+      }
+      .bm-pillars__grid {
+        grid-template-columns: 1fr;
+      }
+      .bm-pillars article,
+      .bm-pillars article:first-child {
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .bm-world-section {
+        padding-block: 72px 78px;
+      }
+      .bm-section-head {
+        display: block;
+      }
+      .bm-section-head > a {
+        display: inline-block;
+        margin-top: 16px;
+      }
+      .bm-world-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .bm-world-card {
+        min-height: 430px;
+      }
+      .bm-featured {
+        padding-bottom: 74px;
+      }
+      .bm-scripture-card {
+        min-height: 320px;
+      }
+      .bm-cookbook-banner {
+        padding-bottom: 76px;
+      }
+      .bm-cookbook-banner__copy {
+        padding: 36px 28px;
+      }
+      .bm-home-footer__grid {
+        grid-template-columns: 1fr;
+        padding-top: 54px;
+      }
+      .bm-footer-subscribe form {
+        flex-direction: column;
+      }
+      .bm-home-footer__bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bm-btn {
+        transition: none;
+      }
+    }
   </style>
 </BaseLayout>
